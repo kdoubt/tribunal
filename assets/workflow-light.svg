@@ -15,7 +15,7 @@
   <text x="80" y="188" text-anchor="middle" font-size="10.5" fill="#57606a">immutable, every round</text>
 
   <!-- Round 0 label -->
-  <text x="248" y="34" text-anchor="middle" font-size="11.5" font-weight="700" fill="#57606a" letter-spacing="1">ROUND 0 — ISOLATED, PARALLEL</text>
+  <text x="248" y="34" text-anchor="middle" font-size="11.5" font-weight="700" fill="#57606a" letter-spacing="1">ROUND 0 - ISOLATED, PARALLEL</text>
 
   <!-- Seat A -->
   <rect x="184" y="48" width="128" height="76" rx="10" fill="#ddf4ff" stroke="#0969da" stroke-width="1.5"/>
@@ -27,7 +27,7 @@
   <line x1="248" y1="128" x2="248" y2="192" stroke="#cf222e" stroke-width="1.5" stroke-dasharray="4 4"/>
   <circle cx="248" cy="160" r="11" fill="#ffffff" stroke="#cf222e" stroke-width="1.5"/>
   <text x="248" y="164.5" text-anchor="middle" font-size="12" font-weight="700" fill="#cf222e">✕</text>
-  <text x="248" y="326" text-anchor="middle" font-size="10.5" fill="#57606a" font-style="italic">no cross-exposure — agreement after peeking is worthless</text>
+  <text x="248" y="326" text-anchor="middle" font-size="10.5" fill="#57606a" font-style="italic">no cross-exposure - agreement after peeking is worthless</text>
 
   <!-- Seat B -->
   <rect x="184" y="196" width="128" height="76" rx="10" fill="#ffebe9" stroke="#cf222e" stroke-width="1.5"/>
@@ -77,6 +77,6 @@
   <!-- flywheel: verdict -> retro -> brief -->
   <path d="M866,224 L866,286 Q866,300 852,300 L94,300 Q80,300 80,286 L80,208" stroke="#1a7f37" stroke-width="1.5" stroke-dasharray="6 4" fill="none" marker-end="url(#arrg)"/>
   <rect x="404" y="284" width="152" height="32" rx="8" fill="#dafbe1" stroke="#1a7f37" stroke-width="1.2"/>
-  <text x="480" y="298" text-anchor="middle" font-size="11" font-weight="700" fill="#1a7f37">RETRO — did it hold?</text>
+  <text x="480" y="298" text-anchor="middle" font-size="11" font-weight="700" fill="#1a7f37">RETRO - did it hold?</text>
   <text x="480" y="311" text-anchor="middle" font-size="10" fill="#116329">template delta → next brief</text>
 </svg>

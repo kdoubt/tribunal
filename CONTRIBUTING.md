@@ -15,7 +15,7 @@ narrow:
   current; an adapter without an active maintainer or a current sanitized
   run is demoted back to stub status (its run transcript archived) rather
   than maintained by the project. An adapter PR must:
-  1. translate host mechanics only — it MUST NOT redefine round counts,
+  1. translate host mechanics only - it MUST NOT redefine round counts,
      ledger states, grounding obligations, or verdict rules (see
      `core/CONTRACT.md`);
   2. include one real sanitized run (brief → R0 → R1 → ledger → verdict)
@@ -23,7 +23,7 @@ narrow:
   3. contain no personal data, secrets, or environment-specific paths.
 
 **Most-wanted contribution:** a sanitized panel run on a conventional
-engineering decision (architecture call, migration, security boundary) —
+engineering decision (architecture call, migration, security boundary) -
 the current sample run is the methodology reviewing itself, and an
 independent real-world transcript is the strongest evidence the repo can
 gain.
@@ -38,7 +38,7 @@ An adapter without an active contributor is reverted to stub in-tree.
 ## Changes to `core/`
 
 `core/` is normative. Changes to rounds, ledger semantics, grounding, or
-verdict rules need strong evidence — ideally a documented panel run where
+verdict rules need strong evidence - ideally a documented panel run where
 the current rule produced a bad outcome. Editorial fixes are always
 welcome. Normative edits increment the CHANGELOG version (minor bumps
 until 1.0); adapter PRs must cite the version they were verified against.

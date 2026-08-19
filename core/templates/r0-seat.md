@@ -1,4 +1,4 @@
-# Round 0 — Independent Position
+# Round 0 - Independent Position
 
 You are one seat in an adversarial review panel (Round 0: independent
 position). You have NOT seen any other seat's answer and must not speculate

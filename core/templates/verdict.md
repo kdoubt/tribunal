@@ -1,4 +1,4 @@
-# Verdict — [decision name]
+# Verdict - [decision name]
 
 <!-- Written by the orchestrator wearing ONLY the adjudicate hat. Built
      exclusively from ledger rows. No new arguments. -->
@@ -6,12 +6,12 @@
 ## 1. Independent agreement (agreed-r0)
 
 <!-- Claims every seat made in Round 0 before cross-exposure. The only
-     bucket that may say "the panel concludes". If empty, say so — do not
+     bucket that may say "the panel concludes". If empty, say so - do not
      promote post-exposure agreement here. -->
 
 ## 2. Resolved after Round 0
 
-<!-- Two labeled sublists — do not mix them; a concession is not an
+<!-- Two labeled sublists - do not mix them; a concession is not an
      oracle fact: -->
 
 **Oracle-settled (`verified`):**

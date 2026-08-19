@@ -1,4 +1,4 @@
-# Claim ledger — methodology-design panel (historical)
+# Claim ledger - methodology-design panel (historical)
 
 Abbreviated to decision-relevant claims. A = Codex CLI, B = Grok CLI.
 This run predates `core/LEDGER.md`'s finalized field list and status enum;
@@ -16,7 +16,7 @@ recorded in the seat's R1); all others match. The compliant reference is
 | A4 | A | Four-way provenance tags; repetition never becomes evidence | agreed (B conceded R1) |
 | A5 | A | Blinded relay legitimate where prestige bias risks judgment | surviving-dissent (B: style deanonymizes in 2-seat; bias-discounting needs attribution) |
 | A6 | A | If evidence doesn't resolve, orchestrator chooses via explicit decision criteria | surviving-dissent (B: authority laundering; adopted only as pre-delegation exception) |
-| B1 | B | Default 2 rounds, cap 3, never 4; consensus is a failure mode not a goal | disputed → adopted-with-modification (verification steps don't count as rounds — B revised) |
+| B1 | B | Default 2 rounds, cap 3, never 4; consensus is a failure mode not a goal | disputed → adopted-with-modification (verification steps don't count as rounds - B revised) |
 | B2 | B | Isolated parallel R0 is the only uncontaminated signal; stop if R0 agrees | agreed-r0 (A: "do not expose another panelist's answer yet") |
 | B3 | B | Attributed relay always; never blind | surviving-dissent (see A5) |
 | B4 | B | Oracles before debate; repo-checkable claims preferred | agreed-r0 (A: "use that oracle before convening a debate") |

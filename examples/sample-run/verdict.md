@@ -1,4 +1,4 @@
-# Verdict — what should the Pressure-Test methodology be?
+# Verdict - what should the Pressure-Test methodology be?
 
 **Mode:** `ship` (the synthesized methodology is `core/` of this repo)
 
@@ -14,7 +14,7 @@
 ## 2. Resolved in cross-examination
 
 - Round count: 2 debate rounds default, triggered 3rd, verification steps
-  don't count as rounds (A2 overturned; B1 modified — both seats' final
+  don't count as rounds (A2 overturned; B1 modified - both seats' final
   verdict inputs converged).
 - Time-cost threshold for convening: overturned (B6) in favor of
   expected-loss factors (irreversibility, blast radius, observability).
@@ -29,7 +29,7 @@
 
 **Adjudication applied** (criteria stated, per the anti-laundering rule):
 attributed-by-default for two-seat panels because blinding is ineffective
-there (style deanonymizes) — blinding remains a MAY at 3+ seats; the
+there (style deanonymizes) - blinding remains a MAY at 3+ seats; the
 orchestrator never breaks ties except under explicit pre-delegated criteria
 in the frozen brief. Both calls are recorded in `core/CONTRACT.md` and
 `core/VERDICT.md`, and the losing arguments are preserved here.

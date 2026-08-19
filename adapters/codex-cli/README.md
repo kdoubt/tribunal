@@ -1,4 +1,4 @@
-# Codex CLI as orchestrator — STUB
+# Codex CLI as orchestrator - STUB
 
 **Status: stub. No implementation yet, no support commitment.**
 
@@ -8,7 +8,7 @@ files, and maintain a ledger file). Seats would then be other vendors'
 CLIs (e.g. Claude Code as a seat via `claude -p`, plus Grok CLI).
 
 To implement: follow `adapters/shell/README.md` mechanics driven from a
-Codex session, honoring every MUST in `core/CONTRACT.md` — especially
+Codex session, honoring every MUST in `core/CONTRACT.md` - especially
 parallel isolated Round 0 and verbatim relay.
 
-Contributions welcome — see `CONTRIBUTING.md` for the adapter policy.
+Contributions welcome - see `CONTRIBUTING.md` for the adapter policy.

@@ -1,14 +1,14 @@
-# Shell Adapter — run a panel from any orchestrator (or by hand)
+# Shell Adapter - run a panel from any orchestrator (or by hand)
 
 **Status: maintained recipe (not a runner). The human fills the ledger.
 Verified 2026-08 on Linux/bash. No SLA.**
 
 The methodology needs no framework: each round is a fresh, stateless,
-single-shot CLI invocation, and the ledger — a file you maintain — is the
+single-shot CLI invocation, and the ledger - a file you maintain - is the
 memory. Any orchestrator that can run shell commands (or a human with a
 terminal) can run a compliant panel.
 
-## Seat invocation — examples (verified 2026-08; flags change)
+## Seat invocation - examples (verified 2026-08; flags change)
 
 Any CLI with a non-interactive single-shot mode can be a seat. Confirm your
 CLI's current headless flag with `<cli> --help` before trusting these:
@@ -21,24 +21,24 @@ gemini -p "<prompt>"                           # Gemini CLI
 ollama run <model> "<prompt>"                  # local model as a seat
 ```
 
-Local models are first-class seats — heterogeneity is about *model
+Local models are first-class seats - heterogeneity is about *model
 families and training lineages*, not billing. Two caveats: a local
 distill of the same family as another seat is fake heterogeneity (see
 CONTRACT: identity theater), and the model-selection principle still
-applies — a seat must be frontier-class for a debate round, local or not.
+applies - a seat must be frontier-class for a debate round, local or not.
 Note that plain model runners (like `ollama run`) have no file tools, so
 the orchestrator must inline the artifact excerpts the brief needs into
 the prompt for that seat.
 
-Seats must be genuinely heterogeneous — different vendors or model
+Seats must be genuinely heterogeneous - different vendors or model
 families, local or hosted (CONTRACT: no identity theater). Authentication
 is vendor-controlled and changes; consult each vendor's current docs. One
-durable gotcha (as of 2026-08 — verify against your CLI's precedence
+durable gotcha (as of 2026-08 - verify against your CLI's precedence
 rules): environment API keys (`OPENAI_API_KEY`, `XAI_API_KEY`, …) can
-silently take precedence over subscription auth and bill per token — keep
+silently take precedence over subscription auth and bill per token - keep
 them unset for panel runs.
 
-If your CLI offers a host-level read-only or sandbox mode, use it — the
+If your CLI offers a host-level read-only or sandbox mode, use it - the
 prompt's read-only fence is an instruction, not a security control (see
 CONTRACT "Seat fencing").
 
@@ -46,7 +46,7 @@ CONTRACT "Seat fencing").
 position. Three failure shapes produce plausible-looking output and must
 be caught by *reading* the output, not by exit codes:
 
-1. **Headless permission death** — an agentic CLI hits an interactive
+1. **Headless permission death** - an agentic CLI hits an interactive
    tool-approval prompt, auto-cancels it, and exits 0 with only its
    opening narration ("I'll read the files…" and nothing else).
    Pre-authorize the read-only tools your seats need (e.g. Grok:
@@ -54,29 +54,29 @@ be caught by *reading* the output, not by exit codes:
    seats to prefer built-in read tools over shell commands. Some CLIs
    also accept the prompt from a file (e.g. Grok's `--prompt-file`),
    which avoids argv size/visibility limits.
-2. **Usage/quota exhaustion mid-panel** — subscription CLIs expose no
+2. **Usage/quota exhaustion mid-panel** - subscription CLIs expose no
    "remaining quota" query, so a cap hit between rounds surfaces only as
    an error message or truncated prose in the output, often with exit 0.
    The smoke test catches a seat that is *already* exhausted; for
    mid-panel hits, scan each seat file for limit signatures before
    ledgering (case-insensitive: "usage limit", "rate limit", "quota",
-   "try again later", "upgrade to") — any hit is a dead seat for that
+   "try again later", "upgrade to") - any hit is a dead seat for that
    round.
-3. **Context overflow / truncation** — output that stops mid-sentence or
+3. **Context overflow / truncation** - output that stops mid-sentence or
    omits the required sections.
 
 All three resolve the same way, via the CONTRACT: output that is not in
 the brief's required shape (CLAIM blocks / the ATTACK-CONCEDE-REVISE
-structure) is **rejected and the seat re-run once** — after the cause is
-fixed — and never paraphrased, summarized, or synthesized around. A dead
+structure) is **rejected and the seat re-run once** - after the cause is
+fixed - and never paraphrased, summarized, or synthesized around. A dead
 seat re-runs on the *same* vendor; substituting another vendor's model
 sacrifices the heterogeneity the seat exists to provide.
 
 ## A complete two-seat panel
 
-Save as a script (do not paste into an interactive shell — it uses
+Save as a script (do not paste into an interactive shell - it uses
 `exit`). Two roots, kept separate: the pressure-test **clone** (templates)
-and the **artifact root** — the project under review, where seats must run
+and the **artifact root** - the project under review, where seats must run
 so the brief's relative paths resolve:
 
 ```bash
@@ -109,7 +109,7 @@ done
 
 # --- 1. Freeze the brief. Fill core/templates/brief.md, save as
 #     frozen-brief.md here; assemble the R0 prompt mechanically.
-#     (Use quoted heredocs — <<'EOF' — if you generate prompts in-script,
+#     (Use quoted heredocs - <<'EOF' - if you generate prompts in-script,
 #     so backticks and $() in prompt text aren't expanded.)
 [[ -s frozen-brief.md ]] || { echo "write frozen-brief.md first (copy core/templates/brief.md)" >&2; exit 1; }
 { cat "$PRESSURE_TEST_ROOT/core/templates/r0-seat.md"; echo; cat frozen-brief.md; } > r0-prompt.md
@@ -126,17 +126,17 @@ wait "$B_PID" || { echo "seat B failed ($?)" >&2; fail=1; }
 [[ -s seat-a-r0.md && -s seat-b-r0.md ]] || { echo "empty seat output" >&2; exit 1; }
 # limit-signature scan (see "Silent seat killers"; repeat after Round 1):
 if grep -liE 'usage limit|rate limit|quota|try again later|upgrade to' seat-*-r0.md; then
-  echo "seat hit a usage/rate limit — dead seat, fix and re-run it" >&2; exit 1
+  echo "seat hit a usage/rate limit - dead seat, fix and re-run it" >&2; exit 1
 fi
 
 # --- 3. Ledger: copy the template, fill per core/LEDGER.md, mark
 #     agreed-r0 / disputed / open. If everything decision-relevant is
-#     agreed-r0: STOP — write the verdict now.
+#     agreed-r0: STOP - write the verdict now.
 cp "$PRESSURE_TEST_ROOT/core/templates/ledger.md" ledger.md
 ${EDITOR:?set EDITOR to your editor command} ledger.md
 
 # --- 4. Extract each seat's DISPUTED claims VERBATIM (their own
-#     sentences + EVIDENCE lines, numbered — never your paraphrase).
+#     sentences + EVIDENCE lines, numbered - never your paraphrase).
 #     Mechanical extraction: read the R0 file, then e.g.
 #         sed -n '12,19p' seat-b-r0.md > disputed-from-b.md
 #     A disputed-from file looks like:
@@ -149,7 +149,7 @@ ${EDITOR} disputed-from-a.md disputed-from-b.md
 #     Also extract each seat's OWN R0 claims (stateless seats need them):
 ${EDITOR} own-r0-a.md own-r0-b.md
 
-# --- 5. Round 1: assemble mechanically — template + frozen brief +
+# --- 5. Round 1: assemble mechanically - template + frozen brief +
 #     own claims + opponent's disputed claims. Re-read each assembled
 #     prompt before sending (verbatim-relay check).
 { cat "$PRESSURE_TEST_ROOT/core/templates/r1-seat.md"; echo; cat frozen-brief.md; echo; cat own-r0-a.md; echo; cat disputed-from-b.md; } > r1-for-a.md
@@ -171,12 +171,12 @@ Durable rules regardless of CLI:
 
 - **cwd = artifact root** when invoking seats, so the brief's relative
   paths resolve. If a seat reports it cannot read a listed path, its
-  dependent claims are `SPECULATIVE` — never relay them as `USER-FACT`.
-- **Parallel & isolated Round 0** — never run seat B after reading seat
+  dependent claims are `SPECULATIVE` - never relay them as `USER-FACT`.
+- **Parallel & isolated Round 0** - never run seat B after reading seat
   A's output into your own context; that's a relay chain, not a panel.
-- **Files, not ad-hoc strings** — every prompt lives in a file (audit
+- **Files, not ad-hoc strings** - every prompt lives in a file (audit
   trail of exactly what each seat saw).
-- **Prompts contain no secrets** — they cross process boundaries and land
+- **Prompts contain no secrets** - they cross process boundaries and land
   in logs.
 
 ## N > 2 seats
