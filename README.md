@@ -1,8 +1,33 @@
 # Pressure-Test
 
+<p align="center">
+  <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
+  <a href="https://github.com/kdoubt/pressure-test/tags"><img alt="Release" src="https://img.shields.io/github/v/tag/kdoubt/pressure-test?label=release&color=green"></a>
+  <img alt="Runtime: none" src="https://img.shields.io/badge/runtime-none%20·%20docs%20only-8A2BE2">
+  <img alt="Adapters" src="https://img.shields.io/badge/adapters-claude--code%20·%20shell-informational">
+</p>
+
 > Adversarial AI review panels: AI CLIs from different vendors debate in
 > structured rounds; adjudicated verdicts that preserve dissent. A
 > methodology, not a framework.
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/workflow-dark.svg">
+    <img alt="Pressure-Test workflow: a frozen brief goes to isolated parallel seats from different vendors; their claims land in a provenance-tagged ledger; disputed claims are cross-examined via verbatim relay while checkable claims go to oracles; the verdict separates independent agreement, resolved claims, and surviving dissent; a retrospective feeds a template delta back into the next brief." src="assets/workflow-light.svg" width="960">
+  </picture>
+</p>
+
+The loop, in one glance:
+
+```
+frozen brief ─▶ ROUND 0  seats answer in isolation (parallel, no peeking)
+             ─▶ LEDGER   claims + falsifiers; pre-exposure agreement = settled
+             ─▶ ROUND 1  disputed claims only, relayed verbatim — attack/concede/revise
+             ─▶ ORACLES  tests · compilers · primary docs settle the checkable
+             ─▶ VERDICT  1 agreement · 2 resolved · 3 surviving dissent (kept, not averaged)
+             ─▶ RETRO    did it hold? whose dissent was right? → template delta → next brief
+```
 
 Built for developers who work with agentic CLIs and have no human review
 board: the panel is your reviewers. One model reviewing its own plan
