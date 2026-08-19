@@ -13,6 +13,14 @@
      "no signal", never a guess; keep the questions in this template
      stable across runs so retrospectives stay comparable. -->
 
+<!-- Optional aggregate mirror: if you already run an analytics or metrics
+     store, mirror the T0/T1 COUNTS AND ENUMS below into it as events so
+     cross-run trends (seat death rates, rising pre-exposure agreement,
+     dissent scoreboard by seat, cost per verdict) are queryable. Metadata
+     only — never claim text, question text, or file paths; briefs can
+     contain private material and this file, not the mirror, is the
+     record. The mirror never closes the loop: only TEMPLATE DELTA does. -->
+
 ## T0 — at verdict (process facts)
 
 - Verdict mode + date:
