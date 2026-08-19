@@ -18,7 +18,17 @@ codex exec --skip-git-repo-check "<prompt>"   # Codex CLI
 grok -p "<prompt>"                             # Grok CLI
 claude -p "<prompt>"                           # Claude Code (as a seat)
 gemini -p "<prompt>"                           # Gemini CLI
+ollama run <model> "<prompt>"                  # local model as a seat
 ```
+
+Local models are first-class seats — heterogeneity is about *model
+families and training lineages*, not billing. Two caveats: a local
+distill of the same family as another seat is fake heterogeneity (see
+CONTRACT: identity theater), and the model-selection principle still
+applies — a seat must be frontier-class for a debate round, local or not.
+Note that plain model runners (like `ollama run`) have no file tools, so
+the orchestrator must inline the artifact excerpts the brief needs into
+the prompt for that seat.
 
 Seats must be genuinely heterogeneous — different vendors or model
 families, local or hosted (CONTRACT: no identity theater). Authentication
@@ -32,16 +42,35 @@ If your CLI offers a host-level read-only or sandbox mode, use it — the
 prompt's read-only fence is an instruction, not a security control (see
 CONTRACT "Seat fencing").
 
-**Headless permission death (silent seat killer):** an agentic CLI in
-headless mode may hit an interactive tool-approval prompt, auto-cancel it,
-and exit 0 with only its opening narration — no error anywhere. A seat
-whose output is a sentence or two of "I'll read the files…" with no
-findings died this way. Pre-authorize the read-only tools your seats need
-(e.g. Grok: `--allow 'Bash(git *)'`; check your CLI's allow-rule syntax),
-tell seats to prefer built-in read tools over shell commands, and treat
-narration-only output as a failed seat — re-run it, never synthesize
-around it. Some CLIs also accept the prompt from a file (e.g. Grok's
-`--prompt-file`), which avoids argv size/visibility limits.
+**Silent seat killers.** Exit code 0 does not mean the seat produced a
+position. Three failure shapes produce plausible-looking output and must
+be caught by *reading* the output, not by exit codes:
+
+1. **Headless permission death** — an agentic CLI hits an interactive
+   tool-approval prompt, auto-cancels it, and exits 0 with only its
+   opening narration ("I'll read the files…" and nothing else).
+   Pre-authorize the read-only tools your seats need (e.g. Grok:
+   `--allow 'Bash(git *)'`; check your CLI's allow-rule syntax) and tell
+   seats to prefer built-in read tools over shell commands. Some CLIs
+   also accept the prompt from a file (e.g. Grok's `--prompt-file`),
+   which avoids argv size/visibility limits.
+2. **Usage/quota exhaustion mid-panel** — subscription CLIs expose no
+   "remaining quota" query, so a cap hit between rounds surfaces only as
+   an error message or truncated prose in the output, often with exit 0.
+   The smoke test catches a seat that is *already* exhausted; for
+   mid-panel hits, scan each seat file for limit signatures before
+   ledgering (case-insensitive: "usage limit", "rate limit", "quota",
+   "try again later", "upgrade to") — any hit is a dead seat for that
+   round.
+3. **Context overflow / truncation** — output that stops mid-sentence or
+   omits the required sections.
+
+All three resolve the same way, via the CONTRACT: output that is not in
+the brief's required shape (CLAIM blocks / the ATTACK-CONCEDE-REVISE
+structure) is **rejected and the seat re-run once** — after the cause is
+fixed — and never paraphrased, summarized, or synthesized around. A dead
+seat re-runs on the *same* vendor; substituting another vendor's model
+sacrifices the heterogeneity the seat exists to provide.
 
 ## A complete two-seat panel
 
@@ -95,6 +124,10 @@ wait "$A_PID" || { echo "seat A failed ($?)" >&2; fail=1; }
 wait "$B_PID" || { echo "seat B failed ($?)" >&2; fail=1; }
 (( fail == 0 )) || exit 1
 [[ -s seat-a-r0.md && -s seat-b-r0.md ]] || { echo "empty seat output" >&2; exit 1; }
+# limit-signature scan (see "Silent seat killers"; repeat after Round 1):
+if grep -liE 'usage limit|rate limit|quota|try again later|upgrade to' seat-*-r0.md; then
+  echo "seat hit a usage/rate limit — dead seat, fix and re-run it" >&2; exit 1
+fi
 
 # --- 3. Ledger: copy the template, fill per core/LEDGER.md, mark
 #     agreed-r0 / disputed / open. If everything decision-relevant is

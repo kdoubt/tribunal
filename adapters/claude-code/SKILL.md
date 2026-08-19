@@ -50,6 +50,10 @@ nothing pre-existing is touched.
   vendor-current flags). Always wrap in `timeout` and check exit codes.
 - **Smoke-test both seats** with a small verifiable question (arithmetic —
   not "reply OK") before Round 0.
+- **Scan every seat output before ledgering** for the three silent seat
+  killers (narration-only permission death, usage/quota-limit messages,
+  truncation) — see "Silent seat killers" in `adapters/shell/README.md`.
+  Exit 0 + non-empty ≠ a position. Re-run a dead seat on the SAME vendor.
 - **Keep the ledger as a file** you edit between rounds — copy
   `$PRESSURE_TEST_ROOT/core/templates/ledger.md`. Your conversation
   context is NOT the ledger.
