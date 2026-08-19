@@ -117,6 +117,44 @@ adapters/*/             other orchestrators (stubs - see CONTRIBUTING.md)
 mechanics only and may never redefine rounds, ledger states, grounding, or
 verdict rules.)
 
+## FAQ
+
+**What is multi-agent orchestration?**
+Coordinating several AI models on one task. Most orchestration aims at
+collaboration; Tribunal deliberately aims at *structured dispute* - the
+orchestrator is a switchboard that isolates models, relays disputed claims
+verbatim, and never adds its own arguments (see
+[`core/CONTRACT.md`](core/CONTRACT.md)).
+
+**Multi-agent vs single agent - when is a panel actually worth it?**
+A single strong model is cheaper and usually right; use it, plus a test
+suite. A panel pays off only when the decision is irreversible, ambiguous,
+or hard to observe going wrong - the cases where one model's confident
+blind spot is exactly the risk. Tribunal's first rule cuts the other way
+too: if a compiler, test, or grep can settle it, never convene a panel.
+
+**Why do multi-agent systems fail?**
+Mostly because agreement between models that have read each other's output
+is cheap: sycophancy, politeness convergence, and one model's hallucination
+becoming shared "fact." Tribunal's whole design targets this - isolated
+Round 0, provenance-tagged claims, verbatim-only relay, and dissent that
+survives into the verdict. The full failure-mode table with mitigations is
+in [`core/METHODOLOGY.md`](core/METHODOLOGY.md).
+
+**What does red teaming mean for AI-assisted engineering?**
+Red teaming is paying someone to attack your plan before reality does.
+Tribunal applies that structure to engineering decisions: every claim needs
+a falsifier, every disputed claim gets cross-examined by a model from a
+different vendor, and the verdict reports what survived the attack - not
+what everyone was happy to sign.
+
+**How do I set up a multi-agent panel in Claude Code?**
+Install the [`adapters/claude-code/`](adapters/claude-code/SKILL.md) skill,
+authenticate two seat CLIs from different vendors, and start with the
+scout prompt (`core/templates/scout.md`) - it reads your project and
+drafts your first panel brief. The [`adapters/shell/`](adapters/shell/README.md)
+recipe does the same from any terminal, no Claude Code required.
+
 ## Status
 
 v0.1.0, and every rule in `core/` was earned the hard way: the methodology
