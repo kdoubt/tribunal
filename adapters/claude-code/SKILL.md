@@ -23,8 +23,8 @@ follow them exactly.
 
 ```bash
 # clone the repo (anywhere — ~/pressure-test is just an example), then
-# install this skill (real URL substituted at publish):
-git clone https://github.com/TODO-ORG/pressure-test.git ~/pressure-test
+# install this skill:
+git clone https://github.com/kdoubt/pressure-test.git ~/pressure-test
 mkdir -p ~/.claude/skills/pressure-test        # user-scoped; or .claude/skills/ in a project
 cp ~/pressure-test/adapters/claude-code/SKILL.md ~/.claude/skills/pressure-test/SKILL.md
 export PRESSURE_TEST_ROOT=~/pressure-test      # persist in your shell profile

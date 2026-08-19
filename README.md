@@ -51,8 +51,7 @@ Pressure-Test's mechanisms target exactly that:
    orchestrator, plain bash) or
    [`adapters/claude-code/`](adapters/claude-code/SKILL.md). The other
    adapter directories are contribution stubs.
-   (`git clone https://github.com/TODO-ORG/pressure-test.git` — URL to be
-   filled at publish.)
+   (`git clone https://github.com/kdoubt/pressure-test.git`)
 3. **Run it.** Follow your adapter: freeze the brief
    ([template](core/templates/brief.md)), Round 0 in parallel with no
    cross-exposure, relay disputed claims verbatim, verify, adjudicate.
