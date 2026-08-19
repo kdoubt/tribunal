@@ -2,7 +2,7 @@
 
 A real, unedited two-seat panel (Codex CLI = seat A, Grok CLI = seat B,
 Claude Code orchestrating), run 2026-08 with the CLI versions then current.
-The question under review: *what should the Pressure-Test methodology
+The question under review: *what should the Tribunal methodology
 itself be?* The `core/` documents in this repository are the synthesized
 verdict of this panel - the method was bootstrapped by running it on
 itself.

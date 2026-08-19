@@ -2,7 +2,7 @@
 
 **Status: stub. No implementation yet, no support commitment.**
 
-Codex CLI should be able to orchestrate a Pressure-Test panel (untested): it likely satisfies the
+Codex CLI should be able to orchestrate a Tribunal panel (untested): it likely satisfies the
 orchestrator role in `core/CONTRACT.md` (can run shell commands, read
 files, and maintain a ledger file). Seats would then be other vendors'
 CLIs (e.g. Claude Code as a seat via `claude -p`, plus Grok CLI).

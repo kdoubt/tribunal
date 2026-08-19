@@ -1,20 +1,21 @@
-# Pressure-Test
+# Tribunal
 
 <p align="center">
   <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
-  <a href="https://github.com/kdoubt/pressure-test/tags"><img alt="Release" src="https://img.shields.io/github/v/tag/kdoubt/pressure-test?label=release&color=green"></a>
+  <a href="https://github.com/kdoubt/tribunal/tags"><img alt="Release" src="https://img.shields.io/github/v/tag/kdoubt/tribunal?label=release&color=green"></a>
   <img alt="Runtime: none" src="https://img.shields.io/badge/runtime-none%20·%20docs%20only-8A2BE2">
   <img alt="Adapters" src="https://img.shields.io/badge/adapters-claude--code%20·%20shell-informational">
 </p>
 
-> Adversarial AI review panels: AI CLIs from different vendors debate in
-> structured rounds; adjudicated verdicts that preserve dissent. A
-> methodology, not a framework.
+> A multi-agent red-team tribunal for your hardest engineering decisions:
+> AI CLIs from different vendors debate in structured rounds and return
+> adjudicated verdicts that preserve dissent. A methodology, not a
+> framework.
 
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="assets/workflow-dark.svg">
-    <img alt="Pressure-Test workflow: a frozen brief goes to isolated parallel seats from different vendors; their claims land in a provenance-tagged ledger; disputed claims are cross-examined via verbatim relay while checkable claims go to oracles; the verdict separates independent agreement, resolved claims, and surviving dissent; a retrospective feeds a template delta back into the next brief." src="assets/workflow-light.svg" width="960">
+    <img alt="Tribunal workflow: a frozen brief goes to isolated parallel seats from different vendors; their claims land in a provenance-tagged ledger; disputed claims are cross-examined via verbatim relay while checkable claims go to oracles; the verdict separates independent agreement, resolved claims, and surviving dissent; a retrospective feeds a template delta back into the next brief." src="assets/workflow-light.svg" width="960">
   </picture>
 </p>
 
@@ -34,7 +35,7 @@ board: the panel is your reviewers. One model reviewing its own plan
 converges on its own blind spots; two *different* vendors' models, forced
 to take independent positions and then cross-examine each other claim by
 claim, catch what neither would alone - **if** the process prevents them
-from politely agreeing their way to a wrong answer. Pressure-Test is that
+from politely agreeing their way to a wrong answer. Tribunal is that
 process. You need two or more independently configured model/agent
 commands from *different* vendors or model families (local or hosted;
 subscriptions only where a provider requires one).
@@ -54,7 +55,7 @@ of the methodology: **run the oracle before convening a debate.**
 
 Multi-agent debate and LLM-as-judge are well-studied, with mixed results -
 mostly because agreement between models that have read each other is cheap.
-Pressure-Test's mechanisms target exactly that:
+Tribunal's mechanisms target exactly that:
 
 - **Only pre-exposure agreement counts as consensus.** Round 0 is isolated
   and parallel; anything models agree on *after* seeing each other is
@@ -76,7 +77,7 @@ Pressure-Test's mechanisms target exactly that:
    orchestrator, plain bash) or
    [`adapters/claude-code/`](adapters/claude-code/SKILL.md). The other
    adapter directories are contribution stubs.
-   (`git clone https://github.com/kdoubt/pressure-test.git`)
+   (`git clone https://github.com/kdoubt/tribunal.git`)
 3. **Run it.** Follow your adapter: freeze the brief
    ([template](core/templates/brief.md)), Round 0 in parallel with no
    cross-exposure, relay disputed claims verbatim, verify, adjudicate.

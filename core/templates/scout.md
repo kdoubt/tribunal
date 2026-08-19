@@ -1,13 +1,13 @@
 # Scout - where would panels pay off in THIS project?
 
 <!-- Adopter onboarding: paste this prompt into your own agentic CLI from
-     your project's root, right after cloning Pressure-Test. The model
+     your project's root, right after cloning Tribunal. The model
      reads YOUR project and returns project-specific panel use cases -
      so your first panel is a real one, not a toy. -->
 
-You are helping me adopt Pressure-Test, an adversarial multi-model review
+You are helping me adopt Tribunal, an adversarial multi-model review
 methodology (read its `core/METHODOLOGY.md`, especially "When to convene a
-panel" and the stop rules, from: [path to your pressure-test clone]).
+panel" and the stop rules, from: [path to your tribunal clone]).
 
 You are READ-ONLY. Survey this project - code, docs, issues/TODOs, recent
 history if available - and report:
@@ -22,7 +22,7 @@ history if available - and report:
 
 2. **Not panel-worthy (max 3).** Things I might be tempted to panel that an
    oracle settles cheaply here - the test suite, the compiler, a schema, a
-   primary document. Name the oracle. (Pressure-Test's first rule: run the
+   primary document. Name the oracle. (Tribunal's first rule: run the
    oracle before convening a debate.)
 
 3. **First-panel pick.** Which single item from list 1 to run first, chosen

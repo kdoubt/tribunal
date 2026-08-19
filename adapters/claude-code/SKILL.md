@@ -1,5 +1,5 @@
 ---
-name: pressure-test
+name: tribunal
 description: >
   Convene an adversarial review panel of heterogeneous frontier CLIs (e.g.
   Codex CLI + Grok CLI) that debate each other through structured,
@@ -8,30 +8,30 @@ description: >
   decisions. Not for anything a test, compiler, or grep can settle.
 ---
 
-# Pressure-Test - Claude Code adapter
+# Tribunal - Claude Code adapter
 
 **Status: maintained recipe (not a runner). The orchestrating model fills
 the ledger; the human reads the verdict. Verified 2026-08. No SLA.**
 
 Claude Code acts as the **orchestrator** defined in `core/CONTRACT.md`. This
 file contains only Claude-specific mechanics; the methodology itself lives
-in the pressure-test repository's `core/` - read `METHODOLOGY.md`,
+in the tribunal repository's `core/` - read `METHODOLOGY.md`,
 `CONTRACT.md`, `LEDGER.md`, and `VERDICT.md` before your first panel, and
 follow them exactly.
 
 ## Install
 
 ```bash
-# clone the repo (anywhere - ~/pressure-test is just an example), then
+# clone the repo (anywhere - ~/tribunal is just an example), then
 # install this skill:
-git clone https://github.com/kdoubt/pressure-test.git ~/pressure-test
-mkdir -p ~/.claude/skills/pressure-test        # user-scoped; or .claude/skills/ in a project
-cp ~/pressure-test/adapters/claude-code/SKILL.md ~/.claude/skills/pressure-test/SKILL.md
-export PRESSURE_TEST_ROOT=~/pressure-test      # persist in your shell profile
+git clone https://github.com/kdoubt/tribunal.git ~/tribunal
+mkdir -p ~/.claude/skills/tribunal        # user-scoped; or .claude/skills/ in a project
+cp ~/tribunal/adapters/claude-code/SKILL.md ~/.claude/skills/tribunal/SKILL.md
+export TRIBUNAL_ROOT=~/tribunal      # persist in your shell profile
 ```
 
 Every `core/` reference in this skill resolves as
-`$PRESSURE_TEST_ROOT/core/…`. Do not commit a machine-specific path into
+`$TRIBUNAL_ROOT/core/…`. Do not commit a machine-specific path into
 the skill file. Installation is additive - skills are one folder each;
 nothing pre-existing is touched.
 
@@ -55,7 +55,7 @@ nothing pre-existing is touched.
   truncation) - see "Silent seat killers" in `adapters/shell/README.md`.
   Exit 0 + non-empty ≠ a position. Re-run a dead seat on the SAME vendor.
 - **Keep the ledger as a file** you edit between rounds - copy
-  `$PRESSURE_TEST_ROOT/core/templates/ledger.md`. Your conversation
+  `$TRIBUNAL_ROOT/core/templates/ledger.md`. Your conversation
   context is NOT the ledger.
 - **Verbatim relay:** build Round 1 inputs by concatenating the r1
   template + frozen brief + the seat's OWN Round 0 claims + the other
@@ -66,7 +66,7 @@ nothing pre-existing is touched.
   verifying, use your file tools to check every cited `file:line` before
   relay (checked-and-failed → `dropped`; couldn't-check → relay stamped
   `UNVERIFIED`); when adjudicating, fill
-  `$PRESSURE_TEST_ROOT/core/templates/verdict.md` from the ledger only -
+  `$TRIBUNAL_ROOT/core/templates/verdict.md` from the ledger only -
   no arguments the seats didn't make.
 - **Report the verdict to the user** with surviving dissent intact, and
   your adjudication criteria stated wherever you applied pre-delegated

@@ -1,4 +1,4 @@
-# Verdict - what should the Pressure-Test methodology be?
+# Verdict - what should the Tribunal methodology be?
 
 **Mode:** `ship` (the synthesized methodology is `core/` of this repo)
 

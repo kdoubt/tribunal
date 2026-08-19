@@ -75,7 +75,7 @@ sacrifices the heterogeneity the seat exists to provide.
 ## A complete two-seat panel
 
 Save as a script (do not paste into an interactive shell - it uses
-`exit`). Two roots, kept separate: the pressure-test **clone** (templates)
+`exit`). Two roots, kept separate: the tribunal **clone** (templates)
 and the **artifact root** - the project under review, where seats must run
 so the brief's relative paths resolve:
 
@@ -83,9 +83,9 @@ so the brief's relative paths resolve:
 #!/usr/bin/env bash
 set -euo pipefail
 
-PRESSURE_TEST_ROOT=${PRESSURE_TEST_ROOT:?set to your pressure-test clone}
+TRIBUNAL_ROOT=${TRIBUNAL_ROOT:?set to your tribunal clone}
 ARTIFACT_ROOT=${ARTIFACT_ROOT:?set to the project under review}
-[[ -f "$PRESSURE_TEST_ROOT/core/templates/r0-seat.md" ]] || { echo "not a pressure-test clone: $PRESSURE_TEST_ROOT" >&2; exit 1; }
+[[ -f "$TRIBUNAL_ROOT/core/templates/r0-seat.md" ]] || { echo "not a tribunal clone: $TRIBUNAL_ROOT" >&2; exit 1; }
 cd "$ARTIFACT_ROOT"
 mkdir -p panel && cd panel   # or point PANEL_OUT anywhere outside the review scope
 
@@ -112,7 +112,7 @@ done
 #     (Use quoted heredocs - <<'EOF' - if you generate prompts in-script,
 #     so backticks and $() in prompt text aren't expanded.)
 [[ -s frozen-brief.md ]] || { echo "write frozen-brief.md first (copy core/templates/brief.md)" >&2; exit 1; }
-{ cat "$PRESSURE_TEST_ROOT/core/templates/r0-seat.md"; echo; cat frozen-brief.md; } > r0-prompt.md
+{ cat "$TRIBUNAL_ROOT/core/templates/r0-seat.md"; echo; cat frozen-brief.md; } > r0-prompt.md
 
 # --- 2. Round 0: identical prompt, PARALLEL, no cross-exposure.
 #     Prompts pass via stdin where the CLI supports it (argv leaks to `ps`
@@ -132,7 +132,7 @@ fi
 # --- 3. Ledger: copy the template, fill per core/LEDGER.md, mark
 #     agreed-r0 / disputed / open. If everything decision-relevant is
 #     agreed-r0: STOP - write the verdict now.
-cp "$PRESSURE_TEST_ROOT/core/templates/ledger.md" ledger.md
+cp "$TRIBUNAL_ROOT/core/templates/ledger.md" ledger.md
 ${EDITOR:?set EDITOR to your editor command} ledger.md
 
 # --- 4. Extract each seat's DISPUTED claims VERBATIM (their own
@@ -152,8 +152,8 @@ ${EDITOR} own-r0-a.md own-r0-b.md
 # --- 5. Round 1: assemble mechanically - template + frozen brief +
 #     own claims + opponent's disputed claims. Re-read each assembled
 #     prompt before sending (verbatim-relay check).
-{ cat "$PRESSURE_TEST_ROOT/core/templates/r1-seat.md"; echo; cat frozen-brief.md; echo; cat own-r0-a.md; echo; cat disputed-from-b.md; } > r1-for-a.md
-{ cat "$PRESSURE_TEST_ROOT/core/templates/r1-seat.md"; echo; cat frozen-brief.md; echo; cat own-r0-b.md; echo; cat disputed-from-a.md; } > r1-for-b.md
+{ cat "$TRIBUNAL_ROOT/core/templates/r1-seat.md"; echo; cat frozen-brief.md; echo; cat own-r0-a.md; echo; cat disputed-from-b.md; } > r1-for-a.md
+{ cat "$TRIBUNAL_ROOT/core/templates/r1-seat.md"; echo; cat frozen-brief.md; echo; cat own-r0-b.md; echo; cat disputed-from-a.md; } > r1-for-b.md
 "${T[@]}" "${SEAT_A_CMD[@]}" "$(cat r1-for-a.md)" > seat-a-r1.md 2> seat-a-r1.err & A_PID=$!
 "${T[@]}" "${SEAT_B_CMD[@]}" "$(cat r1-for-b.md)" > seat-b-r1.md 2> seat-b-r1.err & B_PID=$!
 fail=0

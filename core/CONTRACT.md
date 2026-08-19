@@ -2,7 +2,7 @@
 
 Normative obligations for orchestrators and seats. **MUST/SHOULD/MAY** as in
 RFC 2119. An implementation that violates a MUST is not running
-Pressure-Test - it is running something that will produce
+Tribunal - it is running something that will produce
 confident-sounding, unreliable verdicts under this name.
 
 Adapters (see `adapters/`) translate these obligations into host mechanics.

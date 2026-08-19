@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Renamed the project: Pressure-Test → **Tribunal** (the old GitHub URL
+  redirects). Skill name, `TRIBUNAL_ROOT`, and install paths renamed to
+  match; the historical sample-run transcripts are unmodified as always.
+
 ## 0.1.0 - 2026-08-19
 
 Initial public extraction. These documents were reviewed in-repo by a
@@ -12,7 +18,7 @@ the methodology itself still has one published run (see README, Status).
 - `core/templates/`: scout (adopter onboarding), brief, r0-seat, r1-seat,
   r2-revision, ledger, verdict.
 - `adapters/claude-code/`: the original skill, thinned to host mechanics
-  (`PRESSURE_TEST_ROOT` indirection; vendor flags live in the shell
+  (`TRIBUNAL_ROOT` indirection; vendor flags live in the shell
   adapter's dated examples block).
 - `adapters/shell/`: portable scripted recipe for any orchestrator (GNU
   timeout detection, wait-both-fail-loud, smoke test, mechanical Round 1

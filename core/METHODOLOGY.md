@@ -1,4 +1,4 @@
-# The Pressure-Test Methodology
+# The Tribunal Methodology
 
 > The panel is a structured dispute, not a group chat. Its value comes from
 > **independent error processes** and **explicit adjudication** - not from
