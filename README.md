@@ -81,7 +81,7 @@ core/METHODOLOGY.md     the method: rounds, stop rules, failure modes
 core/CONTRACT.md        orchestrator + seat obligations (MUST/SHOULD)
 core/LEDGER.md          the claim ledger: fields, status enum, dispute rule
 core/VERDICT.md         verdict format: three buckets, mode tags
-core/templates/         scout, brief, per-round prompts, ledger, verdict
+core/templates/         scout, brief, per-round prompts, ledger, verdict, retro
 examples/sample-run/    the real (historical) panel that designed the method
 adapters/claude-code/   run panels from Claude Code (installable skill)
 adapters/shell/         run panels from any shell — no orchestrator CLI needed

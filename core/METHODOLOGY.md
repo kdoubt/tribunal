@@ -225,6 +225,41 @@ methodology is tool-agnostic.
 | Identity theater | Prompting one model to "act as" another vendor | Real heterogeneous processes only; personas are costume, not diversity. Roles, if used, are incentives (skeptic vs builder), not impersonation |
 | Orchestrator last-word bias | Synthesis quietly favors the orchestrator's own prior | Mechanical verdict template; three-hat separation (see CONTRACT); log every transformation applied to relayed text |
 
+## Model selection — where tiering is safe and where it isn't
+
+Vendor-neutral principle (concrete model names and flags are operator
+practice, never part of this method):
+
+- **Seats use each vendor's strongest available configuration, in both
+  debate rounds.** The panel's value is uncorrelated *strong* priors;
+  cheaper models across vendors tend to share failure modes (shallow
+  grounding, sycophancy, instruction collapse), so a cheap seat adds
+  correlated incapacity, not diversity — and Round 1 is where politeness
+  convergence lives, so it gets no discount either.
+- **Mechanical stages may use any capable cheap/fast configuration:**
+  smoke tests (run them through the same CLI, auth, and permission setup
+  as the real seat — only the model/effort may drop), and retrospective
+  or evaluation judging (offline, evidence-cited, mechanically rolled up).
+- **Oracles are not an LLM tier.** Tests, compilers, schemas, primary
+  documents, deterministic captures. A model may help *locate* a candidate
+  passage; the located evidence itself — inspected mechanically or by the
+  human — is what stamps a claim, never a model's judgment of it.
+- **Verdict synthesis is bucketing, not authorship**: prefer no model at
+  all (mechanical assembly from the ledger); if one is used, constrain it
+  to ledger IDs and validate that every verdict line maps to one.
+- **Downgrades are earned, not assumed**: change a stage's tier only after
+  retrospectives (see `templates/retro.md`) show no loss in overturned
+  claims, concessions, and citation validity.
+
+## Retrospective — closing the loop
+
+The lifecycle does not end at the verdict. Fill `templates/retro.md` twice:
+at verdict time (process facts) and when the real-world outcome is known —
+did the recommendation hold, and which seat's surviving dissent proved
+right? Its mandatory TEMPLATE DELTA field converts each run into at most
+one concrete edit to a brief, template, or practice; recurring deltas are
+the evidence that justifies changing `core/`.
+
 ## Isolation hygiene — the mistake that ruins most panels
 
 The most common way panels are ruined is "helpful" context sharing: the
