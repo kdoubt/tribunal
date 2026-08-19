@@ -260,6 +260,11 @@ right? Its mandatory TEMPLATE DELTA field converts each run into at most
 one concrete edit to a brief, template, or practice; recurring deltas are
 the evidence that justifies changing `core/`.
 
+Give T1 a forcing function or it will never happen: leave a `PENDING`
+marker (with a due date) in the run directory at verdict time, and **stamp
+any overdue T1s before convening your next panel** — the next panel is the
+most reliable clock you have; a periodic reminder is backstop, not primary.
+
 ## Isolation hygiene — the mistake that ruins most panels
 
 The most common way panels are ruined is "helpful" context sharing: the
