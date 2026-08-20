@@ -143,7 +143,7 @@ core/templates/         scout, brief, per-round prompts, ledger, verdict, retro
 examples/sample-run/    the real (historical) panel that designed the method
 adapters/claude-code/   run panels from Claude Code (installable skill)
 adapters/shell/         run panels from any shell - no orchestrator CLI needed
-adapters/*/             other orchestrators (stubs - see CONTRIBUTING.md)
+adapters/*/             other orchestrators - codex-cli, gemini-cli, opencode, buzz (stubs)
 ```
 
 (`core/` is normative and orchestrator-neutral; adapters translate host
