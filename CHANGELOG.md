@@ -1,10 +1,22 @@
 # Changelog
 
-## Unreleased
+## 0.2.0 - 2026-08-20
 
-- Renamed the project: Pressure-Test → **Tribunal** (the old GitHub URL
+- **Renamed the project: Pressure-Test → Tribunal** (the old GitHub URL
   redirects). Skill name, `TRIBUNAL_ROOT`, and install paths renamed to
   match; the historical sample-run transcripts are unmodified as always.
+- **`scout` helper** (repo root): one runnable command feeds the scouting
+  prompt to your agent (resolves the clone-path placeholder, strips
+  template chrome). Text-only — runs no panel, writes nothing.
+- **README**: featured one-command clone + scout up top; hero workflow
+  diagram (light/dark SVG) now shows scout and the triggered Round 2, so
+  the chart matches the full template set; FAQ targeting real search
+  queries; honest getting-started framing (setup is seconds; the 20-40 min
+  is the panel itself); documented that seats scale to N ≥ 2.
+- **Adapters**: silent-seat-killer taxonomy (permission death, quota
+  exhaustion, truncation); local models documented as first-class seats.
+- Docs: em/en-dashes replaced with plain hyphens (verbatim transcripts
+  preserved); confident Status rewrite; LICENSE holder set with website.
 
 ## 0.1.0 - 2026-08-19
 

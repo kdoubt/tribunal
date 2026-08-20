@@ -134,6 +134,7 @@ loop from `core/templates/`, not from its file shapes.
 ## Repository layout
 
 ```
+scout                   one-command helper: prints the scouting prompt for your agent
 core/METHODOLOGY.md     the method: rounds, stop rules, failure modes
 core/CONTRACT.md        orchestrator + seat obligations (MUST/SHOULD)
 core/LEDGER.md          the claim ledger: fields, status enum, dispute rule
