@@ -15,19 +15,20 @@
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="assets/workflow-dark.svg">
-    <img alt="Tribunal workflow: a frozen brief goes to isolated parallel seats from different vendors; their claims land in a provenance-tagged ledger; disputed claims are cross-examined via verbatim relay while checkable claims go to oracles; the verdict separates independent agreement, resolved claims, and surviving dissent; a retrospective feeds a template delta back into the next brief." src="assets/workflow-light.svg" width="960">
+    <img alt="Tribunal workflow: scouted from your project, a frozen brief goes to isolated parallel seats from different vendors; their claims land in a provenance-tagged ledger; disputed claims are cross-examined via verbatim relay while checkable claims go to oracles; a rare triggered Round 2 restates positions when a load-bearing claim flips; the verdict separates independent agreement, resolved claims, and surviving dissent; a retrospective feeds a template delta back into the next brief." src="assets/workflow-light.svg" width="960">
   </picture>
 </p>
 
 The loop, in one glance:
 
 ```
-frozen brief ─▶ ROUND 0  seats answer in isolation (parallel, no peeking)
-             ─▶ LEDGER   claims + falsifiers; pre-exposure agreement = settled
-             ─▶ ROUND 1  disputed claims only, relayed verbatim - attack/concede/revise
-             ─▶ ORACLES  tests · compilers · primary docs settle the checkable
-             ─▶ VERDICT  1 agreement · 2 resolved · 3 surviving dissent (kept, not averaged)
-             ─▶ RETRO    did it hold? whose dissent was right? → template delta → next brief
+scout project ─▶ frozen brief ─▶ ROUND 0  seats answer in isolation (parallel, no peeking)
+                             ─▶ LEDGER   claims + falsifiers; pre-exposure agreement = settled
+                             ─▶ ROUND 1  disputed claims only, relayed verbatim - attack/concede/revise
+                             ─▶ ROUND 2  only if a load-bearing claim flips - delta-only restate (rare)
+                             ─▶ ORACLES  tests · compilers · primary docs settle the checkable
+                             ─▶ VERDICT  1 agreement · 2 resolved · 3 surviving dissent (kept, not averaged)
+                             ─▶ RETRO    did it hold? whose dissent was right? → template delta → next brief
 ```
 
 Built for developers who work with agentic CLIs and have no human review
