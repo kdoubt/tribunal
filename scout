@@ -18,7 +18,7 @@
 # path of their own, so the notice points you at the git-clone install and
 # is throttled with a small timestamp under your cache dir.
 set -eu
-root=$(CDPATH= cd "$(dirname "$0")" && pwd)
+root=$(unset CDPATH; cd "$(dirname "$0")" && pwd)
 
 # --- weekly, notify-only update check (all failures are silent) ------------
 # Notify-only: prints the command to stderr, never runs it.
