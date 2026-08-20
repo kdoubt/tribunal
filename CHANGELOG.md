@@ -1,6 +1,24 @@
 # Changelog
 
-## 0.3.3 - 2026-08-20
+All notable changes are recorded here. Format follows
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
+[Semantic Versioning](https://semver.org/spec/v2.0.0.html) as scoped for a
+methodology repo in [`CONTRIBUTING.md`](CONTRIBUTING.md#versioning). Changes
+accumulate under **Unreleased** and are stamped with a version and date when
+a release is cut; published tags are immutable.
+
+## [Unreleased]
+
+## [0.3.4] - 2026-08-20
+
+- **Versioning policy** (`CONTRIBUTING.md`): SemVer scoped for a docs/method
+  repo - MINOR = a normative `core/` change that could alter a panel's
+  conduct or outcome; PATCH = clarifications, doc/tooling fixes, adapters,
+  examples; MAJOR reserved for 1.0 and later breaking normative changes.
+  Records the Keep-a-Changelog release flow and that published tags are
+  never moved.
+
+## [0.3.3] - 2026-08-20
 
 - **Docs consistency pass.** README "Status" was stale at v0.1.0; rather than
   hardcode a version that re-staled on every release, the line now points at
@@ -14,7 +32,7 @@
   lenses in Decision criteria and reserve the matrix for large panels with
   >=2 heterogeneous seats per surface plus a retained generalist.
 
-## 0.3.2 - 2026-08-20
+## [0.3.2] - 2026-08-20
 
 - **`scout` update check now handles zip/tarball installs too.** A copy
   with no `.git` has no `origin` to pull from, so the git check no-oped for
@@ -28,7 +46,7 @@
 - **README "Staying current"**: documents the zip/tarball case and why the
   git-clone install is recommended (every future update becomes `git pull`).
 
-## 0.3.1 - 2026-08-20
+## [0.3.1] - 2026-08-20
 
 - **`scout` weekly update check** (notify-only, never auto-pulls). At most
   once per 7 days (throttled by `.git/FETCH_HEAD` mtime), if the clone is
@@ -43,7 +61,7 @@
   abort (untracked files untouched, local edits never silently overwritten)
   - plus the keep-the-clone-pristine convention that guarantees it.
 
-## 0.3.0 - 2026-08-20
+## [0.3.0] - 2026-08-20
 
 - **Lens-assignment doctrine** (`core/METHODOLOGY.md`, "Assigning lenses"):
   codifies WHEN a panel should give seats distinct review lenses vs. run
@@ -65,7 +83,7 @@
   a 2-seat Codex+Grok panel, which caught the identical-brief conflict and
   the unsupported "~5 seats" gate the first draft shipped with.
 
-## 0.2.0 - 2026-08-20
+## [0.2.0] - 2026-08-20
 
 - **Renamed the project: Pressure-Test → Tribunal** (the old GitHub URL
   redirects). Skill name, `TRIBUNAL_ROOT`, and install paths renamed to
@@ -83,7 +101,7 @@
 - Docs: em/en-dashes replaced with plain hyphens (verbatim transcripts
   preserved); confident Status rewrite; LICENSE holder set with website.
 
-## 0.1.0 - 2026-08-19
+## [0.1.0] - 2026-08-19
 
 Initial public extraction. These documents were reviewed in-repo by a
 10-seat cross-vendor panel (4 Codex CLI seats, 4 Grok CLI seats, 2 Claude
@@ -104,3 +122,12 @@ the methodology itself still has one published run (see README, Status).
 - `examples/sample-run/`: the real two-seat panel that designed the
   methodology, labeled as a historical bootstrap transcript with its
   known non-compliances enumerated.
+
+[Unreleased]: https://github.com/kdoubt/tribunal/compare/v0.3.4...HEAD
+[0.3.4]: https://github.com/kdoubt/tribunal/compare/v0.3.3...v0.3.4
+[0.3.3]: https://github.com/kdoubt/tribunal/compare/v0.3.2...v0.3.3
+[0.3.2]: https://github.com/kdoubt/tribunal/compare/v0.3.1...v0.3.2
+[0.3.1]: https://github.com/kdoubt/tribunal/compare/v0.3.0...v0.3.1
+[0.3.0]: https://github.com/kdoubt/tribunal/compare/v0.2.0...v0.3.0
+[0.2.0]: https://github.com/kdoubt/tribunal/compare/v0.1.0...v0.2.0
+[0.1.0]: https://github.com/kdoubt/tribunal/releases/tag/v0.1.0
