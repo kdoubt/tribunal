@@ -17,6 +17,7 @@ a release is cut; published tags are immutable.
   fails if any application/build code is committed - enforcing the repo's own
   `runtime: none` identity. Mostly inline bash to keep third-party actions
   minimal. Maintainer tooling, not shipped to users; PATCH when released.
+  README gains a live `checks` status badge.
 
 ## [0.6.0] - 2026-08-20
 

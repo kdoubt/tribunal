@@ -3,6 +3,7 @@
 <p align="center">
   <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
   <a href="https://github.com/kdoubt/tribunal/tags"><img alt="Release" src="https://img.shields.io/github/v/tag/kdoubt/tribunal?label=release&color=green"></a>
+  <a href="https://github.com/kdoubt/tribunal/actions/workflows/checks.yml"><img alt="checks" src="https://img.shields.io/github/actions/workflow/status/kdoubt/tribunal/checks.yml?branch=main&label=checks"></a>
   <img alt="Runtime: none" src="https://img.shields.io/badge/runtime-none%20·%20docs%20only-8A2BE2">
   <img alt="Adapters" src="https://img.shields.io/badge/adapters-claude--code%20·%20shell-informational">
 </p>
