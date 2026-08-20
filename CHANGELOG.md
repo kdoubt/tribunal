@@ -9,6 +9,15 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+- **Guardrail CI** (`.github/workflows/checks.yml`): a single docs-only
+  workflow (no build/test - there's nothing to build). Automates the
+  previously-manual consistency checks: `scout` sanity (`sh -n` +
+  shellcheck), a secret/PII scan (gitleaks), internal-link resolution, a
+  release tag ↔ CHANGELOG consistency check, and a "docs-only" guard that
+  fails if any application/build code is committed - enforcing the repo's own
+  `runtime: none` identity. Mostly inline bash to keep third-party actions
+  minimal. Maintainer tooling, not shipped to users; PATCH when released.
+
 ## [0.6.0] - 2026-08-20
 
 - **Inline the governing invariants** (`scout` step 3 + `brief.md`): when a

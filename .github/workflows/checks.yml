@@ -1,0 +1,84 @@
+name: checks
+
+# Guardrail CI for a docs-only methodology repo: no build, no test suite -
+# just the consistency checks that were previously done by hand, plus an
+# enforcement of the repo's own "runtime: none / docs only" identity.
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  guardrails:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # full history: gitleaks + tag<->changelog checks
+
+      - name: scout helper sanity (sh -n + shellcheck)
+        run: |
+          sh -n scout
+          shellcheck scout   # shellcheck is preinstalled on ubuntu runners
+
+      - name: docs-only guard (enforce runtime-none)
+        run: |
+          # The repo ships documentation + the single `scout` shell helper.
+          # Fail if any tracked file is application/build code - that would
+          # break the "A methodology, not a framework" promise.
+          bad=$(git ls-files \
+            | grep -E '\.(js|mjs|cjs|ts|tsx|jsx|py|rb|go|rs|java|php|sh)$|(^|/)(package\.json|package-lock\.json|yarn\.lock|requirements\.txt|Cargo\.toml|go\.mod|setup\.py|pyproject\.toml|Dockerfile)$' \
+            || true)
+          if [ -n "$bad" ]; then
+            echo "::error::Non-docs files present - this repo is docs-only (the only script is 'scout'):"
+            echo "$bad"
+            exit 1
+          fi
+          echo "docs-only: OK"
+
+      - name: internal links resolve
+        run: |
+          python3 - <<'PY'
+          import re, sys, pathlib
+          bad = []
+          for md in pathlib.Path('.').rglob('*.md'):
+              if '.git' in md.parts:
+                  continue
+              text = md.read_text(encoding='utf-8', errors='ignore')
+              for m in re.finditer(r'\]\(([^)]+)\)', text):
+                  link = m.group(1).strip().split()[0]  # drop any ("title")
+                  if link.startswith(('http://', 'https://', 'mailto:', 'tel:', '#')):
+                      continue
+                  path = link.split('#', 1)[0]
+                  if not path:
+                      continue
+                  if not (md.parent / path).resolve().exists():
+                      bad.append(f"{md}: -> {link}")
+          if bad:
+              print("::error::Broken internal links:")
+              print("\n".join(bad))
+              sys.exit(1)
+          print("internal links: OK")
+          PY
+
+      - name: secret / PII scan (gitleaks, pinned)
+        run: |
+          VERSION=8.21.2
+          curl -sSL "https://github.com/gitleaks/gitleaks/releases/download/v${VERSION}/gitleaks_${VERSION}_linux_x64.tar.gz" \
+            | tar -xz gitleaks
+          ./gitleaks dir . --no-banner --redact --exit-code 1
+
+      - name: release consistency (tag pushes only)
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          tag="${GITHUB_REF_NAME#v}"
+          grep -q "^## \[${tag}\]" CHANGELOG.md \
+            || { echo "::error::CHANGELOG.md has no '## [${tag}]' section for tag ${GITHUB_REF_NAME}"; exit 1; }
+          grep -q "^\[${tag}\]:" CHANGELOG.md \
+            || { echo "::error::CHANGELOG.md footer has no '[${tag}]:' compare link"; exit 1; }
+          echo "release ${GITHUB_REF_NAME} <-> CHANGELOG: OK"
