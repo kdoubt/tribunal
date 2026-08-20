@@ -27,6 +27,21 @@
 
 -
 
+## Lens assignments (optional)
+
+<!-- Leave this out for almost every panel. By default all seats get this
+     identical brief; if the artifact has distinct review surfaces, name
+     them as additive lenses in Decision criteria above ("every seat also
+     addresses security / DX"), NOT here.
+     Fill this in ONLY for an exclusive slice (see METHODOLOGY, "Assigning
+     lenses"): a large panel where each material surface has >=2
+     heterogeneous seats. List the full matrix - every seat sees all of it,
+     and each is told to PRIORITIZE its surface without excluding
+     decision-relevant findings elsewhere. Keep at least one generalist seat
+     with no LENS line. -->
+
+<!-- LENS <seat/vendor>: prioritize <surface> (e.g. "seat A (codex): security") -->
+
 ## Constraints
 
 <!-- Anything that bounds acceptable answers: budget, deadline, team size,

@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.3.3 - 2026-08-20
+
+- **Docs consistency pass.** README "Status" was stale at v0.1.0; rather than
+  hardcode a version that re-staled on every release, the line now points at
+  the dynamic release badge and `CHANGELOG.md` - no version string to drift.
+  `CHANGELOG.md` added to the repository-layout listing (the update notice
+  points users there). Repo-layout `scout` line notes the weekly update
+  notice.
+- **`brief.md` gains an optional "Lens assignments" section** so the
+  exclusive-lens mechanism from the v0.3.0 doctrine is usable end-to-end
+  from the template - default-empty, with inline guidance to prefer additive
+  lenses in Decision criteria and reserve the matrix for large panels with
+  >=2 heterogeneous seats per surface plus a retained generalist.
+
 ## 0.3.2 - 2026-08-20
 
 - **`scout` update check now handles zip/tarball installs too.** A copy

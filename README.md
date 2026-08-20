@@ -171,7 +171,8 @@ loop from `core/templates/`, not from its file shapes.
 ## Repository layout
 
 ```
-scout                   one-command helper: prints the scouting prompt for your agent
+scout                   one-command helper: prints the scouting prompt (and a weekly update notice)
+CHANGELOG.md            what changed per version; the update notice points here
 core/METHODOLOGY.md     the method: rounds, stop rules, failure modes
 core/CONTRACT.md        orchestrator + seat obligations (MUST/SHOULD)
 core/LEDGER.md          the claim ledger: fields, status enum, dispute rule
@@ -227,7 +228,9 @@ recipe does the same from any terminal, no Claude Code required.
 
 ## Status
 
-v0.1.0, and every rule in `core/` was earned the hard way: the methodology
+Every rule in `core/` was earned the hard way (see the release badge above
+for the current version and `CHANGELOG.md` for what each one changed): the
+methodology
 was designed by running it on itself, then hardened by a ten-seat,
 three-vendor review panel before release. The receipts are in the repo -
 the founding debate lives in `examples/sample-run/`, and the failure modes
