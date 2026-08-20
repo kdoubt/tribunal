@@ -12,6 +12,14 @@
 > adjudicated verdicts that preserve dissent. A methodology, not a
 > framework.
 
+<p align="center"><b>Get it — docs and prompt templates, nothing to build:</b></p>
+
+```sh
+git clone https://github.com/kdoubt/tribunal.git
+```
+
+<p align="center"><sub>Then paste <code>core/templates/scout.md</code> into your agent to draft your first panel. That's the whole install.</sub></p>
+
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="assets/workflow-dark.svg">
@@ -67,7 +75,21 @@ Tribunal's mechanisms target exactly that:
 - **Dissent survives into the verdict.** Unresolved disagreement is
   reported with the cheapest discriminating test - never averaged away.
 
-## Getting started (allow 20-40 minutes the first time)
+## Getting started
+
+Nothing to install - this is docs and prompt templates. Your first
+*complete* panel takes about 20-40 minutes, and almost all of that is the
+panel doing real work (scouting, two rounds, adjudication), not setup. Once
+you know the loop it is mostly the models' wall-clock time - a few minutes
+per round. The one prerequisite is two agentic CLIs from different vendors,
+already authenticated.
+
+Two seats is the floor, not the ceiling. The diagram shows two for clarity,
+but a panel is any N ≥ 2 - add a third seat (or more) for the
+highest-stakes, most irreversible calls, or to give each seat a different
+review lens. The biggest gain is 1 → 2 (self-review to cross-vendor); each
+seat past that adds diminishing value at linear cost, so scale to the
+stakes.
 
 1. **Find your first panel.** Paste `core/templates/scout.md` into your own
    agentic CLI from your project's root: it reads *your* project and
