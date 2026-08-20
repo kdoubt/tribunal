@@ -9,6 +9,8 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-08-20
+
 - **Inline the governing invariants** (`scout` step 3 + `brief.md`): when a
   decision's correctness depends on rules defined elsewhere - a contract,
   schema, spec, style guide, or (for a change to this repo) its own
@@ -16,7 +18,7 @@ a release is cut; published tags are immutable.
   it. Promotes a TEMPLATE DELTA that recurred across three panels (lens
   doctrine, v0.4.0, v0.5.0): every consistency collision was one seats had to
   reconstruct a rule from memory to find. Normative (changes what panels
-  catch), so this stamps as MINOR when released.
+  catch), so MINOR.
 
 ## [0.5.0] - 2026-08-20
 
@@ -199,7 +201,8 @@ the methodology itself still has one published run (see README, Status).
   methodology, labeled as a historical bootstrap transcript with its
   known non-compliances enumerated.
 
-[Unreleased]: https://github.com/kdoubt/tribunal/compare/v0.5.0...HEAD
+[Unreleased]: https://github.com/kdoubt/tribunal/compare/v0.6.0...HEAD
+[0.6.0]: https://github.com/kdoubt/tribunal/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/kdoubt/tribunal/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/kdoubt/tribunal/compare/v0.3.4...v0.4.0
 [0.3.4]: https://github.com/kdoubt/tribunal/compare/v0.3.3...v0.3.4
