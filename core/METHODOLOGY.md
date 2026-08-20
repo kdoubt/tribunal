@@ -167,6 +167,12 @@ mode it supports - it is not automatically "ship"; see VERDICT.)
 
 ### Round 1 - Cross-examination
 
+Before relaying, sweep the disputed claims for any a cheap oracle can settle
+*now* and settle them - don't spend a Round 1 on a checkable fact (a check
+that *can't* run still relays with its `UNVERIFIED` stamp; see the dispute
+rule). Extra debate rounds often *lower* accuracy, so the reasoning and
+preference disputes are what earn cross-examination.
+
 The orchestrator relays each seat's **disputed claims only** - numbered,
 verbatim, with their original evidence - to the other seats. Not the full
 rival essay: full-transcript relay collapses rebuttal quality into
@@ -300,6 +306,39 @@ practice, never part of this method):
 - **Downgrades are earned, not assumed**: change a stage's tier only after
   retrospectives (see `templates/retro.md`) show no loss in overturned
   claims, concessions, and citation validity.
+
+## Competing-hypotheses mode (ACH)
+
+Some decisions are not "is this claim true?" but "which of several
+*explanations* is right?" - a bug with three candidate root causes, an
+incident with rival timelines. It is for causal/explanatory questions, not
+design-preference ones ("which architecture is nicer" is a claim dispute, not
+ACH). For these, run the panel in **ACH mode** (after Richards Heuer's
+*Analysis of Competing Hypotheses*): the same isolation, ledger, and verdict
+machinery, with a different Round 0 shape.
+
+- The brief lists the **hypotheses** (`H1..Hn`) explicitly, plus an
+  "H0: none of these / unknown" row so the matrix cannot force a false choice.
+- In isolation, each seat lists **evidence** (decisive pointers, not prose)
+  and marks every item *consistent / inconsistent / NA* against each
+  hypothesis. The diagnostic move is **disconfirmation**: an item consistent
+  with *every* hypothesis discriminates nothing; an item that is *inconsistent*
+  with a hypothesis is what carries weight. Every inconsistency a seat asserts
+  becomes a full ledger claim (`CLAIM / EVIDENCE / CONFIDENCE / FALSIFIER`) -
+  the matrix is the scaffold, not a shortcut around the claim shape.
+- Each seat ranks by **fewest inconsistencies, among hypotheses that have at
+  least one *diagnostic* (non-`NA`) cell**. A hypothesis nothing was aimed at
+  - all `NA`, or untested - is `no-stable-position`, never a winner by
+  default; and a nit and a refutation are not one inconsistency each, so weigh
+  severity, don't just count. The *seats* rank; the orchestrator never sums
+  cells across seats (that would be averaging a verdict it is forbidden to
+  compute).
+- Everything else is unchanged: disputed evidence-vs-hypothesis cells (one
+  seat's `C` vs another's `I`) go to oracles or Round 1; hypotheses no one
+  could refute are surviving dissent, reported and never averaged.
+
+Use `templates/ach.md`. It is a mode, not a default - skip it for
+single-hypothesis or claim-dispute decisions.
 
 ## Assigning lenses - when to differentiate seats
 

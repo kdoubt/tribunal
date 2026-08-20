@@ -22,6 +22,7 @@ aggressively deduplicated. Never relay running transcripts.
 | `falsifier` | The observation that would prove the claim wrong |
 | `status` | See status enum below |
 | `decision_relevance` | Does the verdict turn on this? (yes / no) |
+| `depends_on` | Optional, high-stakes: claim IDs this claim rests on, **as proposed by the authoring seat** (e.g. a recommendation that rests on an invariant). Lets you see what a verdict turns on and prioritize attacks; the orchestrator only records it and any disagreement about it - it never infers, ranks, or adjudicates the chain (that would be arguing, CONTRACT obligation 6), and it does not change the Round 2 trigger |
 | `rebuttals` | Pointers to the Round 1 responses addressing it, one per responding seat |
 
 `UNVERIFIED` is a **relay stamp** applied when a citation check could not be

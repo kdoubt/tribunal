@@ -68,8 +68,11 @@ The orchestrator wears three hats and MUST keep them separated:
    compression MUST be labeled `ORCH-SUMMARY` and MUST NOT become the sole
    object of a rebuttal. Seats' Round 0 *claims* MUST be in the brief's CLAIM
    shape; if they aren't, reject and re-prompt once - never paraphrase essays
-   into claims (a high-stakes two-phase Round 0's first, observations-only
-   pass is exempt from this shape check). The seat-facing packet MUST strip
+   into claims (two exemptions: a high-stakes two-phase Round 0's first,
+   observations-only pass; and an ACH-mode Round 0, which uses the matrix
+   shape of `templates/ach.md` - but every asserted inconsistency MUST still
+   become a full `CLAIM / EVIDENCE / CONFIDENCE / FALSIFIER` row before it is
+   ledgered). The seat-facing packet MUST strip
    vendor/model names (neutral labels such as `Peer A` / `P1`), MUST randomize
    claim order, and MUST omit agreement tallies ("2 of 3 agree") - identity,
    order, and bandwagon cues bias the reader; the author stays in the ledger's

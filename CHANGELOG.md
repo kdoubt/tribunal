@@ -9,6 +9,37 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-08-20
+
+Tier-2 additions from the idea-scouting research panel, then pressure-tested
+by a 2-seat Codex+Grok panel (Codex rework, Grok ship-after-fixes). The panel
+cut two of the three proposed additions as redundant/over-reaching and kept
+one - all its fixes applied. Normative `core/` change, so MINOR.
+
+- **Competing-hypotheses mode (ACH)** - a new *mode* (not a default) for
+  "which of several explanations is right?" causal/explanatory decisions
+  (rival root causes, incident timelines). New `core/templates/ach.md` and a
+  METHODOLOGY section: seats build an evidence×hypothesis matrix in isolation,
+  marking consistent/inconsistent/NA, and the diagnostic move is
+  *disconfirmation* (a hypothesis wins by surviving refutation, not by
+  collecting agreement). Panel-hardened: every asserted inconsistency is a
+  full `CLAIM/EVIDENCE/CONFIDENCE/FALSIFIER` ledger row (CONTRACT obl. 4 gains
+  the matrix-shape exemption); ranking counts only hypotheses with a
+  diagnostic cell so a thinly-tested `H0` can't win by default; seats rank,
+  the orchestrator never sums cells across seats. (Source: Heuer, *Analysis of
+  Competing Hypotheses*.)
+- **`depends_on` ledger field** (optional, high-stakes) - a seat may record
+  the claim IDs a claim rests on, so you can see what a verdict turns on and
+  prioritize attacks. The orchestrator only records it; it never infers or
+  ranks the chain and it does not change the Round 2 trigger. (This is the
+  salvaged, obligation-6-safe core of a proposed "load-bearing map" section
+  the panel cut for duplicating `decision_relevance` and colliding with
+  v0.4.0's "attack every load-bearing claim".)
+- **Oracle-before-relay**, stated as one sentence in Round 1 (a proposed
+  standalone "route by claim type" section was cut as a restatement of
+  existing rules): sweep disputed claims for any a cheap oracle settles now
+  before spending a round; a check that can't run still relays `UNVERIFIED`.
+
 ## [0.4.0] - 2026-08-20
 
 Methodology hardening - three evidence-backed mechanisms from a 3-seat
@@ -159,7 +190,8 @@ the methodology itself still has one published run (see README, Status).
   methodology, labeled as a historical bootstrap transcript with its
   known non-compliances enumerated.
 
-[Unreleased]: https://github.com/kdoubt/tribunal/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/kdoubt/tribunal/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/kdoubt/tribunal/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/kdoubt/tribunal/compare/v0.3.4...v0.4.0
 [0.3.4]: https://github.com/kdoubt/tribunal/compare/v0.3.3...v0.3.4
 [0.3.3]: https://github.com/kdoubt/tribunal/compare/v0.3.2...v0.3.3
