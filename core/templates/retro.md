@@ -46,6 +46,20 @@ citations_unverified:
 cost_notes:              <!-- wall-clock and/or spend, per seat if known -->
 friction:                <!-- free text: anything that cost time besides the debate -->
 
+## Calibration (deterministic - orchestrator math, never an LLM)
+
+<!-- For every Round 0 claim later settled by an oracle (now) or the T1
+     outcome (later), pair the seat's stated CONFIDENCE (0-1; map high/med/low
+     to 0.85/0.6/0.3) with the result (1 true / 0 false) and compute
+     Brier = mean((confidence - outcome)^2) per seat. Lower is better; 0.25 is
+     a coin flip. Report the sample size; fewer than ~5 scored claims is
+     no-signal - one 2-3 seat run rarely clears it, so this is a CROSS-RUN
+     read across your retro archive. A TEMPLATE DELTA input read with
+     judgment, NEVER a truth signal or a seat-weighting rule. Leave blank if
+     nothing was oracle- or outcome-settled this run. -->
+
+brier_by_seat:           <!-- seat: score (n scored); or no-signal (<~5) -->
+
 ## T1 - when the outcome is known
 
 outcome_date:

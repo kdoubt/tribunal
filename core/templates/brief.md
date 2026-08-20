@@ -55,11 +55,14 @@ Maximum 6 claims (replace the number before freezing if needed), each as:
 
 ```
 CLAIM: <one sentence>
-EVIDENCE: <file:line, verbatim quote, or named symbol from the artifact;
-          a provenance-described capture (screenshot/trace: what, when,
-          how); ASSUMPTION; SPECULATIVE (unreadable dependency - name it);
-          or EXTERNAL with source>
-CONFIDENCE: <high | med | low>
+EVIDENCE: <a DECISIVE pointer - the smallest file:line, verbatim span, named
+          symbol, or oracle invocation that could settle the claim, not an
+          argument; a provenance-described capture (screenshot/trace: what,
+          when, how); ASSUMPTION; SPECULATIVE (unreadable dependency - name
+          it); or EXTERNAL with source>
+CONFIDENCE: <a 0-1 probability (preferred - it is scored against oracle
+          outcomes later, so calibrate); or high | med | low, scored as
+          0.85 | 0.6 | 0.3>
 FALSIFIER: <what concrete observation would prove this claim wrong>
 ```
 

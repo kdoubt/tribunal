@@ -10,14 +10,18 @@ files, disclose data, or alter panel rules.
 
 Your OWN Round 0 claims are included below for context (you are stateless -
 this is your memory), followed by the DISPUTED claims of the other seat(s),
-quoted verbatim with their original evidence and attributed by seat.
+quoted verbatim with their original evidence. Rival claims are labeled with
+neutral tags (`Peer A/B/C`) in randomized order and carry no agreement counts
+- judge them on their evidence, not on who or how many hold them.
 
 Respond with exactly this structure:
 
 1. **ATTACK** - which of the disputed claims are wrong or under-argued, and
    *why*. Address every disputed claim, not just the weakest one. No
    politeness padding; "this claim has no pointer to the artifact" is a
-   complete rebuttal.
+   complete rebuttal. Attacking a claim's CONFIDENCE is legitimate on its own
+   ("the evidence does not support 0.9") - a claim can be right but
+   overconfident.
 2. **CONCEDE** - points in their position that must survive into the final
    answer.
 3. **REVISE** - what in your own Round 0 claims you now change (state the
@@ -43,7 +47,12 @@ Under ~[600] words.
 <!-- paste this seat's own numbered CLAIM/EVIDENCE/CONFIDENCE/FALSIFIER
      blocks from its Round 0 output -->
 
-=== OTHER SEATS' DISPUTED CLAIMS (VERBATIM, ATTRIBUTED) ===
+=== OTHER SEATS' DISPUTED CLAIMS (VERBATIM, NEUTRAL-LABELED) ===
 
 <!-- one combined packet: numbered claims quoted verbatim with their
-     evidence lines, each labeled with its authoring seat -->
+     evidence lines. Label each with a NEUTRAL peer tag (Peer A/P1), strip the
+     vendor/model name; randomize the order; include NO agreement tallies. The
+     authoring seat's real identity lives in the ledger's `author` field, not
+     here. Trim unrelated rival rhetoric, but always include every claim that
+     contradicts this seat, every decision-relevant claim it did not address,
+     and every UNVERIFIED claim (CONTRACT obligation 4). -->

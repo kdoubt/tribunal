@@ -18,7 +18,7 @@ aggressively deduplicated. Never relay running transcripts.
 | `claim` | One sentence, quoted verbatim from the seat |
 | `evidence` | The seat's pointer: `file:line`, verbatim quote, named symbol, provenance-described capture, or `EXTERNAL` + source - or `ASSUMPTION` / `SPECULATIVE` |
 | `provenance` | `USER-FACT` \| `PANELIST-CLAIM` \| `INFERENCE` \| `VERIFIED` |
-| `confidence` | As stated by the seat (high / med / low) |
+| `confidence` | A `0`-`1` probability (record the seat's raw token too if it said high/med/low; map high/med/low → `0.85`/`0.6`/`0.3`). Scored against oracle outcomes in the retro |
 | `falsifier` | The observation that would prove the claim wrong |
 | `status` | See status enum below |
 | `decision_relevance` | Does the verdict turn on this? (yes / no) |
@@ -34,6 +34,7 @@ provenance value or a status.
 |---|---|
 | `open` | Stated in Round 0; either not yet compared, or uncontested with nothing turning on it. Open claims never reach Round 1 and are reported in the verdict as unexamined - not endorsed |
 | `agreed-r0` | Independently made by all seats in Round 0 - the only status that may be reported as panel consensus |
+| `no-stable-position` | A seat declined to commit a claim on an item (two-phase Round 0). Surviving *uncertainty*, not a skip: it blocks `agreed-r0` on that item, is Brier-ineligible (no confidence to score), and carries the item + evidence reviewed + why + the cheapest discriminating test |
 | `disputed` | Contradicted by another seat, called into question by a brief amendment, or awaiting a citation check that could not run (relayed with the `UNVERIFIED` stamp) |
 | `conceded` | Every seat that contradicted it yielded in Round 1 |
 | `overturned` | The authoring seat withdrew or reversed it under attack |
@@ -52,7 +53,8 @@ A claim is **disputed** iff at least one of:
 3. A human brief-amendment calls it into question.
 
 **Only disputed claims are relayed** - numbered, verbatim, with their
-original evidence, in one combined attributed packet per recipient seat.
+original evidence, in one combined, neutral-labeled packet per recipient seat
+(author kept in the ledger, not the packet - CONTRACT obligation 4).
 Complementary (non-contradicting) claims stay `open` and never reach
 Round 1.
 

@@ -7,14 +7,15 @@
 
 | id | author | claim (verbatim) | evidence | provenance | confidence | falsifier | status | decision-relevant | rebuttals |
 |----|--------|------------------|----------|------------|------------|-----------|--------|-------------------|-----------|
-| A1 | A | "…" | file.py:42 | PANELIST-CLAIM | high | "…" | agreed-r0 | yes | - |
-| A2 | A | "…" | quoted snippet | PANELIST-CLAIM | med | "…" | disputed | yes | B-r1 §1 |
-| A3 | A | "…" | ASSUMPTION | PANELIST-CLAIM | low | "…" | open | no | - |
-| B1 | B | "…" | doc URL | PANELIST-CLAIM (EXTERNAL) | med | "…" | conceded | yes | A-r1 §2 |
-| B2 | B | "…" | file.md:7 → check failed | - | high | "…" | dropped | - | - |
-| B3 | B | "…" | file.md:9 (VERIFIED: test run) | VERIFIED | high | "…" | verified | yes | - |
-| B4 | B | "…" | file.md:12 | PANELIST-CLAIM | high | "…" | overturned | yes | A-r1 §1 |
-| B5 | B | "…" | file.md:20 | PANELIST-CLAIM | med | "…" | surviving-dissent | yes | A-r1 §3 |
+| A1 | A | "…" | file.py:42 | PANELIST-CLAIM | 0.85 | "…" | agreed-r0 | yes | - |
+| A2 | A | "…" | quoted snippet | PANELIST-CLAIM | 0.6 | "…" | disputed | yes | B-r1 §1 |
+| A3 | A | "…" | ASSUMPTION | PANELIST-CLAIM | 0.3 | "…" | open | no | - |
+| A4 | A | (no stable position on Q2) | evidence reviewed; why undecided | - | - | cheapest discriminating test | no-stable-position | yes | - |
+| B1 | B | "…" | doc URL | PANELIST-CLAIM (EXTERNAL) | 0.6 | "…" | conceded | yes | A-r1 §2 |
+| B2 | B | "…" | file.md:7 → check failed | - | 0.85 | "…" | dropped | - | - |
+| B3 | B | "…" | file.md:9 (VERIFIED: test run) | VERIFIED | 0.9 | "…" | verified | yes | - |
+| B4 | B | "…" | file.md:12 | PANELIST-CLAIM | 0.85 | "…" | overturned | yes | A-r1 §1 |
+| B5 | B | "…" | file.md:20 | PANELIST-CLAIM | 0.6 | "…" | surviving-dissent | yes | A-r1 §3 |
 
 ## Oracle record
 

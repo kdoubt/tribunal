@@ -25,6 +25,20 @@ Ground every claim in the artifact itself:
 Before committing to a framing, briefly list the plausible alternative
 framings of the question, then pick one and say why.
 
+Make each claim's EVIDENCE a *decisive pointer* - the smallest verbatim span,
+`file:line`, or oracle invocation that could settle the claim - not an
+argument. Give CONFIDENCE as a `0`-`1` probability (high/med/low map to
+`0.85`/`0.6`/`0.3`); it is scored against oracle outcomes later, so calibrate -
+do not inflate.
+
+If you genuinely cannot commit on an item, record "no stable position on
+<item>" rather than force a claim you would then defend only because you
+stated it.
+
+(A high-stakes panel may be run in two isolated passes - observations, then
+claims; the orchestrator arranges that. Otherwise just answer the brief as
+given.)
+
 === FROZEN BRIEF ===
 
 <!-- paste core/templates/brief.md, filled in, here -->

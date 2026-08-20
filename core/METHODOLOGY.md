@@ -141,6 +141,25 @@ prove this claim wrong)
 The falsifier field is load-bearing: it is what lets the orchestrator later
 convert a dispute into an oracle check instead of another debate round.
 
+**Evidence packets, not prose.** Rhetorical fluency must earn no evidentiary
+weight. Each claim's EVIDENCE should be a *decisive pointer* - the smallest
+verbatim span, `file:line`, or oracle invocation that could settle the claim -
+not an argument. The test for "real citation, unsupported conclusion" is to
+ask of every claim: does this exact span *entail* the claim, or merely sit
+near it?
+
+**Anchor-resistant framing (optional, high-stakes only).** Committing a CLAIM
+on first contact is itself an anchor: the seat then spends the panel defending
+its first guess. To blunt this, split Round 0 into *two separate isolated
+invocations of the same seat*: pass 1 returns OBSERVATIONS only (pointed
+evidence + falsifiers, no claims, no verdict); pass 2 - still blind to every
+other seat, but fed that seat's own pass-1 observations verbatim - returns the
+CLAIMS built on them. Pass 1 is stored, never entered as claims (it is exempt
+from the claim-shape check). A seat may also return "no stable position on
+item X" (ledger status `no-stable-position`): surviving uncertainty that
+arrived early, not a failure - it still blocks `agreed-r0` on that item. Skip
+all of this for ordinary panels; one pass is fine.
+
 **Stop here if Round 0 already agrees on everything decision-relevant.**
 Independent agreement is the strongest verdict the method can produce; more
 rounds only dilute it. (Early agreement still maps onto whichever verdict
@@ -153,6 +172,22 @@ verbatim, with their original evidence - to the other seats. Not the full
 rival essay: full-transcript relay collapses rebuttal quality into
 tone-matching. Also relay dependencies and omitted assumptions where a
 disputed claim doesn't stand alone.
+
+**The relay is an anti-bias instrument, not just a pipe.** Cross-exposure is
+where bandwagon, verbosity, position, and vendor-affinity biases enter, and
+they persist once they do. So the seat-facing packet: (a) labels rivals with
+neutral tags (`Peer A`/`P1`) and strips vendor or model names - the author is
+kept in the ledger's `author` field, not shown to the reader; (b) presents
+disputed claims in randomized order; (c) carries **no agreement tallies** ("2
+of 3 agree" is a bandwagon cue, not evidence); (d) is **sparse but never
+blinkered** - trim unrelated rival rhetoric, but always deliver to a seat
+every claim that contradicts it, every decision-relevant claim it did not
+address, and every `UNVERIFIED` claim. (At two seats style deanonymizes and
+there is nothing to trim; both levers earn their keep at three-plus.)
+
+**Attacking a confidence level is legitimate.** "Your evidence does not
+support 0.9" is a valid ATTACK on its own; a seat may lower a claim's
+confidence without withdrawing the claim, and that is a real Round 1 product.
 
 Force a structure that bans politeness padding:
 
@@ -175,6 +210,21 @@ neither agreement-in-isolation nor a changed mind was wasted.
 After Round 1, sweep the ledger for still-disputed claims whose falsifier is
 cheaply checkable. Run the check (test, compiler, doc lookup) and stamp the
 claim resolved. This step can repeat and never counts against the round cap.
+
+### Swap-audit a load-bearing resolution (optional, high-stakes)
+
+If a disputed, *load-bearing* claim came out "resolved" through argument
+rather than an oracle, you MAY test that resolution for presentation bias
+before recording it. Re-issue **one fresh Round-1-shaped call to the same
+seats** on that single claim, with the two positions' order and neutral labels
+flipped. A "flip" is a *different structured response* (CONCEDE / OVERTURN /
+REVISE) on that claim ID - not the orchestrator's impression of who argued
+better. If it flips, the orchestrator records `surviving-dissent` with the
+cheapest discriminating test and **writes no argument of its own** (CONTRACT
+obligation 6 still holds: switchboard, not chair). A conclusion that depends
+on which position was read first is not a conclusion. This is an extra
+adjudication, not a verification - unlike an oracle check, it *does* count as
+panel work, so reserve it for load-bearing calls.
 
 ### Round 2 - Revision (rare, triggered, never default)
 
@@ -321,6 +371,19 @@ did the recommendation hold, and which seat's surviving dissent proved
 right? Its mandatory TEMPLATE DELTA field converts each run into at most
 one concrete edit to a brief, template, or practice; recurring deltas are
 the evidence that justifies changing `core/`.
+
+**Score the confidence, don't just collect it.** Round 0 confidence is
+otherwise decorative. For every claim later settled by an oracle or by the T1
+outcome, pair the seat's stated confidence (0-1) with the result (1 true / 0
+false) and compute a per-seat Brier score - plain arithmetic the orchestrator
+(or an external tool) runs, never an LLM stamping itself. It surfaces a seat
+that says 0.9 and is right half the time. Report the Brier score *with its
+sample size*, and treat fewer than ~5 scored claims as `no-signal` - a 2-3
+seat run rarely clears that bar in one panel, so calibration is a cross-run
+signal, read across your retro archive. It is a TEMPLATE DELTA input read with
+judgment; it is **never** a truth signal or a seat-weighting rule: a confident
+seat can still be right, and confidence never overrides deterministic
+evidence.
 
 Give T1 a forcing function or it will never happen: leave a `PENDING`
 marker (with a due date) in the run directory at verdict time, and **stamp

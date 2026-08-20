@@ -9,6 +9,42 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-08-20
+
+Methodology hardening - three evidence-backed mechanisms from a 3-seat
+research panel (Codex + Grok + Claude), then pressure-tested by a 2-seat
+Codex+Grok panel (both verdicts ship-after-fixes; all six findings applied).
+Normative `core/` change, so MINOR.
+
+- **Anchor-resistant Round 0 + evidence packets.** EVIDENCE must be a
+  *decisive pointer* (smallest span / `file:line` / oracle invocation that
+  could settle the claim), not prose. High-stakes panels MAY run Round 0 in
+  two *separate isolated invocations* of each seat - observations first, then
+  claims built on them (pass 1 is exempt from the claim-shape check). New
+  ledger status `no-stable-position` for an item a seat declines to commit -
+  surviving uncertainty, not a skip; it blocks `agreed-r0` and is
+  Brier-ineligible. (Sources incl. 12-Angry-AI anchoring study, scalable-
+  oversight evidence packets.)
+- **Bias-hardened Round 1 relay.** The seat-facing packet strips vendor/model
+  names (neutral labels, author kept in the ledger), randomizes claim order,
+  and carries no agreement tallies - cross-exposure is where bandwagon and
+  prestige bias enter. Relay is sparse-but-never-blinkered: always deliver
+  every contradicting claim, every unaddressed decision-relevant claim, and
+  every `UNVERIFIED` claim. Attacking a claim's *confidence* is a legitimate
+  Round 1 move. New optional high-stakes **swap-audit**: re-run one
+  argument-resolved load-bearing claim to the same seats with order/labels
+  flipped; a differently-structured response = the resolution was a
+  presentation artifact → record surviving dissent (the orchestrator compares,
+  never judges). `CONTRACT.md` Attribution section rewritten to match; obl. 2
+  and 4 and `LEDGER.md` reconciled. (Sources incl. bias-amplification and
+  position-bias studies.)
+- **Calibration retro.** Confidence is now a `0`-`1` probability
+  (high/med/low → `0.85`/`0.6`/`0.3`), canonical in the ledger. The retro
+  Brier-scores each seat's confidence against oracle/outcome results -
+  deterministic orchestrator math, never an LLM - reported with sample size
+  (`<~5` scored = no-signal; a cross-run read). A TEMPLATE DELTA input read
+  with judgment, never a truth signal or a seat-weighting rule.
+
 ## [0.3.4] - 2026-08-20
 
 - **Versioning policy** (`CONTRIBUTING.md`): SemVer scoped for a docs/method
@@ -123,7 +159,8 @@ the methodology itself still has one published run (see README, Status).
   methodology, labeled as a historical bootstrap transcript with its
   known non-compliances enumerated.
 
-[Unreleased]: https://github.com/kdoubt/tribunal/compare/v0.3.4...HEAD
+[Unreleased]: https://github.com/kdoubt/tribunal/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/kdoubt/tribunal/compare/v0.3.4...v0.4.0
 [0.3.4]: https://github.com/kdoubt/tribunal/compare/v0.3.3...v0.3.4
 [0.3.3]: https://github.com/kdoubt/tribunal/compare/v0.3.2...v0.3.3
 [0.3.2]: https://github.com/kdoubt/tribunal/compare/v0.3.1...v0.3.2

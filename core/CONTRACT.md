@@ -56,8 +56,9 @@ The orchestrator wears three hats and MUST keep them separated:
 2. **Own a claim ledger outside the prose** (see `LEDGER.md`; template at
    `templates/ledger.md`). Each Round 1+ prompt contains: the frozen brief,
    the seat's OWN prior claims verbatim (labeled "context, not rebuttal
-   targets"), and one combined, attributed packet of the disputed claims it
-   must address - never the running transcript. Treat context as *contested
+   targets"), and one combined, neutral-labeled packet of the disputed claims
+   it must address (authorship kept in the ledger, not the packet - see
+   Attribution) - never the running transcript. Treat context as *contested
    evidence to be curated*, not memory to be accumulated.
 3. **Tag provenance on everything relayed:** `USER-FACT` / `PANELIST-CLAIM`
    / `INFERENCE` / `VERIFIED`. Repetition MUST NOT upgrade a claim's
@@ -65,9 +66,19 @@ The orchestrator wears three hats and MUST keep them separated:
    provenance value.)
 4. **Relay disputed claims verbatim.** Quote or drop. Any orchestrator
    compression MUST be labeled `ORCH-SUMMARY` and MUST NOT become the sole
-   object of a rebuttal. Seats' Round 0 output MUST be in the brief's CLAIM
-   shape; if it isn't, reject and re-prompt once - never paraphrase essays
-   into claims.
+   object of a rebuttal. Seats' Round 0 *claims* MUST be in the brief's CLAIM
+   shape; if they aren't, reject and re-prompt once - never paraphrase essays
+   into claims (a high-stakes two-phase Round 0's first, observations-only
+   pass is exempt from this shape check). The seat-facing packet MUST strip
+   vendor/model names (neutral labels such as `Peer A` / `P1`), MUST randomize
+   claim order, and MUST omit agreement tallies ("2 of 3 agree") - identity,
+   order, and bandwagon cues bias the reader; the author stays in the ledger's
+   `author` field, never in the packet. Relay SHOULD be sparse, but MUST still
+   deliver to each seat (i) every claim that contradicts its assertions, (ii)
+   any decision-relevant claim it did not address, and (iii) `UNVERIFIED`
+   claims - omit only unrelated, non-load-bearing material. At two seats style
+   deanonymizes anyway: there the load-bearing move is hiding the vendor and
+   shuffling order, not guaranteed anonymity.
 5. **Verify citations before relaying them.** A pointer that was *checked
    and failed* → the claim is `dropped`, not relayed, not debated. A check
    that *could not run* → relay the claim with an `UNVERIFIED` stamp; its
@@ -121,8 +132,14 @@ examples, not dependencies.
 
 ## Attribution
 
-Relayed claims are attributed (which seat said it) by default: in a two-seat
-panel, style deanonymizes anyway, and attribution preserves traceability.
-Implementations MAY blind attribution at three-plus seats or where prestige
-bias is the known risk, revealing it in the audit record after judgments are
+The ledger always records each claim's real `author` (and vendor) -
+traceability is never lost. But the **seat-facing Round 1 packet is
+vendor-blind by default**: strip vendor/model names, use neutral labels
+(`Peer A` / `P1`), randomize order, and carry no agreement tallies.
+Cross-exposure is where bandwagon and prestige bias enter, so denying the
+reader those cues is the anti-bias move. At two seats writing style
+deanonymizes anyway - there the load-bearing win is hiding the *vendor name*
+and shuffling order, not a guarantee of anonymity; fuller blinding (remapped
+claim IDs so `A3` doesn't leak seat A) matters mainly at three-plus seats.
+The ledger's authorship is revealed in the audit record after judgments are
 recorded.
