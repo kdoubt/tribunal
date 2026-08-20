@@ -9,6 +9,15 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+- **Inline the governing invariants** (`scout` step 3 + `brief.md`): when a
+  decision's correctness depends on rules defined elsewhere - a contract,
+  schema, spec, style guide, or (for a change to this repo) its own
+  CONTRACT/LEDGER - the brief must paste that governing text in, not just cite
+  it. Promotes a TEMPLATE DELTA that recurred across three panels (lens
+  doctrine, v0.4.0, v0.5.0): every consistency collision was one seats had to
+  reconstruct a rule from memory to find. Normative (changes what panels
+  catch), so this stamps as MINOR when released.
+
 ## [0.5.0] - 2026-08-20
 
 Tier-2 additions from the idea-scouting research panel, then pressure-tested

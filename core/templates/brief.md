@@ -11,7 +11,12 @@
      directories, credentials, signed URLs, or private hostnames. Seats
      read these directly - list everything they need, nothing they
      shouldn't see. Invoke seats with cwd = the artifact root so relative
-     paths resolve. -->
+     paths resolve.
+     If the decision's correctness depends on rules defined elsewhere - a
+     contract, schema, spec, style guide, or (for a change to this repo) its
+     own CONTRACT/LEDGER - paste that governing text in as an artifact or
+     inline it here. A seat checking against pasted text catches consistency
+     collisions that a seat reconstructing the rule from memory misses. -->
 
 - `path/to/artifact`
 

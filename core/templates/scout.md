@@ -28,7 +28,12 @@ history if available - and report:
 3. **First-panel pick.** Which single item from list 1 to run first, chosen
    for: real stakes, artifacts small enough to review in one sitting, and a
    verdict I could act on this week. Draft its frozen brief using
-   `core/templates/brief.md`.
+   `core/templates/brief.md`. **If the decision is a change to rules - a
+   contract, schema, spec, style guide, or invariant defined elsewhere - or
+   its correctness depends on one, paste that governing text *into* the brief
+   as grounding; do not just cite it.** Seats reconstructing a rule from
+   memory is exactly where consistency collisions slip past a panel; a seat
+   checking against pasted text catches them.
 
 4. **Lens recommendation.** Apply METHODOLOGY "Assigning lenses". A first
    panel is almost always 2-3 seats, so **default to raw heterogeneous
