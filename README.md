@@ -121,6 +121,33 @@ surfaces in the shared brief rather than slicing one per seat.
    [`core/METHODOLOGY.md`](core/METHODOLOGY.md) in full before your first
    *high-stakes* panel.
 
+## Staying current
+
+Tribunal is a git clone of documentation, so updating is just a pull:
+
+```sh
+git -C ~/tribunal pull --ff-only
+```
+
+`scout` checks for you at most once a week: if your clone is behind origin
+it prints that one line to *stderr* (never into the prompt it pipes to your
+agent) and nothing more - it never pulls on its own. Silence it with
+`export TRIBUNAL_NO_UPDATE_CHECK=1`.
+
+**Your own files are safe.** `--ff-only` only fast-forwards - it never
+merges or rewrites history, and it leaves untracked files (your notes,
+briefs, outputs) untouched. If you have a local change to a file Tribunal
+also changed, git *aborts the pull and changes nothing* rather than
+overwriting your edit. The update only advances the docs Tribunal ships;
+it is clean-or-abort, never silent loss.
+
+The reliable way to keep it that way: **don't edit files inside the clone.**
+Use Tribunal by reference - point your agent at `~/tribunal` and write your
+briefs, ledgers, and verdicts in *your own* project (that is already how the
+method works; `scout` surveys your project's root, not the clone). A
+pristine clone always fast-forwards cleanly; when you want a local tweak,
+copy the template into your project and edit the copy.
+
 ## Proof
 
 The panel that designed this methodology is in

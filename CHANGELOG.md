@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.3.1 - 2026-08-20
+
+- **`scout` weekly update check** (notify-only, never auto-pulls). At most
+  once per 7 days (throttled by `.git/FETCH_HEAD` mtime), if the clone is
+  behind origin, `scout` prints a one-line update notice with the exact
+  `git ... pull --ff-only` command. The notice goes to **stderr only**, so
+  it can never contaminate the prompt piped to your agent on stdout;
+  fail-silent on no-git/no-network/detached-HEAD; opt out with
+  `TRIBUNAL_NO_UPDATE_CHECK=1`. No runtime added to the repo - this stays a
+  docs-only clone; the check just surfaces that a `git pull` is available.
+- **README "Staying current"**: documents the update command, the weekly
+  notice, and why updating is non-destructive - `--ff-only` is clean-or-
+  abort (untracked files untouched, local edits never silently overwritten)
+  - plus the keep-the-clone-pristine convention that guarantees it.
+
 ## 0.3.0 - 2026-08-20
 
 - **Lens-assignment doctrine** (`core/METHODOLOGY.md`, "Assigning lenses"):

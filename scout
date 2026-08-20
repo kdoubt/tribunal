@@ -9,9 +9,43 @@
 #   grok  -p  "$(~/tribunal/scout)"          # Grok CLI
 #   ~/tribunal/scout | your-agent-cli        # anything that reads a prompt on stdin
 #
-# It only prints text — it does not run a panel or touch your files.
+# It only prints text — it does not run a panel or touch your files. At most
+# once a week it also checks whether the clone is behind origin and, if so,
+# prints a one-line update notice to STDERR (never stdout, so it can never
+# contaminate the prompt piped into your agent). It never pulls for you — it
+# just hands you the line to run. Disable with TRIBUNAL_NO_UPDATE_CHECK=1.
 set -eu
 root=$(CDPATH= cd "$(dirname "$0")" && pwd)
+
+# --- weekly, notify-only update check (all failures are silent) ------------
+# Throttled by the mtime of .git/FETCH_HEAD: fetch at most once per 7 days.
+# Notify-only: prints the pull command to stderr, never runs it.
+update_check() {
+  [ "${TRIBUNAL_NO_UPDATE_CHECK:-0}" = "1" ] && return 0
+  command -v git >/dev/null 2>&1 || return 0
+  gitdir=$(git -C "$root" rev-parse --git-dir 2>/dev/null) || return 0
+  case $gitdir in /*) ;; *) gitdir=$root/$gitdir ;; esac
+  # Skip if we fetched within the last 7 days (FETCH_HEAD younger than 7d).
+  if [ -f "$gitdir/FETCH_HEAD" ] && [ -z "$(find "$gitdir/FETCH_HEAD" -mtime +7 2>/dev/null)" ]; then
+    return 0
+  fi
+  upstream=$(git -C "$root" rev-parse --abbrev-ref --symbolic-full-name '@{u}' 2>/dev/null) || return 0
+  if command -v timeout >/dev/null 2>&1; then
+    timeout 8 git -C "$root" fetch --quiet 2>/dev/null || return 0
+  else
+    git -C "$root" fetch --quiet 2>/dev/null || return 0
+  fi
+  behind=$(git -C "$root" rev-list --count "HEAD..$upstream" 2>/dev/null) || return 0
+  [ "${behind:-0}" -gt 0 ] 2>/dev/null || return 0
+  s=""; [ "$behind" -gt 1 ] && s="s"
+  {
+    printf 'tribunal: an update is available (%s commit%s behind %s).\n' "$behind" "$s" "$upstream"
+    printf '          get it:        git -C %s pull --ff-only\n' "$root"
+    printf '          silence this:  export TRIBUNAL_NO_UPDATE_CHECK=1\n'
+  } >&2
+}
+update_check || true
+
 # Emit only the prompt body: drop the markdown title and the HTML
 # instruction comment, resolve the clone-path placeholder, trim leading
 # blank lines.
