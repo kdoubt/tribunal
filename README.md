@@ -134,6 +134,14 @@ it prints that one line to *stderr* (never into the prompt it pipes to your
 agent) and nothing more - it never pulls on its own. Silence it with
 `export TRIBUNAL_NO_UPDATE_CHECK=1`.
 
+If you installed from a **zip or tarball** instead of `git clone`, there is
+no `origin` to pull from - so `scout` can't check versions, and updating
+means re-downloading. It will, at most once a week, note which version you
+have and point you at the git-clone install (which *does* self-check) and
+the [releases page](https://github.com/kdoubt/tribunal/releases). The
+git-clone install is recommended precisely because it makes every future
+update a one-line `git pull`.
+
 **Your own files are safe.** `--ff-only` only fast-forwards - it never
 merges or rewrites history, and it leaves untracked files (your notes,
 briefs, outputs) untouched. If you have a local change to a file Tribunal

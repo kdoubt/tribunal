@@ -9,23 +9,34 @@
 #   grok  -p  "$(~/tribunal/scout)"          # Grok CLI
 #   ~/tribunal/scout | your-agent-cli        # anything that reads a prompt on stdin
 #
-# It only prints text — it does not run a panel or touch your files. At most
-# once a week it also checks whether the clone is behind origin and, if so,
-# prints a one-line update notice to STDERR (never stdout, so it can never
-# contaminate the prompt piped into your agent). It never pulls for you — it
-# just hands you the line to run. Disable with TRIBUNAL_NO_UPDATE_CHECK=1.
+# It only prints text — it does not run a panel or touch your project files.
+# At most once a week it also checks for updates and, if any, prints a
+# one-line notice to STDERR (never stdout, so it can never contaminate the
+# prompt piped into your agent). It never updates for you — it just hands you
+# the command. Disable with TRIBUNAL_NO_UPDATE_CHECK=1. Git clones are
+# checked against origin (writes nothing); zip/tarball copies have no update
+# path of their own, so the notice points you at the git-clone install and
+# is throttled with a small timestamp under your cache dir.
 set -eu
 root=$(CDPATH= cd "$(dirname "$0")" && pwd)
 
 # --- weekly, notify-only update check (all failures are silent) ------------
-# Throttled by the mtime of .git/FETCH_HEAD: fetch at most once per 7 days.
-# Notify-only: prints the pull command to stderr, never runs it.
+# Notify-only: prints the command to stderr, never runs it.
 update_check() {
   [ "${TRIBUNAL_NO_UPDATE_CHECK:-0}" = "1" ] && return 0
-  command -v git >/dev/null 2>&1 || return 0
+  if command -v git >/dev/null 2>&1 && git -C "$root" rev-parse --git-dir >/dev/null 2>&1; then
+    git_update_check
+  else
+    zip_update_check
+  fi
+}
+
+# Git clone: fetch at most once per 7 days (throttled by .git/FETCH_HEAD
+# mtime, so a pristine clone needs no extra state file), then notify if the
+# checked-out branch is behind its upstream.
+git_update_check() {
   gitdir=$(git -C "$root" rev-parse --git-dir 2>/dev/null) || return 0
   case $gitdir in /*) ;; *) gitdir=$root/$gitdir ;; esac
-  # Skip if we fetched within the last 7 days (FETCH_HEAD younger than 7d).
   if [ -f "$gitdir/FETCH_HEAD" ] && [ -z "$(find "$gitdir/FETCH_HEAD" -mtime +7 2>/dev/null)" ]; then
     return 0
   fi
@@ -42,6 +53,28 @@ update_check() {
     printf 'tribunal: an update is available (%s commit%s behind %s).\n' "$behind" "$s" "$upstream"
     printf '          get it:        git -C %s pull --ff-only\n' "$root"
     printf '          silence this:  export TRIBUNAL_NO_UPDATE_CHECK=1\n'
+  } >&2
+}
+
+# Zip/tarball copy: no .git, so no self-update path. Read this copy's version
+# from CHANGELOG.md and, at most once per 7 days (throttled by a cache-dir
+# timestamp), point the user at the git-clone install that DOES self-check.
+zip_update_check() {
+  [ -f "$root/CHANGELOG.md" ] || return 0
+  ver=$(sed -n 's/^## \([0-9][0-9.]*\).*/\1/p' "$root/CHANGELOG.md" 2>/dev/null | head -1)
+  [ -n "$ver" ] || return 0
+  cache="${XDG_CACHE_HOME:-$HOME/.cache}/tribunal"
+  stamp="$cache/zip-update-check"
+  if [ -f "$stamp" ] && [ -z "$(find "$stamp" -mtime +7 2>/dev/null)" ]; then
+    return 0
+  fi
+  ( umask 077; mkdir -p "$cache" 2>/dev/null && : > "$stamp" 2>/dev/null ) || true
+  {
+    printf 'tribunal: this is a downloaded copy (v%s) with no self-update path.\n' "$ver"
+    printf '          for automatic update notices, install as a git clone instead:\n'
+    printf '            git clone https://github.com/kdoubt/tribunal.git ~/tribunal\n'
+    printf '          or grab the latest release: https://github.com/kdoubt/tribunal/releases\n'
+    printf '          silence this: export TRIBUNAL_NO_UPDATE_CHECK=1\n'
   } >&2
 }
 update_check || true

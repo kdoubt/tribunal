@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.3.2 - 2026-08-20
+
+- **`scout` update check now handles zip/tarball installs too.** A copy
+  with no `.git` has no `origin` to pull from, so the git check no-oped for
+  those users. Now `scout` detects a non-git copy, reads its version from
+  `CHANGELOG.md`, and (throttled once per 7 days via a `$XDG_CACHE_HOME`
+  timestamp) points the user at the git-clone install that self-checks plus
+  the releases page. Same guarantees as the git path: stderr-only,
+  network-free, fail-silent, notify-only, `TRIBUNAL_NO_UPDATE_CHECK=1` to
+  opt out. The git-clone path stays write-free (throttled by `.git/FETCH_HEAD`
+  mtime); only the zip fallback writes a small cache timestamp.
+- **README "Staying current"**: documents the zip/tarball case and why the
+  git-clone install is recommended (every future update becomes `git pull`).
+
 ## 0.3.1 - 2026-08-20
 
 - **`scout` weekly update check** (notify-only, never auto-pulls). At most
