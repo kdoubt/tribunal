@@ -30,6 +30,18 @@ history if available - and report:
    verdict I could act on this week. Draft its frozen brief using
    `core/templates/brief.md`.
 
+4. **Lens recommendation.** Apply METHODOLOGY "Assigning lenses". A first
+   panel is almost always 2-3 seats, so **default to raw heterogeneous
+   seats on the same brief** and say so. Then name **at most three candidate
+   review surfaces** for this artifact (e.g. correctness / security / DX) -
+   as shared *decision criteria the whole panel addresses* (additive
+   lenses), NOT as one-per-seat hats. Only recommend an *exclusive* slice
+   (a seat prioritizing one surface) if the operator is already staffing
+   N ≥ 4 with two heterogeneous seats per lens; otherwise fold the surfaces
+   into the shared brief. Do not invent lenses to fill seats, and never put
+   a single seat on an exclusive lens. Lenses are an incentive to look
+   somewhere; they never substitute for model heterogeneity.
+
 Ground every claim: cite the files that evidence each decision. If the
 project gives you no panel-worthy decisions, say so plainly - do not invent
 stakes; the methodology explicitly warns against convening panels for

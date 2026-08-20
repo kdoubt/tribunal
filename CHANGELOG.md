@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.3.0 - 2026-08-20
+
+- **Lens-assignment doctrine** (`core/METHODOLOGY.md`, "Assigning lenses"):
+  codifies WHEN a panel should give seats distinct review lenses vs. run
+  raw heterogeneous seats. Two mechanisms - **additive** (surfaces named in
+  the shared brief, legal at any N, the default) vs. **exclusive slice** (a
+  seat prioritizes one surface via a labeled addendum, the one sanctioned
+  departure from the identical-brief rule). Exclusive slicing is fenced:
+  ≥2 heterogeneous seats per lens, capped at floor(N/2), a retained
+  generalist read, and Round 1 still relays every disputed claim to every
+  seat. Whether a surface earns a lens is judgment (own criterion,
+  non-implied, salient); the staffing floor is a MUST. `scout` step 4 now
+  defaults first panels to raw seats and only recommends exclusive slicing
+  at N ≥ 4 with proper staffing. This section was itself pressure-tested by
+  a 2-seat Codex+Grok panel, which caught the identical-brief conflict and
+  the unsupported "~5 seats" gate the first draft shipped with.
+
 ## 0.2.0 - 2026-08-20
 
 - **Renamed the project: Pressure-Test → Tribunal** (the old GitHub URL

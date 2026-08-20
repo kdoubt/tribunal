@@ -92,10 +92,12 @@ already authenticated.
 
 Two seats is the floor, not the ceiling. The diagram shows two for clarity,
 but a panel is any N ≥ 2 - add a third seat (or more) for the
-highest-stakes, most irreversible calls, or to give each seat a different
-review lens. The biggest gain is 1 → 2 (self-review to cross-vendor); each
-seat past that adds diminishing value at linear cost, so scale to the
-stakes.
+highest-stakes, most irreversible calls. The biggest gain is 1 → 2
+(self-review to cross-vendor); each seat past that adds diminishing value
+at linear cost, so scale to the stakes. Giving seats distinct review
+*lenses* is a separate, optional layer with its own rules (see
+`core/METHODOLOGY.md`, "Assigning lenses") - by default you name the
+surfaces in the shared brief rather than slicing one per seat.
 
 1. **Find your first panel.** From your project's root, run
    `claude -p "$(~/tribunal/scout)"` (or `codex exec` / `grok -p`, or pipe

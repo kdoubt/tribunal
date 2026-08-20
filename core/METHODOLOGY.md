@@ -251,6 +251,68 @@ practice, never part of this method):
   retrospectives (see `templates/retro.md`) show no loss in overturned
   claims, concessions, and citation validity.
 
+## Assigning lenses - when to differentiate seats
+
+Seats are heterogeneous *models* by default, and that is where a panel's
+uncorrelated judgment comes from. A review *lens* (security, performance,
+DX, finance, ...) is an OPTIONAL incentive layered on top - a direction to
+look, never a costume and never a substitute for model heterogeneity. There
+are two ways to use one, and the distinction is what keeps lenses from
+colliding with the isolation rules.
+
+**(A) Additive lenses - the default, legal at any N.** Every seat still
+receives the *identical* frozen brief; the candidate surfaces are named in
+the brief's decision criteria ("address correctness, security, and DX")
+without slicing them across seats. Each seat gives a full independent read
+and is simply reminded of the surfaces an undifferentiated seat might
+skate past. This needs no exception to the identical-brief rule
+(`CONTRACT.md`), preserves every seat's whole-artifact judgment, and is
+the right move for almost every panel - including small ones. When in
+doubt, this is the answer.
+
+**(B) Exclusive slice - a narrow large-N exception.** A seat is asked to
+*prioritize* one surface via a labeled `LENS:` addendum appended to the
+otherwise-identical brief. This is the one sanctioned departure from
+"identical brief," and it is tightly fenced:
+
+- **Every exclusive lens MUST be staffed by ≥2 heterogeneous seats.** A
+  singly staffed lens produces scoped *discovery*, not corroboration - its
+  unique claims are uncrossed and must be labelled so in the ledger. Assign
+  the *same* lens to two different-vendor seats; that pairing, not solo
+  specialists, is the intended pattern.
+- **Cap exclusive lenses at floor(N/2)** and retain at least one generalist
+  seat that reads the whole artifact under the bare brief. Lenses find the
+  long tail; the generalist catches what the slicing hid.
+- **A lens narrows the seat, so prioritize is not blinker.** Round 1 still
+  relays every disputed claim to every seat regardless of lens; an
+  off-surface finding is never ignored because it wasn't a seat's assigned
+  hat.
+
+**Whether a surface earns its own lens is judgment, not arithmetic.** A
+surface is listable only when all three hold: it has its own decision
+criterion; a finding on it is not implied by findings on the others; and
+undifferentiated seats have a concrete reason to skate past it (salience,
+not statistical "independence"). If two surfaces overlap or depend on each
+other, merge them or keep them additive - do not manufacture separation.
+
+**Do not:**
+
+- staff an exclusive lens with a single seat (that is discovery, not a
+  cross-checked position);
+- give one model family two lens-hats and count them as two seats (that is
+  the identity theater the failure-mode table bans);
+- slice at all when you cannot put ≥2 heterogeneous seats on each lens -
+  fold the surfaces into the shared brief (mode A) instead;
+- read a single-axis decision ("is this migration correct?", "does this
+  preserve the schema invariants?") as multi-surface: raw heterogeneity
+  *is* the value there, and any slicing only shrinks coverage.
+
+One model applying several lenses in sequence can still be a useful
+scouting checklist - it just may never occupy multiple seats or be counted
+as independent agreement. Heterogeneous seats first; lenses second; and the
+staffing floor above is a MUST, while which surfaces exist is yours to
+judge.
+
 ## Retrospective - closing the loop
 
 The lifecycle does not end at the verdict. Fill `templates/retro.md` twice:
