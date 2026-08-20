@@ -9,6 +9,20 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+- **`flywheel-export` + `data/` (de-identification tooling)**: a local,
+  stdout-only helper that reduces a `retro.md` archive to de-identified,
+  metadata-only JSON (whitelist of counts/enums; unknown values become
+  `"other"`, raw text never echoed; verified leak-proof by an injection
+  test), plus `data/README.md` documenting the schema. Adversarially reviewed
+  by a 2-seat Codex+Grok anonymity panel (Codex rework, Grok
+  ship-after-fixes), which corrected the design: it is **de-identified, not
+  anonymous** (a public PR carries your GitHub identity); the "which vendor
+  was right" field collapsed to a boolean; records sorted by content to kill
+  the timing/order channel; integer parsing tightened; and the **contribution
+  intake is deliberately NOT opened** - premature without a corpus, and
+  unsafe without a CI schema-gate (specced in `data/README.md`). Optional
+  local tooling, no backend; stamps PATCH when released.
+
 - **Guardrail CI** (`.github/workflows/checks.yml`): a single docs-only
   workflow (no build/test - there's nothing to build). Automates the
   previously-manual consistency checks: `scout` sanity (`sh -n` +

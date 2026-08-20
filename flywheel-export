@@ -1,0 +1,104 @@
+#!/usr/bin/env sh
+# flywheel-export - reduce your Tribunal retro.md archive to DE-IDENTIFIED,
+# metadata-only records. See data/README.md.
+#
+#   ./flywheel-export [archive-dir]      # default: current directory
+#
+# "De-identified" not "anonymous": this strips the run *content* (no secrets,
+# free text, paths, dates, claim/question text, or seat labels), but it cannot
+# hide *you* - if you ever share the output, do it in a way that carries your
+# identity (e.g. a GitHub PR), and read data/README.md first.
+#
+# It reads ONLY a fixed whitelist. Numbers must be a clean small integer or
+# they become null; categoricals are validated against a fixed vocabulary
+# (unknown -> "other", raw text NEVER emitted). It is designed to be unable to
+# emit free text - the injection test in the anonymity panel found nothing
+# escaped. It prints JSON to stdout (inspect it before sharing), makes no
+# network calls, and writes nothing.
+set -eu
+
+dir="${1:-.}"
+
+emit_one() {
+  awk '
+    function trim(s){ sub(/^[ \t]+/,"",s); sub(/[ \t]+$/,"",s); return s }
+    function decomment(s){ sub(/<!--.*/,"",s); return trim(s) }
+    # whole trimmed value must be a small non-negative integer, else NULL
+    function intval(s){ s=trim(s); if (s ~ /^[0-9]{1,6}$/) return s; return "NULL" }
+    function esc(s){ gsub(/\\/,"\\\\",s); gsub(/"/,"\\\"",s); return s }
+    function jnum(k,v){ if (v=="NULL") return "\""k"\":null"; return "\""k"\":" v }
+    function jstr(k,v){ if (v=="NULL"||v=="") return "\""k"\":null"; return "\""k"\":\"" esc(v) "\"" }
+    function jbool(k,v){ if (v=="NULL") return "\""k"\":null"; return "\""k"\":" v }
+    function vendor(s,   t){ t=tolower(s);
+      if (t ~ /codex|openai|(^|[^a-z])gpt/) return "codex";
+      if (t ~ /grok|xai/)                   return "grok";
+      if (t ~ /claude|anthropic/)           return "claude";
+      if (t ~ /gemini|google/)              return "gemini";
+      if (t ~ /local|llama|qwen|mistral|gpt-oss|ollama|vllm/) return "local";
+      return "other" }
+    /^[a-z_]+:[ \t]/ || /^[a-z_]+:$/ {
+      k=$0; sub(/:.*/,"",k);
+      v=$0; sub(/^[a-z_]+:[ \t]*/,"",v); v=decomment(v);
+      store[k]=v;
+    }
+    END {
+      vm=tolower(store["verdict_mode"]);
+      if (vm ~ /human-call/) vm="human-call"; else if (vm ~ /decide/) vm="decide-after-check";
+      else if (vm=="ship") vm="ship"; else if (vm ~ /dont|don.t/) vm="dont";
+      else if (vm=="") vm="NULL"; else vm="other";
+
+      rr=tolower(store["rounds_run"]); gsub(/[ \t]/,"",rr);
+      if (rr ~ /r2/) rr="R0+R1+R2"; else if (rr ~ /r1/) rr="R0+R1";
+      else if (rr ~ /r0/) rr="R0"; else rr="NULL";
+
+      vh=tolower(store["verdict_held"]);
+      if (vh=="yes") vh="yes"; else if (vh=="no") vh="no";
+      else if (vh ~ /no-signal|no signal/) vh="no-signal"; else vh="NULL";
+
+      # dissent: boolean only (did surviving dissent prove right?) - never which vendor
+      dl=tolower(store["dissent_confirmed_for"]);
+      if (dl=="") dpr="NULL"; else if (dl ~ /no-signal|no signal/) dpr="NULL";
+      else if (dl ~ /(^|[^a-z])none([^a-z]|$)/) dpr="false"; else dpr="true";
+
+      seats=store["seats"]; nseat="NULL"; vend="";
+      if (seats!="") {
+        n=split(seats, parts, ","); nseat=n; seen="";
+        for (i=1;i<=n;i++){ vv=vendor(parts[i]);
+          if (index(seen,"|"vv"|")==0){ seen=seen "|"vv"|"; vend=vend (vend==""?"":",") "\"" vv "\"" } }
+      }
+
+      td=tolower(store["template_delta"]);
+      if (td=="") hd="NULL"; else if (td ~ /no change|no-change|none/) hd="false"; else hd="true";
+
+      # one compact line per record (sorted by the wrapper to de-correlate order from time)
+      printf "{%s,%s,%s,\"seat_vendors\":[%s],%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s}",
+        "\"schema_version\":1",
+        jstr("verdict_mode",vm), jstr("rounds_run",rr), vend,
+        jnum("seat_count",nseat), jnum("seat_deaths",intval(store["seat_deaths"])),
+        jnum("claims_total",intval(store["claims_total"])), jnum("agreed_r0",intval(store["agreed_r0"])),
+        jnum("disputed",intval(store["disputed"])), jnum("conceded",intval(store["conceded"])),
+        jnum("overturned",intval(store["overturned"])), jnum("verified",intval(store["verified"])),
+        jnum("dropped",intval(store["dropped"])), jnum("surviving_dissent",intval(store["surviving_dissent"])),
+        jnum("resolved_by_oracle",intval(store["resolved_by_oracle"])),
+        jnum("resolved_by_debate",intval(store["resolved_by_debate"])),
+        jnum("citations_dropped",intval(store["citations_dropped"])),
+        jnum("citations_unverified",intval(store["citations_unverified"])),
+        jstr("verdict_held",vh), jbool("dissent_proved_right",dpr) "," jbool("had_template_delta",hd);
+    }
+  ' "$1"
+}
+
+# collect compact records, then SORT them so output order reflects content,
+# not filesystem/chronological order (a timing side-channel).
+records=""
+for f in "$dir"/*/retro.md "$dir"/retro.md; do
+  [ -f "$f" ] || continue
+  rec=$(emit_one "$f") || continue
+  [ -n "$rec" ] || continue
+  records="${records}${rec}
+"
+done
+
+printf '[\n'
+printf '%s' "$records" | grep -v '^$' | LC_ALL=C sort | awk '{ if (NR>1) printf ",\n"; printf "  %s", $0 } END { if (NR>0) printf "\n" }'
+printf ']\n'

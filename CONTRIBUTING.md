@@ -82,7 +82,10 @@ The [`CHANGELOG.md`](CHANGELOG.md) is the source of record and follows
 ## What will be declined
 
 - Runners, frameworks, SDKs, plugin systems. The method's portability comes
-  from being documents; code would become the product and rot.
+  from being documents; code would become the product and rot. The only
+  scripts that belong here are small, optional, local helpers that print to
+  stdout and nothing else (`scout`, `flywheel-export`) - no network, no
+  backend, no service. That line is the boundary, not an invitation.
 - Vendor-specific marketing, benchmarks, or "which model is better"
   content. Seats are deliberately interchangeable.
 - Adapter matrices that imply support the maintainer cannot provide.

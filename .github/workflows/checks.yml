@@ -21,10 +21,12 @@ jobs:
         with:
           fetch-depth: 0   # full history: gitleaks + tag<->changelog checks
 
-      - name: scout helper sanity (sh -n + shellcheck)
+      - name: helper script sanity (sh -n + shellcheck)
         run: |
-          sh -n scout
-          shellcheck scout   # shellcheck is preinstalled on ubuntu runners
+          for s in scout flywheel-export; do
+            sh -n "$s"
+            shellcheck "$s"   # shellcheck is preinstalled on ubuntu runners
+          done
 
       - name: docs-only guard (enforce runtime-none)
         run: |

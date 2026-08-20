@@ -173,6 +173,8 @@ loop from `core/templates/`, not from its file shapes.
 
 ```
 scout                   one-command helper: prints the scouting prompt (and a weekly update notice)
+flywheel-export         local helper: reduces your retro.md archive to de-identified metadata (stdout only)
+data/                   the de-identification schema + tooling (no intake open; see data/README.md)
 CHANGELOG.md            what changed per version; the update notice points here
 core/METHODOLOGY.md     the method: rounds, stop rules, failure modes
 core/CONTRACT.md        orchestrator + seat obligations (MUST/SHOULD)
