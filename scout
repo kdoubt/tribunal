@@ -1,0 +1,20 @@
+#!/usr/bin/env sh
+# Prints the Tribunal scout prompt with this clone's path resolved, so you
+# can hand it straight to your agent instead of copy-pasting a file and
+# editing a placeholder. Run it from YOUR project's root (the agent surveys
+# the current directory); point it at wherever you cloned Tribunal:
+#
+#   claude -p "$(~/tribunal/scout)"          # Claude Code
+#   codex exec "$(~/tribunal/scout)"         # Codex CLI
+#   grok  -p  "$(~/tribunal/scout)"          # Grok CLI
+#   ~/tribunal/scout | your-agent-cli        # anything that reads a prompt on stdin
+#
+# It only prints text — it does not run a panel or touch your files.
+set -eu
+root=$(CDPATH= cd "$(dirname "$0")" && pwd)
+# Emit only the prompt body: drop the markdown title and the HTML
+# instruction comment, resolve the clone-path placeholder, trim leading
+# blank lines.
+sed '/^# /d; /^<!--/,/-->/d' "$root/core/templates/scout.md" \
+  | sed "s#\[path to your tribunal clone\]#$root#" \
+  | sed '/./,$!d'

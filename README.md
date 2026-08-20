@@ -15,10 +15,16 @@
 <p align="center"><b>Get it — docs and prompt templates, nothing to build:</b></p>
 
 ```sh
-git clone https://github.com/kdoubt/tribunal.git
+git clone https://github.com/kdoubt/tribunal.git ~/tribunal
 ```
 
-<p align="center"><sub>Then paste <code>core/templates/scout.md</code> into your agent to draft your first panel. That's the whole install.</sub></p>
+<p align="center"><sub>Then, from your project's root, hand the scout straight to your agent — it drafts your first panel:</sub></p>
+
+```sh
+claude -p "$(~/tribunal/scout)"     # Claude Code   ·   codex exec "$(~/tribunal/scout)"   ·   grok -p "$(~/tribunal/scout)"
+```
+
+<p align="center"><sub><code>~/tribunal/scout</code> just prints the scouting prompt with your clone path filled in — no panel is run and nothing is written. That's the whole install.</sub></p>
 
 <p align="center">
   <picture>
@@ -91,10 +97,13 @@ review lens. The biggest gain is 1 → 2 (self-review to cross-vendor); each
 seat past that adds diminishing value at linear cost, so scale to the
 stakes.
 
-1. **Find your first panel.** Paste `core/templates/scout.md` into your own
-   agentic CLI from your project's root: it reads *your* project and
-   returns project-specific panel-worthy decisions (and what to leave to
-   plain oracles), then drafts your first frozen brief.
+1. **Find your first panel.** From your project's root, run
+   `claude -p "$(~/tribunal/scout)"` (or `codex exec` / `grok -p`, or pipe
+   `~/tribunal/scout` into any agent). It reads *your* project and returns
+   project-specific panel-worthy decisions (and what to leave to plain
+   oracles), then drafts your first frozen brief. (`scout` just prints the
+   prompt with your clone path filled in — you can still open
+   `core/templates/scout.md` and paste it by hand if you prefer.)
 2. **Pick an adapter.** For a first panel use one of the two maintained
    adapters - [`adapters/shell/`](adapters/shell/README.md) (any
    orchestrator, plain bash) or
