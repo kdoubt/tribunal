@@ -10,7 +10,12 @@
   departure from the identical-brief rule). Exclusive slicing is fenced:
   ≥2 heterogeneous seats per lens, capped at floor(N/2), a retained
   generalist read, and Round 1 still relays every disputed claim to every
-  seat. Whether a surface earns a lens is judgment (own criterion,
+  seat. `core/CONTRACT.md` obligation 1 gains a scoped, explicit exception
+  so the exclusive `LENS:` addendum is sanctioned by the MUST layer instead
+  of silently contradicting "delivered identically to every seat" - the
+  addendum is part of the frozen brief, fixed before Round 0, with every
+  seat receiving the full assignment matrix and identical criteria. Whether
+  a surface earns a lens is judgment (own criterion,
   non-implied, salient); the staffing floor is a MUST. `scout` step 4 now
   defaults first panels to raw seats and only recommends exclusive slicing
   at N ≥ 4 with proper staffing. This section was itself pressure-tested by

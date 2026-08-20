@@ -42,7 +42,17 @@ The orchestrator wears three hats and MUST keep them separated:
    every prompt in every round; output that doesn't map back to it MUST be
    rejected. Amendments (from the human only) are append-only, versioned,
    timestamped, and delivered identically to every seat before any further
-   round.
+   round. **One scoped exception to identical delivery:** the frozen brief
+   MAY carry a predeclared, labeled `LENS:` addendum assigning a seat to
+   *prioritize* one review surface (see METHODOLOGY, "Assigning lenses").
+   It is part of the frozen brief, not mid-round orchestrator commentary, so
+   it MUST be fixed before Round 0. Every seat still receives the complete
+   lens-assignment matrix and identical decision criteria; only the
+   prioritized-surface line differs, and each seat MUST be told not to
+   exclude decision-relevant findings outside its surface. This exception is
+   valid ONLY under the METHODOLOGY staffing floor (≥2 heterogeneous seats
+   per exclusive lens); absent that, every seat gets the byte-identical
+   brief.
 2. **Own a claim ledger outside the prose** (see `LEDGER.md`; template at
    `templates/ledger.md`). Each Round 1+ prompt contains: the frozen brief,
    the seat's OWN prior claims verbatim (labeled "context, not rebuttal
