@@ -57,9 +57,10 @@ Built for developers who work with agentic CLIs and have no human review
 board: the panel is your reviewers. One model reviewing its own plan
 converges on its own blind spots; Tribunal forces two *different* vendors'
 models to take independent positions and cross-examine each other claim by
-claim, so a genuinely contested call yields the **strongest counter-case and
-the cheapest test that would settle it**, with real disagreement preserved
-rather than averaged away. What it does **not** yet claim: that this reliably
+claim, so a genuinely contested call yields **an adversarial counter-case and a
+candidate discriminating test**, with real disagreement preserved rather than
+averaged away. (How *strong* or *cheapest* those are is not something the
+[validation](validation/) measured - don't read the superlatives in.) What it does **not** yet claim: that this reliably
 *beats* a single strong model. Two pre-registered pilots in
 [`validation/`](validation/) have not shown that lift - and the method's
 honesty about ambiguity can even score *worse* than a confident solo answer.
@@ -113,9 +114,11 @@ test that catches them before a real run.
 
 Two seats is the floor, not the ceiling. The diagram shows three, but a
 panel is any N ≥ 2 - two is the floor and the third seat is optional, added
-for the highest-stakes, most irreversible calls. The biggest gain is 1 → 2
-(self-review to cross-vendor); each seat past that adds diminishing value
-at linear cost, so scale to the stakes. Giving seats distinct review
+for the highest-stakes, most irreversible calls. The *intended* gain is 1 → 2
+(self-review to cross-vendor), with each seat past that adding diminishing
+value at linear cost - but note the [validation](validation/) caveat: the
+seats disagreed on only 1 of 8 decisions in the pilots, so in practice the
+2nd seat mostly just confirms the 1st. Scale to the stakes, not the ritual. Giving seats distinct review
 *lenses* is a separate, optional layer with its own rules (see
 `core/METHODOLOGY.md`, "Assigning lenses") - by default you name the
 surfaces in the shared brief rather than slicing one per seat.
@@ -177,7 +180,7 @@ method works; `scout` surveys your project's root, not the clone). A
 pristine clone always fast-forwards cleanly; when you want a local tweak,
 copy the template into your project and edit the copy.
 
-## Proof
+## Worked examples
 
 The panel that designed this methodology is in
 [`examples/sample-run/`](examples/sample-run/): seat A proposed three
@@ -281,19 +284,18 @@ outcomes:
 (role-incentivized, full Round 1, surviving dissent).
 
 **Honest validation status:** two pre-registered ablation pilots
-([`validation/`](validation/)) have shown **no robust lift** over a single strong
-model. On decidable questions a good model already gets them right (pilot-01
-null). On ambiguous ones, whether the panel's memo or the solo memo is "more
-useful" **flipped with the judge** - an independent judge favored the solo memo
-2 of 3 (stable across an order flip); a second judge vendor reversed it - because
-the judges disagree on whether a preserved dissent plus a discriminating test
-beats a committed answer. The one judge-independent finding: across both pilots
-the two vendors disagreed on only **1 of 9** decisions, so the panel machinery
-mostly idles. Tribunal is therefore a *promising but unproven* protocol: worth
-running for the adversarial counter-case and the discriminating test it produces
-on contested, irreversible calls - **not** because it is demonstrated to be more
-accurate than one good model. Results are published in full, losses and judge
-disagreement included.
+([`validation/`](validation/)) have shown **no lift** over a single strong model.
+On decidable questions a good model already gets them right (pilot-01 null). On
+ambiguous ones, the solo memo scored **at least as well as** the panel on
+aggregate under *every* judge - two independent passes favored solo, and a
+*conflicted* third judge (its own text was in the panel memos) only tied on
+points and tie-broke toward the panel on 2 of 3 forced choices. The one robust,
+judge-independent finding: across both pilots the two vendors disagreed on only
+**1 of 8** measurable decisions, so the panel machinery mostly idles. Tribunal is
+therefore a *promising but unproven* protocol: worth running for the adversarial
+counter-case and the discriminating test it produces on contested, irreversible
+calls - **not** because it is demonstrated to be more accurate than one good
+model. Results (and this correction) are published in full.
 
 The clearest
 in-repo receipt that the method overturns its own author is the CHANGELOG

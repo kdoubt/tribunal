@@ -9,6 +9,15 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+## [0.6.7] - 2026-08-21
+
+- **Corrections from a second external review round (Grok + Claude + Codex).** Every concrete claim was verified before acting; the sharpest catches were mine to own.
+  - **Corrected a real overclaim in pilot-02** (Codex): the write-up said the result "flips with the judge / no robust signal." On the pre-registered *aggregate* rubric score the solo memo actually won under both independent Claude passes (34-32, 34-31) and **tied** under the conflicted Grok judge (32-32) - the panel never out-scored solo under any judge. Only the *forced-choice* of the conflicted judge inverted. The headline, robustness section, bottom line, `BLIND-ORDER.md`, and the README paragraph are corrected to "no aggregate lift under any judge; only a conflicted judge's tie-break favored the panel" - a stronger no-lift finding, not a flip.
+  - **Example ledgers now conform to the verbatim-claim rule** (both review rounds): `core/LEDGER.md` requires the `claim` field be "one sentence, quoted verbatim from the seat," but both example ledgers had orchestrator *paraphrases*. All 18 claims (11 monorepo + 7 api-auth) replaced with the seats' verbatim sentences.
+  - **Monorepo ledger used the wrong enum value** (Codex): five surviving claims were marked `disputed` with a legend that locally redefined the enum; the enum has a distinct terminal `surviving-dissent` status (LEDGER line 44), now used correctly, legend fixed, and the retro reconciled (`disputed` 0 / `conceded` 6 / `surviving-dissent` 5).
+  - **pilot-01 reporting gaps disclosed** (Codex + Claude): the rubric was applied by the orchestrator, not the pre-registered independent scorer (now stated); `must_catch_rate` was not tabulated per arm (noted); d3 had **no valid panel** (a seat died) so A2/A3 are scored `—` not `1*`, and the delta counts are `/4 evaluable`; the four arms don't isolate components (oracle access varies) and blinding was instruction-based not access-separated (both noted). "1 of 9" convergence corrected to "1 of 8 measurable".
+  - **Smaller honest fixes:** README `## Proof` heading → `## Worked examples` (it contradicted the "unproven" stance); "strongest counter-case / cheapest test" superlatives softened (nothing measured them); the "biggest gain is 1 → 2" line qualified with the 1-of-8 finding; `core/METHODOLOGY.md` "durable value … stands whether or not lift materializes" → *intended* durable value (judge-dependent in the pilots); `scout` comment "writes nothing" corrected to disclose the `git fetch` metadata write; `citations_unverified: 0` annotated ("none formally flagged", not "all verified"); the shell adapter's early-stop gate now instructs running oracles on checkable agreed claims *before* writing the verdict (agreement ≠ verification).
+
 ## [0.6.6] - 2026-08-21
 
 - **pilot-02 finished: added a second/third judge pass - and the result inverted.** The first write-up rested on a single Claude judge (solo 2 / panel 1). Completing the pre-registration's "second judge" step: a second **independent** Claude pass with order flipped reproduced it exactly (panel 1 / solo 2, so it is stable against position/sampling), but a second judge **vendor** (Grok, run as a labeled *conflicted* check since its own text is in the panel memos) **inverted every decision** (solo 1 / panel 2). The two judge vendors are anti-correlated on all three decisions, splitting precisely on whether the panel's "here is the one test that settles it" beats a committed A/B answer. Net: **no robust lift signal - the sign flips with the judge.** `validation/results/pilot-02.md` + `BLIND-ORDER.md` updated with all judge outputs; README validation paragraph corrected from "judge preferred solo 2/3" to "flipped with the judge - no robust lift." The one judge-independent finding stands: seats disagreed on only 1 of 9 decisions across both pilots.
@@ -270,7 +279,8 @@ the methodology itself still has one published run (see README, Status).
   methodology, labeled as a historical bootstrap transcript with its
   known non-compliances enumerated.
 
-[Unreleased]: https://github.com/kdoubt/tribunal/compare/v0.6.6...HEAD
+[Unreleased]: https://github.com/kdoubt/tribunal/compare/v0.6.7...HEAD
+[0.6.7]: https://github.com/kdoubt/tribunal/compare/v0.6.6...v0.6.7
 [0.6.6]: https://github.com/kdoubt/tribunal/compare/v0.6.5...v0.6.6
 [0.6.5]: https://github.com/kdoubt/tribunal/compare/v0.6.4...v0.6.5
 [0.6.4]: https://github.com/kdoubt/tribunal/compare/v0.6.3...v0.6.4

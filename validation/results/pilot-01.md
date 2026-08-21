@@ -26,7 +26,7 @@ measure panel lift*, plus one real operational failure (below).
 |----|----|:--:|:--:|:--:|:--:|:--:|
 | d1 job-queue race | subtle | 1 | 1 | 1 | 1 (=A2, early stop) | no |
 | d2 password hashing | control | 1 | 1 | 1 | 1 (=A2, early stop) | no |
-| d3 webhook idempotency | subtle | 1 | 1 | 1* | 1* (=A2, early stop) | no (1 seat died) |
+| d3 webhook idempotency | subtle | 1 | 1 | —* | —* (no valid panel) | n/a (1 seat died) |
 | d4 float money | control | 1 | 1 | 1 | 1 (=A2, early stop) | no |
 | d5 invoice-number race | subtle | 1 | 1 | 1 | 1 (=A2, early stop) | no |
 
@@ -36,11 +36,13 @@ it; Grok on d1 caught the extra subtlety that the claim UPDATE lacks an
 `AND status='pending'` re-check). **`false_objections`: 0** - no arm flagged a
 correct design as broken or made a confident-wrong claim.
 
-- **A3 − A1 (does debate beat one model + oracle?): 0/5.** Undetermined-and-zero:
-  no dispute arose, so Round 1 never executed.
+- **A3 − A1 (does debate beat one model + oracle?): 0 across the 4 evaluable
+  decisions** (d3 excluded - no valid panel). Undetermined-and-zero: no dispute
+  arose, so Round 1 never executed.
 - **A3 − A2 (does Round 1 beat a cheap cross-vendor check?): not testable here** -
   every panel early-stopped at Round 0.
-- **A2 − A1 (does a second vendor alone help?): 0/5.**
+- **A2 − A1 (does a second vendor alone help?): 0 across the 4 evaluable
+  decisions.**
 
 ## The one real failure: a dead seat
 
@@ -50,9 +52,34 @@ returned **no CLAIM/VERDICT** - a silent seat death (exit 0, narration only),
 the exact failure mode `adapters/shell/README.md` documents. Solo Codex answered
 d3 correctly regardless, so no accuracy was lost, but this is a live data point
 for the reviewers' "operational friction" critique: **Grok's headless reliability
-is a real cost of the two-vendor requirement.** (Marked `1*` above because the
-panel's surviving seat was correct; a stricter scorer could mark the Grok seat a
-loss.)
+is a real cost of the two-vendor requirement.** On d3 there was **no valid panel**
+(one of two required seats produced no position), so A2/A3 are scored `—` there,
+not `1` - an earlier version marked them `1*`, which overstated it; the honest
+statement is "solo got d3 right; the panel could not be evaluated."
+
+## Corrections & limitations (added after a re-review)
+
+Two frontier-model re-reviews (Codex, Claude) flagged reporting gaps in this
+pilot; recording them here rather than papering over them:
+
+- **Who scored:** the rubric was applied by the **orchestrator** (by inspection),
+  **not** the independent third-model scorer `PROTOCOL.md` calls for. Practically
+  low-risk here (all arms were unanimous and the rubric items are mechanically
+  checkable against the sealed truth), but it is a deviation from the protocol and
+  should be an independent scorer in any confirmatory run.
+- **`must_catch_rate` was not tabulated per arm.** The write-up reports coverage
+  as "high" with examples, not the pre-registered per-arm fraction. Read the raw
+  outputs in [`pilot-01/`](pilot-01/) to re-score precisely.
+- **The four arms do not isolate single mechanisms.** A1 may use an oracle, A2
+  does not, A3 does - so A2-vs-A1 changes vendor count *and* oracle access, and
+  A3-vs-A2 changes Round 1 *and* oracle access. This pilot compares *whole arms*
+  (does the full panel beat a solo model), not isolated components; a clean
+  component ablation would hold oracle access constant across arms.
+- **d3 blinding was instruction-based, not access-separated.** The sealed truth
+  files sat in the same workspace; one seat's output even narrates that it will
+  "skip the truth file." That is evidence of intended compliance, not enforced
+  blinding. A confirmatory run should keep truth files out of the seats' reachable
+  filesystem entirely.
 
 ## What this means (honestly)
 

@@ -14,32 +14,32 @@ named source or a concrete mechanism, not a vibe. Confidence is shown as
 
 ## Seat A claims (champion: monorepo)
 
-| id | claim (compressed - full text in round0-seat-a-codex.md) | evidence | confidence | post-R1 status |
+| id | claim - one sentence, verbatim from the seat (full R0 in round0-seat-a-codex.md) | evidence | confidence | post-R1 status |
 |----|-----|----|----|----|
-| A1 | Atomic cross-project commits make the monorepo strongest for cross-cutting change/refactor. | Brito/Terra/Valente review; Google CACM | 0.96 | `conceded` - the contradicting seat yielded: both agree the mechanism is real *and* rarer here ("loosely related / occasional"); decisive only if cross-cutting is frequent |
-| A2 | At ~60 eng / 8+ projects, monorepo CI is an attainable *configuration* problem (Nx affected + cache), not a bespoke-build-system problem. | Nx affected docs | 0.88 (held) | `disputed` - **surviving**; the load-bearing dispute, A did not revise |
-| A3 | One repo need not sacrifice team ownership or independent release cadence. | CODEOWNERS; Bazel visibility; Nx independent releases | 0.91 → 0.84 | `conceded` - A yields that polyrepo has stronger isolation *by default*; monorepo autonomy requires deliberate project-scoped boundaries |
-| A4 | Monorepo is a better onboarding/discoverability default (one tree, one graph, shared conventions). | Brito review; Google CACM | 0.87 → 0.82 | `conceded` - a good software catalog (Backstage) narrows this; small residual edge in unified navigation/conventions |
-| A5 | Monorepo converts hidden integration risk into visible **pre-merge** impact (affected-set schedules downstream checks in the same PR). | Nx affected; Bazel visibility | 0.90 | `conceded` - mutual: both yield to two different blast-radius profiles (see D4) |
+| A1 | A monorepo is the strongest choice for cross-cutting changes because producers, consumers, tests, and migrations can change atomically. | Brito/Terra/Valente review; Google CACM | 0.96 | `conceded` - the contradicting seat yielded: both agree the mechanism is real *and* rarer here ("loosely related / occasional"); decisive only if cross-cutting is frequent |
+| A2 | At 60 engineers and roughly eight-plus projects, monorepo CI is an attainable configuration problem, not a bespoke-build-system problem. | Nx affected docs | 0.88 (held) | `surviving-dissent`; the load-bearing dispute, A did not revise |
+| A3 | One repository need not sacrifice team ownership or independent release cadence. | CODEOWNERS; Bazel visibility; Nx independent releases | 0.91 → 0.84 | `conceded` - A yields that polyrepo has stronger isolation *by default*; monorepo autonomy requires deliberate project-scoped boundaries |
+| A4 | A monorepo gives this rapidly hiring organization a better onboarding and discoverability default. | Brito review; Google CACM | 0.87 → 0.82 | `conceded` - a good software catalog (Backstage) narrows this; small residual edge in unified navigation/conventions |
+| A5 | For shared-code evolution, a monorepo converts hidden integration risk into visible pre-merge impact. | Nx affected; Bazel visibility | 0.90 | `conceded` - mutual: both yield to two different blast-radius profiles (see D4) |
 
 ## Seat B claims (champion: polyrepo)
 
-| id | claim (compressed - full text in round0-seat-b-grok.md) | evidence | confidence | post-R1 status |
+| id | claim - one sentence, verbatim from the seat (full R0 in round0-seat-b-grok.md) | evidence | confidence | post-R1 status |
 |----|-----|----|----|----|
-| B1 | Polyrepo is the source-control encoding of DORA "loosely coupled teams" - the autonomy this org needs as it triples. | dora.dev; Accelerate/SODR 2021; Netflix; Amazon two-pizza | 0.86 | `disputed` - **surviving** (feeds A2/D3); A calls this "owner-unassigned weighting", B holds criterion 2 dominates |
-| B2 | A *working* monorepo here is not "Git + Nx" - it's an owned project graph + remote cache + merge-queue + a CI-owning team (Nx's seven questions), which the brief's "no bespoke build system / not Google-scale" constraint fights. | Google CACM (bill of materials); Merino; Nx KB; GHA required-checks failure mode | 0.90 → 0.85 | `disputed` - **surviving**; the load-bearing dispute, B revised down but held |
-| B3 | Versioned deps shrink blast radius: a bad change is an opt-in bump, not a HEAD-wide red `main`. | CACM; Nx/Graphite access tables; DORA cascading-failure | 0.84 → 0.82 | `conceded` - B yields A's pre-merge visibility; keeps post-merge/CI blast radius (see D4) |
-| B4 | One repo on loosely related teams imposes a standing **consensus tax** (CI owner, version policy, git workflow, layout) that grows faster than the occasional cross-cutting PR. | Nx KB (seven org-wide questions); inverse-Conway; Amazon two-pizza | 0.81 (held) | `disputed` - **surviving** (feeds A2/D3) |
-| B5 | Atomic cross-project commits are a real loss but the *correct* loss given "occasional" cross-cutting; paying HEAD-coupling on every change to optimize the rare one is inverted ROI. | Netflix (semver + lockfiles + contract tests + mass-PR refactor) | 0.80 | `conceded` - resolves with A1: both agree the mechanism is real and frequency-dependent |
-| B6 | Standardize polyrepo *now*: the 60-eng org is more team-shaped than product-shaped, and reversing a monorepo later is the expensive direction. | DORA inverse-Conway; CACM "unnecessary dependencies"; Merino | 0.78 | `disputed` - **surviving** (minor); A calls the asymmetry speculative, no data either way |
+| B1 | Polyrepo is the source-control encoding of independently deployable teams — the DORA capability this org is about to need as it triples headcount. | dora.dev; Accelerate/SODR 2021; Netflix; Amazon two-pizza | 0.86 | `surviving-dissent` (feeds A2/D3); A calls this "owner-unassigned weighting", B holds criterion 2 dominates |
+| B2 | A working monorepo under this constraint set is not "Git plus Nx." It is a platform product Google had to invent. Polyrepo CI is commodity; monorepo-at-HEAD CI is not. | Google CACM (bill of materials); Merino; Nx KB; GHA required-checks failure mode | 0.90 → 0.85 | `surviving-dissent`; the load-bearing dispute, B revised down but held |
+| B3 | Versioned dependencies shrink blast radius: a bad change becomes an opt-in bump, not a HEAD-wide outage of everyone else's CI and main. | CACM; Nx/Graphite access tables; DORA cascading-failure | 0.84 → 0.82 | `conceded` - B yields A's pre-merge visibility; keeps post-merge/CI blast radius (see D4) |
+| B4 | Forcing one repo on loosely related teams imposes a standing consensus tax (CI owner, version policy, git workflow, folder layout) that grows faster than the occasional cross-cutting PR. | Nx KB (seven org-wide questions); inverse-Conway; Amazon two-pizza | 0.81 (held) | `surviving-dissent` (feeds A2/D3) |
+| B5 | Criterion 1 is a real loss — atomic cross-project commits — and it is the correct loss given "occasional" cross-cutting and "loosely related." Paying HEAD-coupling on every change to optimize the rare one is inverted ROI. | Netflix (semver + lockfiles + contract tests + mass-PR refactor) | 0.80 | `conceded` - resolves with A1: both agree the mechanism is real and frequency-dependent |
+| B6 | Standardize on polyrepo now because the 60-engineer org will be more team-shaped, not more product-shaped; reversing a monorepo later is the expensive direction. | DORA inverse-Conway; CACM "unnecessary dependencies"; Merino | 0.78 | `surviving-dissent` (minor); A calls the asymmetry speculative, no data either way |
 
-> **Status column** uses the `core/LEDGER.md` enum only (`conceded` = the
-> contradicting seat yielded in Round 1; `disputed` = still contradicted at
-> verdict = **surviving** into the dissent bucket). There is no `agreed-r0`
-> row: the seats were assigned opposing sides, so nothing was independently
-> agreed in Round 0. The "converged / common ground" language in the notes and
-> the verdict is a *verdict-level* description of `conceded` claims, not a claim
-> status. Tally: `agreed-r0` 0 · `conceded` 6 · `disputed` (surviving) 5.
+> **Status column** uses the `core/LEDGER.md` enum only, verbatim: `conceded` =
+> the contradicting seat yielded in Round 1; `surviving-dissent` = still contested
+> after cross-exam, bound for the verdict's bucket 3. There is no `agreed-r0` row:
+> the seats were assigned opposing sides, so nothing was independently agreed in
+> Round 0. The "converged / common ground" language in the notes and the verdict
+> is a *verdict-level* description of `conceded` claims, not a claim status.
+> Tally: `agreed-r0` 0 · `conceded` 6 · `surviving-dissent` 5.
 
 ## Disputes and how Round 1 moved them
 

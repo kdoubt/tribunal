@@ -146,10 +146,16 @@ cp "$TRIBUNAL_ROOT/core/templates/ledger.md" "$PANEL_OUT/ledger.md"
 ${EDITOR:?set EDITOR to your editor command} "$PANEL_OUT/ledger.md"
 
 # --- 3a. Stop rule (a): if Round 0 already agreed on everything
-#     decision-relevant, write the verdict now and SKIP Round 1 - relaying
-#     non-disputed claims only invites politeness convergence.
-read -rp "Round 0 agreed on everything decision-relevant? Skip Round 1 and write the verdict now? [y/N] " agreed
+#     decision-relevant, SKIP Round 1 - relaying non-disputed claims only
+#     invites politeness convergence. BUT agreement is not verification: run the
+#     oracle on every checkable agreed claim FIRST (a shared blind spot can make
+#     both seats agree on a false claim), then write the verdict. Early stop
+#     skips the debate, never the oracle.
+read -rp "Round 0 agreed on everything decision-relevant? Skip Round 1? [y/N] " agreed
 if [[ ${agreed:-} == [yY]* ]]; then
+  echo "Before writing the verdict: run oracles on the checkable agreed claims" >&2
+  echo "(tests/compiler/primary-doc lookups). Only agreed claims that survive" >&2
+  echo "the oracle - or are honestly marked UNVERIFIED - go in the verdict." >&2
   cp "$TRIBUNAL_ROOT/core/templates/verdict.md" "$PANEL_OUT/verdict.md"
   ${EDITOR} "$PANEL_OUT/verdict.md"
   echo "early stop (rule a) - verdict in $PANEL_OUT" >&2

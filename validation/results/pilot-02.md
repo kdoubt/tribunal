@@ -10,26 +10,37 @@ per pass - see [`pilot-02/BLIND-ORDER.md`](pilot-02/BLIND-ORDER.md).
 
 ## Headline
 
-**No robust signal either way - the outcome flips with the judge.** Under the
-independent judge (Claude, both passes) the single-model memo won 2 of 3; under
-a second judge *vendor* (Grok) it inverted to the panel winning 2 of 3. The two
-judge vendors are **anti-correlated on all three decisions**. So the honest
-result is not "solo wins" - it is that "*which memo is more decision-useful*" for
-an ambiguous call is **judge-dependent**, and the single-judge reading in the
-first version of this file did **not** survive a second judge.
+**No lift: on aggregate rubric score, solo ≥ panel under *every* judge.** An
+earlier version of this file called the result "judge-dependent / flips with the
+judge." A re-review (Codex) correctly showed that over-weighted the
+forced-choice line; **corrected here.** On the rubric totals the two arms were
+scored on:
 
-| decision | seats agreed? | R1 ran? | Claude judge (×2) | Grok judge (conflicted) |
+| judge | solo aggregate | panel aggregate | winner (points) | forced-choice tally |
 |----|----|----|----|----|
-| P1 event-sourcing vs CRUD | yes (both B) | no (early stop) | **panel**, **panel** | solo |
-| P2 service mesh now vs defer | **no** (A vs B) | **yes** | **solo**, **solo** | panel |
-| P3 pgvector vs dedicated | yes (both A) | no (early stop) | **solo**, **solo** | panel |
+| Claude - pass 1 (independent) | **34** | 32 | solo | solo 2, panel 1 |
+| Claude - pass 2 (independent, order flipped) | **34** | 31 | solo | solo 2, tie 1 |
+| Grok (CONFLICTED - its own text is in the panel memos) | 32 | 32 | **tie** | solo 1, panel 2 |
 
-Independent judge: **panel 1 / solo 2, stable under an order flip.** Conflicted
-judge: **solo 1 / panel 2.** See "Robustness" below.
+**The panel never won on points under any judge.** The only thing that inverted
+was the *forced choice* of the **conflicted** judge (Grok, which authored part of
+the panel memos) - and even that was on a tied aggregate score. So the honest
+statement is: *solo scored at least as well as the panel under every judge,
+including the conflicted one; only the conflicted judge's tie-break preferred the
+panel.* That is a **stronger no-lift finding**, not a "flip."
+
+Per-decision forced choices (for the earlier framing, now de-emphasized):
+
+| decision | seats agreed? | R1 ran? | Claude ×2 | Grok (conflicted) |
+|----|----|----|----|----|
+| P1 event-sourcing vs CRUD | yes (both B) | no (early stop) | panel, panel | solo |
+| P2 service mesh now vs defer | **no** (A vs B) | **yes** | solo, solo | panel |
+| P3 pgvector vs dedicated | yes (both A) | no (early stop) | solo, solo | panel |
 
 Only **P2** exercised Round 1 at all - the other two early-stopped because both
 seats independently agreed (as they did on all of pilot-01). So across both
-pilots, **8 of 9 decisions produced no seat disagreement**; the heterogeneous
+pilots, **8 of 9 decisions produced no seat disagreement** (strictly, 8 of 8
+*measurable* - pilot-01 d3 had a dead seat, see that file); the heterogeneous
 panel mostly just confirms what one strong model already concludes.
 
 ## Why the *independent* judge scored as it did (and where the second judge disagreed)
@@ -64,32 +75,34 @@ independent one, panel 1 / solo 2). The **Grok** judge inverted every call - the
   (in-DB trigger + revoked UPDATE/DELETE) and a tighter test, with citations the
   judge deemed load-bearing. Real, but modest, and on an agreed call.
 
-## Robustness - three judge passes, and a complete inversion
+## Robustness - three judge passes (what actually moved, and what didn't)
 
 To finish the pilot, the judging was repeated (the pre-registration allowed for a
-second judge):
+second judge). Distinguish the two metrics the pre-registration named -
+**aggregate rubric score** and **forced choice**:
 
-- **Independent judge, second pass (Claude, order flipped): identical result -
-  panel 1 / solo 2.** So within the independent judge, the outcome is *stable*
-  against position/sampling; it is not a fluke of one pass.
-- **Second judge vendor (Grok): inverts every decision - solo 1 / panel 2.**
-  Grok is a **conflicted** judge (its own Round-0/Round-1 text is inside the panel
-  memos), so its pro-panel lean cannot be cleanly separated from bias. Two things
-  keep it informative anyway: it picked the *solo* memo on P1 (so it is not
-  blindly pro-panel), and on P2 it articulated a coherent, defensible reason to
-  prefer the panel's decide-after-test - the mirror image of Claude's reason to
-  dock it.
-- **Net:** the two judge *vendors* are **anti-correlated on all three
-  decisions**. The apparent "solo 2 / panel 1" of the single-judge version is a
-  Claude-judge reading, not a robust fact; a different judge vendor reverses it.
+- **Aggregate score never favored the panel** (34-32, 34-31, 32-32 in the table
+  above). This is the robust metric and it says *solo ≥ panel under every judge*.
+- **Independent judge, second pass (Claude, order flipped):** reproduced pass 1
+  on both metrics (solo on points, solo 2 / panel 1 on forced choice). So the
+  independent judge's result is *stable* against position/sampling.
+- **Second judge vendor (Grok):** aggregate **tied**; only its *forced choice*
+  went panel 2 / solo 1. Grok is a **conflicted** judge - its own Round-0/Round-1
+  text is inside the panel memos - so any pro-panel lean cannot be separated from
+  bias. It stays informative only because it picked the *solo* memo on P1 and gave
+  a coherent reason on P2; it does **not** support the claim that "an independent
+  judge reversed the result." No independent judge reversed anything.
+- **Correction:** an earlier version of this file said the result "inverts /
+  flips with the judge." That over-weighted the conflicted judge's forced choice.
+  What actually happened: **the panel never out-scored the solo memo under any
+  judge; a conflicted judge's tie-break preferred it on 2 of 3.**
 
-The honest conclusion is therefore stronger and humbler than "solo wins": on
-ambiguous decisions, **whether the panel or the solo memo is 'more
-decision-useful' is not robustly measurable - it depends on the judge, and the
-judges disagree exactly on whether preserved dissent + a discriminating test
-beats a committed answer.** A clean test would need an independent judge that is
-*not* one of the seats and *not* the orchestrator's vendor (a fourth model) -
-which this run could not reach.
+The honest conclusion, corrected: on these three ambiguous decisions the panel
+showed **no aggregate lift under any judge**, and the one metric that moved
+(forced choice) moved only under a judge with a stake in the panel. A clean
+confirmatory test still needs a judge that is *not* one of the seats and *not*
+the orchestrator's vendor (a fourth model), which this run could not reach - so
+even the no-lift reading is a pilot signal, not proof.
 
 ## Confounds (which cut both ways)
 
@@ -107,20 +120,28 @@ which this run could not reach.
 3. **Effort/length asymmetry:** the solo arm wrote to ~400 words; the panel drew
    on ~2×450 words of seat material. If anything this favored the panel, and it
    still lost the set.
-4. **The rubric/judge rewards committing to A/B** (per the briefs) - and this is
-   no longer hypothetical: the P2 result **did** invert between judges, with Grok
-   valuing the panel's "here's the deciding test" exactly where Claude penalized
-   its refusal to commit. That is not a rescue for the panel (the briefs asked for
-   a commitment, and the clean judge weighted that), but it is direct evidence
-   that the comparison is a values choice, not a fact.
+4. **The rubric/judge rewards committing to A/B** (per the briefs). On P2 the
+   *forced choice* split - Grok valued the panel's "here's the deciding test"
+   where Claude penalized its refusal to commit - but on **aggregate score** the
+   solo memo was ahead or tied for every judge, so this is a tie-break-level
+   effect, not a reversal. It shows the commit-vs-name-the-test question is a
+   values choice at the margin, not that the panel produces more useful output.
+5. **The four arms don't cleanly isolate components** (a design limitation, not a
+   reporting one): A1 may consult an oracle, A2 does not, A3 does - so A3-vs-A2
+   changes both Round 1 *and* oracle access. The pilot compares *whole arms*, not
+   isolated mechanisms; read it as "does the full panel beat a solo model," not
+   "what does Round 1 add." And Round 1 itself ran on only 1 of 3 decisions here
+   (P2), so its specific value is essentially untested.
 
 ## What this means (honestly)
 
-- **No *robust* evidence of panel lift - the sign flips with the judge.** The
-  independent judge favored solo 2/3 (stable across an order flip); a second judge
-  vendor reversed it. Combined with pilot-01's null, the fair summary is: two
-  pilots produced **no reliable lift signal**, at strictly higher cost for the
-  panel.
+- **No aggregate lift under any judge.** On the rubric totals, solo ≥ panel for
+  all three judges (solo won under both independent Claude passes, tied under the
+  conflicted Grok judge). Only a conflicted judge's *forced choice* preferred the
+  panel. Combined with pilot-01's null, two pilots produced **no lift signal**, at
+  strictly higher cost for the panel. (An earlier version of this file called
+  this "judge-dependent / flips" - that over-weighted forced choice and is
+  corrected.)
 - **The seats rarely disagree** (1 of 9 across both pilots). Tribunal's engine
   assumes productive disagreement; frontier models mostly converge, so the
   machinery usually idles (early stop) and A3 collapses to A2 collapses to ~A1.
@@ -140,15 +161,16 @@ which this run could not reach.
 
 ## Bottom line
 
-Two pre-registered pilots, published in full including the losses and the judge
-disagreement: **Tribunal has not shown *robust* lift over a single strong model.**
-On decidable questions a strong model already gets them right (pilot-01 null); on
-ambiguous ones, whether the panel or the solo memo is "more useful" **flips with
-the judge**, because the judges disagree on whether a preserved dissent plus a
-discriminating test beats a committed answer. The one judge-independent result is
-that frontier seats rarely disagree at all (1 of 9), so the panel machinery mostly
-idles. This argues for narrowing Tribunal's claims to the specific buyer who wants
-an adversarial counter-case plus a discriminating test on a genuinely irreversible
-call - and for a proper study (a fourth-vendor judge, larger n, real outcomes)
-before any stronger claim. The narrowed README/METHODOLOGY (v0.6.5) already
-reflect this.
+Two pre-registered pilots, published in full including the losses:
+**Tribunal has shown no lift over a single strong model.** On decidable questions
+a strong model already gets them right (pilot-01 null). On ambiguous ones the
+solo memo scored **≥** the panel on aggregate under every judge (including a
+conflicted one that only tie-broke toward the panel on forced choice). The one
+judge-independent result is that frontier seats rarely disagree at all (1 of 8
+measurable), so the panel machinery mostly idles. This argues for narrowing
+Tribunal's claims to the specific buyer who wants an adversarial counter-case plus
+a discriminating test on a genuinely irreversible call - and for a proper
+confirmatory study (a fourth-vendor independent judge, larger n, real outcomes,
+component-isolating arms) before any stronger claim. The narrowed
+README/METHODOLOGY (v0.6.5) already reflect the no-lift finding; this file's
+earlier "flips with the judge" framing was corrected after a re-review.

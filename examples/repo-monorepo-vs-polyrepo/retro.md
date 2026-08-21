@@ -16,16 +16,16 @@ seats:                   codex-cli (GPT-5-class), grok-cli (Grok-4-class)  <!-- 
 seat_deaths:             0
 claims_total:            11   <!-- Seat A: 5, Seat B: 6 -->
 agreed_r0:               0    <!-- opposing sides by construction; nothing agreed pre-exposure. The common ground emerged only in R1, via concession -->
-disputed:                5    <!-- terminal `disputed` = surviving into the dissent bucket: A2, B1, B2, B4, B6 -->
-conceded:                6    <!-- contradicting seat yielded in R1: A1, A3, A4, A5, B3, B5 (confidence also revised on A3, A4, B3; B2 revised but stayed disputed) -->
+disputed:                0    <!-- terminal status: every contested claim resolved to `conceded` (6) or `surviving-dissent` (5); none left transiently `disputed` at verdict -->
+conceded:                6    <!-- contradicting seat yielded in R1: A1, A3, A4, A5, B3, B5 (confidence also revised on A3, A4, B3; B2 revised but stayed surviving-dissent) -->
 overturned:              0    <!-- neither seat's verdict was overturned -->
 verified:                0    <!-- no claim was oracle-checked in-panel -->
 dropped:                 0
-surviving_dissent:       1    <!-- one load-bearing dissent in the verdict (D2: can THIS org run a monorepo without a bespoke build system / dedicated build team); the 5 `disputed` claims all feed it, with B6/reversibility a minor tail -->
+surviving_dissent:       5    <!-- 5 claims carry terminal `surviving-dissent` status (A2, B1, B2, B4, B6); they cluster into one load-bearing dispute in the verdict (D2: can THIS org run a monorepo without a bespoke build system / dedicated build team), with B6/reversibility a minor tail -->
 resolved_by_oracle:      0    <!-- the discriminating spike is a follow-up test, not run in-panel -->
 resolved_by_debate:      6    <!-- the 6 `conceded` claims, resolved by R1 cross-examination -->
-citations_dropped:       0
-citations_unverified:    0    <!-- no in-panel citation audit was run; seats cited named, checkable public sources (DORA, Google CACM, Netflix, Nx, Merino, Backstage, Brito/Terra/Valente, Bazel, CODEOWNERS, AWS) - this run demonstrates method, not a citation audit -->
+citations_dropped:       0    <!-- no citation was checked-and-failed -->
+citations_unverified:    0    <!-- no citation was relayed with the UNVERIFIED stamp. NB: no in-panel citation audit ran at all, so this 0 means "none formally flagged", not "all verified"; the seats cited named public sources (DORA, Google CACM, Netflix, Nx, Merino, Backstage, Brito/Terra/Valente, Bazel, CODEOWNERS, AWS) that this demo did not independently check -->
 cost_notes:              4 CLI invocations (2 Round 0 + 2 Round 1), a few minutes wall-clock each
 friction:                grok needed all inputs staged into one cwd + read-only allow-rules (else narration-only exit); codex needed stdin closed (`< /dev/null`). Both produced clean, claim-shaped, well-cited output.
 

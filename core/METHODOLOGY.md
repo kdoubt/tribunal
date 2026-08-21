@@ -17,9 +17,12 @@ have not shown that a panel beats a single strong model, and across both pilots
 the two vendors disagreed on only 1 of 9 decisions - so decorrelation buys less
 than the pitch implies, because frontier models mostly converge. Treat the claim
 above as the design's *intent*, being measured honestly, not as a settled fact.
-The method's durable value is procedural - forcing isolation, grounding claims,
-and preserving surviving dissent with a discriminating test - which stands
-whether or not the accuracy lift ever materializes.
+The method's *intended* durable value is procedural - forcing isolation,
+grounding claims, and preserving surviving dissent with a discriminating test.
+Whether that procedural output is actually *more useful* than a solo model's is
+itself judge-dependent in the pilots (one judge rewarded the preserved dissent,
+another penalized it), so treat this as the design's aim, not a demonstrated
+fact.
 
 ## Workflow
 

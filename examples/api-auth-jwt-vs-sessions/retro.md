@@ -24,7 +24,7 @@ surviving_dissent:       0
 resolved_by_oracle:      0
 resolved_by_debate:      0
 citations_dropped:       0
-citations_unverified:    0
+citations_unverified:    0    <!-- none relayed with an UNVERIFIED stamp; NB no in-panel citation audit ran, so 0 means "none formally flagged", not "all verified" -->
 cost_notes:              two single-shot Round 0 CLI invocations, ~a few minutes wall-clock; no Round 1
 friction:                none - both seats returned clean, claim-shaped, well-cited output on the first try
 
