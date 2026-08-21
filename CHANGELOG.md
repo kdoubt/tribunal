@@ -9,6 +9,11 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+- **Workflow diagram**: added a third seat (Seat C) to the hero SVGs
+  (light + dark), reinforcing that a panel is any N>=2; README seat-count
+  line updated to match. Diagram flow otherwise unchanged - still accurate
+  after the v0.4-0.6 within-stage refinements.
+
 - **retro template**: numeric fields must be a bare integer with any caveat in
   a trailing `<!-- comment -->` (not inline like `3 (seat died)`), so counts
   grep and parse cleanly - closes the field class that the operator flywheel's

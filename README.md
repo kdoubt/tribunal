@@ -91,9 +91,9 @@ you know the loop it is mostly the models' wall-clock time - a few minutes
 per round. The one prerequisite is two agentic CLIs from different vendors,
 already authenticated.
 
-Two seats is the floor, not the ceiling. The diagram shows two for clarity,
-but a panel is any N ≥ 2 - add a third seat (or more) for the
-highest-stakes, most irreversible calls. The biggest gain is 1 → 2
+Two seats is the floor, not the ceiling. The diagram shows three, but a
+panel is any N ≥ 2 - two is the floor and the third seat is optional, added
+for the highest-stakes, most irreversible calls. The biggest gain is 1 → 2
 (self-review to cross-vendor); each seat past that adds diminishing value
 at linear cost, so scale to the stakes. Giving seats distinct review
 *lenses* is a separate, optional layer with its own rules (see
