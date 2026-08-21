@@ -19,27 +19,25 @@
   <text x="248" y="34" text-anchor="middle" font-size="11.5" font-weight="700" fill="#8b949e" letter-spacing="1">ROUND 0 - ISOLATED, PARALLEL</text>
 
   <!-- Seat A -->
-  <rect x="184" y="48" width="128" height="52" rx="10" fill="#0d1f33" stroke="#58a6ff" stroke-width="1.5"/>
-  <text x="248" y="72" text-anchor="middle" font-size="13.5" font-weight="700" fill="#58a6ff">SEAT A</text>
-  <text x="248" y="89" text-anchor="middle" font-size="10.5" fill="#58a6ff">frontier CLI · vendor 1</text>
+  <rect x="184" y="44" width="128" height="50" rx="10" fill="#0d1f33" stroke="#58a6ff" stroke-width="1.5"/>
+  <text x="248" y="68" text-anchor="middle" font-size="13.5" font-weight="700" fill="#58a6ff">SEAT A</text>
+  <text x="248" y="85" text-anchor="middle" font-size="10.5" fill="#58a6ff">frontier CLI · vendor 1</text>
 
   <!-- Seat B -->
-  <rect x="184" y="114" width="128" height="52" rx="10" fill="#2d1214" stroke="#f85149" stroke-width="1.5"/>
-  <text x="248" y="138" text-anchor="middle" font-size="13.5" font-weight="700" fill="#f85149">SEAT B</text>
-  <text x="248" y="155" text-anchor="middle" font-size="10.5" fill="#f85149">frontier CLI · vendor 2</text>
+  <rect x="184" y="116" width="128" height="50" rx="10" fill="#2d1214" stroke="#f85149" stroke-width="1.5"/>
+  <text x="248" y="140" text-anchor="middle" font-size="13.5" font-weight="700" fill="#f85149">SEAT B</text>
+  <text x="248" y="157" text-anchor="middle" font-size="10.5" fill="#f85149">frontier CLI · vendor 2</text>
 
-  <!-- Seat C (optional third seat - for the highest-stakes calls) -->
-  <rect x="184" y="180" width="128" height="52" rx="10" fill="#211a2e" stroke="#bc8cff" stroke-width="1.5"/>
-  <text x="248" y="204" text-anchor="middle" font-size="13.5" font-weight="700" fill="#bc8cff">SEAT C</text>
-  <text x="248" y="221" text-anchor="middle" font-size="10.5" fill="#bc8cff">frontier CLI · vendor 3</text>
+  <!-- Seat C (optional third seat - dashed - for the highest-stakes calls) -->
+  <rect x="184" y="188" width="128" height="50" rx="10" fill="#1c1726" stroke="#bc8cff" stroke-width="1.5" stroke-dasharray="5 3"/>
+  <text x="248" y="209" text-anchor="middle" font-size="13.5" font-weight="700" fill="#bc8cff">SEAT C</text>
+  <text x="248" y="226" text-anchor="middle" font-size="10" fill="#bc8cff">optional · vendor 3</text>
 
   <!-- no cross-exposure between any pair -->
-  <line x1="248" y1="100" x2="248" y2="114" stroke="#f85149" stroke-width="1.5" stroke-dasharray="4 4"/>
-  <circle cx="248" cy="107" r="7" fill="#0d1117" stroke="#f85149" stroke-width="1.5"/>
-  <text x="248" y="111" text-anchor="middle" font-size="11" font-weight="700" fill="#f85149">✕</text>
-  <line x1="248" y1="166" x2="248" y2="180" stroke="#f85149" stroke-width="1.5" stroke-dasharray="4 4"/>
-  <circle cx="248" cy="173" r="7" fill="#0d1117" stroke="#f85149" stroke-width="1.5"/>
-  <text x="248" y="177" text-anchor="middle" font-size="11" font-weight="700" fill="#f85149">✕</text>
+  <circle cx="248" cy="105" r="8" fill="#0d1117" stroke="#f85149" stroke-width="1.5"/>
+  <text x="248" y="109.5" text-anchor="middle" font-size="11" font-weight="700" fill="#f85149">✕</text>
+  <circle cx="248" cy="177" r="8" fill="#0d1117" stroke="#f85149" stroke-width="1.5"/>
+  <text x="248" y="181.5" text-anchor="middle" font-size="11" font-weight="700" fill="#f85149">✕</text>
   <text x="248" y="326" text-anchor="middle" font-size="10.5" fill="#8b949e" font-style="italic">no cross-exposure between any seat - agreement after peeking is worthless</text>
 
   <!-- Ledger -->
@@ -73,12 +71,12 @@
   <text x="866" y="217" text-anchor="middle" font-size="10.5" font-weight="700" fill="#3fb950">never averaged away</text>
 
   <!-- arrows -->
-  <path d="M144,138 L180,74" stroke="#8b949e" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
-  <path d="M144,160 L180,140" stroke="#8b949e" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
-  <path d="M144,182 L180,206" stroke="#8b949e" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
-  <path d="M312,74 L362,134" stroke="#8b949e" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
-  <path d="M312,140 L362,158" stroke="#8b949e" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
-  <path d="M312,206 L362,186" stroke="#8b949e" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+  <path d="M144,138 L180,72" stroke="#8b949e" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+  <path d="M144,160 L180,141" stroke="#8b949e" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+  <path d="M144,182 L180,210" stroke="#8b949e" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+  <path d="M312,72 L362,132" stroke="#8b949e" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+  <path d="M312,141 L362,158" stroke="#8b949e" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+  <path d="M312,210 L362,186" stroke="#8b949e" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
   <path d="M508,140 L558,116" stroke="#8b949e" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
   <path d="M508,180 L558,208" stroke="#8b949e" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
   <path d="M714,113 L782,140" stroke="#8b949e" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>

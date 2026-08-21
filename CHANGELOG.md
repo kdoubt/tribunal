@@ -9,8 +9,8 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
-- **Workflow diagram**: added a third seat (Seat C) to the hero SVGs
-  (light + dark), reinforcing that a panel is any N>=2; README seat-count
+- **Workflow diagram**: added a third seat (Seat C, dashed/optional) to the hero
+  SVGs (light + dark), reinforcing that a panel is any N>=2; README seat-count
   line updated to match. Diagram flow otherwise unchanged - still accurate
   after the v0.4-0.6 within-stage refinements.
 
