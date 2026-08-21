@@ -283,19 +283,21 @@ outcomes:
 [`examples/repo-monorepo-vs-polyrepo/`](examples/repo-monorepo-vs-polyrepo/)
 (role-incentivized, full Round 1, surviving dissent).
 
-**Honest validation status:** two pre-registered ablation pilots
-([`validation/`](validation/)) have shown **no lift** over a single strong model.
-On decidable questions a good model already gets them right (pilot-01 null). On
-ambiguous ones, the solo memo scored **at least as well as** the panel on
-aggregate under *every* judge - two independent passes favored solo, and a
-*conflicted* third judge (its own text was in the panel memos) only tied on
-points and tie-broke toward the panel on 2 of 3 forced choices. The one robust,
-judge-independent finding: across both pilots the two vendors disagreed on only
-**1 of 8** measurable decisions, so the panel machinery mostly idles. Tribunal is
-therefore a *promising but unproven* protocol: worth running for the adversarial
-counter-case and the discriminating test it produces on contested, irreversible
-calls - **not** because it is demonstrated to be more accurate than one good
-model. Results (and this correction) are published in full.
+**Honest validation status:** pre-registered ablations ([`validation/`](validation/))
+- two pilots and now a **confirmatory study (n=20)** with an independent
+fourth-vendor judge, oracle-scored decisions, and component-isolating arms - show
+**no accuracy lift** over a single strong model. Across the confirmatory set the
+two vendors disagreed on only **1 of 20** decisions, so the panel's engine (Round
+1) almost never activates; when it did fire (once), it correctly caught a solo
+model's error - but the panel still only *matched* the best single model, never
+beat it, and an independent judge preferred the solo memo on the ambiguous set.
+The defensible value the data supports is narrow: a **hedge that is never worse
+than a fixed single vendor and sometimes catches its mistake**, plus a preserved
+counter-case and a discriminating test on contested calls - paid for with a
+real operational cost (the second seat frequently narration-dies in headless
+use). Tribunal is a *promising but unproven* protocol, **not** a demonstrated
+accuracy upgrade. Every result, including the losses and a corrected earlier
+overclaim, is published in full.
 
 The clearest
 in-repo receipt that the method overturns its own author is the CHANGELOG

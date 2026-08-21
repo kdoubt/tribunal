@@ -9,6 +9,15 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+## [0.6.9] - 2026-08-21
+
+- **Confirmatory study run to completion (n=20) - no lift confirmed** (`validation/confirmatory/RESULTS.md`). Four arms per decision with **oracle access held constant** (so `A_panel − A_2seat` isolates Round 1), an **independent fourth-vendor judge** (gpt-oss-120b, temp 0), and access-separated sealed truth. Findings:
+  - **Seats disagreed on only 1 of 20 decisions** (c09). On the other 19 the vendors independently agreed, so Round 1 never ran and `A_panel = A_2seat`. This confirms the pilots' rare-disagreement finding at n=20 and is the study's most robust result.
+  - **Round 1 works when it fires:** on c09, Codex-solo said REPEATABLE READ makes an inventory oversell safe (wrong); Grok said no (right); in Round 1 **Codex revised YES → NO** and the panel landed on the correct answer. The full transcript is in `results-raw/c09/`. But the panel only beat the *weaker fixed vendor* - Grok-solo alone was already correct, so there is **no lift over the best single model**.
+  - **Known-answer (n=10, oracle-scored):** Codex-solo 9/10, Grok-solo 10/10, best-of-two-solos 10/10, panel 10/10. **Ambiguous (n=10, independent judge):** solo aggregate 118 vs panel 103; forced choice solo 9 / tie 1 / panel 0 (with the honest caveat that the panel memo was crudely rendered mechanically, which handicaps it - the mirror of pilot-02's hand-polished panel memo; both still land at solo ≥ panel).
+  - **Operational tax quantified:** Grok narration-died in headless mode on 10/10 known-answer decisions when the prompt merely mentioned consulting docs (it tried to use tools / load a skill), and only became reliable under a strict "no tools" prompt. The two-vendor requirement carries a large reliability cost in automated use.
+- **README/METHODOLOGY updated** to the confirmatory finding: no accuracy lift; the defensible value is a *hedge that is never worse than a fixed single vendor and sometimes catches its mistake*, plus a counter-case + discriminating test - not a smarter-than-the-best-model claim. Open limitations stated: single (OpenAI-lineage) judge, crude ambiguous panel rendering, and only one decision exercising Round 1.
+
 ## [0.6.8] - 2026-08-21
 
 - **`validation/confirmatory/` - the confirmatory study is set up and its judge blocker is solved.** The pilots were exploratory for four reasons (judge = orchestrator's vendor; arms didn't isolate components; orchestrator-assembled panel memo; tiny n / undisclosed scorer / instruction-only blinding). The pre-registered `confirmatory/PROTOCOL.md` removes all four: component-isolating arms with **oracle access held constant** (so `A_panel − A_2seat` isolates Round 1), an **independent fourth-vendor judge**, a mechanical (non-orchestrator) panel output with a raw-concatenation control, an independent scorer, access-separated sealed truth, **n ≥ 20**, and **aggregate score as the pre-registered primary endpoint** with a decision rule for declaring lift.
@@ -285,7 +294,8 @@ the methodology itself still has one published run (see README, Status).
   methodology, labeled as a historical bootstrap transcript with its
   known non-compliances enumerated.
 
-[Unreleased]: https://github.com/kdoubt/tribunal/compare/v0.6.8...HEAD
+[Unreleased]: https://github.com/kdoubt/tribunal/compare/v0.6.9...HEAD
+[0.6.9]: https://github.com/kdoubt/tribunal/compare/v0.6.8...v0.6.9
 [0.6.8]: https://github.com/kdoubt/tribunal/compare/v0.6.7...v0.6.8
 [0.6.7]: https://github.com/kdoubt/tribunal/compare/v0.6.6...v0.6.7
 [0.6.6]: https://github.com/kdoubt/tribunal/compare/v0.6.5...v0.6.6

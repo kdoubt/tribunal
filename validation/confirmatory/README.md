@@ -16,26 +16,21 @@ removes all four, so its result is load-bearing either way.
   oracle/truth the seats never receive). Committed before scoring.
 - `results/` - added after the run, every decision published including losses.
 
-## Status: harness proven; set + run pending
+## Status: RUN COMPLETE (n=20) - no lift confirmed
 
-The independent judge is wired and **verified working**: `gpt-oss-120b` on a
-local OpenAI-compatible endpoint (neither seat, nor the orchestrator's vendor),
-temperature 0 for reproducibility. Its first use was a robustness re-judging of
-the pilot-02 memos, and it **corroborated the no-lift finding** - a dead tie on
-aggregate (32-32), not a panel win (see [`../results/pilot-02.md`](../results/pilot-02.md)).
-So the fourth-vendor-judge blocker that made pilot-02 exploratory is now solved.
+Full results in [`RESULTS.md`](RESULTS.md). The independent judge (`gpt-oss-120b`,
+temp 0, neither seat nor orchestrator vendor) is wired and was used to score the
+ambiguous arm. Headline: **seats disagreed on only 1 of 20 decisions; the panel
+never out-scored a single strong model; Round 1 fired once (c09) and correctly
+adjudicated.** The no-lift prior is confirmed at n=20 with an independent judge,
+oracle-scored known-answer decisions, and component-isolating arms.
 
-Remaining before the confirmatory scoring run:
-
-1. **Finish the decision set to n ≥ 20** (harder known-answer decisions where a
-   strong solo can err + ambiguous no-ground-truth calls + a real-outcome
-   subset), each with sealed truth.
-2. **Add the designated non-OpenAI second judge** (Meta Llama or Alibaba Qwen via
-   the gateway) once a key is available, per the protocol's two-judge rule.
-3. **Run** the four arms per decision, judge blind under both judges, score, and
-   publish - lift or no lift.
+Still open (stated honestly in `RESULTS.md`): the **non-OpenAI second judge** the
+protocol calls for was not added (gateway key unavailable), the ambiguous panel
+memo was crudely rendered, and only one decision exercised Round 1 - so the
+primary endpoint rests on a single data point. A larger, two-judge, real-outcome
+study remains the ceiling; this run is a genuine confirmatory attempt, not the
+last word.
 
 The harness scripts (arm runner, judge caller) live operator-side, not in this
 docs-only repo; only the protocol, decision set, and results are committed here.
-The prior on the primary endpoint, from two pilots and now an independent judge,
-is **no lift** - this study exists to overturn or confirm that honestly.
