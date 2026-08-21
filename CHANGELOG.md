@@ -9,6 +9,11 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+- **retro template**: numeric fields must be a bare integer with any caveat in
+  a trailing `<!-- comment -->` (not inline like `3 (seat died)`), so counts
+  grep and parse cleanly - closes the field class that the operator flywheel's
+  data-quality check flagged.
+
 - **`flywheel-export` + `data/` (de-identification tooling)**: a local,
   stdout-only helper that reduces a `retro.md` archive to de-identified,
   metadata-only JSON (whitelist of counts/enums; unknown values become

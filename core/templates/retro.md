@@ -12,7 +12,10 @@
      overall vibe; where the record can't show something, write
      "no signal", never a guess; keep the field names below stable and
      one per line so retrospectives stay comparable ACROSS runs with
-     nothing but grep - your panel directories are the analytics store:
+     nothing but grep. A numeric field is a BARE integer - put any caveat in
+     a trailing `<!-- comment -->` (never inline, e.g. not `3 (seat died)`),
+     so a count greps and parses cleanly. Your panel directories are the
+     analytics store:
 
          grep -h '^verdict_held:' */retro.md | sort | uniq -c
          grep -h '^overturned:'   */retro.md
