@@ -55,11 +55,16 @@ scout project ─▶ frozen brief ─▶ ROUND 0  seats answer in isolation (par
 
 Built for developers who work with agentic CLIs and have no human review
 board: the panel is your reviewers. One model reviewing its own plan
-converges on its own blind spots; two *different* vendors' models, forced
-to take independent positions and then cross-examine each other claim by
-claim, catch what neither would alone - **if** the process prevents them
-from politely agreeing their way to a wrong answer. Tribunal is that
-process. You need two or more independently configured model/agent
+converges on its own blind spots; Tribunal forces two *different* vendors'
+models to take independent positions and cross-examine each other claim by
+claim, so a genuinely contested call yields the **strongest counter-case and
+the cheapest test that would settle it**, with real disagreement preserved
+rather than averaged away. What it does **not** yet claim: that this reliably
+*beats* a single strong model. Two pre-registered pilots in
+[`validation/`](validation/) have not shown that lift - and the method's
+honesty about ambiguity can even score *worse* than a confident solo answer.
+Treat Tribunal as an adversarial, honesty-first aid for irreversible
+decisions, not a proven accuracy upgrade. You need two or more independently configured model/agent
 commands from *different* vendors or model families (local or hosted;
 subscriptions only where a provider requires one).
 
@@ -273,7 +278,21 @@ outcomes:
 [`examples/api-auth-jwt-vs-sessions/`](examples/api-auth-jwt-vs-sessions/)
 (two vendors, independent agreement, early stop) and
 [`examples/repo-monorepo-vs-polyrepo/`](examples/repo-monorepo-vs-polyrepo/)
-(role-incentivized, full Round 1, surviving dissent). The clearest
+(role-incentivized, full Round 1, surviving dissent).
+
+**Honest validation status:** two pre-registered ablation pilots
+([`validation/`](validation/)) have **not** shown that a panel beats a single
+strong model. On decidable questions a good model already gets them right; on
+ambiguous ones a blind third-vendor judge preferred the *solo* memo on 2 of 3
+decisions - docking the panel for preserving dissent instead of committing, and
+for extra evidence that introduced its own error. Across both pilots the two
+vendors disagreed on only **1 of 9** decisions, so the panel machinery mostly
+idles. Tribunal is therefore a *promising but unproven* protocol: worth running
+for the adversarial counter-case and the discriminating test it produces on
+contested, irreversible calls - **not** because it is demonstrated to be more
+accurate than one good model. Results are published in full, losses included.
+
+The clearest
 in-repo receipt that the method overturns its own author is the CHANGELOG
 itself: several `core/` rules landed only after a cross-vendor panel rejected
 their first draft (the lens doctrine and the v0.4-0.5 hardening each carry

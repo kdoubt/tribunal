@@ -9,6 +9,13 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+## [0.6.5] - 2026-08-21
+
+- **`validation/` - the repo now measures its own core claim, and publishes the negative result.** Prompted by three independent external reviews (Claude/ChatGPT/Grok) all flagging that Tribunal demonstrates the process *runs* but not that it produces *lift* over a single strong model. Added a pre-registered ablation harness (`validation/PROTOCOL.md`, sealed decision sets) run in two pilots, committed before results so nothing could be curated:
+  - **pilot-01** (5 known-answer decisions): null - a solo model got all 5 right without an oracle; the panel added cost, no accuracy. Also surfaced that decidable questions are the category Tribunal's own scope says *not* to convene a panel for.
+  - **pilot-02** (3 ambiguous decisions, blind third-vendor judge): the panel **lost the set, solo 2 - panel 1**. The panel's surviving-dissent / decide-after-test output was docked for not committing to A/B; a second seat's extra evidence introduced its own error. Across both pilots the two vendors disagreed on only **1 of 9** decisions, so the panel machinery mostly idles.
+- **Claims narrowed to match the evidence** (README + `core/METHODOLOGY.md`): dropped "two vendors catch what neither would alone" as a stated fact; the heterogeneity/lift premise is now labeled a hypothesis with the current evidence against its strong form, linked to `validation/`. Tribunal is repositioned as an adversarial, honesty-first aid (strongest counter-case + cheapest discriminating test on contested, irreversible calls), explicitly **not** a proven accuracy upgrade. The method's durable value is framed as procedural (isolation, grounding, preserved dissent), which holds regardless of the lift question.
+
 ## [0.6.4] - 2026-08-21
 
 - **Correctness fixes from three independent external reviews** (Claude, ChatGPT, Grok, separate sessions) - all verified before fixing. No methodology features added; this is bug-and-conformance only.
@@ -259,7 +266,8 @@ the methodology itself still has one published run (see README, Status).
   methodology, labeled as a historical bootstrap transcript with its
   known non-compliances enumerated.
 
-[Unreleased]: https://github.com/kdoubt/tribunal/compare/v0.6.4...HEAD
+[Unreleased]: https://github.com/kdoubt/tribunal/compare/v0.6.5...HEAD
+[0.6.5]: https://github.com/kdoubt/tribunal/compare/v0.6.4...v0.6.5
 [0.6.4]: https://github.com/kdoubt/tribunal/compare/v0.6.3...v0.6.4
 [0.6.3]: https://github.com/kdoubt/tribunal/compare/v0.6.2...v0.6.3
 [0.6.2]: https://github.com/kdoubt/tribunal/compare/v0.6.1...v0.6.2

@@ -5,10 +5,21 @@
 > producing agreeable prose. Consensus is an *output to be earned in
 > isolation*, never a goal to steer toward.
 
-Heterogeneity (different vendors, different training, different tool habits)
-lowers the chance of *correlated failure*. Two models that agree **before**
-seeing each other's answers is strong evidence. Two models that agree
-**after** seeing each other is nearly worthless - that agreement is cheap.
+Heterogeneity (different vendors, different training, different tool habits) is
+*meant* to lower the chance of *correlated failure*. Two models that agree
+**before** seeing each other's answers is better evidence than one model's
+self-agreement; two models that agree **after** seeing each other is nearly
+worthless - that agreement is cheap.
+
+**This is a hypothesis, and the current evidence is against the strong form of
+it.** Two pre-registered ablation pilots ([`../validation/`](../validation/))
+have not shown that a panel beats a single strong model, and across both pilots
+the two vendors disagreed on only 1 of 9 decisions - so decorrelation buys less
+than the pitch implies, because frontier models mostly converge. Treat the claim
+above as the design's *intent*, being measured honestly, not as a settled fact.
+The method's durable value is procedural - forcing isolation, grounding claims,
+and preserving surviving dissent with a discriminating test - which stands
+whether or not the accuracy lift ever materializes.
 
 ## Workflow
 
