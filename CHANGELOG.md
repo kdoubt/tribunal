@@ -9,6 +9,12 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+## [0.6.8] - 2026-08-21
+
+- **`validation/confirmatory/` - the confirmatory study is set up and its judge blocker is solved.** The pilots were exploratory for four reasons (judge = orchestrator's vendor; arms didn't isolate components; orchestrator-assembled panel memo; tiny n / undisclosed scorer / instruction-only blinding). The pre-registered `confirmatory/PROTOCOL.md` removes all four: component-isolating arms with **oracle access held constant** (so `A_panel − A_2seat` isolates Round 1), an **independent fourth-vendor judge**, a mechanical (non-orchestrator) panel output with a raw-concatenation control, an independent scorer, access-separated sealed truth, **n ≥ 20**, and **aggregate score as the pre-registered primary endpoint** with a decision rule for declaring lift.
+- **Independent judge wired and proven.** `gpt-oss-120b` on a local OpenAI-compatible endpoint (neither seat, nor the orchestrator's vendor), temperature 0 for reproducibility. Its first use re-judged the pilot-02 memos blind and **corroborated no lift**: a dead tie on aggregate (32-32), not a panel win. So across three judge vendors now (Claude ×2 independent → solo; gpt-oss independent → tie; Grok conflicted → tie) the panel **never out-scores solo on aggregate**. pilot-02 and its BLIND-ORDER table updated with the fourth-vendor row.
+- First pre-registered decisions seeded (`confirmatory/decisions/` + access-separated `confirmatory/sealed/`); the set is to be completed to n ≥ 20 and a non-OpenAI second judge added before the confirmatory scoring run. Harness scripts stay operator-side (this repo is docs-only); only protocol, decisions, and results are committed.
+
 ## [0.6.7] - 2026-08-21
 
 - **Corrections from a second external review round (Grok + Claude + Codex).** Every concrete claim was verified before acting; the sharpest catches were mine to own.
@@ -279,7 +285,8 @@ the methodology itself still has one published run (see README, Status).
   methodology, labeled as a historical bootstrap transcript with its
   known non-compliances enumerated.
 
-[Unreleased]: https://github.com/kdoubt/tribunal/compare/v0.6.7...HEAD
+[Unreleased]: https://github.com/kdoubt/tribunal/compare/v0.6.8...HEAD
+[0.6.8]: https://github.com/kdoubt/tribunal/compare/v0.6.7...v0.6.8
 [0.6.7]: https://github.com/kdoubt/tribunal/compare/v0.6.6...v0.6.7
 [0.6.6]: https://github.com/kdoubt/tribunal/compare/v0.6.5...v0.6.6
 [0.6.5]: https://github.com/kdoubt/tribunal/compare/v0.6.4...v0.6.5

@@ -2,10 +2,12 @@
 
 **Run:** 2026-08-21. **Seats:** Codex CLI (GPT-5-class), Grok CLI (Grok-4-class).
 **Arms:** A1 = Codex alone; A3 = full Tribunal (same Codex + Grok, R0 → R1 where
-disputed → verdict). **Judges:** one independent (Claude CLI, the third vendor -
-run **twice**, order flipped) plus one **conflicted** robustness check (Grok,
-whose own work is in the panel memos). All blind to arm identity; order pre-fixed
-per pass - see [`pilot-02/BLIND-ORDER.md`](pilot-02/BLIND-ORDER.md).
+disputed → verdict). **Judges:** two independent - Claude CLI (third vendor,
+run **twice**, order flipped) and **gpt-oss-120b** (a genuinely independent
+fourth vendor, added once the confirmatory harness came online) - plus one
+**conflicted** robustness check (Grok, whose own work is in the panel memos). All
+blind to arm identity; order pre-fixed per pass - see
+[`pilot-02/BLIND-ORDER.md`](pilot-02/BLIND-ORDER.md).
 **Raw memos + seat rounds + every judge output:** [`pilot-02/`](pilot-02/).
 
 ## Headline
@@ -20,9 +22,13 @@ scored on:
 |----|----|----|----|----|
 | Claude - pass 1 (independent) | **34** | 32 | solo | solo 2, panel 1 |
 | Claude - pass 2 (independent, order flipped) | **34** | 31 | solo | solo 2, tie 1 |
+| **gpt-oss-120b (independent 4th vendor, added later)** | 32 | 32 | **tie** | solo 1, panel 1, tie 1 |
 | Grok (CONFLICTED - its own text is in the panel memos) | 32 | 32 | **tie** | solo 1, panel 2 |
 
-**The panel never won on points under any judge.** The only thing that inverted
+**The panel never won on points under any judge** - including a genuinely
+independent fourth vendor (gpt-oss-120b, neither seat nor the orchestrator's
+vendor), added when the confirmatory harness came online: it scored a dead
+**tie** on aggregate, corroborating "no panel lift" rather than reversing it. The only thing that inverted
 was the *forced choice* of the **conflicted** judge (Grok, which authored part of
 the panel memos) - and even that was on a tied aggregate score. So the honest
 statement is: *solo scored at least as well as the panel under every judge,
@@ -98,11 +104,13 @@ second judge). Distinguish the two metrics the pre-registration named -
   judge; a conflicted judge's tie-break preferred it on 2 of 3.**
 
 The honest conclusion, corrected: on these three ambiguous decisions the panel
-showed **no aggregate lift under any judge**, and the one metric that moved
-(forced choice) moved only under a judge with a stake in the panel. A clean
-confirmatory test still needs a judge that is *not* one of the seats and *not*
-the orchestrator's vendor (a fourth model), which this run could not reach - so
-even the no-lift reading is a pilot signal, not proof.
+showed **no aggregate lift under any judge** - including the independent
+fourth-vendor gpt-oss judge, which tied. The one metric that ever favored the
+panel (forced choice) moved only under the *conflicted* judge. This is still a
+pilot (n=3, orchestrator-assembled memos); the pre-registered
+[`../confirmatory/`](../confirmatory/) study - component-isolating arms, the
+fourth-vendor judge as primary, n ≥ 20, aggregate score as the primary endpoint -
+is the confirmatory follow-up, and it inherits this no-lift prior.
 
 ## Confounds (which cut both ways)
 

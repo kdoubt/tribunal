@@ -14,9 +14,14 @@ that there is no lift and say so.
   The briefs are known-answer engineering decisions with a difficulty spread:
   controls that all arms should get right, plus subtle concurrency/idempotency
   traps where a confident single model may slip.
-- `results/` - added **after** the runs (a later commit), with raw arm outputs
-  and scores. Every decision is reported, including panel losses and false
-  objections.
+- `results/` - the pilot runs, with raw arm outputs and scores. Every decision
+  is reported, including panel losses and false objections.
+- [`confirmatory/`](confirmatory/) - the **pre-registered confirmatory study**
+  that fixes the four reasons the pilots were only exploratory (independent
+  fourth-vendor judge, component-isolating arms, mechanical panel output, n ≥ 20
+  with a disclosed scorer and access-separated blinding). Harness proven (the
+  independent judge is wired and already corroborated the pilots' no-lift
+  finding); decision set + run pending.
 
 This is a pilot harness, stated as such. A handful of decisions is not proof;
 it is the first real evidence, built so it can scale to the ~20+ real-world runs

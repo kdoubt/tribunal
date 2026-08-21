@@ -28,7 +28,11 @@ Summing the /12 memo totals across the three decisions:
 |----|----|----|----|----|
 | Claude pass 1 (independent) | 34 | 32 | **solo** | solo 2 / panel 1 |
 | Claude pass 2 (independent, flipped) | 34 | 31 | **solo** | solo 2 / tie 1 |
+| gpt-oss-120b (independent 4th vendor) | 32 | 32 | **tie** | solo 1 / panel 1 / tie 1 |
 | Grok (CONFLICTED) | 32 | 32 | **tie** | solo 1 / panel 2 |
+
+gpt-oss per-decision (pass-1 order: P1 X=solo Y=panel; P2 X=panel Y=solo; P3 X=solo Y=panel):
+P1 → panel (10 vs 11), P2 → solo (10 vs 9), P3 → tie (12 vs 12).
 
 - **Aggregate: the panel never out-scored solo under any judge.** Solo won under
   both independent Claude passes and tied under the conflicted Grok judge.
