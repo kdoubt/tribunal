@@ -281,16 +281,19 @@ outcomes:
 (role-incentivized, full Round 1, surviving dissent).
 
 **Honest validation status:** two pre-registered ablation pilots
-([`validation/`](validation/)) have **not** shown that a panel beats a single
-strong model. On decidable questions a good model already gets them right; on
-ambiguous ones a blind third-vendor judge preferred the *solo* memo on 2 of 3
-decisions - docking the panel for preserving dissent instead of committing, and
-for extra evidence that introduced its own error. Across both pilots the two
-vendors disagreed on only **1 of 9** decisions, so the panel machinery mostly
-idles. Tribunal is therefore a *promising but unproven* protocol: worth running
-for the adversarial counter-case and the discriminating test it produces on
-contested, irreversible calls - **not** because it is demonstrated to be more
-accurate than one good model. Results are published in full, losses included.
+([`validation/`](validation/)) have shown **no robust lift** over a single strong
+model. On decidable questions a good model already gets them right (pilot-01
+null). On ambiguous ones, whether the panel's memo or the solo memo is "more
+useful" **flipped with the judge** - an independent judge favored the solo memo
+2 of 3 (stable across an order flip); a second judge vendor reversed it - because
+the judges disagree on whether a preserved dissent plus a discriminating test
+beats a committed answer. The one judge-independent finding: across both pilots
+the two vendors disagreed on only **1 of 9** decisions, so the panel machinery
+mostly idles. Tribunal is therefore a *promising but unproven* protocol: worth
+running for the adversarial counter-case and the discriminating test it produces
+on contested, irreversible calls - **not** because it is demonstrated to be more
+accurate than one good model. Results are published in full, losses and judge
+disagreement included.
 
 The clearest
 in-repo receipt that the method overturns its own author is the CHANGELOG

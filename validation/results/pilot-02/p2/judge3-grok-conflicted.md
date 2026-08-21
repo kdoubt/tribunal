@@ -1,0 +1,3 @@
+Memo X: r1=2 r2=2 r3=3 r4=3 total=10/12 — Commits to B with a pre-registered 90-day kill switch, but underspecifies east-west identity/enforcement and the audit is a trailing execution check, not a cheap A-vs-B discriminator.
+Memo Y: r1=3 r2=3 r3=2 r4=3 total=11/12 — Surfaces the load-bearing constraints (retries off, OTel independent, gateway is N/S, enforcement-or-theater) and a comparative spike on the real crux; deducted for substituting the spike for an A/B commit.
+CHOICE: Y - Y isolates the one disagreement that would actually change the call (in-process identity vs sidecar) and names a cheaper test that compares both paths, while X decides first and measures regret later.

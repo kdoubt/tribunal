@@ -9,6 +9,10 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+## [0.6.6] - 2026-08-21
+
+- **pilot-02 finished: added a second/third judge pass - and the result inverted.** The first write-up rested on a single Claude judge (solo 2 / panel 1). Completing the pre-registration's "second judge" step: a second **independent** Claude pass with order flipped reproduced it exactly (panel 1 / solo 2, so it is stable against position/sampling), but a second judge **vendor** (Grok, run as a labeled *conflicted* check since its own text is in the panel memos) **inverted every decision** (solo 1 / panel 2). The two judge vendors are anti-correlated on all three decisions, splitting precisely on whether the panel's "here is the one test that settles it" beats a committed A/B answer. Net: **no robust lift signal - the sign flips with the judge.** `validation/results/pilot-02.md` + `BLIND-ORDER.md` updated with all judge outputs; README validation paragraph corrected from "judge preferred solo 2/3" to "flipped with the judge - no robust lift." The one judge-independent finding stands: seats disagreed on only 1 of 9 decisions across both pilots.
+
 ## [0.6.5] - 2026-08-21
 
 - **`validation/` - the repo now measures its own core claim, and publishes the negative result.** Prompted by three independent external reviews (Claude/ChatGPT/Grok) all flagging that Tribunal demonstrates the process *runs* but not that it produces *lift* over a single strong model. Added a pre-registered ablation harness (`validation/PROTOCOL.md`, sealed decision sets) run in two pilots, committed before results so nothing could be curated:
@@ -266,7 +270,8 @@ the methodology itself still has one published run (see README, Status).
   methodology, labeled as a historical bootstrap transcript with its
   known non-compliances enumerated.
 
-[Unreleased]: https://github.com/kdoubt/tribunal/compare/v0.6.5...HEAD
+[Unreleased]: https://github.com/kdoubt/tribunal/compare/v0.6.6...HEAD
+[0.6.6]: https://github.com/kdoubt/tribunal/compare/v0.6.5...v0.6.6
 [0.6.5]: https://github.com/kdoubt/tribunal/compare/v0.6.4...v0.6.5
 [0.6.4]: https://github.com/kdoubt/tribunal/compare/v0.6.3...v0.6.4
 [0.6.3]: https://github.com/kdoubt/tribunal/compare/v0.6.2...v0.6.3

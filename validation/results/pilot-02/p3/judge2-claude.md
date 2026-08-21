@@ -1,0 +1,5 @@
+**Memo X: r1=3 r2=2 r3=3 r4=3 total=11/12** — Mechanistically precise risks (filtered-ANN scan expansion, graph memory residency, OLTP contention) and a decisive call, but the test leaves the recall target unnumbered and hedges the latency bound ("~≤80 ms"), so it's not fully pre-registerable as written.
+
+**Memo Y: r1=3 r2=3 r3=3 r4=3 total=12/12** — Same load-bearing risks plus real operational ones (vacuum, replication, index rebuilds), and a fully specified falsification criterion: ≥95% recall@k, p95 ≤50 ms at projected peak concurrency, *and* existing-workload p95 within 10% of baseline — including the collateral-damage bound X only gestures at; commits cleanly while marking that B's advantages are workload-dependent.
+
+**CHOICE: Y** — At equal decisiveness and risk coverage, Y's numeric, pre-registerable pass/fail criterion (including the explicit OLTP-degradation threshold) would actually settle the call, whereas X's test needs the team to fill in the recall number before it could be run.

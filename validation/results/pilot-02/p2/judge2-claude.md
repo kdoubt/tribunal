@@ -1,0 +1,5 @@
+Memo X: r1=3 r2=3 r3=3 r4=2 total=11/12 — Commits cleanly to B, names the genuinely load-bearing risk (enforcement drift under a "lighter" regime), and gives a sharp, pre-registerable tripwire (audit thresholds, 2-consecutive-month failure rule, engineer-week toil ceiling); loses a point for a couple of near-generic bullets ("avoid false safety").
+
+Memo Y: r1=3 r2=3 r3=1 r4=2 total=9/12 — Its risk analysis is arguably the deeper of the two (retry-ownership conflict, mesh-without-owner as a worse failure domain, gateway being north-south only) and its 2-week spike is a sharp, cheap discriminator — but the brief explicitly demanded a commit to A or B and Y declines, converting the decision into a procedure; the dense "not in dispute" scaffolding and rhetorical flourishes also pad an otherwise strong memo.
+
+CHOICE: X — X actually answers the question asked (commit, biggest risk, wrong-choice indicator) with a tight pre-registered test, while Y, despite superior risk texture, punts the required commitment to a future spike.
