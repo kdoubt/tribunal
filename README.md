@@ -180,13 +180,21 @@ historical bootstrap transcript - it predates the finalized templates and
 relays full Round 0 essays, which the finalized method bans; learn the
 loop from `core/templates/`, not from its file shapes.
 
-For a run in the **current** template format on a conventional engineering
-decision, see
-[`examples/api-auth-jwt-vs-sessions/`](examples/api-auth-jwt-vs-sessions/):
-two heterogeneous seats (Codex CLI + Grok CLI) independently chose the same
-auth design in isolation, so the panel *early-stopped* at Round 0 - a worked
-example of pre-exposure agreement, honest empty-dissent bucketing, and routing
-the one residual risk to a test instead of more debate.
+Two runs in the **current** template format bracket the two outcomes the method
+produces:
+
+- [`examples/api-auth-jwt-vs-sessions/`](examples/api-auth-jwt-vs-sessions/) -
+  two *neutral* heterogeneous seats (Codex CLI + Grok CLI) independently chose
+  the same auth design in isolation, so the panel *early-stopped* at Round 0:
+  pre-exposure **agreement**, honest empty-dissent bucketing, residual risk sent
+  to a test.
+- [`examples/repo-monorepo-vs-polyrepo/`](examples/repo-monorepo-vs-polyrepo/) -
+  the mirror image: a **role-incentivized** stress-test (one seat assigned each
+  side; roles as incentives, not personas) that forces a real **Round 1**
+  cross-examination. Both seats concede points and revise confidence, neither is
+  overturned, and the verdict keeps the load-bearing **surviving dissent** - then
+  routes it to the cheapest discriminating test *both seats independently
+  proposed*.
 
 ## Repository layout
 
@@ -202,6 +210,7 @@ core/VERDICT.md         verdict format: three buckets, mode tags
 core/templates/         scout, brief, per-round prompts, ledger, verdict, retro, ach (competing-hypotheses mode)
 examples/sample-run/    the real (historical) panel that designed the method
 examples/api-auth-jwt-vs-sessions/   a current-format run: two vendors, independent agreement, early stop
+examples/repo-monorepo-vs-polyrepo/  a current-format run: role-incentivized, full Round 1, surviving dissent
 adapters/claude-code/   run panels from Claude Code (installable skill)
 adapters/shell/         run panels from any shell - no orchestrator CLI needed
 adapters/*/             other orchestrators - codex-cli, gemini-cli, opencode, buzz (stubs)
@@ -255,10 +264,12 @@ Every rule in `core/` was earned the hard way (the badge above shows the
 current version; `CHANGELOG.md` records what each release changed). The
 methodology was designed by running it on itself; the founding debate is in
 [`examples/sample-run/`](examples/sample-run/) - a historical bootstrap,
-labeled as such. A run in the current template format, on a conventional
-engineering decision, is in
+labeled as such. Two runs in the current template format bracket the method's
+outcomes:
 [`examples/api-auth-jwt-vs-sessions/`](examples/api-auth-jwt-vs-sessions/)
-(two vendors, independent agreement, early stop). The clearest
+(two vendors, independent agreement, early stop) and
+[`examples/repo-monorepo-vs-polyrepo/`](examples/repo-monorepo-vs-polyrepo/)
+(role-incentivized, full Round 1, surviving dissent). The clearest
 in-repo receipt that the method overturns its own author is the CHANGELOG
 itself: several `core/` rules landed only after a cross-vendor panel rejected
 their first draft (the lens doctrine and the v0.4-0.5 hardening each carry
