@@ -22,12 +22,15 @@ git clone https://github.com/kdoubt/tribunal.git ~/tribunal
 <p align="center"><sub>Then, from your project's root, hand the scout straight to your agent — it drafts your first panel:</sub></p>
 
 ```sh
-claude -p "$(~/tribunal/scout)"     # Claude Code   ·   codex exec "$(~/tribunal/scout)"   ·   grok -p "$(~/tribunal/scout)"
+# Hand the scout to ONE agent to draft your brief — run whichever you have:
+claude -p  "$(~/tribunal/scout)"      # Claude Code
+codex exec "$(~/tribunal/scout)"      # Codex CLI
+grok  -p   "$(~/tribunal/scout)"      # Grok CLI
 ```
 
 <p align="center"><sub><code>~/tribunal/scout</code> just prints the scouting prompt with your clone path filled in — no panel is run and nothing is written. That's the whole install.</sub></p>
 
-<p align="center"><sub><b>One prerequisite to run a panel:</b> two <i>already-authenticated</i> agentic CLIs from <i>different</i> vendors or model families (local or hosted). A single CLI is enough to <i>scout</i>, but a real panel needs two — that's the whole point.</sub></p>
+<p align="center"><sub><b>One prerequisite to run a panel:</b> two <i>already-authenticated</i> <b>seat</b> CLIs from <i>different</i> vendors or model families (local or hosted). A single CLI is enough to <i>scout</i>, but a real panel needs two seats — that's the whole point. The <i>orchestrator</i> is a separate role: either you at a terminal (the <a href="adapters/shell/README.md">shell adapter</a>), or a driver tool like Claude Code — which is then a <b>third</b> binary, distinct from the two seats it relays between.</sub></p>
 
 <p align="center">
   <picture>
@@ -93,8 +96,9 @@ Nothing to install - this is docs and prompt templates. Your first
 two rounds, adjudication) - authenticating your two CLIs is separate,
 one-time vendor setup that is *not* counted in that estimate. Once you know
 the loop it is mostly the models' wall-clock - a few minutes per round. The
-one prerequisite is two agentic CLIs from different vendors, already
-authenticated.
+one prerequisite is two *seat* CLIs from different vendors, already
+authenticated (the orchestrator is a separate role - you, or a driver tool
+like Claude Code, which is then a third binary).
 
 **If a run stalls,** the usual causes are a missing or not-logged-in CLI
 (check `command -v` and re-authenticate), macOS needing GNU `timeout`

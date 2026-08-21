@@ -86,8 +86,14 @@ set -euo pipefail
 TRIBUNAL_ROOT=${TRIBUNAL_ROOT:?set to your tribunal clone}
 ARTIFACT_ROOT=${ARTIFACT_ROOT:?set to the project under review}
 [[ -f "$TRIBUNAL_ROOT/core/templates/r0-seat.md" ]] || { echo "not a tribunal clone: $TRIBUNAL_ROOT" >&2; exit 1; }
+
+# Seats run with cwd = ARTIFACT_ROOT so the brief's relative paths resolve.
+# Panel bookkeeping (prompts, seat outputs, ledger, verdict) lives in $PANEL_OUT
+# and is referenced by absolute path - do NOT `cd` into it, or the seats would
+# resolve the brief's paths against panel/ instead of the project under review.
 cd "$ARTIFACT_ROOT"
-mkdir -p panel && cd panel   # or point PANEL_OUT anywhere outside the review scope
+PANEL_OUT=${PANEL_OUT:-"$ARTIFACT_ROOT/panel"}
+mkdir -p "$PANEL_OUT"
 
 # --- Seats: name + single-shot command (see examples block above)
 SEAT_A_CMD=(codex exec --skip-git-repo-check)
@@ -108,63 +114,73 @@ for s in A B; do
 done
 
 # --- 1. Freeze the brief. Fill core/templates/brief.md, save as
-#     frozen-brief.md here; assemble the R0 prompt mechanically.
+#     $PANEL_OUT/frozen-brief.md; assemble the R0 prompt mechanically.
 #     (Use quoted heredocs - <<'EOF' - if you generate prompts in-script,
 #     so backticks and $() in prompt text aren't expanded.)
-[[ -s frozen-brief.md ]] || { echo "write frozen-brief.md first (copy core/templates/brief.md)" >&2; exit 1; }
-{ cat "$TRIBUNAL_ROOT/core/templates/r0-seat.md"; echo; cat frozen-brief.md; } > r0-prompt.md
+[[ -s "$PANEL_OUT/frozen-brief.md" ]] || { echo "write $PANEL_OUT/frozen-brief.md first (copy core/templates/brief.md)" >&2; exit 1; }
+{ cat "$TRIBUNAL_ROOT/core/templates/r0-seat.md"; echo; cat "$PANEL_OUT/frozen-brief.md"; } > "$PANEL_OUT/r0-prompt.md"
 
-# --- 2. Round 0: identical prompt, PARALLEL, no cross-exposure.
-#     Prompts pass via stdin where the CLI supports it (argv leaks to `ps`
-#     and hits ARG_MAX); the file stays as the audit trail either way.
-"${T[@]}" "${SEAT_A_CMD[@]}" "$(cat r0-prompt.md)" > seat-a-r0.md 2> seat-a-r0.err & A_PID=$!
-"${T[@]}" "${SEAT_B_CMD[@]}" "$(cat r0-prompt.md)" > seat-b-r0.md 2> seat-b-r0.err & B_PID=$!
+# --- 2. Round 0: identical prompt, PARALLEL, no cross-exposure. Seats run from
+#     ARTIFACT_ROOT (cwd) so brief paths resolve; outputs land in $PANEL_OUT.
+#     These examples pass the prompt as an argv string for portability. argv is
+#     visible in `ps` and bounded by ARG_MAX, so for large prompts or shared
+#     hosts use your CLI's file/stdin input instead (e.g. Grok --prompt-file
+#     "$PANEL_OUT/r0-prompt.md", or pipe the file on stdin where the CLI
+#     supports it). The prompt file stays as the audit trail either way.
+"${T[@]}" "${SEAT_A_CMD[@]}" "$(cat "$PANEL_OUT/r0-prompt.md")" > "$PANEL_OUT/seat-a-r0.md" 2> "$PANEL_OUT/seat-a-r0.err" & A_PID=$!
+"${T[@]}" "${SEAT_B_CMD[@]}" "$(cat "$PANEL_OUT/r0-prompt.md")" > "$PANEL_OUT/seat-b-r0.md" 2> "$PANEL_OUT/seat-b-r0.err" & B_PID=$!
 fail=0
 wait "$A_PID" || { echo "seat A failed ($?)" >&2; fail=1; }
 wait "$B_PID" || { echo "seat B failed ($?)" >&2; fail=1; }
 (( fail == 0 )) || exit 1
-[[ -s seat-a-r0.md && -s seat-b-r0.md ]] || { echo "empty seat output" >&2; exit 1; }
-# limit-signature scan (see "Silent seat killers"; repeat after Round 1):
-if grep -liE 'usage limit|rate limit|quota|try again later|upgrade to' seat-*-r0.md; then
+[[ -s "$PANEL_OUT/seat-a-r0.md" && -s "$PANEL_OUT/seat-b-r0.md" ]] || { echo "empty seat output" >&2; exit 1; }
+# limit-signature scan (see "Silent seat killers"; repeated after Round 1):
+if grep -liE 'usage limit|rate limit|quota|try again later|upgrade to' "$PANEL_OUT"/seat-*-r0.md; then
   echo "seat hit a usage/rate limit - dead seat, fix and re-run it" >&2; exit 1
 fi
 
 # --- 3. Ledger: copy the template, fill per core/LEDGER.md, mark
 #     agreed-r0 / disputed / open. If everything decision-relevant is
 #     agreed-r0: STOP - write the verdict now.
-cp "$TRIBUNAL_ROOT/core/templates/ledger.md" ledger.md
-${EDITOR:?set EDITOR to your editor command} ledger.md
+cp "$TRIBUNAL_ROOT/core/templates/ledger.md" "$PANEL_OUT/ledger.md"
+${EDITOR:?set EDITOR to your editor command} "$PANEL_OUT/ledger.md"
 
 # --- 4. Extract each seat's DISPUTED claims VERBATIM (their own
 #     sentences + EVIDENCE lines, numbered - never your paraphrase).
 #     Mechanical extraction: read the R0 file, then e.g.
-#         sed -n '12,19p' seat-b-r0.md > disputed-from-b.md
+#         sed -n '12,19p' "$PANEL_OUT/seat-b-r0.md" > "$PANEL_OUT/disputed-from-b.md"
 #     A disputed-from file looks like:
 #         DISPUTED CLAIMS FROM SEAT B (verbatim):
 #         B2. CLAIM: The cache layer is unnecessary because ...
 #             EVIDENCE: src/cache.py:88 "..."
 #         B4. CLAIM: Migration order X-then-Y corrupts ...
 #             EVIDENCE: migrations/0042.sql:12 "..."
-${EDITOR} disputed-from-a.md disputed-from-b.md
+${EDITOR} "$PANEL_OUT/disputed-from-a.md" "$PANEL_OUT/disputed-from-b.md"
 #     Also extract each seat's OWN R0 claims (stateless seats need them):
-${EDITOR} own-r0-a.md own-r0-b.md
+${EDITOR} "$PANEL_OUT/own-r0-a.md" "$PANEL_OUT/own-r0-b.md"
 
 # --- 5. Round 1: assemble mechanically - template + frozen brief +
 #     own claims + opponent's disputed claims. Re-read each assembled
 #     prompt before sending (verbatim-relay check).
-{ cat "$TRIBUNAL_ROOT/core/templates/r1-seat.md"; echo; cat frozen-brief.md; echo; cat own-r0-a.md; echo; cat disputed-from-b.md; } > r1-for-a.md
-{ cat "$TRIBUNAL_ROOT/core/templates/r1-seat.md"; echo; cat frozen-brief.md; echo; cat own-r0-b.md; echo; cat disputed-from-a.md; } > r1-for-b.md
-"${T[@]}" "${SEAT_A_CMD[@]}" "$(cat r1-for-a.md)" > seat-a-r1.md 2> seat-a-r1.err & A_PID=$!
-"${T[@]}" "${SEAT_B_CMD[@]}" "$(cat r1-for-b.md)" > seat-b-r1.md 2> seat-b-r1.err & B_PID=$!
+{ cat "$TRIBUNAL_ROOT/core/templates/r1-seat.md"; echo; cat "$PANEL_OUT/frozen-brief.md"; echo; cat "$PANEL_OUT/own-r0-a.md"; echo; cat "$PANEL_OUT/disputed-from-b.md"; } > "$PANEL_OUT/r1-for-a.md"
+{ cat "$TRIBUNAL_ROOT/core/templates/r1-seat.md"; echo; cat "$PANEL_OUT/frozen-brief.md"; echo; cat "$PANEL_OUT/own-r0-b.md"; echo; cat "$PANEL_OUT/disputed-from-a.md"; } > "$PANEL_OUT/r1-for-b.md"
+"${T[@]}" "${SEAT_A_CMD[@]}" "$(cat "$PANEL_OUT/r1-for-a.md")" > "$PANEL_OUT/seat-a-r1.md" 2> "$PANEL_OUT/seat-a-r1.err" & A_PID=$!
+"${T[@]}" "${SEAT_B_CMD[@]}" "$(cat "$PANEL_OUT/r1-for-b.md")" > "$PANEL_OUT/seat-b-r1.md" 2> "$PANEL_OUT/seat-b-r1.err" & B_PID=$!
 fail=0
 wait "$A_PID" || { echo "seat A failed ($?)" >&2; fail=1; }
 wait "$B_PID" || { echo "seat B failed ($?)" >&2; fail=1; }
 (( fail == 0 )) || exit 1
-[[ -s seat-a-r1.md && -s seat-b-r1.md ]] || { echo "empty seat output" >&2; exit 1; }
+[[ -s "$PANEL_OUT/seat-a-r1.md" && -s "$PANEL_OUT/seat-b-r1.md" ]] || { echo "empty seat output" >&2; exit 1; }
+if grep -liE 'usage limit|rate limit|quota|try again later|upgrade to' "$PANEL_OUT"/seat-*-r1.md; then
+  echo "seat hit a usage/rate limit in R1 - dead seat, fix and re-run it" >&2; exit 1
+fi
 
-# --- 6. Update ledger; run oracles on checkable residuals; write the
-#     verdict from core/templates/verdict.md. Round 2 only if a
-#     load-bearing claim was overturned (core/templates/r2-revision.md).
+# --- 6. Update the ledger, run oracles on checkable residuals, then write the
+#     verdict from the template. Round 2 only if a load-bearing claim was
+#     overturned (core/templates/r2-revision.md).
+cp "$TRIBUNAL_ROOT/core/templates/verdict.md" "$PANEL_OUT/verdict.md"
+${EDITOR} "$PANEL_OUT/ledger.md" "$PANEL_OUT/verdict.md"
+echo "panel complete - artifacts in $PANEL_OUT" >&2
 ```
 
 Durable rules regardless of CLI:

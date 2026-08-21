@@ -9,6 +9,10 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+## [0.6.2] - 2026-08-21
+
+- **Onboarding fixes from a 2-seat Codex+Grok pre-share review** (both returned *hold-for-fixes*, converging on the same root cause: a newcomer's first action doesn't do what they think, and the docs disagreed on how many CLIs a panel needs). Fixed: the README hero block put the Codex/Grok scout invocations *after a `#`*, so copy-pasting the line ran only the Claude one - now three standalone labeled commands; the "two CLIs" prerequisite is reconciled with the Claude Code adapter's three-tool reality by naming **orchestrator vs seat** as distinct roles (README + `adapters/claude-code/SKILL.md`); and the shell adapter's complete script no longer `cd`s into `panel/` before invoking seats (which broke the brief's relative paths and contradicted its own "cwd = artifact root" rule) - seats now run at the artifact root with bookkeeping in `$PANEL_OUT`, the false "prompts pass via stdin" comment is corrected to match the argv the script actually uses (with a pointer to `--prompt-file`/stdin for large prompts), and step 6 now actually writes the verdict instead of trailing off in a comment. Core methodology untouched (both seats explicitly said leave it alone).
+
 - **New worked example** `examples/api-auth-jwt-vs-sessions/`: a *real* cross-vendor panel (Codex CLI + Grok CLI) on a conventional engineering decision - API auth, stateless JWT vs server-side sessions - in the current template format. Both seats independently chose the same design in isolation, so the panel early-stopped at Round 0; demonstrates pre-exposure agreement, the early-stop discipline, honest empty-dissent bucketing, and routing the one residual risk to a test. Addresses CONTRIBUTING's most-wanted contribution (a current-format run on a real decision) alongside the historical sample-run.
 
 - **New worked example** `examples/repo-monorepo-vs-polyrepo/`: the mirror of the agreement example - a *real* cross-vendor panel (Codex CLI + Grok CLI) run as a **role-incentivized stress-test** (Seat A assigned to champion monorepo, Seat B polyrepo; roles as incentives, not personas) on a genuinely no-consensus decision. Forces a full **Round 1** cross-examination: both seats concede real points and revise confidence, neither verdict is overturned, and the panel keeps the load-bearing **surviving dissent** (can *this* org run a monorepo without a bespoke build system / dedicated build-platform team?) instead of averaging it - then routes it to the cheapest discriminating test, which both opposing seats independently proposed in near-identical form. Together the two examples now bracket both method outcomes (agreement + early stop / dissent + cross-examination). Retro flags a candidate template delta: when opposing seats each name a settling test, adopt the intersection of their falsifiers as the oracle.
@@ -243,7 +247,8 @@ the methodology itself still has one published run (see README, Status).
   methodology, labeled as a historical bootstrap transcript with its
   known non-compliances enumerated.
 
-[Unreleased]: https://github.com/kdoubt/tribunal/compare/v0.6.1...HEAD
+[Unreleased]: https://github.com/kdoubt/tribunal/compare/v0.6.2...HEAD
+[0.6.2]: https://github.com/kdoubt/tribunal/compare/v0.6.1...v0.6.2
 [0.6.1]: https://github.com/kdoubt/tribunal/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/kdoubt/tribunal/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/kdoubt/tribunal/compare/v0.4.0...v0.5.0

@@ -44,6 +44,11 @@ heterogeneous seats - literally, something like:
 > and Grok CLI** as the two seats. Smoke-test both first, keep Round 0
 > isolated and parallel, and report the verdict with surviving dissent.
 
+Here **Claude Code is the orchestrator, not a seat** - so the two seats must be
+*other* vendors' CLIs (e.g. Codex + Grok), and this is a **three-tool** setup:
+Claude Code plus two authenticated seat CLIs. (In the [shell adapter](../shell/README.md)
+you are the orchestrator, so a panel needs only the two seat CLIs.)
+
 Claude Code then runs the mechanics below: smoke-test → isolated Round 0 in
 parallel → claim ledger → verbatim-relayed Round 1 → verify → adjudicate →
 verdict. (No `frozen-brief.md` yet? Run `~/tribunal/scout` from your project
