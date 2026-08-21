@@ -36,9 +36,9 @@ emit_one() {
       if (t ~ /gemini|google/)              return "gemini";
       if (t ~ /local|llama|qwen|mistral|gpt-oss|ollama|vllm/) return "local";
       return "other" }
-    /^[a-z_]+:[ \t]/ || /^[a-z_]+:$/ {
+    /^[a-z0-9_]+:[ \t]/ || /^[a-z0-9_]+:$/ {
       k=$0; sub(/:.*/,"",k);
-      v=$0; sub(/^[a-z_]+:[ \t]*/,"",v); v=decomment(v);
+      v=$0; sub(/^[a-z0-9_]+:[ \t]*/,"",v); v=decomment(v);
       store[k]=v;
     }
     END {

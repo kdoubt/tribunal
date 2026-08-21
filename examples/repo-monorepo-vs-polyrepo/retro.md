@@ -15,18 +15,17 @@ panel_type:              role-incentivized stress-test (Seat A championed monore
 seats:                   codex-cli (GPT-5-class), grok-cli (Grok-4-class)  <!-- 2 vendors, heterogeneous -->
 seat_deaths:             0
 claims_total:            11   <!-- Seat A: 5, Seat B: 6 -->
-disputed_axes:           6    <!-- D1..D6 -->
-agreed_r0:               0    <!-- opposing sides by construction; common ground emerged only in R1, via concession -->
-converged_in_r1:         3    <!-- D1 atomic-change value, D4 blast-radius tradeoff, D5 onboarding/catalog -->
-partly_resolved:         1    <!-- D3 autonomy: A conceded isolation-by-default; residual magnitude rolled into D2 -->
-claims_revised:          4    <!-- A3 0.91->0.84, A4 0.87->0.82, B2 0.90->0.85, B3 0.84->0.82 -->
+agreed_r0:               0    <!-- opposing sides by construction; nothing agreed pre-exposure. The common ground emerged only in R1, via concession -->
+disputed:                5    <!-- terminal `disputed` = surviving into the dissent bucket: A2, B1, B2, B4, B6 -->
+conceded:                6    <!-- contradicting seat yielded in R1: A1, A3, A4, A5, B3, B5 (confidence also revised on A3, A4, B3; B2 revised but stayed disputed) -->
 overturned:              0    <!-- neither seat's verdict was overturned -->
-surviving_dissent:       1    <!-- D2: can THIS org run a monorepo without a bespoke build system / dedicated build team; +D6 minor (reversibility), low weight -->
-resolved_by_debate:      3    <!-- the converged axes -->
-resolved_by_oracle:      0    <!-- the discriminating spike is a follow-up test, not run in-panel -->
 verified:                0    <!-- no claim was oracle-checked in-panel -->
 dropped:                 0
-citations_unverified:    all  <!-- seats cited named, checkable public sources (DORA, Google CACM, Netflix, Nx, Merino, Backstage, Brito/Terra/Valente, Bazel, CODEOWNERS, AWS two-pizza); none were independently fact-checked in-panel - this run demonstrates method, not a citation audit -->
+surviving_dissent:       1    <!-- one load-bearing dissent in the verdict (D2: can THIS org run a monorepo without a bespoke build system / dedicated build team); the 5 `disputed` claims all feed it, with B6/reversibility a minor tail -->
+resolved_by_oracle:      0    <!-- the discriminating spike is a follow-up test, not run in-panel -->
+resolved_by_debate:      6    <!-- the 6 `conceded` claims, resolved by R1 cross-examination -->
+citations_dropped:       0
+citations_unverified:    0    <!-- no in-panel citation audit was run; seats cited named, checkable public sources (DORA, Google CACM, Netflix, Nx, Merino, Backstage, Brito/Terra/Valente, Bazel, CODEOWNERS, AWS) - this run demonstrates method, not a citation audit -->
 cost_notes:              4 CLI invocations (2 Round 0 + 2 Round 1), a few minutes wall-clock each
 friction:                grok needed all inputs staged into one cwd + read-only allow-rules (else narration-only exit); codex needed stdin closed (`< /dev/null`). Both produced clean, claim-shaped, well-cited output.
 

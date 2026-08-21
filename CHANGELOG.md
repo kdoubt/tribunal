@@ -9,6 +9,14 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+## [0.6.4] - 2026-08-21
+
+- **Correctness fixes from three independent external reviews** (Claude, ChatGPT, Grok, separate sessions) - all verified before fixing. No methodology features added; this is bug-and-conformance only.
+  - **`flywheel-export` parser bug**: the field-name regex `^[a-z_]+:` rejected digits, so `agreed_r0` (and any digit-bearing field) silently exported as `null` for every record. Fixed to `^[a-z0-9_]+:`; the api-auth example now correctly exports `agreed_r0: 5`.
+  - **Both example ledgers/verdicts now conform to `core/` as written** (they were violating the repo's own normative contract - the one thing a worked example must not do). The monorepo ledger's status column used non-enum values (`converged`, `conceded down`, `surviving dissent`); it now uses the `LEDGER` enum (`conceded`/`disputed`) with a legend, and the "converged/common-ground" framing is explicitly marked verdict-level, not a claim status. The monorepo verdict no longer promotes *post-cross-examination* common ground to "the panel concludes" - bucket 1 (independent agreement) is now correctly shown as **empty** for a role-incentivized panel (opposing sides ⇒ no `agreed-r0`), with the concessions recorded as bucket 2 (resolved). The api-auth verdict no longer calls single-sourced `open` claims "sound"; they are reported as unexamined, not endorsed, per the verdict rule.
+  - **Monorepo retro conformance**: replaced invented fields (`disputed_axes`, `converged_in_r1`, `claims_revised`) and the non-integer `citations_unverified: all` with the retro template's standard integer fields, so the exporter parses every field. Counts are now self-consistent (`agreed_r0` 0 · `conceded` 6 · `disputed` 5 = 11 claims).
+  - **`scout` "nothing is written" was imprecise**: scout's weekly self-update check runs `git fetch` (writing git metadata) or touches a cache timestamp. The README now says it "writes nothing to your project" and names the update-check's writes explicitly.
+
 ## [0.6.3] - 2026-08-21
 
 - **Confirmation-pass fixes (2-seat Codex+Grok review of the v0.6.2 onboarding fixes).** Both seats confirmed the v0.6.2 fixes landed (hero block, orchestrator-vs-seat CLI count, and shell-script cwd/argv/completion all PASS), and surfaced remaining honesty/correctness gaps in the shell adapter's complete script - now fixed: the "STOP - write the verdict now" comment is now a **real early-stop gate** (a prompt that writes the verdict and `exit 0`s, skipping Round 1) instead of narration the code ignored; "re-read each assembled prompt before sending" is now an **actual `$EDITOR` pause** on the Round 1 packets (the verbatim-relay check); and step 4 now **pre-creates** the `disputed-from-*`/`own-r0-*` extraction files (`: >`) before opening them, so a stray editor-quit can't crash the later `cat` under `set -e`, plus a guard that Round 1 isn't run with zero disputed claims. Also: the README hero comment now says "**Pick ONE line**" (paste-all-three ran three scouts), and the Claude skill no longer implies `~/tribunal/scout` drafts the brief by itself (it prints the prompt; an agent writes the brief). Core methodology untouched.
@@ -251,7 +259,8 @@ the methodology itself still has one published run (see README, Status).
   methodology, labeled as a historical bootstrap transcript with its
   known non-compliances enumerated.
 
-[Unreleased]: https://github.com/kdoubt/tribunal/compare/v0.6.3...HEAD
+[Unreleased]: https://github.com/kdoubt/tribunal/compare/v0.6.4...HEAD
+[0.6.4]: https://github.com/kdoubt/tribunal/compare/v0.6.3...v0.6.4
 [0.6.3]: https://github.com/kdoubt/tribunal/compare/v0.6.2...v0.6.3
 [0.6.2]: https://github.com/kdoubt/tribunal/compare/v0.6.1...v0.6.2
 [0.6.1]: https://github.com/kdoubt/tribunal/compare/v0.6.0...v0.6.1

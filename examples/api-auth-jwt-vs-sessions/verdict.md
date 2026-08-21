@@ -29,13 +29,16 @@ Promoted to the panel's conclusion:
 - **A4** one opaque credential serves both clients via different transports;
 - **A5** gateway validation makes ~50-service scale a non-issue.
 
-## 2 - Resolved / single-sourced (recorded, not promoted to consensus)
+## 2 - Open (raised by one seat, uncontested - recorded as unexamined, not endorsed)
 
 - **B1** (JWT signing key = tenant-wide minting primitive) and **A6** (account-
   kill needs subject/tenant indexes) were each raised by one seat and left
-  uncontested by the other. They are sound and decision-relevant, but they are
-  *single-sourced*, so they are recorded as supporting reasoning - not as
-  independently corroborated consensus.
+  uncontested by the other. Per the ledger they are `open`: decision-relevant
+  and single-sourced, so - following the verdict rule that open claims are
+  reported as *unexamined, not endorsed* - they are recorded here as supporting
+  reasoning the panel did **not** corroborate, never promoted to consensus.
+  (The panel did not endorse their correctness; it only notes they were raised
+  and went uncontested.)
 
 ## 3 - Surviving dissent
 

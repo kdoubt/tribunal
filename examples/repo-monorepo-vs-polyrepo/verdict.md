@@ -16,15 +16,26 @@ here, the same test **both seats independently proposed.**
 > [`../api-auth-jwt-vs-sessions/`](../api-auth-jwt-vs-sessions/), where two
 > *neutral* seats agreed in isolation.
 
-## Common ground (both seats, after cross-examination)
+## 1 - Independent agreement (bucket 1): NONE
 
-Promoted to the panel's conclusion - these are not in dispute:
+The seats were assigned opposing sides, so there is **no `agreed-r0` claim** -
+nothing was independently agreed in Round 0, and therefore nothing here may be
+phrased as "the panel concludes." This empty bucket is the honest, expected
+floor for a role-incentivized panel; the trustworthy pre-exposure agreement the
+method prizes is demonstrated in the sibling
+[`../api-auth-jwt-vs-sessions/`](../api-auth-jwt-vs-sessions/), not here.
+
+## 2 - Resolved by cross-examination (bucket 2): common ground
+
+These are `conceded` claims - one seat's contradiction yielded in Round 1. They
+are reported as **resolved**, *not* promoted to independent agreement (only
+`agreed-r0` earns that). Recorded, decision-relevant, and not in further dispute:
 
 - **Atomic cross-project commits are a genuine monorepo advantage**, and are the
-  **less-frequent** case for *loosely related* services (agreed A1 ≈ B5).
+  **less-frequent** case for *loosely related* services (resolved A1 ≈ B5).
 - **Nx affected-graph + caching is a real mechanism**, not vapor (B conceded).
 - **Polyrepo has stronger repository-level isolation by default** (A conceded).
-- **Blast radius is a tradeoff, not a win for either side** (agreed A5 ≈ B3):
+- **Blast radius is a tradeoff, not a win for either side** (resolved A5 ≈ B3):
   monorepo makes downstream impact visible *pre-merge* but puts one `main`/CI in
   everyone's path; polyrepo defers breakage to an *opt-in* version bump but
   accrues drift.
@@ -33,7 +44,7 @@ Promoted to the panel's conclusion - these are not in dispute:
   independent deploy (the unified-CI **choke point**); for polyrepo, an internal
   registry + Renovate/Dependabot + contract tests (**version drift**).
 
-## Surviving dissent (the one dispute Round 1 did not resolve)
+## 3 - Surviving dissent (the one dispute Round 1 did not resolve)
 
 **Can *this specific org* - ~25→60 engineers, 8+ loosely related polyglot
 services, explicitly *not* Google/Meta-scale and constrained *not* to build a

@@ -28,7 +28,7 @@ codex exec "$(~/tribunal/scout)"      # Codex CLI
 grok  -p   "$(~/tribunal/scout)"      # Grok CLI
 ```
 
-<p align="center"><sub><code>~/tribunal/scout</code> just prints the scouting prompt with your clone path filled in — no panel is run and nothing is written. That's the whole install.</sub></p>
+<p align="center"><sub><code>~/tribunal/scout</code> just prints the scouting prompt with your clone path filled in — it runs no panel and writes nothing to your project. (Its once-a-week self-update check may <code>git fetch</code> inside the clone, or touch a cache-dir timestamp for zip installs; silence with <code>TRIBUNAL_NO_UPDATE_CHECK=1</code>.) That's the whole install.</sub></p>
 
 <p align="center"><sub><b>One prerequisite to run a panel:</b> two <i>already-authenticated</i> <b>seat</b> CLIs from <i>different</i> vendors or model families (local or hosted). A single CLI is enough to <i>scout</i>, but a real panel needs two seats — that's the whole point. The <i>orchestrator</i> is a separate role: either you at a terminal (the <a href="adapters/shell/README.md">shell adapter</a>), or a driver tool like Claude Code — which is then a <b>third</b> binary, distinct from the two seats it relays between.</sub></p>
 
