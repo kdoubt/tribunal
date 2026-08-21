@@ -145,6 +145,17 @@ fi
 cp "$TRIBUNAL_ROOT/core/templates/ledger.md" "$PANEL_OUT/ledger.md"
 ${EDITOR:?set EDITOR to your editor command} "$PANEL_OUT/ledger.md"
 
+# --- 3a. Stop rule (a): if Round 0 already agreed on everything
+#     decision-relevant, write the verdict now and SKIP Round 1 - relaying
+#     non-disputed claims only invites politeness convergence.
+read -rp "Round 0 agreed on everything decision-relevant? Skip Round 1 and write the verdict now? [y/N] " agreed
+if [[ ${agreed:-} == [yY]* ]]; then
+  cp "$TRIBUNAL_ROOT/core/templates/verdict.md" "$PANEL_OUT/verdict.md"
+  ${EDITOR} "$PANEL_OUT/verdict.md"
+  echo "early stop (rule a) - verdict in $PANEL_OUT" >&2
+  exit 0
+fi
+
 # --- 4. Extract each seat's DISPUTED claims VERBATIM (their own
 #     sentences + EVIDENCE lines, numbered - never your paraphrase).
 #     Mechanical extraction: read the R0 file, then e.g.
@@ -155,15 +166,26 @@ ${EDITOR:?set EDITOR to your editor command} "$PANEL_OUT/ledger.md"
 #             EVIDENCE: src/cache.py:88 "..."
 #         B4. CLAIM: Migration order X-then-Y corrupts ...
 #             EVIDENCE: migrations/0042.sql:12 "..."
+#     Pre-create the files so the editor opens real buffers and a stray quit
+#     can't crash the later assembly under `set -e`; you fill them by hand.
+: > "$PANEL_OUT/disputed-from-a.md"; : > "$PANEL_OUT/disputed-from-b.md"
 ${EDITOR} "$PANEL_OUT/disputed-from-a.md" "$PANEL_OUT/disputed-from-b.md"
 #     Also extract each seat's OWN R0 claims (stateless seats need them):
+: > "$PANEL_OUT/own-r0-a.md"; : > "$PANEL_OUT/own-r0-b.md"
 ${EDITOR} "$PANEL_OUT/own-r0-a.md" "$PANEL_OUT/own-r0-b.md"
+#     If nothing was disputed, Round 1 has nothing to relay - you should have
+#     taken the early stop above. Guard against an empty, meaningless Round 1:
+[[ -s "$PANEL_OUT/disputed-from-a.md" || -s "$PANEL_OUT/disputed-from-b.md" ]] \
+  || { echo "no disputed claims extracted - if Round 0 truly agreed, re-run and take the early stop" >&2; exit 1; }
 
 # --- 5. Round 1: assemble mechanically - template + frozen brief +
 #     own claims + opponent's disputed claims. Re-read each assembled
 #     prompt before sending (verbatim-relay check).
 { cat "$TRIBUNAL_ROOT/core/templates/r1-seat.md"; echo; cat "$PANEL_OUT/frozen-brief.md"; echo; cat "$PANEL_OUT/own-r0-a.md"; echo; cat "$PANEL_OUT/disputed-from-b.md"; } > "$PANEL_OUT/r1-for-a.md"
 { cat "$TRIBUNAL_ROOT/core/templates/r1-seat.md"; echo; cat "$PANEL_OUT/frozen-brief.md"; echo; cat "$PANEL_OUT/own-r0-b.md"; echo; cat "$PANEL_OUT/disputed-from-a.md"; } > "$PANEL_OUT/r1-for-b.md"
+# verbatim-relay check: eyeball each assembled prompt before it is sent - it must
+# carry only the OTHER seat's DISPUTED claims (verbatim) plus this seat's own R0.
+${EDITOR} "$PANEL_OUT/r1-for-a.md" "$PANEL_OUT/r1-for-b.md"
 "${T[@]}" "${SEAT_A_CMD[@]}" "$(cat "$PANEL_OUT/r1-for-a.md")" > "$PANEL_OUT/seat-a-r1.md" 2> "$PANEL_OUT/seat-a-r1.err" & A_PID=$!
 "${T[@]}" "${SEAT_B_CMD[@]}" "$(cat "$PANEL_OUT/r1-for-b.md")" > "$PANEL_OUT/seat-b-r1.md" 2> "$PANEL_OUT/seat-b-r1.err" & B_PID=$!
 fail=0

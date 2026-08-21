@@ -9,6 +9,10 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+## [0.6.3] - 2026-08-21
+
+- **Confirmation-pass fixes (2-seat Codex+Grok review of the v0.6.2 onboarding fixes).** Both seats confirmed the v0.6.2 fixes landed (hero block, orchestrator-vs-seat CLI count, and shell-script cwd/argv/completion all PASS), and surfaced remaining honesty/correctness gaps in the shell adapter's complete script - now fixed: the "STOP - write the verdict now" comment is now a **real early-stop gate** (a prompt that writes the verdict and `exit 0`s, skipping Round 1) instead of narration the code ignored; "re-read each assembled prompt before sending" is now an **actual `$EDITOR` pause** on the Round 1 packets (the verbatim-relay check); and step 4 now **pre-creates** the `disputed-from-*`/`own-r0-*` extraction files (`: >`) before opening them, so a stray editor-quit can't crash the later `cat` under `set -e`, plus a guard that Round 1 isn't run with zero disputed claims. Also: the README hero comment now says "**Pick ONE line**" (paste-all-three ran three scouts), and the Claude skill no longer implies `~/tribunal/scout` drafts the brief by itself (it prints the prompt; an agent writes the brief). Core methodology untouched.
+
 ## [0.6.2] - 2026-08-21
 
 - **Onboarding fixes from a 2-seat Codex+Grok pre-share review** (both returned *hold-for-fixes*, converging on the same root cause: a newcomer's first action doesn't do what they think, and the docs disagreed on how many CLIs a panel needs). Fixed: the README hero block put the Codex/Grok scout invocations *after a `#`*, so copy-pasting the line ran only the Claude one - now three standalone labeled commands; the "two CLIs" prerequisite is reconciled with the Claude Code adapter's three-tool reality by naming **orchestrator vs seat** as distinct roles (README + `adapters/claude-code/SKILL.md`); and the shell adapter's complete script no longer `cd`s into `panel/` before invoking seats (which broke the brief's relative paths and contradicted its own "cwd = artifact root" rule) - seats now run at the artifact root with bookkeeping in `$PANEL_OUT`, the false "prompts pass via stdin" comment is corrected to match the argv the script actually uses (with a pointer to `--prompt-file`/stdin for large prompts), and step 6 now actually writes the verdict instead of trailing off in a comment. Core methodology untouched (both seats explicitly said leave it alone).
@@ -247,7 +251,8 @@ the methodology itself still has one published run (see README, Status).
   methodology, labeled as a historical bootstrap transcript with its
   known non-compliances enumerated.
 
-[Unreleased]: https://github.com/kdoubt/tribunal/compare/v0.6.2...HEAD
+[Unreleased]: https://github.com/kdoubt/tribunal/compare/v0.6.3...HEAD
+[0.6.3]: https://github.com/kdoubt/tribunal/compare/v0.6.2...v0.6.3
 [0.6.2]: https://github.com/kdoubt/tribunal/compare/v0.6.1...v0.6.2
 [0.6.1]: https://github.com/kdoubt/tribunal/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/kdoubt/tribunal/compare/v0.5.0...v0.6.0

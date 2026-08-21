@@ -51,8 +51,9 @@ you are the orchestrator, so a panel needs only the two seat CLIs.)
 
 Claude Code then runs the mechanics below: smoke-test → isolated Round 0 in
 parallel → claim ledger → verbatim-relayed Round 1 → verify → adjudicate →
-verdict. (No `frozen-brief.md` yet? Run `~/tribunal/scout` from your project
-first to draft one - see the repo README.)
+verdict. (No `frozen-brief.md` yet? Hand `~/tribunal/scout` to an agent from
+your project to draft one - `scout` only prints the scouting prompt; the agent
+writes the brief. See the repo README.)
 
 ## Orchestration mechanics (Claude Code specifics)
 

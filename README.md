@@ -22,7 +22,7 @@ git clone https://github.com/kdoubt/tribunal.git ~/tribunal
 <p align="center"><sub>Then, from your project's root, hand the scout straight to your agent — it drafts your first panel:</sub></p>
 
 ```sh
-# Hand the scout to ONE agent to draft your brief — run whichever you have:
+# Pick ONE line below (each hands the scout to a different agent to draft your brief):
 claude -p  "$(~/tribunal/scout)"      # Claude Code
 codex exec "$(~/tribunal/scout)"      # Codex CLI
 grok  -p   "$(~/tribunal/scout)"      # Grok CLI
