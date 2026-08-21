@@ -35,6 +35,20 @@ Every `core/` reference in this skill resolves as
 the skill file. Installation is additive - skills are one folder each;
 nothing pre-existing is touched.
 
+## First run
+
+With the skill installed, hand Claude Code your frozen brief and name two
+heterogeneous seats - literally, something like:
+
+> Using the tribunal skill, run a panel on `frozen-brief.md` with **Codex CLI
+> and Grok CLI** as the two seats. Smoke-test both first, keep Round 0
+> isolated and parallel, and report the verdict with surviving dissent.
+
+Claude Code then runs the mechanics below: smoke-test → isolated Round 0 in
+parallel → claim ledger → verbatim-relayed Round 1 → verify → adjudicate →
+verdict. (No `frozen-brief.md` yet? Run `~/tribunal/scout` from your project
+first to draft one - see the repo README.)
+
 ## Orchestration mechanics (Claude Code specifics)
 
 - **Spawn seats with the Bash tool in background mode**, one call per seat,

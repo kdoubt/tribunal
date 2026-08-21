@@ -27,12 +27,16 @@ claude -p "$(~/tribunal/scout)"     # Claude Code   ·   codex exec "$(~/tribuna
 
 <p align="center"><sub><code>~/tribunal/scout</code> just prints the scouting prompt with your clone path filled in — no panel is run and nothing is written. That's the whole install.</sub></p>
 
+<p align="center"><sub><b>One prerequisite to run a panel:</b> two <i>already-authenticated</i> agentic CLIs from <i>different</i> vendors or model families (local or hosted). A single CLI is enough to <i>scout</i>, but a real panel needs two — that's the whole point.</sub></p>
+
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="assets/workflow-dark.svg">
-    <img alt="Tribunal workflow: scouted from your project, a frozen brief goes to isolated parallel seats from different vendors; their claims land in a provenance-tagged ledger; disputed claims are cross-examined via verbatim relay while checkable claims go to oracles; a rare triggered Round 2 restates positions when a load-bearing claim flips; the verdict separates independent agreement, resolved claims, and surviving dissent; a retrospective feeds a template delta back into the next brief." src="assets/workflow-light.svg" width="960">
+    <img alt="Tribunal workflow: two required seats (A and B) plus an optional dashed Seat C, each a frontier CLI from a different vendor. A scouted frozen brief goes to these isolated parallel seats; their claims land in a provenance-tagged ledger; disputed claims are cross-examined via verbatim relay while checkable claims go to oracles; a rare triggered Round 2 restates positions when a load-bearing claim flips; the verdict separates independent agreement, resolved claims, and surviving dissent; a retrospective feeds a template delta back into the next brief." src="assets/workflow-light.svg" width="960">
   </picture>
 </p>
+
+<p align="center"><sub>Two seats (A, B) is the floor; the dashed third seat is optional — add it only for the highest-stakes, most irreversible calls.</sub></p>
 
 The loop, in one glance:
 
@@ -85,11 +89,18 @@ Tribunal's mechanisms target exactly that:
 ## Getting started
 
 Nothing to install - this is docs and prompt templates. Your first
-*complete* panel takes about 20-40 minutes, and almost all of that is the
-panel doing real work (scouting, two rounds, adjudication), not setup. Once
-you know the loop it is mostly the models' wall-clock time - a few minutes
-per round. The one prerequisite is two agentic CLIs from different vendors,
-already authenticated.
+*complete* panel takes about 20-40 minutes of **panel wall-clock** (scouting,
+two rounds, adjudication) - authenticating your two CLIs is separate,
+one-time vendor setup that is *not* counted in that estimate. Once you know
+the loop it is mostly the models' wall-clock - a few minutes per round. The
+one prerequisite is two agentic CLIs from different vendors, already
+authenticated.
+
+**If a run stalls,** the usual causes are a missing or not-logged-in CLI
+(check `command -v` and re-authenticate), macOS needing GNU `timeout`
+(`brew install coreutils`), or a seat exiting *silently* on a permission
+prompt. Each adapter's README documents these silent-seat-killers and a smoke
+test that catches them before a real run.
 
 Two seats is the floor, not the ceiling. The diagram shows three, but a
 panel is any N ≥ 2 - two is the floor and the third seat is optional, added
@@ -104,15 +115,15 @@ surfaces in the shared brief rather than slicing one per seat.
    `claude -p "$(~/tribunal/scout)"` (or `codex exec` / `grok -p`, or pipe
    `~/tribunal/scout` into any agent). It reads *your* project and returns
    project-specific panel-worthy decisions (and what to leave to plain
-   oracles), then drafts your first frozen brief. (`scout` just prints the
-   prompt with your clone path filled in — you can still open
-   `core/templates/scout.md` and paste it by hand if you prefer.)
+   oracles), then drafts your first frozen brief. **Save that brief as a file
+   in your project** (e.g. `frozen-brief.md`) - that is what the adapter runs.
+   (`scout` just prints the prompt with your clone path resolved; you can
+   still open `core/templates/scout.md` and paste it by hand if you prefer.)
 2. **Pick an adapter.** For a first panel use one of the two maintained
    adapters - [`adapters/shell/`](adapters/shell/README.md) (any
    orchestrator, plain bash) or
    [`adapters/claude-code/`](adapters/claude-code/SKILL.md). The other
    adapter directories are contribution stubs.
-   (`git clone https://github.com/kdoubt/tribunal.git`)
 3. **Run it.** Follow your adapter: freeze the brief
    ([template](core/templates/brief.md)), Round 0 in parallel with no
    cross-exposure, relay disputed claims verbatim, verify, adjudicate.
@@ -231,16 +242,19 @@ recipe does the same from any terminal, no Claude Code required.
 
 ## Status
 
-Every rule in `core/` was earned the hard way (see the release badge above
-for the current version and `CHANGELOG.md` for what each one changed): the
-methodology
-was designed by running it on itself, then hardened by a ten-seat,
-three-vendor review panel before release. The receipts are in the repo -
-the founding debate lives in `examples/sample-run/`, and the failure modes
-documented in METHODOLOGY (silent seat deaths, politeness convergence,
-context poisoning) were each caught in real runs, not imagined. It is in
-active use by its maintainer, Square Post Labs Inc., where it has already
-overturned its own authors' designs more than once.
+Every rule in `core/` was earned the hard way (the badge above shows the
+current version; `CHANGELOG.md` records what each release changed). The
+methodology was designed by running it on itself; the founding debate is in
+[`examples/sample-run/`](examples/sample-run/) - a historical bootstrap,
+labeled as such, and the one full transcript in-tree so far. The clearest
+in-repo receipt that the method overturns its own author is the CHANGELOG
+itself: several `core/` rules landed only after a cross-vendor panel rejected
+their first draft (the lens doctrine and the v0.4-0.5 hardening each carry
+that note). The failure modes documented in METHODOLOGY (silent seat deaths,
+politeness convergence, context poisoning) were caught in real runs, not
+imagined. The ten-seat pre-release review and the maintainer's operational
+runs are not published in-tree. In active use by its maintainer, Square Post
+Labs Inc.
 
 What it wants next is independent runs. Each adapter's README states its
 own status; `CONTRIBUTING.md` has the support policy and the most-wanted

@@ -9,6 +9,10 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+## [0.6.1] - 2026-08-21
+
+- **Pre-share newcomer polish** (README, `adapters/claude-code/SKILL.md`) from a 2-seat Codex+Grok newcomer review (both promote-after-fixes): the two-different-vendor-CLI prerequisite now sits next to the clone; the Status "receipts" wording is narrowed to what's actually in-tree (the sample-run plus the CHANGELOG's own panel-rejected-first-draft notes), with the ten-seat review labeled not-in-tree; a stray duplicate clone removed and the scout->brief->adapter handoff made concrete; a first-run invocation added to the Claude Code skill; diagram alt-text + a caption now mark seats A/B required and dashed Seat C optional; and a short "if a run stalls" note added.
+
 - **Workflow diagram**: added a third seat (Seat C, dashed/optional) to the hero
   SVGs (light + dark), reinforcing that a panel is any N>=2; README seat-count
   line updated to match. Diagram flow otherwise unchanged - still accurate
@@ -235,7 +239,8 @@ the methodology itself still has one published run (see README, Status).
   methodology, labeled as a historical bootstrap transcript with its
   known non-compliances enumerated.
 
-[Unreleased]: https://github.com/kdoubt/tribunal/compare/v0.6.0...HEAD
+[Unreleased]: https://github.com/kdoubt/tribunal/compare/v0.6.1...HEAD
+[0.6.1]: https://github.com/kdoubt/tribunal/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/kdoubt/tribunal/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/kdoubt/tribunal/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/kdoubt/tribunal/compare/v0.3.4...v0.4.0
