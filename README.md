@@ -180,6 +180,14 @@ historical bootstrap transcript - it predates the finalized templates and
 relays full Round 0 essays, which the finalized method bans; learn the
 loop from `core/templates/`, not from its file shapes.
 
+For a run in the **current** template format on a conventional engineering
+decision, see
+[`examples/api-auth-jwt-vs-sessions/`](examples/api-auth-jwt-vs-sessions/):
+two heterogeneous seats (Codex CLI + Grok CLI) independently chose the same
+auth design in isolation, so the panel *early-stopped* at Round 0 - a worked
+example of pre-exposure agreement, honest empty-dissent bucketing, and routing
+the one residual risk to a test instead of more debate.
+
 ## Repository layout
 
 ```
@@ -193,6 +201,7 @@ core/LEDGER.md          the claim ledger: fields, status enum, dispute rule
 core/VERDICT.md         verdict format: three buckets, mode tags
 core/templates/         scout, brief, per-round prompts, ledger, verdict, retro, ach (competing-hypotheses mode)
 examples/sample-run/    the real (historical) panel that designed the method
+examples/api-auth-jwt-vs-sessions/   a current-format run: two vendors, independent agreement, early stop
 adapters/claude-code/   run panels from Claude Code (installable skill)
 adapters/shell/         run panels from any shell - no orchestrator CLI needed
 adapters/*/             other orchestrators - codex-cli, gemini-cli, opencode, buzz (stubs)
@@ -246,7 +255,10 @@ Every rule in `core/` was earned the hard way (the badge above shows the
 current version; `CHANGELOG.md` records what each release changed). The
 methodology was designed by running it on itself; the founding debate is in
 [`examples/sample-run/`](examples/sample-run/) - a historical bootstrap,
-labeled as such, and the one full transcript in-tree so far. The clearest
+labeled as such. A run in the current template format, on a conventional
+engineering decision, is in
+[`examples/api-auth-jwt-vs-sessions/`](examples/api-auth-jwt-vs-sessions/)
+(two vendors, independent agreement, early stop). The clearest
 in-repo receipt that the method overturns its own author is the CHANGELOG
 itself: several `core/` rules landed only after a cross-vendor panel rejected
 their first draft (the lens doctrine and the v0.4-0.5 hardening each carry

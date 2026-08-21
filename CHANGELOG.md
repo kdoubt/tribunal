@@ -9,6 +9,8 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+- **New worked example** `examples/api-auth-jwt-vs-sessions/`: a *real* cross-vendor panel (Codex CLI + Grok CLI) on a conventional engineering decision - API auth, stateless JWT vs server-side sessions - in the current template format. Both seats independently chose the same design in isolation, so the panel early-stopped at Round 0; demonstrates pre-exposure agreement, the early-stop discipline, honest empty-dissent bucketing, and routing the one residual risk to a test. Addresses CONTRIBUTING's most-wanted contribution (a current-format run on a real decision) alongside the historical sample-run.
+
 ## [0.6.1] - 2026-08-21
 
 - **Pre-share newcomer polish** (README, `adapters/claude-code/SKILL.md`) from a 2-seat Codex+Grok newcomer review (both promote-after-fixes): the two-different-vendor-CLI prerequisite now sits next to the clone; the Status "receipts" wording is narrowed to what's actually in-tree (the sample-run plus the CHANGELOG's own panel-rejected-first-draft notes), with the ten-seat review labeled not-in-tree; a stray duplicate clone removed and the scout->brief->adapter handoff made concrete; a first-run invocation added to the Claude Code skill; diagram alt-text + a caption now mark seats A/B required and dashed Seat C optional; and a short "if a run stalls" note added.
