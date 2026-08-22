@@ -11,18 +11,19 @@ Heterogeneity (different vendors, different training, different tool habits) is
 self-agreement; two models that agree **after** seeing each other is nearly
 worthless - that agreement is cheap.
 
-**This is a hypothesis, and the current evidence is against the strong form of
-it.** Two pre-registered ablation pilots ([`../validation/`](../validation/))
-have not shown that a panel beats a single strong model, and across both pilots
-the two vendors disagreed on only 1 of 9 decisions - so decorrelation buys less
-than the pitch implies, because frontier models mostly converge. Treat the claim
-above as the design's *intent*, being measured honestly, not as a settled fact.
-The method's *intended* durable value is procedural - forcing isolation,
-grounding claims, and preserving surviving dissent with a discriminating test.
-Whether that procedural output is actually *more useful* than a solo model's is
-itself judge-dependent in the pilots (one judge rewarded the preserved dissent,
-another penalized it), so treat this as the design's aim, not a demonstrated
-fact.
+**This is a hypothesis, and the evidence is against the strong form of it.**
+Three pre-registered studies ([`../validation/`](../validation/)) - two pilots
+and a confirmatory ablation at n=20 with an independent judge - found **no
+accuracy lift** for a panel over a single strong model. In the confirmatory
+study the two vendors disagreed on only **1 of 20** decisions, so the
+decorrelation the method banks on mostly does not materialize: frontier models
+converge, and the panel idles down to ≈ a solo model. Treat the claim above as
+the design's *intent*, measured and not supported, not a settled fact. The
+method's *intended* durable value is procedural - forcing isolation, grounding
+claims, and preserving surviving dissent with a discriminating test - but note
+that on the one arm where usefulness (not accuracy) was scored, an independent
+judge preferred the *solo* memo. So treat the whole method as design intent and a
+hedge (see "When to convene"), not a demonstrated improvement.
 
 ## Workflow
 
@@ -109,13 +110,15 @@ Round 0.
 
 Be honest about what a panel buys you. The [validation](../validation/) is clear:
 a panel does **not** reliably out-*decide* a single strong model - frontier seats
-mostly agree (≈1 in 20 disagree), so the debate rarely even runs. What a panel
-*does* give you, on the right decision, is three things a solo prompt does not:
-an **explicit adversarial counter-case**, a **hedge** (its answer is never worse
-than betting on one vendor, and it occasionally catches the vendor you'd have
-trusted being wrong), and a **cheap discriminating test** to settle what remains.
-Convene when those are worth the cost (two authenticated CLIs, ~20-40 min, and
-real headless-reliability friction) - i.e. when several of these hold:
+mostly agree (≈1 in 20 disagree), so the debate rarely even runs. What a panel is
+*designed* to give you, on the right decision, is an **explicit adversarial
+counter-case**, a **cheap discriminating test** to settle what remains, and a
+**hedge** - on *decidable* calls its answer matched or beat any single fixed
+vendor in testing (and caught the wrong vendor in the one case they diverged);
+on *ambiguous* calls, though, an independent judge preferred the plain solo memo,
+so do not expect a better answer there, only a preserved counter-case. Convene
+when those are worth the cost (two authenticated CLIs, ~20-40 min, and real
+headless-reliability friction) - i.e. when several of these hold:
 
 - The decision is **irreversible** or expensive to roll back (migrations,
   deletions, architecture commitments, security boundaries) - so the hedge and

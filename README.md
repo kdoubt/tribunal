@@ -9,9 +9,10 @@
 </p>
 
 > A multi-agent red-team tribunal for your hardest engineering decisions:
-> AI CLIs from different vendors debate in structured rounds and return
-> adjudicated verdicts that preserve dissent. A methodology, not a
-> framework.
+> AI CLIs from different vendors take independent positions, cross-examine
+> what they actually dispute, and return an adjudicated verdict that preserves
+> dissent. A methodology, not a framework (and, by its own measurement, an
+> honest decision-support scaffold, not a proven accuracy upgrade).
 
 <p align="center"><b>Get it — docs and prompt templates, nothing to build:</b></p>
 
@@ -56,11 +57,15 @@ scout project ─▶ frozen brief ─▶ ROUND 0  seats answer in isolation (par
 Built for developers who work with agentic CLIs and have no human review
 board: the panel is your reviewers. One model reviewing its own plan converges
 on its own blind spots; Tribunal forces two *different* vendors' models to take
-independent positions and cross-examine each other claim by claim. What you get
-on a genuinely contested call is **an adversarial counter-case, a discriminating
-test to settle it, and a hedge** - an answer that is never worse than betting on
-a single vendor, and occasionally catches the one you'd have trusted being wrong -
-with real disagreement preserved rather than averaged away.
+independent positions and cross-examine each other claim by claim. What that is
+*designed* to give you on a contested call is **an adversarial counter-case, a
+discriminating test to settle it, and a hedge**, with real disagreement preserved
+rather than averaged away. What the [validation](validation/) actually measured is
+narrower: on *decidable* (oracle-scorable) calls the panel **matched or beat any
+single fixed vendor** - in the one case two vendors diverged, it caught the wrong
+one - but on *ambiguous* calls an independent judge **preferred the plain solo
+memo**. So the hedge is real on decidable calls; on ambiguous ones the panel's
+extra output was judged no better (sometimes worse).
 
 What Tribunal is **not**: a way to out-*decide* a strong single model. Its own
 [validation](validation/) - two pilots plus a confirmatory study at n=20 with an
@@ -121,9 +126,9 @@ Two seats is the floor, not the ceiling. The diagram shows three, but a
 panel is any N ≥ 2 - two is the floor and the third seat is optional, added
 for the highest-stakes, most irreversible calls. The *intended* gain is 1 → 2
 (self-review to cross-vendor), with each seat past that adding diminishing
-value at linear cost - but note the [validation](validation/) caveat: the
-seats disagreed on only 1 of 8 decisions in the pilots, so in practice the
-2nd seat mostly just confirms the 1st. Scale to the stakes, not the ritual. Giving seats distinct review
+value at linear cost - but note the [validation](validation/) caveat: in the
+confirmatory study the seats disagreed on only 1 of 20 decisions, so in practice
+the 2nd seat mostly just confirms the 1st. Scale to the stakes, not the ritual. Giving seats distinct review
 *lenses* is a separate, optional layer with its own rules (see
 `core/METHODOLOGY.md`, "Assigning lenses") - by default you name the
 surfaces in the shared brief rather than slicing one per seat.
@@ -296,13 +301,16 @@ two vendors disagreed on only **1 of 20** decisions, so the panel's engine (Roun
 1) almost never activates; when it did fire (once), it correctly caught a solo
 model's error - but the panel still only *matched* the best single model, never
 beat it, and an independent judge preferred the solo memo on the ambiguous set.
-The defensible value the data supports is narrow: a **hedge that is never worse
-than a fixed single vendor and sometimes catches its mistake**, plus a preserved
-counter-case and a discriminating test on contested calls - paid for with a
-real operational cost (the second seat frequently narration-dies in headless
-use). Tribunal is a *promising but unproven* protocol, **not** a demonstrated
-accuracy upgrade. Every result, including the losses and a corrected earlier
-overclaim, is published in full.
+The defensible value the data supports is narrow: on *decidable* calls a **hedge**
+that matched or beat any single fixed vendor and, in the one case they diverged,
+caught the wrong one (n=1); on *ambiguous* calls the panel was judged **no better,
+sometimes worse** than the solo memo. Add a preserved counter-case and a
+discriminating test on contested calls - paid for with a real operational cost
+(the second seat frequently narration-dies in headless use). Tribunal is
+**unproven as an accuracy upgrade and, on this evidence, is not one**; use it for
+the counter-case, the test, and the decidable-call hedge, not for a better answer.
+Every result - the losses, the single-judge caveat, and a corrected earlier
+overclaim - is published in full.
 
 The clearest
 in-repo receipt that the method overturns its own author is the CHANGELOG

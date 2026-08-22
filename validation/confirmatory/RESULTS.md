@@ -8,15 +8,16 @@ outputs for the decisive case are in [`results-raw/`](results-raw/).
 
 ## Headline
 
-**No lift, confirmed - and the panel's engine almost never activates.**
+**No lift observed (single independent judge) - and the panel's engine almost never activates.**
 
 - **Seats disagreed on 1 of 20 decisions.** On the other 19 the two vendors
   independently reached the same call, so Round 1 never ran and `A_panel = A_2seat`.
   This is the study's most robust, judge-independent finding, and it confirms the
   pilots at n=20: **frontier models mostly converge, so the panel machinery idles.**
 - **On the 1 disagreement (c09), Round 1 worked** - it correctly adjudicated the
-  split, moving the *wrong* seat to the right answer. So the mechanism is sound; it
-  just rarely gets to act.
+  split, moving the *wrong* seat to the right answer. That is a single encouraging
+  data point for the mechanism (n=1), not a demonstration; it just rarely gets to
+  act at all.
 - **The panel never out-scored a single strong model.** On known-answer it *tied*
   the best-of-two solo (10/10 each); on ambiguous the independent judge preferred
   the solo memo (aggregate 118 vs 103; 9 of 10 forced choices).
@@ -57,7 +58,7 @@ transparently reserve stock; the real fix is an atomic conditional
 
 ## Ambiguous arm (n=10, independent judge)
 
-All 10 seats **agreed** (no Round 1). Judged solo memo vs a mechanically-assembled
+On all 10 decisions the two seats **agreed** (no Round 1). Judged solo memo vs a mechanically-assembled
 panel memo, blind, by gpt-oss (both metrics):
 
 - **Aggregate rubric score: solo 118, panel 103 - solo wins.**
@@ -74,16 +75,22 @@ rendering-sensitive and should not be over-read.
 
 ## Primary endpoint & decision rule
 
-- **Primary (`A_panel − A_2seat`, the value of Round 1):** only *testable* on the
-  1 decision where seats disagreed (c09), where it was **positive** (correct vs
-  unresolved). On 19/20 it was zero by construction (early stop). So Round 1's
-  value is real but **rarely triggered** - the binding constraint is the 1/20
-  disagreement rate, not Round 1's quality.
-- **Decision rule outcome: lift is NOT declared.** The mean `A_panel − A_solo` is
-  ≤ 0 (tie on known-answer, negative on ambiguous), and the panel does not beat a
-  best-of-breed single model under the independent judge. The no-lift prior from
-  the pilots **stands, now confirmed at n=20 with an independent fourth-vendor
-  judge, oracle scoring, and component-isolating arms.**
+- **Primary endpoint (as pre-registered): mean `A_panel − A_solo` on aggregate
+  score.** It is **≤ 0** (tie on known-answer against the best-of-two solo,
+  negative on ambiguous under the independent judge), so the panel does not beat a
+  strong single model. **Lift is NOT declared.**
+- **Secondary (`A_panel − A_2seat`, the value of Round 1 specifically):** only
+  *testable* on the 1 decision where seats disagreed (c09), where it was positive
+  (correct vs unresolved). On 19/20 it was zero by construction (early stop). So
+  Round 1's value is real when it fires but **rarely triggered** - the binding
+  constraint is the 1/20 disagreement rate, not Round 1's quality. This rests on a
+  single data point.
+- The no-lift prior from the pilots **holds, now under a confirmatory attempt at
+  n=20 with a judge independent of the seats and orchestrator, oracle scoring, and
+  component-isolating arms** - though under a *single* judge vendor (the
+  pre-registered non-OpenAI second judge was not added; see Limitations), so read
+  this as "no lift observed in a stronger confirmatory attempt," not "proven for
+  all time."
 
 ## The operational tax (a first-class finding)
 
@@ -99,11 +106,13 @@ reviewers' "operational friction" critique with hard numbers.
 
 ## Limitations (honest)
 
-- **n = 20; one judge vendor.** The independent judge is gpt-oss (OpenAI lineage,
-  so not fully vendor-disjoint from the Codex seat, though Codex is in both arms
-  so it largely cancels). The designated **non-OpenAI second judge (Meta/Alibaba)
-  is not yet added** - the two-judge confirmation the protocol calls for is
-  incomplete.
+- **n = 20; one judge vendor.** The judge is independent of the seats (Codex,
+  Grok) and the orchestrator (Claude), but is gpt-oss (OpenAI lineage), so not
+  *fully* vendor-disjoint from the Codex seat - though Codex is in both arms, so
+  any GPT-style affinity largely cancels. The protocol's **non-OpenAI second
+  judge (Meta/Alibaba) was not run** - deliberately left to replicators, not
+  closed here (the repo is frozen). So the two-judge confirmation is a replication
+  target, and this result stands under a single independent judge.
 - **Ambiguous panel rendering was crude** (mechanical concat), which handicaps the
   panel on tightness; a fair rendering study (the protocol's raw-vs-assembled
   control) was not run.
@@ -115,11 +124,13 @@ reviewers' "operational friction" critique with hard numbers.
 
 ## Bottom line
 
-At n=20, with an independent fourth-vendor judge, oracle-scored known-answer
-decisions, and component-isolating arms: **Tribunal shows no accuracy lift over a
-single strong model.** Its engine (disagreement → Round 1) activated on 1 of 20
-decisions; when it did, it correctly adjudicated. The defensible value the data
-supports is narrow and real: **a hedge that is never worse than a fixed single
-vendor and sometimes catches its error, plus a preserved counter-case and a
-discriminating test on contested calls - paid for with a substantial operational
-cost.** That is what the README now claims, and no more.
+At n=20, with a judge independent of the seats and orchestrator (single vendor),
+oracle-scored known-answer decisions, and component-isolating arms: **Tribunal
+shows no accuracy lift over a single strong model.** Its engine (disagreement →
+Round 1) activated on 1 of 20 decisions; when it did, it correctly adjudicated
+(n=1). The defensible value the data supports is narrow: **on decidable calls a
+hedge that matched or beat any fixed single vendor and caught the wrong one in the
+single case they diverged; on ambiguous calls, no better (judged worse) than the
+solo memo** - plus a preserved counter-case and a discriminating test on contested
+calls, paid for with a substantial operational cost. That is what the README now
+claims, and no more.

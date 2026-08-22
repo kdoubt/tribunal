@@ -14,23 +14,26 @@ removes all four, so its result is load-bearing either way.
   endpoint**, and a pre-registered decision rule for declaring lift.
 - `decisions/` + `sealed/` - the fixed decision set (briefs the arms see; sealed
   oracle/truth the seats never receive). Committed before scoring.
-- `results/` - added after the run, every decision published including losses.
+- [`RESULTS.md`](RESULTS.md) - the writeup, every decision including losses.
+- [`results-raw/`](results-raw/) - raw arm transcripts (the decisive c09 chain
+  in full) and the per-decision judge log, so the scores are auditable.
 
-## Status: RUN COMPLETE (n=20) - no lift confirmed
+## Status: RUN COMPLETE (n=20) - no lift observed
 
 Full results in [`RESULTS.md`](RESULTS.md). The independent judge (`gpt-oss-120b`,
-temp 0, neither seat nor orchestrator vendor) is wired and was used to score the
-ambiguous arm. Headline: **seats disagreed on only 1 of 20 decisions; the panel
-never out-scored a single strong model; Round 1 fired once (c09) and correctly
-adjudicated.** The no-lift prior is confirmed at n=20 with an independent judge,
-oracle-scored known-answer decisions, and component-isolating arms.
+temp 0, independent of the seats and the orchestrator vendor) scored the ambiguous
+arm. Headline: **seats disagreed on only 1 of 20 decisions; the panel never
+out-scored a single strong model; Round 1 fired once (c09) and correctly
+adjudicated.** No lift was observed at n=20 under a judge independent of the seats
+and orchestrator, with oracle-scored known-answer decisions and
+component-isolating arms.
 
-Still open (stated honestly in `RESULTS.md`): the **non-OpenAI second judge** the
-protocol calls for was not added (gateway key unavailable), the ambiguous panel
-memo was crudely rendered, and only one decision exercised Round 1 - so the
-primary endpoint rests on a single data point. A larger, two-judge, real-outcome
-study remains the ceiling; this run is a genuine confirmatory attempt, not the
-last word.
+**Deliberately out of scope for this run** (left to replicators, not gaps to close
+before shipping): a **non-OpenAI second judge** (the gateway key was not
+available), a polished rather than mechanical ambiguous-panel rendering, and
+powering the Round-1 sub-endpoint beyond its single data point. A larger,
+two-judge, real-outcome study is the natural *replication*, not something this
+frozen repo will do itself.
 
 The harness scripts (arm runner, judge caller) live operator-side, not in this
 docs-only repo; only the protocol, decision set, and results are committed here.

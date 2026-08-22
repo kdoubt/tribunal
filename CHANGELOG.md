@@ -9,6 +9,16 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+## [1.0.1] - 2026-08-21
+
+**The freeze, corrected.** v1.0.0 was cut *before* running the final repositioned state back through a model review; doing so (a fresh Codex + Grok + Claude panel) caught that the repositioning was only half-applied and still contained real over-claims. Fixed here - all documentation, no method or feature change:
+
+- **"never worse than a fixed single vendor" was an over-claim** (all three reviewers). The ambiguous arm judged the panel *worse* (solo 118 vs panel 103), and the one "catch" is n=1. Scoped everywhere (README, `core/METHODOLOGY.md`, `RESULTS.md`) to: on *decidable* calls the panel matched or beat any fixed vendor and caught the wrong one in the single case they diverged; on *ambiguous* calls it was judged no better, sometimes worse.
+- **`core/METHODOLOGY.md` preamble was stale** - it still cited "two pilots / 1 of 9 / judge-dependent," which the confirmatory study and the v0.6.7 correction had already superseded (solo won aggregate under every judge). Rewritten to the confirmatory finding (n=20, 1 of 20, no aggregate win under any judge).
+- **Disagreement rate was inconsistent** (1 of 8 vs 1 of 9 vs 1 of 20 across files) - reconciled to the confirmatory **1 of 20**.
+- **Primary-endpoint contradiction** - `RESULTS.md` had renamed the endpoint to `A_panel − A_2seat`; restored the pre-registered **aggregate score** as primary, with the Round-1 comparison as a secondary (n=1) sub-analysis.
+- **Softened single-judge / n=1 over-statements**: "no lift confirmed" → "no lift observed under a single independent judge"; "the mechanism is sound" → "a single encouraging data point (n=1)"; "independent fourth-vendor judge" qualified (independent of seats + orchestrator, but OpenAI-lineage). Reframed the open items (non-OpenAI second judge, real-outcome runs) as **out of scope for replicators**, not "not yet done," so the freeze stops fighting itself. Fixed a dead `results/` path (→ `results-raw/`) and the tagline.
+
 ## [1.0.0] - 2026-08-21
 
 **Stable release - the methodology is complete, honestly characterized, and development is frozen.** No accuracy claim; no accuracy pretense. This version repositions the whole repo around the value its own validation actually supports and stops there.
@@ -302,7 +312,8 @@ the methodology itself still has one published run (see README, Status).
   methodology, labeled as a historical bootstrap transcript with its
   known non-compliances enumerated.
 
-[Unreleased]: https://github.com/kdoubt/tribunal/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/kdoubt/tribunal/compare/v1.0.1...HEAD
+[1.0.1]: https://github.com/kdoubt/tribunal/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/kdoubt/tribunal/compare/v0.6.9...v1.0.0
 [0.6.9]: https://github.com/kdoubt/tribunal/compare/v0.6.8...v0.6.9
 [0.6.8]: https://github.com/kdoubt/tribunal/compare/v0.6.7...v0.6.8
