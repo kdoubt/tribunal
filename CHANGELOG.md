@@ -9,6 +9,14 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-08-21
+
+**Stable release - the methodology is complete, honestly characterized, and development is frozen.** No accuracy claim; no accuracy pretense. This version repositions the whole repo around the value its own validation actually supports and stops there.
+
+- **Repositioned from "smarter panel" to "decision-support scaffold + hedge."** After three pre-registered studies (two pilots + a confirmatory n=20 with an independent judge) found **no accuracy lift** over a strong single model, the README and `core/METHODOLOGY.md` now frame the value as what the data supports: an **adversarial counter-case**, a **discriminating test** to settle a contested call, and a **hedge** whose answer is never worse than betting on one vendor and occasionally catches the vendor you'd have trusted being wrong - explicitly **not** a way to out-decide the best single model. "When to convene" is rewritten around that honest value (and its real cost) rather than an implied "the panel will catch what the model misses."
+- **Frozen by intent.** README Status now declares the project stable and done, not abandoned; the next thing it wants is *independent replication* of the no-lift finding, not more internal development.
+- The normative core (isolation, grounded claims, verbatim relay, three-bucket verdict, oracle-first, preserved dissent) is unchanged - it stands on its own as decision-support discipline regardless of the lift question. Full evidence, including losses and a corrected earlier overclaim, remains in `validation/`.
+
 ## [0.6.9] - 2026-08-21
 
 - **Confirmatory study run to completion (n=20) - no lift confirmed** (`validation/confirmatory/RESULTS.md`). Four arms per decision with **oracle access held constant** (so `A_panel − A_2seat` isolates Round 1), an **independent fourth-vendor judge** (gpt-oss-120b, temp 0), and access-separated sealed truth. Findings:
@@ -294,7 +302,8 @@ the methodology itself still has one published run (see README, Status).
   methodology, labeled as a historical bootstrap transcript with its
   known non-compliances enumerated.
 
-[Unreleased]: https://github.com/kdoubt/tribunal/compare/v0.6.9...HEAD
+[Unreleased]: https://github.com/kdoubt/tribunal/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/kdoubt/tribunal/compare/v0.6.9...v1.0.0
 [0.6.9]: https://github.com/kdoubt/tribunal/compare/v0.6.8...v0.6.9
 [0.6.8]: https://github.com/kdoubt/tribunal/compare/v0.6.7...v0.6.8
 [0.6.7]: https://github.com/kdoubt/tribunal/compare/v0.6.6...v0.6.7

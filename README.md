@@ -54,20 +54,25 @@ scout project ─▶ frozen brief ─▶ ROUND 0  seats answer in isolation (par
 ```
 
 Built for developers who work with agentic CLIs and have no human review
-board: the panel is your reviewers. One model reviewing its own plan
-converges on its own blind spots; Tribunal forces two *different* vendors'
-models to take independent positions and cross-examine each other claim by
-claim, so a genuinely contested call yields **an adversarial counter-case and a
-candidate discriminating test**, with real disagreement preserved rather than
-averaged away. (How *strong* or *cheapest* those are is not something the
-[validation](validation/) measured - don't read the superlatives in.) What it does **not** yet claim: that this reliably
-*beats* a single strong model. Two pre-registered pilots in
-[`validation/`](validation/) have not shown that lift - and the method's
-honesty about ambiguity can even score *worse* than a confident solo answer.
-Treat Tribunal as an adversarial, honesty-first aid for irreversible
-decisions, not a proven accuracy upgrade. You need two or more independently configured model/agent
-commands from *different* vendors or model families (local or hosted;
-subscriptions only where a provider requires one).
+board: the panel is your reviewers. One model reviewing its own plan converges
+on its own blind spots; Tribunal forces two *different* vendors' models to take
+independent positions and cross-examine each other claim by claim. What you get
+on a genuinely contested call is **an adversarial counter-case, a discriminating
+test to settle it, and a hedge** - an answer that is never worse than betting on
+a single vendor, and occasionally catches the one you'd have trusted being wrong -
+with real disagreement preserved rather than averaged away.
+
+What Tribunal is **not**: a way to out-*decide* a strong single model. Its own
+[validation](validation/) - two pilots plus a confirmatory study at n=20 with an
+independent fourth-vendor judge - found **no accuracy lift.** Frontier seats
+mostly agree (≈1 in 20 disagree), so the debate rarely even runs, and the panel
+*matches* the best single model rather than beating it. Treat Tribunal as an
+honest, adversarial **decision-support scaffold** for irreversible calls, not an
+accuracy upgrade.
+
+You need two or more independently configured model/agent commands from
+*different* vendors or model families (local or hosted; subscriptions only where
+a provider requires one).
 
 ## When to use it
 
@@ -309,9 +314,15 @@ imagined. The ten-seat pre-release review and the maintainer's operational
 runs are not published in-tree. In active use by its maintainer, Square Post
 Labs Inc.
 
-What it wants next is independent runs. Each adapter's README states its
-own status; `CONTRIBUTING.md` has the support policy and the most-wanted
-contribution: a sanitized panel run on a real engineering decision.
+**Project status: stable and frozen at v1.0.** The methodology is complete and,
+after running its own [validation](validation/) to a confirmatory study, honestly
+characterized - including the finding that it shows no accuracy lift over a strong
+single model. It is intentionally *done*, not abandoned: no further method
+development is planned. What it wants next is **independent replication** - runs
+by other people, on other decisions, with other judges, that confirm or overturn
+the no-lift finding. Each adapter's README states its own status; `CONTRIBUTING.md`
+has the support policy and the most-wanted contribution: a sanitized panel run on
+a real engineering decision (ideally one whose outcome later becomes known).
 
 ## License
 

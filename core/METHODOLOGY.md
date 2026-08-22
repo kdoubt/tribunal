@@ -107,20 +107,27 @@ Round 0.
 
 ## When to convene a panel (and when not)
 
-Do **not** use a time-cost rule of thumb ("panel if a mistake costs > N
-minutes"). Use expected loss: *probability the single model is wrong × blast
-radius × whether a panel would actually catch it*. Convene when several of
-these are true:
+Be honest about what a panel buys you. The [validation](../validation/) is clear:
+a panel does **not** reliably out-*decide* a single strong model - frontier seats
+mostly agree (≈1 in 20 disagree), so the debate rarely even runs. What a panel
+*does* give you, on the right decision, is three things a solo prompt does not:
+an **explicit adversarial counter-case**, a **hedge** (its answer is never worse
+than betting on one vendor, and it occasionally catches the vendor you'd have
+trusted being wrong), and a **cheap discriminating test** to settle what remains.
+Convene when those are worth the cost (two authenticated CLIs, ~20-40 min, and
+real headless-reliability friction) - i.e. when several of these hold:
 
 - The decision is **irreversible** or expensive to roll back (migrations,
-  deletions, architecture commitments, security boundaries).
+  deletions, architecture commitments, security boundaries) - so the hedge and
+  the counter-case are worth paying for.
 - The question is **ambiguous** - multiple plausible but incompatible
-  interpretations exist, or hidden assumptions dominate.
+  interpretations exist, or hidden assumptions dominate - so a preserved dissent
+  plus a discriminating test beats a confident single answer.
 - **Wrongness is hard to observe** - no test or compiler will catch it
-  before it does damage.
-- The topic is one where a single vendor's models are **trained to be
-  agreeable or conservative** (threat modeling, "is this even the right
-  design", product tradeoffs).
+  before it does damage, so you can't cheaply verify a solo answer anyway.
+- You genuinely **don't know which vendor to trust** on this topic (threat
+  modeling, "is this even the right design", product tradeoffs) - the panel is
+  the hedge against picking the wrong one.
 
 Skip the panel when:
 
