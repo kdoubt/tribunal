@@ -18,7 +18,7 @@ that there is no lift and say so.
   is reported, including panel losses and false objections.
 - [`confirmatory/`](confirmatory/) - the **pre-registered confirmatory study**
   that fixes the four reasons the pilots were only exploratory (independent
-  fourth-vendor judge, component-isolating arms, mechanical panel output, n ≥ 20
+  judge independent of the seats and orchestrator (a fourth model, OpenAI-lineage), component-isolating arms, mechanical panel output, n ≥ 20
   with a disclosed scorer and access-separated blinding). Harness proven (the
   independent judge is wired and already corroborated the pilots' no-lift
   finding); decision set + run pending.

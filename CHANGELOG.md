@@ -9,6 +9,16 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+## [1.0.2] - 2026-08-22
+
+**More claim-scoping, from a further external re-review (ChatGPT + Grok).** Grok read the tree as stable; ChatGPT flagged remaining over-claims that checked out. All documentation, no method change:
+
+- **Corrected a primary-endpoint mislabel introduced in v1.0.1.** `PROTOCOL.md` pre-registers `A_panel − A_2seat` (value of Round 1) as the primary endpoint, but v1.0.1's `RESULTS.md` wrongly called `A_panel − A_solo` "the pre-registered primary." Fixed: the pre-registered primary is `A_panel − A_2seat` (effectively untestable here, n=1), and `A_panel − A_solo` is reported as the headline practical comparison (≤ 0, no lift).
+- **"published in full" is now literally true.** Committed the raw arm transcripts for **all 20 decisions** under `results-raw/` (previously only the c09 chain and the judge log were in-tree), so every score is auditable.
+- **"fourth-vendor judge" corrected to "fourth *model*, independent of the seats and orchestrator (OpenAI-lineage)"** across README, PROTOCOL, both validation READMEs, and pilot-02. gpt-oss shares OpenAI lineage with the Codex seat, so it is not a fourth *vendor*.
+- **"confirmatory" is now explicitly caveated** at the top of `RESULTS.md`: read it as a strong *pre-registered follow-up*, not a clean confirmatory ablation. The shortfalls are named: an **ex-post oracle-picked best-of-two solo baseline** (not achievable prospectively), a **single** OpenAI-lineage judge, **no live oracle actually invoked** (arms reasoned from model knowledge; a deviation from "oracle access held constant"), the rendering control not run, and the Round-1 endpoint at n=1.
+- Scoped "matched the best single model" (an ex-post best-of-two, not a prospective best) and "the hedge is real" (real on decidable calls only) wherever they appeared.
+
 ## [1.0.1] - 2026-08-21
 
 **The freeze, corrected.** v1.0.0 was cut *before* running the final repositioned state back through a model review; doing so (a fresh Codex + Grok + Claude panel) caught that the repositioning was only half-applied and still contained real over-claims. Fixed here - all documentation, no method or feature change:
@@ -312,7 +322,8 @@ the methodology itself still has one published run (see README, Status).
   methodology, labeled as a historical bootstrap transcript with its
   known non-compliances enumerated.
 
-[Unreleased]: https://github.com/kdoubt/tribunal/compare/v1.0.1...HEAD
+[Unreleased]: https://github.com/kdoubt/tribunal/compare/v1.0.2...HEAD
+[1.0.2]: https://github.com/kdoubt/tribunal/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/kdoubt/tribunal/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/kdoubt/tribunal/compare/v0.6.9...v1.0.0
 [0.6.9]: https://github.com/kdoubt/tribunal/compare/v0.6.8...v0.6.9

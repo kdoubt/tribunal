@@ -4,7 +4,7 @@
 **Arms:** A1 = Codex alone; A3 = full Tribunal (same Codex + Grok, R0 → R1 where
 disputed → verdict). **Judges:** two independent - Claude CLI (third vendor,
 run **twice**, order flipped) and **gpt-oss-120b** (a genuinely independent
-fourth vendor, added once the confirmatory harness came online) - plus one
+fourth *model* (OpenAI-lineage), added once the confirmatory harness came online) - plus one
 **conflicted** robustness check (Grok, whose own work is in the panel memos). All
 blind to arm identity; order pre-fixed per pass - see
 [`pilot-02/BLIND-ORDER.md`](pilot-02/BLIND-ORDER.md).
@@ -22,11 +22,11 @@ scored on:
 |----|----|----|----|----|
 | Claude - pass 1 (independent) | **34** | 32 | solo | solo 2, panel 1 |
 | Claude - pass 2 (independent, order flipped) | **34** | 31 | solo | solo 2, tie 1 |
-| **gpt-oss-120b (independent 4th vendor, added later)** | 32 | 32 | **tie** | solo 1, panel 1, tie 1 |
+| **gpt-oss-120b (independent 4th *model*, OpenAI-lineage, added later)** | 32 | 32 | **tie** | solo 1, panel 1, tie 1 |
 | Grok (CONFLICTED - its own text is in the panel memos) | 32 | 32 | **tie** | solo 1, panel 2 |
 
 **The panel never won on points under any judge** - including a genuinely
-independent fourth vendor (gpt-oss-120b, neither seat nor the orchestrator's
+independent fourth *model* (gpt-oss-120b, OpenAI-lineage, neither seat nor the orchestrator's
 vendor), added when the confirmatory harness came online: it scored a dead
 **tie** on aggregate, corroborating "no panel lift" rather than reversing it. The only thing that inverted
 was the *forced choice* of the **conflicted** judge (Grok, which authored part of
@@ -105,11 +105,11 @@ second judge). Distinguish the two metrics the pre-registration named -
 
 The honest conclusion, corrected: on these three ambiguous decisions the panel
 showed **no aggregate lift under any judge** - including the independent
-fourth-vendor gpt-oss judge, which tied. The one metric that ever favored the
+independent gpt-oss judge (a fourth model, OpenAI-lineage), which tied. The one metric that ever favored the
 panel (forced choice) moved only under the *conflicted* judge. This is still a
 pilot (n=3, orchestrator-assembled memos); the pre-registered
 [`../confirmatory/`](../confirmatory/) study - component-isolating arms, the
-fourth-vendor judge as primary, n ≥ 20, aggregate score as the primary endpoint -
+independent judge (fourth model) as primary, n ≥ 20, aggregate score as the primary endpoint -
 is the confirmatory follow-up, and it inherits this no-lift prior.
 
 ## Confounds (which cut both ways)
@@ -178,7 +178,7 @@ judge-independent result is that frontier seats rarely disagree at all (1 of 8
 measurable), so the panel machinery mostly idles. This argues for narrowing
 Tribunal's claims to the specific buyer who wants an adversarial counter-case plus
 a discriminating test on a genuinely irreversible call - and for a proper
-confirmatory study (a fourth-vendor independent judge, larger n, real outcomes,
+confirmatory study (a non-OpenAI independent judge, larger n, real outcomes,
 component-isolating arms) before any stronger claim. The narrowed
 README/METHODOLOGY (v0.6.5) already reflect the no-lift finding; this file's
 earlier "flips with the judge" framing was corrected after a re-review.

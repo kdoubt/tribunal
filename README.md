@@ -69,9 +69,9 @@ extra output was judged no better (sometimes worse).
 
 What Tribunal is **not**: a way to out-*decide* a strong single model. Its own
 [validation](validation/) - two pilots plus a confirmatory study at n=20 with an
-independent fourth-vendor judge - found **no accuracy lift.** Frontier seats
+independent judge (a fourth model, OpenAI-lineage) - found **no accuracy lift.** Frontier seats
 mostly agree (≈1 in 20 disagree), so the debate rarely even runs, and the panel
-*matches* the best single model rather than beating it. Treat Tribunal as an
+*matches* a strong single model rather than beating it. Treat Tribunal as an
 honest, adversarial **decision-support scaffold** for irreversible calls, not an
 accuracy upgrade.
 
@@ -295,11 +295,11 @@ outcomes:
 
 **Honest validation status:** pre-registered ablations ([`validation/`](validation/))
 - two pilots and now a **confirmatory study (n=20)** with an independent
-fourth-vendor judge, oracle-scored decisions, and component-isolating arms - show
+judge independent of the seats and orchestrator (a fourth model, OpenAI-lineage), oracle-scored decisions, and component-isolating arms - show
 **no accuracy lift** over a single strong model. Across the confirmatory set the
 two vendors disagreed on only **1 of 20** decisions, so the panel's engine (Round
 1) almost never activates; when it did fire (once), it correctly caught a solo
-model's error - but the panel still only *matched* the best single model, never
+model's error - but the panel still only *matched* a strong single model (an ex-post best-of-two; see validation), never
 beat it, and an independent judge preferred the solo memo on the ambiguous set.
 The defensible value the data supports is narrow: on *decidable* calls a **hedge**
 that matched or beat any single fixed vendor and, in the one case they diverged,

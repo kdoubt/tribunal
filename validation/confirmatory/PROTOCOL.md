@@ -10,7 +10,7 @@ is flagged in `CHANGELOG.md` and the affected runs are redone.
 ## The four exploratory weaknesses this fixes
 
 1. **Judge was the orchestrator's vendor** (Claude), and the only clean judge.
-   → **Fix:** the judge is a **fourth-vendor model that is neither seat nor the
+   → **Fix:** the judge is a **fourth *model* (independent of the seats and orchestrator, though OpenAI-lineage, so not a fourth vendor) that is neither seat nor the
    orchestrator** (see Judge). No seat judges its own work; the orchestrator never
    judges.
 2. **Arms didn't isolate components** - oracle access varied across arms, so
@@ -48,7 +48,7 @@ differs between the arms it is compared against.
 Running Grok-solo as well as Codex-solo removes the pilots' Codex-only-baseline
 bias and gives each vendor a fair shot at being the strong solo.
 
-## Judge (independent, fourth vendor)
+## Judge (independent of the seats and orchestrator; a fourth model, not a fourth vendor)
 
 - **Primary judge: `gpt-oss-120b`** served locally (OpenAI-compatible endpoint),
   **temperature 0** for reproducibility. It is **not** one of the seats (Codex /

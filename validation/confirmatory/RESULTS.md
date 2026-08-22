@@ -1,10 +1,23 @@
 # Confirmatory study - results (n=20)
 
+> **Read this as a strong *pre-registered follow-up*, not a clean confirmatory
+> ablation.** It has real confirmatory elements (pre-registration, isolating arms,
+> a judge independent of the seats and orchestrator, oracle-scored known-answer
+> decisions), but also real deviations that keep it short of "confirmatory": an
+> **ex-post oracle-picked best-of-two solo baseline**, a **single** judge (a
+> fourth *model*, gpt-oss, but OpenAI-lineage - not a fourth *vendor*), **no live
+> oracle actually invoked**, the raw-vs-assembled rendering control not run, and
+> the pre-registered Round-1 endpoint resting on **n=1**. See Limitations. The
+> "confirmatory" name is the study's label, not a claim that it settled the
+> question. (This caveat was added after an external re-review pushed back on the
+> word.)
+
 **Run:** 2026-08-21. **Seats:** Codex CLI (GPT-5-class), Grok CLI (Grok-4-class).
-**Independent judge:** gpt-oss-120b (fourth vendor, temp 0). **Decisions:** the
-pre-registered set (10 known-answer with sealed oracle truth; 10 ambiguous).
-**Design:** [`PROTOCOL.md`](PROTOCOL.md), committed before the run. Raw arm
-outputs for the decisive case are in [`results-raw/`](results-raw/).
+**Independent judge:** gpt-oss-120b (a fourth *model*, independent of the seats
+and orchestrator; OpenAI-lineage, temp 0). **Decisions:** the pre-registered set
+(10 known-answer with sealed oracle truth; 10 ambiguous). **Design:**
+[`PROTOCOL.md`](PROTOCOL.md), committed before the run. Raw arm transcripts for
+all 20 decisions are in [`results-raw/`](results-raw/).
 
 ## Headline
 
@@ -75,16 +88,22 @@ rendering-sensitive and should not be over-read.
 
 ## Primary endpoint & decision rule
 
-- **Primary endpoint (as pre-registered): mean `A_panel − A_solo` on aggregate
-  score.** It is **≤ 0** (tie on known-answer against the best-of-two solo,
-  negative on ambiguous under the independent judge), so the panel does not beat a
-  strong single model. **Lift is NOT declared.**
-- **Secondary (`A_panel − A_2seat`, the value of Round 1 specifically):** only
-  *testable* on the 1 decision where seats disagreed (c09), where it was positive
-  (correct vs unresolved). On 19/20 it was zero by construction (early stop). So
-  Round 1's value is real when it fires but **rarely triggered** - the binding
-  constraint is the 1/20 disagreement rate, not Round 1's quality. This rests on a
-  single data point.
+- **Pre-registered primary endpoint: mean `A_panel − A_2seat` (the value of Round
+  1) on aggregate score.** `PROTOCOL.md` names this, and its decision rule was
+  "declare lift only if this is positive and holds under both judges." It is
+  effectively **untestable here**: seats disagreed on only 1 of 20 decisions, so
+  Round 1 ran once; on that one (c09) it was positive (correct vs an unresolved
+  split), and on the other 19 it was zero by construction (early stop). So the
+  pre-registered lift criterion is **not met** - not refuted, but resting on a
+  single data point, which is a real shortfall of this run as a *confirmatory*
+  test (see Limitations). (An earlier version of this file wrongly labeled
+  `A_panel − A_solo` as the pre-registered primary; corrected.)
+- **Headline practical comparison: `A_panel − A_solo` (does the whole panel beat
+  a single model).** It is **≤ 0** - a tie on known-answer against an
+  *ex-post, oracle-picked* best-of-two solo (see the baseline caveat in
+  Limitations), and negative on ambiguous under the independent judge. So the
+  panel does not beat a strong single model. This is the number most readers mean
+  by "lift," and it shows none.
 - The no-lift prior from the pilots **holds, now under a confirmatory attempt at
   n=20 with a judge independent of the seats and orchestrator, oracle scoring, and
   component-isolating arms** - though under a *single* judge vendor (the
@@ -104,23 +123,39 @@ large reliability cost in headless/automated use**; a naive operator would get
 silent dead seats and no valid panel. This corroborates and sharpens the external
 reviewers' "operational friction" critique with hard numbers.
 
-## Limitations (honest)
+## Limitations (honest) - and why this is a *pre-registered follow-up*, not a clean confirmatory ablation
 
+Despite the pre-registration and the isolating arm design, several deviations
+mean this run should be read as a **strong, pre-registered follow-up** rather than
+a completed confirmatory ablation (an external re-review, correctly, pushed back
+on the word "confirmatory"):
+
+- **The solo baseline is ex-post.** `A_solo` = the *stronger* of the two solo runs
+  *picked per decision*. On known-answer that means picked by the oracle (i.e.
+  after knowing the right answer), which is **not achievable prospectively** - in
+  real use you cannot know which vendor to trust in advance. So "the panel matched
+  the best single model" is against an oracle-picked best-of-two, an unfairly
+  strong baseline; against a *fixed* single vendor the panel was ≥ that vendor,
+  which is the honest, weaker claim.
+- **The pre-registered primary endpoint (`A_panel − A_2seat`) rests on n=1.** Round
+  1 fired on a single decision, so the pre-registered lift criterion is untestable,
+  not cleanly satisfied or refuted.
+- **No live oracle was actually invoked.** The protocol says oracle access is
+  "held constant" across arms; in practice no arm ran a test/tool - the seats
+  reasoned from model knowledge (Grok cannot use tools headlessly, see below).
+  Oracle access was uniform but *unused*, a deviation from the intended design.
 - **n = 20; one judge vendor.** The judge is independent of the seats (Codex,
-  Grok) and the orchestrator (Claude), but is gpt-oss (OpenAI lineage), so not
-  *fully* vendor-disjoint from the Codex seat - though Codex is in both arms, so
-  any GPT-style affinity largely cancels. The protocol's **non-OpenAI second
-  judge (Meta/Alibaba) was not run** - deliberately left to replicators, not
-  closed here (the repo is frozen). So the two-judge confirmation is a replication
+  Grok) and the orchestrator (Claude), but is gpt-oss (OpenAI lineage), so not a
+  fourth *vendor*, only a fourth *model* not fully vendor-disjoint from the Codex
+  seat (Codex is in both arms, so any GPT-style affinity largely cancels). The
+  protocol's **non-OpenAI second judge (Meta/Alibaba) was not run** - left to
+  replicators (the repo is frozen). So the two-judge confirmation is a replication
   target, and this result stands under a single independent judge.
-- **Ambiguous panel rendering was crude** (mechanical concat), which handicaps the
-  panel on tightness; a fair rendering study (the protocol's raw-vs-assembled
-  control) was not run.
-- **`must_catch_rate` per arm was not tabulated** for known-answer; decision_correct
-  is the reported metric there.
-- **Only 1 decision exercised Round 1**, so the primary endpoint rests on a single
-  data point. Powering the Round-1 comparison would need decisions selected to
-  provoke disagreement (which biases the sample) or a much larger n.
+- **The raw-vs-assembled panel-rendering control was not run**, and
+  `must_catch_rate` was not tabulated per arm. Raw arm transcripts for all 20
+  decisions are published under [`results-raw/`](results-raw/) so anyone can
+  re-score. The ambiguous panel memo was also crudely rendered (mechanical
+  concat), which handicaps it on tightness.
 
 ## Bottom line
 

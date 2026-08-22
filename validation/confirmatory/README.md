@@ -9,14 +9,15 @@ removes all four, so its result is load-bearing either way.
 
 - [`PROTOCOL.md`](PROTOCOL.md) - the full pre-registration: component-isolating
   arms (oracle held constant, so `A_panel − A_2seat` isolates Round 1), an
-  **independent fourth-vendor judge**, an independent scorer, access-separated
+  **independent judge** (a fourth model, OpenAI-lineage, not one of the seats or the orchestrator), an independent scorer, access-separated
   blinding, n ≥ 20, both metrics with **aggregate score as the primary
   endpoint**, and a pre-registered decision rule for declaring lift.
 - `decisions/` + `sealed/` - the fixed decision set (briefs the arms see; sealed
   oracle/truth the seats never receive). Committed before scoring.
 - [`RESULTS.md`](RESULTS.md) - the writeup, every decision including losses.
-- [`results-raw/`](results-raw/) - raw arm transcripts (the decisive c09 chain
-  in full) and the per-decision judge log, so the scores are auditable.
+- [`results-raw/`](results-raw/) - raw arm transcripts for **all 20 decisions**
+  (plus the full c09 Round-1 chain and the per-decision judge log), so every score
+  is auditable.
 
 ## Status: RUN COMPLETE (n=20) - no lift observed
 
