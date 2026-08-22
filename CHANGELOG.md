@@ -9,6 +9,18 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+## [1.0.3] - 2026-08-22
+
+**Audit-record publication + further claim corrections, from a third external re-review (ChatGPT).** The review verified against the raw transcripts; every substantive claim checked out. All documentation, no method change:
+
+- **Published the ambiguous-arm audit record** at `validation/confirmatory/results-raw/AUDIT.md`: the blind X/Y-to-arm mapping (written before judging), the verbatim judge prompt and call parameters, and a per-decision reconciliation of the raw judge log to the published 118 vs 103 / forced-choice 9-1-0. Previously the judge log scored only "Memo X/Y", so the arm attribution was not independently verifiable from the repo.
+- **Disclosed three executed deviations on the ambiguous arm** (in `RESULTS.md` + the audit record): (1) the judged panel memo was a recommendation line plus each seat's final verdict sentence - *cruder than* the pre-registered mechanical fill of `core/templates/verdict.md`, and an earlier RESULTS wrongly called that concatenation "per the protocol"; (2) the solo memo was **Codex-solo, fixed, for all 10 decisions**, not the pre-registered per-decision best-solo (a *weaker* baseline, so it cannot manufacture the no-lift result - but "solo" there means "Codex solo"); (3) X/Y order was alternated (counterbalanced 5/5, recorded before judging), not randomized. Also disclosed: known-answer `decision_correct` was applied by the operator, not the protocol's "judge model + mechanical oracle".
+- **Corrected the c09 account to match the raw transcripts.** RESULTS had said Codex "wrongly said REPEATABLE READ makes the oversell safe" and credited the decisive `40001` mechanism to Grok alone. In fact Codex's own memos stated that mechanism, required whole-transaction retry, and recommended the sealed truth's own atomic-UPDATE fix; its headline was a *PostgreSQL-qualified* YES on a brief that named no database. The split was scope-framing, and the "wrong seat" classification is contestable - so the decidable-call hedge's single data point is soft. Softened "caught the wrong vendor" and "the hedge is real on decidable calls" accordingly (README, METHODOLOGY, RESULTS, validation READMEs).
+- **Sharpened the primary-endpoint statement:** `A_panel − A_2seat` was **not measured as pre-registered** (no numeric paired aggregate was computed; 19 zeros by construction plus one unresolved split with no pre-registered numeric value), not merely "effectively untestable".
+- **Fixed a stale contradiction:** `validation/README.md` still said the confirmatory decision set + run were *pending*; it now records the run as complete (no lift observed) with a pointer to the RESULTS caveat. Scoped "frontier seats mostly agree" to the two seats actually tested, and replaced "every result is published in full" with an exact statement of what is and is not in-tree.
+- **Shell adapter early-stop conformance:** the early-stop message said agreed claims "honestly marked UNVERIFIED" may go in the verdict; per CONTRACT obligation 5 a claim whose check could not run stays `disputed` (UNVERIFIED stamp) and may not ride the early stop into the verdict as consensus - the message now says so.
+- **Ledger provenance conformance:** the examples and `core/templates/ledger.md` used `PANELIST-CLAIM (EXTERNAL)`, which is not a value of the LEDGER provenance enum; external sourcing now lives in the *evidence* field (`EXTERNAL: <source>`) where LEDGER.md puts it, and provenance is plain `PANELIST-CLAIM`.
+
 ## [1.0.2] - 2026-08-22
 
 **More claim-scoping, from a further external re-review (ChatGPT + Grok).** Grok read the tree as stable; ChatGPT flagged remaining over-claims that checked out. All documentation, no method change:
@@ -322,7 +334,8 @@ the methodology itself still has one published run (see README, Status).
   methodology, labeled as a historical bootstrap transcript with its
   known non-compliances enumerated.
 
-[Unreleased]: https://github.com/kdoubt/tribunal/compare/v1.0.2...HEAD
+[Unreleased]: https://github.com/kdoubt/tribunal/compare/v1.0.3...HEAD
+[1.0.3]: https://github.com/kdoubt/tribunal/compare/v1.0.2...v1.0.3
 [1.0.2]: https://github.com/kdoubt/tribunal/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/kdoubt/tribunal/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/kdoubt/tribunal/compare/v0.6.9...v1.0.0

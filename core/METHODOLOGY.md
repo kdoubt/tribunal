@@ -109,13 +109,15 @@ Round 0.
 ## When to convene a panel (and when not)
 
 Be honest about what a panel buys you. The [validation](../validation/) is clear:
-a panel does **not** reliably out-*decide* a single strong model - frontier seats
-mostly agree (≈1 in 20 disagree), so the debate rarely even runs. What a panel is
-*designed* to give you, on the right decision, is an **explicit adversarial
-counter-case**, a **cheap discriminating test** to settle what remains, and a
-**hedge** - on *decidable* calls its answer matched or beat any single fixed
-vendor in testing (and caught the wrong vendor in the one case they diverged);
-on *ambiguous* calls, though, an independent judge preferred the plain solo memo,
+a panel does **not** reliably out-*decide* a single strong model - the frontier
+seats tested agreed on ~19 of 20 decisions, so the debate rarely even runs. What
+a panel is *designed* to give you, on the right decision, is an **explicit
+adversarial counter-case**, a **cheap discriminating test** to settle what
+remains, and a **hedge** - on *decidable* calls its answer matched or beat each
+fixed single vendor in testing (and in the one case they diverged, Round 1
+resolved the split to the sealed-correct call - n=1, a scope-framing split; see
+the validation caveats); on *ambiguous* calls, though, an independent judge
+preferred the plain solo memo,
 so do not expect a better answer there, only a preserved counter-case. Convene
 when those are worth the cost (two authenticated CLIs, ~20-40 min, and real
 headless-reliability friction) - i.e. when several of these hold:

@@ -8,8 +8,10 @@ is the point: this example exists to show Round 1 and a **surviving-dissent**
 verdict, the mirror image of [`../api-auth-jwt-vs-sessions/`](../api-auth-jwt-vs-sessions/)
 (where two *neutral* seats independently agreed and the panel stopped at Round 0).
 
-Provenance tag on every row is `PANELIST-CLAIM (EXTERNAL)` - each claim carries a
-named source or a concrete mechanism, not a vibe. Confidence is shown as
+Provenance tag on every row is `PANELIST-CLAIM` (the ledger's enum has no
+`(EXTERNAL)` variant; externally-sourced evidence is marked in the *evidence*
+field per `core/LEDGER.md`) - each claim carries a named source or a concrete
+mechanism, not a vibe. Confidence is shown as
 `R0 → R1` where the authoring seat revised it during cross-examination.
 
 ## Seat A claims (champion: monorepo)

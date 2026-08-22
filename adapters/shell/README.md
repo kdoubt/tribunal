@@ -154,8 +154,12 @@ ${EDITOR:?set EDITOR to your editor command} "$PANEL_OUT/ledger.md"
 read -rp "Round 0 agreed on everything decision-relevant? Skip Round 1? [y/N] " agreed
 if [[ ${agreed:-} == [yY]* ]]; then
   echo "Before writing the verdict: run oracles on the checkable agreed claims" >&2
-  echo "(tests/compiler/primary-doc lookups). Only agreed claims that survive" >&2
-  echo "the oracle - or are honestly marked UNVERIFIED - go in the verdict." >&2
+  echo "(tests/compiler/primary-doc lookups). A check that ran and FAILED means" >&2
+  echo "the claim is dropped. A check that COULD NOT RUN means the claim's" >&2
+  echo "status becomes disputed with the UNVERIFIED stamp (CONTRACT obligation" >&2
+  echo "5) - it may NOT ride the early stop into the verdict as agreed: either" >&2
+  echo "run Round 1 on it, or report it in bucket 3 (surviving dissent) with" >&2
+  echo "its discriminating test - never as consensus." >&2
   cp "$TRIBUNAL_ROOT/core/templates/verdict.md" "$PANEL_OUT/verdict.md"
   ${EDITOR} "$PANEL_OUT/verdict.md"
   echo "early stop (rule a) - verdict in $PANEL_OUT" >&2

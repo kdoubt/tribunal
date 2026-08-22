@@ -1,5 +1,9 @@
 # confirmatory/ - the study built to actually settle the lift question
 
+> "Confirmatory" is the study's *name*, describing the design intent. As
+> executed it fell short of that word in disclosed ways - read the caveat at
+> the top of [`RESULTS.md`](RESULTS.md) first.
+
 The two [pilots](../results/) were exploratory and showed no lift, but a
 re-review correctly noted they could not *confirm* anything: the judge shared the
 orchestrator's vendor, the arms didn't isolate components, the panel memo was
@@ -16,18 +20,22 @@ removes all four, so its result is load-bearing either way.
   oracle/truth the seats never receive). Committed before scoring.
 - [`RESULTS.md`](RESULTS.md) - the writeup, every decision including losses.
 - [`results-raw/`](results-raw/) - raw arm transcripts for **all 20 decisions**
-  (plus the full c09 Round-1 chain and the per-decision judge log), so every score
-  is auditable.
+  (plus the full c09 Round-1 chain and the per-decision judge log), and
+  [`results-raw/AUDIT.md`](results-raw/AUDIT.md) - the blind X/Y-to-arm mapping,
+  the verbatim judge prompt, and a per-decision score reconciliation, so the
+  judged scores can be independently decoded and checked.
 
 ## Status: RUN COMPLETE (n=20) - no lift observed
 
 Full results in [`RESULTS.md`](RESULTS.md). The independent judge (`gpt-oss-120b`,
 temp 0, independent of the seats and the orchestrator vendor) scored the ambiguous
 arm. Headline: **seats disagreed on only 1 of 20 decisions; the panel never
-out-scored a single strong model; Round 1 fired once (c09) and correctly
-adjudicated.** No lift was observed at n=20 under a judge independent of the seats
-and orchestrator, with oracle-scored known-answer decisions and
-component-isolating arms.
+out-scored a single strong model; Round 1 fired once (c09) and resolved the split
+to the sealed-correct call** (a scope-framing split whose "wrong seat"
+classification is contestable - see RESULTS). No lift was observed at n=20 under
+a judge independent of the seats and orchestrator, with sealed-rubric-scored
+known-answer decisions and arms designed to isolate components (executed with
+deviations disclosed in RESULTS).
 
 **Deliberately out of scope for this run** (left to replicators, not gaps to close
 before shipping): a **non-OpenAI second judge** (the gateway key was not

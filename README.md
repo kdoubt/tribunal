@@ -61,16 +61,21 @@ independent positions and cross-examine each other claim by claim. What that is
 *designed* to give you on a contested call is **an adversarial counter-case, a
 discriminating test to settle it, and a hedge**, with real disagreement preserved
 rather than averaged away. What the [validation](validation/) actually measured is
-narrower: on *decidable* (oracle-scorable) calls the panel **matched or beat any
-single fixed vendor** - in the one case two vendors diverged, it caught the wrong
-one - but on *ambiguous* calls an independent judge **preferred the plain solo
-memo**. So the hedge is real on decidable calls; on ambiguous ones the panel's
-extra output was judged no better (sometimes worse).
+narrower: on *decidable* (oracle-scorable) calls the panel **matched or beat each
+fixed single vendor in those runs** - the seats diverged once in 20 decisions,
+and Round 1 resolved that split to the sealed-correct call (n=1, and a
+scope-framing split; see the validation caveats) - but on *ambiguous* calls an
+independent judge **preferred the plain solo memo**. So the decidable-call hedge
+held in this evidence, resting on a single soft data point - a supported design
+rationale, not an established property; on ambiguous ones the panel's extra
+output was judged no better (sometimes worse).
 
 What Tribunal is **not**: a way to out-*decide* a strong single model. Its own
-[validation](validation/) - two pilots plus a confirmatory study at n=20 with an
-independent judge (a fourth model, OpenAI-lineage) - found **no accuracy lift.** Frontier seats
-mostly agree (≈1 in 20 disagree), so the debate rarely even runs, and the panel
+[validation](validation/) - two pilots plus a pre-registered study labeled
+"confirmatory" at n=20 with an independent judge (a fourth model, OpenAI-lineage;
+executed with disclosed deviations) - observed **no accuracy lift.** The frontier
+seats tested agreed on ~19 of 20 decisions - a rate for those two seats, not
+frontier models in general - so the debate rarely even runs, and the panel
 *matches* a strong single model rather than beating it. Treat Tribunal as an
 honest, adversarial **decision-support scaffold** for irreversible calls, not an
 accuracy upgrade.
@@ -294,23 +299,30 @@ outcomes:
 (role-incentivized, full Round 1, surviving dissent).
 
 **Honest validation status:** pre-registered ablations ([`validation/`](validation/))
-- two pilots and now a **confirmatory study (n=20)** with an independent
-judge independent of the seats and orchestrator (a fourth model, OpenAI-lineage), oracle-scored decisions, and component-isolating arms - show
-**no accuracy lift** over a single strong model. Across the confirmatory set the
-two vendors disagreed on only **1 of 20** decisions, so the panel's engine (Round
-1) almost never activates; when it did fire (once), it correctly caught a solo
-model's error - but the panel still only *matched* a strong single model (an ex-post best-of-two; see validation), never
-beat it, and an independent judge preferred the solo memo on the ambiguous set.
-The defensible value the data supports is narrow: on *decidable* calls a **hedge**
-that matched or beat any single fixed vendor and, in the one case they diverged,
-caught the wrong one (n=1); on *ambiguous* calls the panel was judged **no better,
-sometimes worse** than the solo memo. Add a preserved counter-case and a
-discriminating test on contested calls - paid for with a real operational cost
-(the second seat frequently narration-dies in headless use). Tribunal is
-**unproven as an accuracy upgrade and, on this evidence, is not one**; use it for
-the counter-case, the test, and the decidable-call hedge, not for a better answer.
-Every result - the losses, the single-judge caveat, and a corrected earlier
-overclaim - is published in full.
+- two pilots and a **pre-registered study labeled "confirmatory" (n=20)** with a
+judge independent of the seats and orchestrator (a fourth model, OpenAI-lineage),
+sealed-rubric-scored decisions, and arms designed to isolate components (executed
+with deviations its RESULTS discloses) - observed **no accuracy lift** over a
+single strong model. Across that set the two vendors disagreed on only **1 of
+20** decisions, so the panel's engine (Round 1) almost never activates; when it
+did fire (once), it resolved the split to the sealed-correct call - a
+scope-framing split whose "wrong seat" classification is contestable (see
+RESULTS) - and the panel still only *matched* a strong single model (an ex-post
+best-of-two; see validation), never beat it, while an independent judge preferred
+the solo memo on the ambiguous set. The defensible value the data supports is
+narrow: on *decidable* calls a **hedge** that matched or beat each fixed single
+vendor in these runs, resting on that single soft data point where they diverged;
+on *ambiguous* calls the panel was judged **no better, sometimes worse** than the
+solo memo. Add a preserved counter-case and a discriminating test on contested
+calls - paid for with a real operational cost (the second seat frequently
+narration-dies in headless use). Tribunal is **unproven as an accuracy upgrade
+and, on this evidence, is not one**; use it for the counter-case, the test, and
+the (soft) decidable-call hedge, not for a better answer. The in-tree record
+includes the losses, the disclosed deviations, the single-judge caveat, corrected
+earlier overclaims, the raw arm transcripts, and the judge audit record (blind
+mapping + verbatim judge prompt); the operator-side runner scripts are not
+in-tree (the repo is docs-only), so replication means re-running the published
+protocol, not re-executing a shipped harness.
 
 The clearest
 in-repo receipt that the method overturns its own author is the CHANGELOG
@@ -323,9 +335,9 @@ runs are not published in-tree. In active use by its maintainer, Square Post
 Labs Inc.
 
 **Project status: stable and frozen at v1.0.** The methodology is complete and,
-after running its own [validation](validation/) to a confirmatory study, honestly
-characterized - including the finding that it shows no accuracy lift over a strong
-single model. It is intentionally *done*, not abandoned: no further method
+after running its own [validation](validation/) through three pre-registered
+studies, honestly characterized - including the finding that those runs observed
+no accuracy lift over a strong single model. It is intentionally *done*, not abandoned: no further method
 development is planned. What it wants next is **independent replication** - runs
 by other people, on other decisions, with other judges, that confirm or overturn
 the no-lift finding. Each adapter's README states its own status; `CONTRIBUTING.md`

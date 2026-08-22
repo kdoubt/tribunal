@@ -16,12 +16,14 @@ that there is no lift and say so.
   traps where a confident single model may slip.
 - `results/` - the pilot runs, with raw arm outputs and scores. Every decision
   is reported, including panel losses and false objections.
-- [`confirmatory/`](confirmatory/) - the **pre-registered confirmatory study**
-  that fixes the four reasons the pilots were only exploratory (independent
-  judge independent of the seats and orchestrator (a fourth model, OpenAI-lineage), component-isolating arms, mechanical panel output, n ≥ 20
-  with a disclosed scorer and access-separated blinding). Harness proven (the
-  independent judge is wired and already corroborated the pilots' no-lift
-  finding); decision set + run pending.
+- [`confirmatory/`](confirmatory/) - the **pre-registered study labeled
+  "confirmatory"**, designed to fix the four reasons the pilots were only
+  exploratory (a judge independent of the seats and orchestrator (a fourth
+  model, OpenAI-lineage), component-isolating arms, mechanical panel output,
+  n ≥ 20 with a disclosed scorer and access-separated blinding). **Run complete
+  (n=20): no lift observed** - see
+  [`confirmatory/RESULTS.md`](confirmatory/RESULTS.md), including its opening
+  caveat on how the execution fell short of "confirmatory".
 
 This is a pilot harness, stated as such. A handful of decisions is not proof;
 it is the first real evidence, built so it can scale to the ~20+ real-world runs
