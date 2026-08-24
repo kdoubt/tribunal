@@ -26,7 +26,9 @@ narrow:
 engineering decision (architecture call, migration, security boundary) -
 the current sample run is the methodology reviewing itself, and an
 independent real-world transcript is the strongest evidence the repo can
-gain.
+gain. A close second: the **second-judge replication** of the validation's
+no-lift finding - a free, bring-your-own-key recipe is at
+[`validation/confirmatory/REPLICATING-THE-JUDGE.md`](validation/confirmatory/REPLICATING-THE-JUDGE.md).
 
 ## Issues / PRs
 

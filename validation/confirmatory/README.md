@@ -24,6 +24,10 @@ removes all four, so its result is load-bearing either way.
   [`results-raw/AUDIT.md`](results-raw/AUDIT.md) - the blind X/Y-to-arm mapping,
   the verbatim judge prompt, and a per-decision score reconciliation, so the
   judged scores can be independently decoded and checked.
+- [`REPLICATING-THE-JUDGE.md`](REPLICATING-THE-JUDGE.md) - the free,
+  bring-your-own-key recipe for running the **designated non-OpenAI second
+  judge** the pre-registered decision rule still awaits (judge only - it
+  stakes no debate seats).
 
 ## Status: RUN COMPLETE (n=20) - no lift observed
 

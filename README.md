@@ -340,7 +340,10 @@ studies, honestly characterized - including the finding that those runs observed
 no accuracy lift over a strong single model. It is intentionally *done*, not abandoned: no further method
 development is planned. What it wants next is **independent replication** - runs
 by other people, on other decisions, with other judges, that confirm or overturn
-the no-lift finding. Each adapter's README states its own status; `CONTRIBUTING.md`
+the no-lift finding. The cheapest way in: the pre-registered second-judge
+re-score, runnable for free with your own key -
+[`validation/confirmatory/REPLICATING-THE-JUDGE.md`](validation/confirmatory/REPLICATING-THE-JUDGE.md)
+(judge only; it stakes no debate seats). Each adapter's README states its own status; `CONTRIBUTING.md`
 has the support policy and the most-wanted contribution: a sanitized panel run on
 a real engineering decision (ideally one whose outcome later becomes known).
 

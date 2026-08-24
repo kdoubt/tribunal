@@ -9,6 +9,14 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+## [1.0.4] - 2026-08-24
+
+**Second-judge replication recipe.** One new documentation page, adjudicated by a 2-seat Codex+Grok panel run under this repo's own method (unanimous Round-0 agreement; the panel *narrowed* the maintainer's proposed scope). Docs only, PATCH by CONTRIBUTING's own test - the page restates existing protocol, adds no requirement:
+
+- **New: `validation/confirmatory/REPLICATING-THE-JUDGE.md`** - a free, bring-your-own-key recipe for running the **designated non-OpenAI second judge** (Meta Llama / Alibaba Qwen families per `PROTOCOL.md`) over the published ambiguous-arm memos, using the verbatim judge prompt and blind-order procedure from `results-raw/AUDIT.md`. The pre-registered lift rule requires this second judge; it has never been run - either outcome is the independent replication the repo asks for.
+- **Deliberately judge-only.** Both panel seats independently rejected documenting a "budget second seat": debate seats stay frontier-class and genuinely heterogeneous (`core/METHODOLOGY.md` "Model selection", `core/CONTRACT.md`), while evaluation judging is a mechanical stage METHODOLOGY already licenses for cheap models. The page carries that boundary prominently, pins no model names or gateway rosters (they rot), and ships no credentials or relay - bring your own key.
+- Pointers added from README (Status), `validation/confirmatory/README.md`, and CONTRIBUTING (most-wanted contributions).
+
 ## [1.0.3] - 2026-08-22
 
 **Audit-record publication + further claim corrections, from a third external re-review (ChatGPT).** The review verified against the raw transcripts; every substantive claim checked out. All documentation, no method change:
@@ -334,7 +342,8 @@ the methodology itself still has one published run (see README, Status).
   methodology, labeled as a historical bootstrap transcript with its
   known non-compliances enumerated.
 
-[Unreleased]: https://github.com/kdoubt/tribunal/compare/v1.0.3...HEAD
+[Unreleased]: https://github.com/kdoubt/tribunal/compare/v1.0.4...HEAD
+[1.0.4]: https://github.com/kdoubt/tribunal/compare/v1.0.3...v1.0.4
 [1.0.3]: https://github.com/kdoubt/tribunal/compare/v1.0.2...v1.0.3
 [1.0.2]: https://github.com/kdoubt/tribunal/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/kdoubt/tribunal/compare/v1.0.0...v1.0.1
