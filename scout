@@ -19,7 +19,19 @@
 # copies have no update path of their own, so the notice points you at the
 # git-clone install and is throttled with a small timestamp under your cache dir.
 set -eu
-root=$(unset CDPATH; cd "$(dirname "$0")" && pwd)
+# Resolve symlinks first: `ln -s ~/tribunal/scout ~/.local/bin/scout` is a
+# natural install, and dirname of the link is not the clone.
+self=$0
+while [ -L "$self" ]; do
+  link=$(readlink "$self") || break
+  case $link in /*) self=$link ;; *) self=$(dirname "$self")/$link ;; esac
+done
+root=$(unset CDPATH; cd "$(dirname "$self")" && pwd)
+template="$root/core/templates/scout.md"
+if [ ! -f "$template" ]; then
+  printf 'tribunal: %s is not inside a tribunal clone (no core/templates/scout.md) - nothing printed.\n' "$root" >&2
+  exit 1
+fi
 
 # --- weekly, notify-only update check (all failures are silent) ------------
 # Notify-only: prints the command to stderr, never runs it.
@@ -81,8 +93,14 @@ zip_update_check() {
 update_check || true
 
 # Emit only the prompt body: drop the markdown title and the HTML
-# instruction comment, resolve the clone-path placeholder, trim leading
-# blank lines.
-sed '/^# /d; /^<!--/,/-->/d' "$root/core/templates/scout.md" \
-  | sed "s#\[path to your tribunal clone\]#$root#" \
-  | sed '/./,$!d'
+# instruction comment, resolve the clone-path placeholder (literally - a
+# path may contain sed metacharacters such as & or #), trim leading blank
+# lines.
+TRIBUNAL_SCOUT_ROOT=$root awk '
+  BEGIN { root = ENVIRON["TRIBUNAL_SCOUT_ROOT"]; ph = "[path to your tribunal clone]" }
+  /^# / { next }
+  /^<!--/ { skip = 1 }
+  skip { if (/-->/) skip = 0; next }
+  { while ((i = index($0, ph)) > 0) $0 = substr($0, 1, i - 1) root substr($0, i + length(ph)) }
+  { print }
+' "$template" | sed '/./,$!d'

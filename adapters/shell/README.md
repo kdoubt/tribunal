@@ -14,8 +14,8 @@ Any CLI with a non-interactive single-shot mode can be a seat. Confirm your
 CLI's current headless flag with `<cli> --help` before trusting these:
 
 ```bash
-codex exec --skip-git-repo-check "<prompt>"   # Codex CLI
-grok -p "<prompt>"                             # Grok CLI
+codex exec -s read-only --skip-git-repo-check "<prompt>"   # Codex CLI (read-only sandbox)
+grok --permission-mode plan -p "<prompt>"                  # Grok CLI (plan = read-only)
 claude -p "<prompt>"                           # Claude Code (as a seat)
 gemini -p "<prompt>"                           # Gemini CLI
 ollama run <model> "<prompt>"                  # local model as a seat
@@ -40,7 +40,14 @@ them unset for panel runs.
 
 If your CLI offers a host-level read-only or sandbox mode, use it - the
 prompt's read-only fence is an instruction, not a security control (see
-CONTRACT "Seat fencing").
+CONTRACT "Seat fencing"). As of 2026-09 that is `codex exec -s read-only`
+and `grok --permission-mode plan` (Grok also takes a `--sandbox` profile).
+**Never substitute a broad shell allow-rule for a read-only mode.** A rule
+like `Bash(git *)` is a shell escape, not a fence: `git` alone reaches
+arbitrary command execution (`git -c core.pager=<cmd> log`,
+`git -c alias.x='!<cmd>' x`) plus every mutating subcommand (`push`,
+`reset --hard`, `clean -fdx`). If you must allow shell at all, allow single
+read-only subcommands as separate rules (`git log`, `git show`, `git diff`).
 
 **Silent seat killers.** Exit code 0 does not mean the seat produced a
 position. Three failure shapes produce plausible-looking output and must
@@ -49,9 +56,10 @@ be caught by *reading* the output, not by exit codes:
 1. **Headless permission death** - an agentic CLI hits an interactive
    tool-approval prompt, auto-cancels it, and exits 0 with only its
    opening narration ("I'll read the files…" and nothing else).
-   Pre-authorize the read-only tools your seats need (e.g. Grok:
-   `--allow 'Bash(git *)'`; check your CLI's allow-rule syntax) and tell
-   seats to prefer built-in read tools over shell commands. Some CLIs
+   Run seats in the CLI's read-only mode (above) so built-in read tools
+   need no approval, and tell seats to prefer those tools over shell
+   commands. Do not fix this with a broad shell allow-rule (see the
+   `Bash(git *)` warning above). Some CLIs
    also accept the prompt from a file (e.g. Grok's `--prompt-file`),
    which avoids argv size/visibility limits.
 2. **Usage/quota exhaustion mid-panel** - subscription CLIs expose no
@@ -60,8 +68,11 @@ be caught by *reading* the output, not by exit codes:
    The smoke test catches a seat that is *already* exhausted; for
    mid-panel hits, scan each seat file for limit signatures before
    ledgering (case-insensitive: "usage limit", "rate limit", "quota",
-   "try again later", "upgrade to") - any hit is a dead seat for that
-   round.
+   "try again later", "upgrade to"). A hit is a dead seat **only when the
+   required output shape is also missing** (no CLAIM block in Round 0, no
+   ATTACK section in Round 1) - briefs about rate limiting, quotas, or
+   upgrade paths legitimately contain these words, and a seat that used
+   them while still delivering its claims is alive.
 3. **Context overflow / truncation** - output that stops mid-sentence or
    omits the required sections.
 
@@ -96,8 +107,9 @@ PANEL_OUT=${PANEL_OUT:-"$ARTIFACT_ROOT/panel"}
 mkdir -p "$PANEL_OUT"
 
 # --- Seats: name + single-shot command (see examples block above)
-SEAT_A_CMD=(codex exec --skip-git-repo-check)
-SEAT_B_CMD=(grok -p)
+# Each in its CLI's read-only mode - never a broad shell allow-rule (see above).
+SEAT_A_CMD=(codex exec -s read-only --skip-git-repo-check)
+SEAT_B_CMD=(grok --permission-mode plan -p)
 
 # --- GNU timeout (macOS: brew install coreutils), always with a kill-after
 if   command -v timeout  >/dev/null; then T=(timeout  -k 10 600)
@@ -134,10 +146,16 @@ wait "$A_PID" || { echo "seat A failed ($?)" >&2; fail=1; }
 wait "$B_PID" || { echo "seat B failed ($?)" >&2; fail=1; }
 (( fail == 0 )) || exit 1
 [[ -s "$PANEL_OUT/seat-a-r0.md" && -s "$PANEL_OUT/seat-b-r0.md" ]] || { echo "empty seat output" >&2; exit 1; }
-# limit-signature scan (see "Silent seat killers"; repeated after Round 1):
-if grep -liE 'usage limit|rate limit|quota|try again later|upgrade to' "$PANEL_OUT"/seat-*-r0.md; then
-  echo "seat hit a usage/rate limit - dead seat, fix and re-run it" >&2; exit 1
-fi
+# limit-signature scan (see "Silent seat killers"; repeated after Round 1).
+# A limit message alone is NOT a dead seat - briefs about rate limits or quotas
+# legitimately contain these words - so also require the seat's output shape
+# to be missing (no CLAIM block in R0; no ATTACK section in R1).
+dead_seat() { # $1 = seat output file, $2 = required-shape regex, $3 = its name
+  grep -qiE 'usage limit|rate limit|quota|try again later|upgrade to' "$1" || return 0
+  grep -qE "$2" "$1" && return 0
+  echo "$1: limit signature and no $3 - dead seat, fix and re-run it" >&2; return 1
+}
+for f in "$PANEL_OUT"/seat-*-r0.md; do dead_seat "$f" 'CLAIM' 'CLAIM block' || exit 1; done
 
 # --- 3. Ledger: copy the template, fill per core/LEDGER.md, mark
 #     agreed-r0 / disputed / open. If everything decision-relevant is
@@ -203,9 +221,7 @@ wait "$A_PID" || { echo "seat A failed ($?)" >&2; fail=1; }
 wait "$B_PID" || { echo "seat B failed ($?)" >&2; fail=1; }
 (( fail == 0 )) || exit 1
 [[ -s "$PANEL_OUT/seat-a-r1.md" && -s "$PANEL_OUT/seat-b-r1.md" ]] || { echo "empty seat output" >&2; exit 1; }
-if grep -liE 'usage limit|rate limit|quota|try again later|upgrade to' "$PANEL_OUT"/seat-*-r1.md; then
-  echo "seat hit a usage/rate limit in R1 - dead seat, fix and re-run it" >&2; exit 1
-fi
+for f in "$PANEL_OUT"/seat-*-r1.md; do dead_seat "$f" 'ATTACK' 'ATTACK section' || exit 1; done
 
 # --- 6. Update the ledger, run oracles on checkable residuals, then write the
 #     verdict from the template. Round 2 only if a load-bearing claim was

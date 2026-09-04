@@ -47,17 +47,22 @@ emit_one() {
       else if (vm=="ship") vm="ship"; else if (vm ~ /dont|don.t/) vm="dont";
       else if (vm=="") vm="NULL"; else vm="other";
 
-      rr=tolower(store["rounds_run"]); gsub(/[ \t]/,"",rr);
-      if (rr ~ /r2/) rr="R0+R1+R2"; else if (rr ~ /r1/) rr="R0+R1";
-      else if (rr ~ /r0/) rr="R0"; else rr="NULL";
+      # rounds: accept only the vocabulary forms (R0 / R0+R1 / R0+R1+R2, "+" or
+      # ","); anything else (e.g. "R0 only (R1 skipped)") is NULL, never guessed
+      rr=tolower(store["rounds_run"]); gsub(/[ \t]/,"",rr); gsub(/,/,"+",rr);
+      if (rr=="r0+r1+r2") rr="R0+R1+R2"; else if (rr=="r0+r1") rr="R0+R1";
+      else if (rr=="r0") rr="R0"; else rr="NULL";
 
       vh=tolower(store["verdict_held"]);
       if (vh=="yes") vh="yes"; else if (vh=="no") vh="no";
       else if (vh ~ /no-signal|no signal/) vh="no-signal"; else vh="NULL";
 
-      # dissent: boolean only (did surviving dissent prove right?) - never which vendor
+      # dissent: boolean only (did surviving dissent prove right?) - never which
+      # vendor - and only once the outcome is KNOWN (verdict_held yes|no); a T1
+      # that has not happened yet is null, not "dissent proved wrong"
       dl=tolower(store["dissent_confirmed_for"]);
-      if (dl=="") dpr="NULL"; else if (dl ~ /no-signal|no signal/) dpr="NULL";
+      if (vh!="yes" && vh!="no") dpr="NULL";
+      else if (dl=="") dpr="NULL"; else if (dl ~ /no-signal|no signal/) dpr="NULL";
       else if (dl ~ /(^|[^a-z])none([^a-z]|$)/) dpr="false"; else dpr="true";
 
       seats=store["seats"]; nseat="NULL"; vend="";

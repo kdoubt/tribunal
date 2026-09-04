@@ -17,9 +17,9 @@ jobs:
   guardrails:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2, SHA-pinned
         with:
-          fetch-depth: 0   # full history: gitleaks + tag<->changelog checks
+          fetch-depth: 0   # full history: gitleaks (git mode) + tag<->changelog checks
 
       - name: helper script sanity (sh -n + shellcheck)
         run: |
@@ -37,7 +37,7 @@ jobs:
             | grep -E '\.(js|mjs|cjs|ts|tsx|jsx|py|rb|go|rs|java|php|sh)$|(^|/)(package\.json|package-lock\.json|yarn\.lock|requirements\.txt|Cargo\.toml|go\.mod|setup\.py|pyproject\.toml|Dockerfile)$' \
             || true)
           if [ -n "$bad" ]; then
-            echo "::error::Non-docs files present - this repo is docs-only (the only script is 'scout'):"
+            echo "::error::Non-docs files present - this repo is docs-only (the only scripts are 'scout' and 'flywheel-export'):"
             echo "$bad"
             exit 1
           fi
@@ -68,12 +68,16 @@ jobs:
           print("internal links: OK")
           PY
 
-      - name: secret / PII scan (gitleaks, pinned)
+      - name: secret / PII scan (gitleaks, pinned + checksummed, full history)
         run: |
           VERSION=8.21.2
-          curl -sSL "https://github.com/gitleaks/gitleaks/releases/download/v${VERSION}/gitleaks_${VERSION}_linux_x64.tar.gz" \
-            | tar -xz gitleaks
-          ./gitleaks dir . --no-banner --redact --exit-code 1
+          SHA256=5bc41815076e6ed6ef8fbecc9d9b75bcae31f39029ceb55da08086315316e3ba
+          curl -sSL -o gitleaks.tgz "https://github.com/gitleaks/gitleaks/releases/download/v${VERSION}/gitleaks_${VERSION}_linux_x64.tar.gz"
+          echo "${SHA256}  gitleaks.tgz" | sha256sum -c -
+          tar -xzf gitleaks.tgz gitleaks
+          # `git` mode scans every commit (a secret committed then removed still
+          # fails); `dir` mode only scanned the checked-out tree.
+          ./gitleaks git . --no-banner --redact --exit-code 1
 
       - name: release consistency (tag pushes only)
         if: startsWith(github.ref, 'refs/tags/v')

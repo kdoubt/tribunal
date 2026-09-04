@@ -9,6 +9,14 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+**Fix-forward after a security-level re-review (2026-09-04).** Every item below was reproduced on the maintainer's host before it was fixed; none changes what a panel is required to do (PATCH by CONTRIBUTING's test). The two judgment findings from the same review (a normative confinement rule for orchestrator citation checks; the scope of the validation's no-lift headline) are deliberately NOT in this release - they go through a panel first.
+
+- **Shell + Claude Code adapters: seat fencing.** The shell adapter's example pre-authorization for Grok, `--allow 'Bash(git *)'`, was a shell escape, not a read-only fence (`git -c core.pager=…`, `git -c alias.x='!…' x`, plus `push` / `reset --hard` / `clean`). Both adapters now run seats in the CLI's own read-only mode (`codex exec -s read-only`, `grok --permission-mode plan`) and say why a broad allow-rule must never stand in for one.
+- **Shell + Claude Code adapters: dead-seat detection.** The limit-signature scan (`usage limit|rate limit|quota|…`) aborted any panel whose brief legitimately discussed rate limits or quotas - it matched 5 of this repo's own published confirmatory seat outputs. A limit signature now counts only when the seat's required output shape (a CLAIM block / an ATTACK section) is also missing.
+- **`scout`:** resolves symlinks (a `~/.local/bin/scout` link produced an empty prompt with exit 0, so `claude -p "$(scout)"` ran on nothing); refuses with a message when not inside a clone; splices the clone path literally (a path containing `&` or `#` corrupted the prompt).
+- **`flywheel-export`:** `dissent_proved_right` is now `null` until `verdict_held` is `yes` or `no` (both shipped examples exported "dissent proved wrong" for outcomes not yet known); `rounds_run` accepts only the vocabulary forms and is `null` otherwise (a bare substring match turned "R0 only (R1 skipped)" into `R0+R1`). Schema table in `data/README.md` updated to match.
+- **CI:** gitleaks now scans full git history (`git` mode; `dir` mode only scanned the checked-out tree despite the full-history checkout), the gitleaks tarball is checksum-verified, `actions/checkout` is SHA-pinned, and the docs-only guard names both helper scripts.
+
 ## [1.0.4] - 2026-08-24
 
 **Second-judge replication recipe.** One new documentation page, adjudicated by a 2-seat Codex+Grok panel run under this repo's own method (unanimous Round-0 agreement; the panel *narrowed* the maintainer's proposed scope). Docs only, PATCH by CONTRIBUTING's own test - the page restates existing protocol, adds no requirement:

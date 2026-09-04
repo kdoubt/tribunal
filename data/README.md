@@ -51,12 +51,12 @@ become `null`; categoricals are validated to a fixed vocabulary (unknown ->
 |---|---|---|
 | `schema_version` | int | `1` |
 | `verdict_mode` | enum/null | `ship` \| `dont` \| `decide-after-check` \| `human-call` \| `other` |
-| `rounds_run` | enum/null | `R0` \| `R0+R1` \| `R0+R1+R2` |
+| `rounds_run` | enum/null | `R0` \| `R0+R1` \| `R0+R1+R2` (only these forms, `+` or `,` separated; anything else is `null`) |
 | `seat_vendors` | string[] | vendor families only: `codex` \| `grok` \| `claude` \| `gemini` \| `local` \| `other` |
 | `seat_count`, `seat_deaths` | int/null | counts |
 | `claims_total`, `agreed_r0`, `disputed`, `conceded`, `overturned`, `verified`, `dropped`, `surviving_dissent`, `resolved_by_oracle`, `resolved_by_debate`, `citations_dropped`, `citations_unverified` | int/null | counts (exact today - a known limitation; **bucketed before any intake opens**) |
 | `verdict_held` | enum/null | `yes` \| `no` \| `no-signal` |
-| `dissent_proved_right` | bool/null | did surviving dissent prove right? (a boolean - never *which vendor*, which is content `CONTRIBUTING.md` declines) |
+| `dissent_proved_right` | bool/null | did surviving dissent prove right? (a boolean - never *which vendor*, which is content `CONTRIBUTING.md` declines); `null` until `verdict_held` is `yes` or `no` |
 | `had_template_delta` | bool/null | whether the run produced a template delta (the *text* is never included) |
 
 Records are sorted by content before printing, so output order does not

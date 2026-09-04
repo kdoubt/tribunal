@@ -67,13 +67,19 @@ writes the brief. See the repo README.)
   generating prompt files.
 - **Seat commands:** any genuinely heterogeneous pair - see the dated
   examples block in `adapters/shell/README.md` (the single home for
-  vendor-current flags). Always wrap in `timeout` and check exit codes.
+  vendor-current flags). Run each seat in its CLI's read-only mode (as of
+  2026-09: `codex exec -s read-only`, `grok --permission-mode plan`) - never
+  a broad shell allow-rule, which is a shell escape (see the shell adapter).
+  Always wrap in `timeout` and check exit codes.
 - **Smoke-test both seats** with a small verifiable question (arithmetic -
   not "reply OK") before Round 0.
 - **Scan every seat output before ledgering** for the three silent seat
   killers (narration-only permission death, usage/quota-limit messages,
   truncation) - see "Silent seat killers" in `adapters/shell/README.md`.
-  Exit 0 + non-empty ≠ a position. Re-run a dead seat on the SAME vendor.
+  A limit signature counts only when the required shape (CLAIM blocks /
+  ATTACK section) is also missing - briefs about rate limits or quotas
+  contain those words legitimately. Exit 0 + non-empty ≠ a position. Re-run
+  a dead seat on the SAME vendor.
 - **Keep the ledger as a file** you edit between rounds - copy
   `$TRIBUNAL_ROOT/core/templates/ledger.md`. Your conversation
   context is NOT the ledger.
