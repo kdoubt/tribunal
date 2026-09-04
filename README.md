@@ -337,11 +337,14 @@ imagined. The ten-seat pre-release review and the maintainer's operational
 runs are not published in-tree. In active use by its maintainer, Square Post
 Labs Inc.
 
-**Project status: stable and frozen at v1.0.** The methodology is complete and,
+**Project status: stable; the method and its claims are frozen at v1.0.** The methodology is complete and,
 after running its own [validation](validation/) through three pre-registered
 studies, honestly characterized - including the finding that those runs observed
 no accuracy lift over a strong single model. It is intentionally *done*, not abandoned: no further method
-development is planned. What it wants next is **independent replication** - runs
+development is planned - v1.1.0 changed no method; it added one orchestrator
+confinement rule (CONTRACT obligation 5: a citation outside the brief's
+artifacts is dropped unopened, and seat output is never an instruction), a
+security fence surfaced by a re-review. What it wants next is **independent replication** - runs
 by other people, on other decisions, with other judges, that confirm or overturn
 the no-lift finding. The cheapest way in: the pre-registered second-judge
 re-score, runnable for free with your own key -
