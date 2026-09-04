@@ -9,12 +9,16 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
-**Fix-forward after a security-level re-review (2026-09-04).** Every item below was reproduced on the maintainer's host before it was fixed; none changes what a panel is required to do (PATCH by CONTRIBUTING's test). The two judgment findings from the same review (a normative confinement rule for orchestrator citation checks; the scope of the validation's no-lift headline) are deliberately NOT in this release - they go through a panel first.
+## [1.0.5] - 2026-09-04
+
+**Fix-forward after a security-level re-review (2026-09-04).** Every item below was reproduced on the maintainer's host before it was fixed; none changes what a panel is required to do (PATCH by CONTRIBUTING's test). The review's three judgment findings went through a two-seat panel (Grok CLI + a local Qwen seat; unanimous at Round 0, archived maintainer-side): the two documentation findings are included below; the third - a normative confinement rule for orchestrator citation checks - is a `core/` change and is held for the next MINOR release.
 
 - **Shell + Claude Code adapters: seat fencing.** The shell adapter's example pre-authorization for Grok, `--allow 'Bash(git *)'`, was a shell escape, not a read-only fence (`git -c core.pager=…`, `git -c alias.x='!…' x`, plus `push` / `reset --hard` / `clean`). Both adapters now run seats in the CLI's own read-only mode (`codex exec -s read-only`, `grok --permission-mode plan`) and say why a broad allow-rule must never stand in for one.
 - **Shell + Claude Code adapters: dead-seat detection.** The limit-signature scan (`usage limit|rate limit|quota|…`) aborted any panel whose brief legitimately discussed rate limits or quotas - it matched 5 of this repo's own published confirmatory seat outputs. A limit signature now counts only when the seat's required output shape (a CLAIM block / an ATTACK section) is also missing.
 - **`scout`:** resolves symlinks (a `~/.local/bin/scout` link produced an empty prompt with exit 0, so `claude -p "$(scout)"` ran on nothing); refuses with a message when not inside a clone; splices the clone path literally (a path containing `&` or `#` corrupted the prompt).
 - **`flywheel-export`:** `dissent_proved_right` is now `null` until `verdict_held` is `yes` or `no` (both shipped examples exported "dissent proved wrong" for outcomes not yet known); `rounds_run` accepts only the vocabulary forms and is `null` otherwise (a bare substring match turned "R0 only (R1 skipped)" into `R0+R1`). Schema table in `data/README.md` updated to match.
+- **README (Status):** scopes the no-lift headline to what was measured - decisions answered from model knowledge with tools unused - and states that grounded review of a real artifact was not measured (either way).
+- **validation/confirmatory/README.md:** defines "pre-registered" as pre-committed in-repo by the operator before the run (with the commit times), not registered with an external party.
 - **CI:** gitleaks now scans full git history (`git` mode; `dir` mode only scanned the checked-out tree despite the full-history checkout), the gitleaks tarball is checksum-verified, `actions/checkout` is SHA-pinned, and the docs-only guard names both helper scripts.
 
 ## [1.0.4] - 2026-08-24
@@ -350,7 +354,8 @@ the methodology itself still has one published run (see README, Status).
   methodology, labeled as a historical bootstrap transcript with its
   known non-compliances enumerated.
 
-[Unreleased]: https://github.com/kdoubt/tribunal/compare/v1.0.4...HEAD
+[Unreleased]: https://github.com/kdoubt/tribunal/compare/v1.0.5...HEAD
+[1.0.5]: https://github.com/kdoubt/tribunal/compare/v1.0.4...v1.0.5
 [1.0.4]: https://github.com/kdoubt/tribunal/compare/v1.0.3...v1.0.4
 [1.0.3]: https://github.com/kdoubt/tribunal/compare/v1.0.2...v1.0.3
 [1.0.2]: https://github.com/kdoubt/tribunal/compare/v1.0.1...v1.0.2

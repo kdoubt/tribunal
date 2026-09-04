@@ -9,7 +9,10 @@ re-review correctly noted they could not *confirm* anything: the judge shared th
 orchestrator's vendor, the arms didn't isolate components, the panel memo was
 orchestrator-assembled, and n was tiny with an undisclosed scorer and
 instruction-only blinding. This directory is the pre-registered study that
-removes all four, so its result is load-bearing either way.
+removes all four, so its result is load-bearing either way. "Pre-registered"
+here means pre-committed in this repository by the operator before the run
+(decision set and sealed truths committed at 17:19, results at 17:56 the same
+day); nothing was registered with an external party.
 
 - [`PROTOCOL.md`](PROTOCOL.md) - the full pre-registration: component-isolating
   arms (oracle held constant, so `A_panel − A_2seat` isolates Round 1), an

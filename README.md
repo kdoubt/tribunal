@@ -303,7 +303,10 @@ outcomes:
 judge independent of the seats and orchestrator (a fourth model, OpenAI-lineage),
 sealed-rubric-scored decisions, and arms designed to isolate components (executed
 with deviations its RESULTS discloses) - observed **no accuracy lift** over a
-single strong model. Across that set the two vendors disagreed on only **1 of
+single strong model. That result was measured on decisions the seats answered
+from model knowledge with tools unused (RESULTS, Limitations); grounded review
+of a real artifact - the method's stated use - was not measured, and this
+evidence does not speak to it either way. Across that set the two vendors disagreed on only **1 of
 20** decisions, so the panel's engine (Round 1) almost never activates; when it
 did fire (once), it resolved the split to the sealed-correct call - a
 scope-framing split whose "wrong seat" classification is contestable (see
