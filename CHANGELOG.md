@@ -9,6 +9,10 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+## [1.1.1] - 2026-09-05
+
+**Clarify the v1.1.0 confinement boundary (PATCH: intent, not a new rule).** As worded in 1.1.0, "outside the frozen brief's listed artifacts" could be read as dropping any citation to a file the brief did not enumerate - which would starve exactly the grounding the method wants, since seats run from the project root and cite freely within it. The boundary is the **artifact root(s)** the brief names (the project under review, in full) plus the clone's `core/`; out of bounds means a home directory, another project, a secrets store. `core/CONTRACT.md` obligation 5 and the claude-code adapter's "three hats" bullet now say so. Strictly less restrictive than the 1.1.0 wording.
+
 ## [1.1.0] - 2026-09-04
 
 **Orchestrator citation confinement (MINOR: a `core/` rule is added).** From the 2026-09-04 security-level re-review, adjudicated by the same two-seat panel as v1.0.5 (unanimous at Round 0). Under CONTRIBUTING's test this changes what an orchestrator must do - a pointer it would previously have opened to "check" is now dropped unopened - so it is a MINOR bump on a repo whose *method and claims* stay frozen at v1.0; the README Status paragraph now says exactly that.
@@ -362,7 +366,8 @@ the methodology itself still has one published run (see README, Status).
   methodology, labeled as a historical bootstrap transcript with its
   known non-compliances enumerated.
 
-[Unreleased]: https://github.com/kdoubt/tribunal/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/kdoubt/tribunal/compare/v1.1.1...HEAD
+[1.1.1]: https://github.com/kdoubt/tribunal/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/kdoubt/tribunal/compare/v1.0.5...v1.1.0
 [1.0.5]: https://github.com/kdoubt/tribunal/compare/v1.0.4...v1.0.5
 [1.0.4]: https://github.com/kdoubt/tribunal/compare/v1.0.3...v1.0.4
