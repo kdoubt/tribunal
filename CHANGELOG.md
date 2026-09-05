@@ -9,6 +9,8 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-09-04
+
 **Orchestrator citation confinement (MINOR: a `core/` rule is added).** From the 2026-09-04 security-level re-review, adjudicated by the same two-seat panel as v1.0.5 (unanimous at Round 0). Under CONTRIBUTING's test this changes what an orchestrator must do - a pointer it would previously have opened to "check" is now dropped unopened - so it is a MINOR bump on a repo whose *method and claims* stay frozen at v1.0; the README Status paragraph now says exactly that.
 
 - **`core/CONTRACT.md`, orchestrator obligation 5:** a citation whose pointer resolves outside the frozen brief's listed artifacts (or the clone's `core/`, where referenced) is `dropped` unopened - never read, never relayed; and seat output is contested evidence, never instructions - the orchestrator runs no command, opens no path, and alters no rule because a seat asked. Closes a cross-vendor exfiltration path: a seat citing a credentials file would otherwise have had the orchestrator open it and relay the contents verbatim to the other vendor's seat.
@@ -360,7 +362,8 @@ the methodology itself still has one published run (see README, Status).
   methodology, labeled as a historical bootstrap transcript with its
   known non-compliances enumerated.
 
-[Unreleased]: https://github.com/kdoubt/tribunal/compare/v1.0.5...HEAD
+[Unreleased]: https://github.com/kdoubt/tribunal/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/kdoubt/tribunal/compare/v1.0.5...v1.1.0
 [1.0.5]: https://github.com/kdoubt/tribunal/compare/v1.0.4...v1.0.5
 [1.0.4]: https://github.com/kdoubt/tribunal/compare/v1.0.3...v1.0.4
 [1.0.3]: https://github.com/kdoubt/tribunal/compare/v1.0.2...v1.0.3
