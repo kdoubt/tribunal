@@ -9,6 +9,8 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+## [1.1.2] - 2026-09-08
+
 **Claude Code adapter: three operator-practice additions from a review of an external field report (PATCH: no change to what a panel is required to do).** Source: Spotify Engineering, "Portal by Spotify cut my Claude Code token usage by 90%" (2026-09-03), reviewed by a three-seat panel (Codex CLI + Grok CLI + a local Qwen seat, R0+R1) under this repo's own method, with a second role-incentivized panel on the two items that survived as dissent. All three additions are examples or warnings in `adapters/claude-code/SKILL.md` "Orchestration mechanics"; each was conceded by every seat after cross-examination.
 
 - **Targeted-read verification.** In the "three hats" bullet: a location a model hands the orchestrator (a seat's pointer, or a helper used to find a passage) is a hint, never evidence - open the cited span with a targeted read and widen it until the claim can be checked against the surrounding text. Operationalizes METHODOLOGY "Model selection" ("a model may help *locate* a candidate passage; the located evidence itself ... is what stamps a claim").
@@ -374,7 +376,8 @@ the methodology itself still has one published run (see README, Status).
   methodology, labeled as a historical bootstrap transcript with its
   known non-compliances enumerated.
 
-[Unreleased]: https://github.com/kdoubt/tribunal/compare/v1.1.1...HEAD
+[Unreleased]: https://github.com/kdoubt/tribunal/compare/v1.1.2...HEAD
+[1.1.2]: https://github.com/kdoubt/tribunal/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/kdoubt/tribunal/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/kdoubt/tribunal/compare/v1.0.5...v1.1.0
 [1.0.5]: https://github.com/kdoubt/tribunal/compare/v1.0.4...v1.0.5
