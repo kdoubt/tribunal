@@ -9,6 +9,10 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+## [1.1.3] - 2026-09-08
+
+**Adapter parity + a stamp (PATCH).**
+
 - `adapters/shell/README.md`: the v1.1.2 artifact read-test now also appears in the shell adapter - script step 0b beside the smoke test (skip with `SKIP_READ_TEST=1`) and a "Smoke-test, then read-test" durable rule. Same diagnostic, same non-gate status; mirrored so the two maintained adapters agree.
 - `adapters/claude-code/SKILL.md`: status line now reads "Verified 2026-09" - the adapter ran two complete panels (R0+R1, three seats) on v1.1.2 the day it shipped. Editorial only.
 
@@ -379,7 +383,8 @@ the methodology itself still has one published run (see README, Status).
   methodology, labeled as a historical bootstrap transcript with its
   known non-compliances enumerated.
 
-[Unreleased]: https://github.com/kdoubt/tribunal/compare/v1.1.2...HEAD
+[Unreleased]: https://github.com/kdoubt/tribunal/compare/v1.1.3...HEAD
+[1.1.3]: https://github.com/kdoubt/tribunal/compare/v1.1.2...v1.1.3
 [1.1.2]: https://github.com/kdoubt/tribunal/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/kdoubt/tribunal/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/kdoubt/tribunal/compare/v1.0.5...v1.1.0
