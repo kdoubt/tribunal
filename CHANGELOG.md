@@ -9,6 +9,7 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+- `adapters/shell/README.md`: the v1.1.2 artifact read-test now also appears in the shell adapter - script step 0b beside the smoke test (skip with `SKIP_READ_TEST=1`) and a "Smoke-test, then read-test" durable rule. Same diagnostic, same non-gate status; mirrored so the two maintained adapters agree.
 - `adapters/claude-code/SKILL.md`: status line now reads "Verified 2026-09" - the adapter ran two complete panels (R0+R1, three seats) on v1.1.2 the day it shipped. Editorial only.
 
 ## [1.1.2] - 2026-09-08

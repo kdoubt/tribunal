@@ -125,6 +125,25 @@ for s in A B; do
   [[ "$ans" == *42* ]] || { echo "seat $s failed smoke test: $ans" >&2; exit 1; }
 done
 
+# --- 0b. Read-test the artifact path (diagnostic, not a gate). The smoke test
+#     proves the model answers; it does not prove the seat's file tools reach
+#     the artifact on THIS host. Ask each seat to quote a span you already
+#     know and compare it with the source. A mismatch or a refused read means
+#     something on the host intercepts reads (a read-size plugin, a sandbox
+#     path rule) - fix that before Round 0, keeping the read-only fence. No
+#     line threshold, no hook, nothing further once it passes. Skip with
+#     SKIP_READ_TEST=1 if you have already proven the path on this host.
+if [[ -z ${SKIP_READ_TEST:-} ]]; then
+  READ_TEST_FILE=${READ_TEST_FILE:-README.md}      # relative to ARTIFACT_ROOT
+  expect=$(grep -m1 -E '.{20,}' "$READ_TEST_FILE") || { echo "read-test: no line >=20 chars in $READ_TEST_FILE" >&2; exit 1; }
+  for s in A B; do
+    cmd="SEAT_${s}_CMD[@]"
+    got=$("${T[@]}" "${!cmd}" "Open ./$READ_TEST_FILE and quote its first line that is at least 20 characters long, exactly as written, nothing else.") \
+      || { echo "seat $s: read-test invocation failed" >&2; exit 1; }
+    [[ "$got" == *"$expect"* ]] || { echo "seat $s cannot read the artifact verbatim - host read interceptor or sandbox path rule? got: $got" >&2; exit 1; }
+  done
+fi
+
 # --- 1. Freeze the brief. Fill core/templates/brief.md, save as
 #     $PANEL_OUT/frozen-brief.md; assemble the R0 prompt mechanically.
 #     (Use quoted heredocs - <<'EOF' - if you generate prompts in-script,
@@ -238,6 +257,10 @@ Durable rules regardless of CLI:
   dependent claims are `SPECULATIVE` - never relay them as `USER-FACT`.
 - **Parallel & isolated Round 0** - never run seat B after reading seat
   A's output into your own context; that's a relay chain, not a panel.
+- **Smoke-test, then read-test** - an arithmetic answer proves the model
+  is alive; only a verbatim quote from a known artifact span proves its file
+  tools reach the artifact on this host. Run both before Round 0 (script
+  step 0b); fix any interceptor rather than lowering the fence.
 - **Files, not ad-hoc strings** - every prompt lives in a file (audit
   trail of exactly what each seat saw).
 - **Prompts contain no secrets** - they cross process boundaries and land
