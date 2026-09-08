@@ -11,7 +11,7 @@ description: >
 # Tribunal - Claude Code adapter
 
 **Status: maintained recipe (not a runner). The orchestrating model fills
-the ledger; the human reads the verdict. Verified 2026-08. No SLA.**
+the ledger; the human reads the verdict. Verified 2026-09 (two full panels on v1.1.2). No SLA.**
 
 Claude Code acts as the **orchestrator** defined in `core/CONTRACT.md`. This
 file contains only Claude-specific mechanics; the methodology itself lives

@@ -9,6 +9,8 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+- `adapters/claude-code/SKILL.md`: status line now reads "Verified 2026-09" - the adapter ran two complete panels (R0+R1, three seats) on v1.1.2 the day it shipped. Editorial only.
+
 ## [1.1.2] - 2026-09-08
 
 **Claude Code adapter: three operator-practice additions from a review of an external field report (PATCH: no change to what a panel is required to do).** Source: Spotify Engineering, "Portal by Spotify cut my Claude Code token usage by 90%" (2026-09-03), reviewed by a three-seat panel (Codex CLI + Grok CLI + a local Qwen seat, R0+R1) under this repo's own method, with a second role-incentivized panel on the two items that survived as dissent. All three additions are examples or warnings in `adapters/claude-code/SKILL.md` "Orchestration mechanics"; each was conceded by every seat after cross-examination.
