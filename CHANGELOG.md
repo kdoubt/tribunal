@@ -9,6 +9,9 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+- `validation/grounded/`: pre-registration of the **grounded ablation** - `PROTOCOL.md`, ten decision briefs (`decisions/`), ten sealed rubrics (`sealed/`), an index, and a note on the private sanitization map. Decisions come from the maintainer's own August-September 2026 panels on real artifacts with outcomes now known; the artifacts stay private. Arms: four vendors as solos (Claude, Codex, Grok, local Qwen), the union of two solos, and the full two-seat panel; rotating blind judges so no vendor scores itself; primary endpoint `A_panel - A_2seat` on must-catch rate and decision correctness; `grounding_rate` (do the cited `file:line` pointers resolve) as the grounded-specific metric. Reviewed by a two-seat panel (Codex CLI + Grok CLI) before registration. No arm has run; results come in a later release. PATCH (validation material; `core/` untouched).
+
+
 ## [1.1.6] - 2026-09-16
 
 - `validation/FIELD-RECORD.md`: what one month of the maintainer's own panel archive shows (28 runs, 2026-08-19 to 2026-09-16), as the `flywheel-export` aggregate. Observational and self-reported, labelled as such; not lift evidence and no change to the README's claims. It quotes that Round 1 ran in 7 of 28 exported runs against 1 of 20 in the study (whose seats answered from model knowledge with tools unused), without treating those rates as the same measurement. Linked from `validation/README.md`. Reviewed by a two-seat panel (Codex CLI + Grok CLI) before landing; both seats' fixes applied.

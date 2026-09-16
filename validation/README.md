@@ -31,6 +31,14 @@ that there is no lift and say so.
   ran in 7 of 28 exported runs against 1 of 20 in the study, without treating
   those rates as the same measurement.
 
+- [`grounded/`](grounded/) - the **pre-registered grounded ablation**: ten
+  real-artifact decisions from the maintainer's archive with known outcomes,
+  four vendors (Claude, Codex, Grok, a local Qwen) as solo arms and rotating
+  judges, a two-seat panel arm, and a new `grounding_rate` metric. Protocol
+  and sealed rubrics are committed before any arm runs; the artifacts are
+  private, so what is replicable is the protocol and the published scored
+  outputs.
+
 This is a pilot harness, stated as such. A handful of decisions is not proof;
 it is the first real evidence, built so it can scale to the ~20+ real-world runs
 the reviews (correctly) set as the bar for calling Tribunal *validated* rather
