@@ -9,6 +9,8 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+## [1.1.6] - 2026-09-16
+
 - `validation/FIELD-RECORD.md`: what one month of the maintainer's own panel archive shows (28 runs, 2026-08-19 to 2026-09-16), as the `flywheel-export` aggregate. Observational and self-reported, labelled as such; not lift evidence and no change to the README's claims. It quotes that Round 1 ran in 7 of 28 exported runs against 1 of 20 in the study (whose seats answered from model knowledge with tools unused), without treating those rates as the same measurement. Linked from `validation/README.md`. Reviewed by a two-seat panel (Codex CLI + Grok CLI) before landing; both seats' fixes applied.
 - `flywheel-export`: names every field it has to null on stderr (file and field, never the text; "field absent" or "not a bare value the schema accepts"), so a dirty archive is visible - the maintainer's own archive exported 20 of 28 rounds fields as null before its retros were normalized. The warning names the retro's path relative to the archive directory and the field, never the text, and is skipped where null is the expected value (dissent before an outcome is stamped). Also fixes a scoring bug: `n/a` in `dissent_confirmed_for` was read as "dissent proved right"; it now exports as null (no dissent survived, nothing to score) - the only change to stdout, which still emits controlled metadata only: vocabulary values, integers, booleans, and null. `data/README.md` now says what stderr may contain. PATCH (tooling).
 
@@ -401,7 +403,8 @@ the methodology itself still has one published run (see README, Status).
   methodology, labeled as a historical bootstrap transcript with its
   known non-compliances enumerated.
 
-[Unreleased]: https://github.com/kdoubt/tribunal/compare/v1.1.5...HEAD
+[Unreleased]: https://github.com/kdoubt/tribunal/compare/v1.1.6...HEAD
+[1.1.6]: https://github.com/kdoubt/tribunal/compare/v1.1.5...v1.1.6
 [1.1.5]: https://github.com/kdoubt/tribunal/compare/v1.1.4...v1.1.5
 [1.1.4]: https://github.com/kdoubt/tribunal/compare/v1.1.3...v1.1.4
 [1.1.3]: https://github.com/kdoubt/tribunal/compare/v1.1.2...v1.1.3
