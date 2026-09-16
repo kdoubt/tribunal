@@ -66,16 +66,21 @@ reflect the order (or dates) of your panels.
 
 `verdict_date` / `outcome_date`, `cost_notes`, `friction`, `outcome`,
 `missed_entirely`, the `template_delta` **text**, seat **labels/models/effort**,
-Brier scores (a float is a precise fingerprint), file paths, and every claim,
-question, and brief. The exporter never reads these into output - verified by
+Brier scores (a float is a precise fingerprint), file paths (on stdout; see
+the stderr note below), and every claim, question, and brief. The exporter never reads these into output - verified by
 an injection test (a retro stuffed with secrets in every field emitted only
 vocabulary values). That guarantee is about *content leakage*; it is separate
 from, and does not solve, the re-identification and PR-identity issues above.
+It is a guarantee about **stdout**. stderr is a local diagnostic: for every
+field the exporter has to null it prints the retro's path relative to the
+archive directory and the field name, never the rejected text. A run's
+directory name can identify it, so do not paste stderr into a contribution.
 
 ## Identity note
 
 Tribunal is `runtime: none` in the sense that matters: **no hosted or
 application runtime, no backend, no telemetry**. `scout` and `flywheel-export`
-are optional local helpers that print to stdout and nothing else. This
+are optional local helpers that print results to stdout, at most diagnostics
+on stderr, and nothing else. This
 directory adds no service - if an intake ever opens it will be files in git,
 gated by CI, submitted by choice.

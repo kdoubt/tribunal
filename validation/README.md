@@ -25,6 +25,12 @@ that there is no lift and say so.
   [`confirmatory/RESULTS.md`](confirmatory/RESULTS.md), including its opening
   caveat on how the execution fell short of "confirmatory".
 
+- [`FIELD-RECORD.md`](FIELD-RECORD.md) - what one month of the maintainer's
+  own panel archive shows (28 runs, exported with `flywheel-export`).
+  Observational and self-reported, not lift evidence; it quotes that Round 1
+  ran in 7 of 28 exported runs against 1 of 20 in the study, without treating
+  those rates as the same measurement.
+
 This is a pilot harness, stated as such. A handful of decisions is not proof;
 it is the first real evidence, built so it can scale to the ~20+ real-world runs
 the reviews (correctly) set as the bar for calling Tribunal *validated* rather

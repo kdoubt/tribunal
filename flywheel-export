@@ -11,7 +11,10 @@
 #
 # It reads ONLY a fixed whitelist. Numbers must be a clean small integer or
 # they become null; categoricals are validated against a fixed vocabulary
-# (unknown -> "other", raw text NEVER emitted). It is designed to be unable to
+# (unknown -> "other", raw text NEVER emitted). Every field it has to null
+# is named on stderr - the retro's path relative to the archive dir plus the
+# field name, never the text - so you can fix the retro. stderr is a local
+# diagnostic: do not paste it anywhere the run's directory name would identify. It is designed to be unable to
 # emit free text - the injection test in the anonymity panel found nothing
 # escaped. It prints JSON to stdout (inspect it before sharing), makes no
 # network calls, and writes nothing.
@@ -20,15 +23,21 @@ set -eu
 dir="${1:-.}"
 
 emit_one() {
-  awk '
+  awk -v file="${1#"$dir"/}" '
     function trim(s){ sub(/^[ \t]+/,"",s); sub(/[ \t]+$/,"",s); return s }
     function decomment(s){ sub(/<!--.*/,"",s); return trim(s) }
     # whole trimmed value must be a small non-negative integer, else NULL
     function intval(s){ s=trim(s); if (s ~ /^[0-9]{1,6}$/) return s; return "NULL" }
     function esc(s){ gsub(/\\/,"\\\\",s); gsub(/"/,"\\\"",s); return s }
-    function jnum(k,v){ if (v=="NULL") return "\""k"\":null"; return "\""k"\":" v }
-    function jstr(k,v){ if (v=="NULL"||v=="") return "\""k"\":null"; return "\""k"\":\"" esc(v) "\"" }
-    function jbool(k,v){ if (v=="NULL") return "\""k"\":null"; return "\""k"\":" v }
+    # A value the whitelist cannot read becomes null - and says so on stderr
+    # (file + field only, never the offending text), so a dirty archive is
+    # visible instead of silently thin. stdout stays pure JSON.
+    # src = the retro field the output is read from (differs for derived outputs).
+    function warn(k,src){ if (src=="-") return;   # null is the expected value here (e.g. dissent before the outcome is known)
+      printf "flywheel-export: %s: %s -> null (%s)\n", file, k, (index(seenkeys, "|" src "|") ? "not a bare value the schema accepts" : "field " src " absent") > "/dev/stderr" }
+    function jnum(k,v,src){ if (src=="") src=k; if (v=="NULL") { warn(k,src); return "\""k"\":null" } return "\""k"\":" v }
+    function jstr(k,v,src){ if (src=="") src=k; if (v=="NULL"||v=="") { warn(k,src); return "\""k"\":null" } return "\""k"\":\"" esc(v) "\"" }
+    function jbool(k,v,src){ if (src=="") src=k; if (v=="NULL") { warn(k,src); return "\""k"\":null" } return "\""k"\":" v }
     function vendor(s,   t){ t=tolower(s);
       if (t ~ /codex|openai|(^|[^a-z])gpt/) return "codex";
       if (t ~ /grok|xai/)                   return "grok";
@@ -39,7 +48,7 @@ emit_one() {
     /^[a-z0-9_]+:[ \t]/ || /^[a-z0-9_]+:$/ {
       k=$0; sub(/:.*/,"",k);
       v=$0; sub(/^[a-z0-9_]+:[ \t]*/,"",v); v=decomment(v);
-      store[k]=v;
+      store[k]=v; seenkeys=seenkeys "|" k "|";
     }
     END {
       vm=tolower(store["verdict_mode"]);
@@ -61,9 +70,12 @@ emit_one() {
       # vendor - and only once the outcome is KNOWN (verdict_held yes|no); a T1
       # that has not happened yet is null, not "dissent proved wrong"
       dl=tolower(store["dissent_confirmed_for"]);
-      if (vh!="yes" && vh!="no") dpr="NULL";
+      if (vh!="yes" && vh!="no") dpr="NULL";   # outcome unknown: dissent cannot be scored
       else if (dl=="") dpr="NULL"; else if (dl ~ /no-signal|no signal/) dpr="NULL";
+      else if (dl ~ /^(n\/a|na|not applicable)([^a-z]|$)/) dpr="NULL";   # no dissent survived: nothing to prove right
       else if (dl ~ /(^|[^a-z])none([^a-z]|$)/) dpr="false"; else dpr="true";
+      # a null here is EXPECTED (no warning) unless the outcome is scored and the field is blank
+      dsrc = ((vh=="yes"||vh=="no") && dl=="") ? "dissent_confirmed_for" : "-";
 
       seats=store["seats"]; nseat="NULL"; vend="";
       if (seats!="") {
@@ -79,7 +91,7 @@ emit_one() {
       printf "{%s,%s,%s,\"seat_vendors\":[%s],%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s}",
         "\"schema_version\":1",
         jstr("verdict_mode",vm), jstr("rounds_run",rr), vend,
-        jnum("seat_count",nseat), jnum("seat_deaths",intval(store["seat_deaths"])),
+        jnum("seat_count",nseat,"seats"), jnum("seat_deaths",intval(store["seat_deaths"])),
         jnum("claims_total",intval(store["claims_total"])), jnum("agreed_r0",intval(store["agreed_r0"])),
         jnum("disputed",intval(store["disputed"])), jnum("conceded",intval(store["conceded"])),
         jnum("overturned",intval(store["overturned"])), jnum("verified",intval(store["verified"])),
@@ -88,7 +100,7 @@ emit_one() {
         jnum("resolved_by_debate",intval(store["resolved_by_debate"])),
         jnum("citations_dropped",intval(store["citations_dropped"])),
         jnum("citations_unverified",intval(store["citations_unverified"])),
-        jstr("verdict_held",vh), jbool("dissent_proved_right",dpr) "," jbool("had_template_delta",hd);
+        jstr("verdict_held",vh), jbool("dissent_proved_right",dpr,dsrc) "," jbool("had_template_delta",hd,"template_delta");
     }
   ' "$1"
 }
