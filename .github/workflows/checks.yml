@@ -1,8 +1,9 @@
 name: checks
 
-# Guardrail CI for a docs-only methodology repo: no build, no test suite -
-# just the consistency checks that were previously done by hand, plus an
-# enforcement of the repo's own "runtime: none / docs only" identity.
+# Guardrail CI for a docs-only methodology repo: no build; the consistency
+# checks that were previously done by hand, one regression test for the
+# `scout` helper, and an enforcement of the repo's own "runtime: none /
+# docs only" identity.
 
 on:
   push:
@@ -27,6 +28,31 @@ jobs:
             sh -n "$s"
             shellcheck "$s"   # shellcheck is preinstalled on ubuntu runners
           done
+
+      - name: scout regression (fixture + out-of-clone symlink)
+        run: |
+          # scout resolves symlinks before locating its clone. A link in
+          # another directory - what `ln -s ~/tribunal/scout ~/.local/bin/scout`
+          # makes - once printed nothing and exited 0 (fixed in v1.0.5). The
+          # fixture stands in for core/templates/scout.md; expected.txt is the
+          # body scout must emit from it (title and HTML comment stripped).
+          # A same-directory link does NOT exercise the bug: dirname of the
+          # link is still the clone.
+          set -eu -o pipefail
+          d=$(mktemp -d); trap 'rm -rf "$d"' EXIT
+          mkdir -p "$d/clone/core/templates" "$d/bin"
+          cp scout "$d/clone/scout"
+          cp test/scout/fixture.md "$d/clone/core/templates/scout.md"
+          ln -s "$d/clone/scout" "$d/bin/scout"
+          for entry in clone/scout bin/scout; do
+            TRIBUNAL_NO_UPDATE_CHECK=1 sh "$d/$entry" > "$d/actual" 2> "$d/err" \
+              || { echo "::error::scout regression: $entry exited $?"; cat "$d/err"; exit 1; }
+            test -s "$d/actual" \
+              || { echo "::error::scout regression: $entry printed nothing"; exit 1; }
+            diff -u test/scout/expected.txt "$d/actual" \
+              || { echo "::error::scout regression: $entry output differs from test/scout/expected.txt"; exit 1; }
+          done
+          echo "scout regression: OK"
 
       - name: docs-only guard (enforce runtime-none)
         run: |

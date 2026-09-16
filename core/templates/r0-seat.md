@@ -31,6 +31,11 @@ argument. Give CONFIDENCE as a `0`-`1` probability (high/med/low map to
 `0.85`/`0.6`/`0.3`); it is scored against oracle outcomes later, so calibrate -
 do not inflate.
 
+An adverb is not a pointer. "Fails silently", "quietly drops the write", or
+"just hangs" describe an outcome and name nothing a reader could check. Cite
+the observable instead - the exit status, the log line, the `file:line` where
+the error is swallowed - or label the claim `ASSUMPTION`.
+
 If you genuinely cannot commit on an item, record "no stable position on
 <item>" rather than force a claim you would then defend only because you
 stated it.
