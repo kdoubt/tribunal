@@ -9,6 +9,9 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+- `validation/grounded/`: execution note recorded before any result - the local Qwen server is shared with another workload on 2026-09-16 and cannot hold the 35B model beside it, so the study runs its three frontier lanes first and defers every Qwen arm (four solos as panel seat or solo, and its judge slots on g03, g07, g10 plus second-judge slots) to a later window under the same sealed set. Decisions whose panel pair is frontier-only (g02, g03, g06, g07, g10) proceed to the panel arm now; the rest wait for Qwen. If Qwen never becomes available, the report will say so and score what ran; no arm is substituted. Nothing in the protocol's design changed.
+
+
 - `validation/grounded/`: pre-registration of the **grounded ablation** - `PROTOCOL.md`, ten decision briefs (`decisions/`), ten sealed rubrics (`sealed/`), an index, and a note on the private sanitization map. Decisions come from the maintainer's own August-September 2026 panels on real artifacts with outcomes now known; the artifacts stay private. Arms: four vendors as solos (Claude, Codex, Grok, local Qwen), the union of two solos, and the full two-seat panel; rotating blind judges so no vendor scores itself; primary endpoint `A_panel - A_2seat` on must-catch rate and decision correctness; `grounding_rate` (do the cited `file:line` pointers resolve) as the grounded-specific metric. Reviewed by a two-seat panel (Codex CLI + Grok CLI) before registration. No arm has run; results come in a later release. PATCH (validation material; `core/` untouched).
 
 
