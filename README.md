@@ -123,9 +123,10 @@ like Claude Code, which is then a third binary).
 
 **If a run stalls,** the usual causes are a missing or not-logged-in CLI
 (check `command -v` and re-authenticate), macOS needing GNU `timeout`
-(`brew install coreutils`), or a seat exiting *silently* on a permission
-prompt. Each adapter's README documents these silent-seat-killers and a smoke
-test that catches them before a real run.
+(`brew install coreutils`), or a seat that hit a permission prompt,
+auto-cancelled it, and exited 0 with only its opening narration. Each
+adapter's README documents these silent-seat-killers and a smoke test that
+catches them before a real run.
 
 Two seats is the floor, not the ceiling. The diagram shows three, but a
 panel is any N ≥ 2 - two is the floor and the third seat is optional, added

@@ -9,6 +9,8 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+- README "If a run stalls": "a seat exiting *silently* on a permission prompt" now names the observable - the seat hit a permission prompt, auto-cancelled it, and exited 0 with only its opening narration. The 1.1.4 panel's one surviving dissent, decided by the owner. Editorial (PATCH).
+
 ## [1.1.4] - 2026-09-16
 
 **Two PATCH items from a review of `cmdcolin/claudish` (a Claude Code skill: a checklist of AI-writing tropes, a grep scanner, and a fixture test), adjudicated by a two-seat panel (Codex CLI + Grok CLI, R0+R1) under this repo's own method. That repo carries no licence, so nothing was copied; both items are original wording and shape, and neither changes what a panel is required to do.**
