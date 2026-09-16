@@ -9,6 +9,9 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+- `validation/grounded/PROTOCOL.md` Amendment 1: the local Qwen seat is withdrawn (server shared with another workload; owner's decision); the study runs on Claude, Codex and Grok. No Qwen arm ever ran. The judge table is reassigned under one rule - every judgment already scored stays valid and no vendor scores itself - with the resulting pair and judge counts disclosed. The `support_rate` judge's context window was widened before any support number was reported; the narrow-window pass is discarded and kept as superseded. Recorded before any result is read into the repository.
+
+
 - `validation/grounded/`: execution note recorded before any result - the local Qwen server is shared with another workload on 2026-09-16 and cannot hold the 35B model beside it, so the study runs its three frontier lanes first and defers every Qwen arm (four solos as panel seat or solo, and its judge slots on g03, g07, g10 plus second-judge slots) to a later window under the same sealed set. Decisions whose panel pair is frontier-only (g02, g03, g06, g07, g10) proceed to the panel arm now; the rest wait for Qwen. If Qwen never becomes available, the report will say so and score what ran; no arm is substituted. Nothing in the protocol's design changed.
 
 

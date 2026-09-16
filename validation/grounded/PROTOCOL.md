@@ -265,3 +265,39 @@ any arm catches it is reported separately.
   resume reuses the existing `S_v` files and never re-invokes Round 0.
   Interrupted-write recovery is demonstrated on a planted half-written
   canonical file before arms run.
+
+## Amendment 1 (2026-09-16, before any result was read into the repository)
+
+The local Qwen seat is withdrawn: its server is shared with another workload
+and the owner decided the study runs on the three vendors available. No Qwen
+arm ever ran, so nothing is re-done; what changes is the judge assignment,
+which named Qwen as judge or second judge on seven decisions and as a panel
+seat on five. The new table below was chosen by one rule: every judgment
+already scored under the original table stays valid, and no vendor scores
+its own output. That rule fixes J for the five decisions whose solos were
+already judged (g01, g04, g05, g08, g09) and makes the panel pair the two
+other vendors. For g03, g07 and g10 (old judge Qwen) the judge becomes
+Claude and the panel pair is unchanged. For g02 and g06 the Grok solo,
+formerly assigned to Qwen, is scored by Claude, a panel seat but not the
+author. The resulting counts are disclosed, not claimed balanced: panel
+pairs CX 2, XG 5, CG 3; primary judges C 5, X 3, G 2.
+
+| decision | J | J2 (scores S_J) | panel seats |
+|---|---|---|---|
+| g01 | X | G | C, G |
+| g02 | G | C | C, X |
+| g03 | C | X | X, G |
+| g04 | C | X | G, X |
+| g05 | X | G | C, G |
+| g06 | G | C | C, X |
+| g07 | C | G | X, G |
+| g08 | C | X | G, X |
+| g09 | X | G | C, G |
+| g10 | C | X | X, G |
+
+Withdrawn with the seat: the `S_qwen` arm, the Qwen-in-panel
+stratification, and the Qwen readiness check (A2). The `support_rate`
+judge's context window was widened from six lines to the full cited range
+plus context before any support number was reported; the narrow-window pass
+was discarded and is kept beside the results as superseded. Both changes are
+recorded in `CHANGELOG.md`.
