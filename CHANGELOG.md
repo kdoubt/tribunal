@@ -9,6 +9,8 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+## [1.1.4] - 2026-09-16
+
 **Two PATCH items from a review of `cmdcolin/claudish` (a Claude Code skill: a checklist of AI-writing tropes, a grep scanner, and a fixture test), adjudicated by a two-seat panel (Codex CLI + Grok CLI, R0+R1) under this repo's own method. That repo carries no licence, so nothing was copied; both items are original wording and shape, and neither changes what a panel is required to do.**
 
 - `core/templates/r0-seat.md`: one example under the existing decisive-pointer instruction - an adverb ("fails silently", "just hangs") describes an outcome and names nothing a reader could check; cite the observable (exit status, log line, the `file:line` where the error is swallowed) or label the claim `ASSUMPTION`. Motivation: a local seat's "silent failure" claims were refuted by an oracle three times in one day. The template is the primary home because seats read it under every adapter; adapters are unchanged.
@@ -391,7 +393,8 @@ the methodology itself still has one published run (see README, Status).
   methodology, labeled as a historical bootstrap transcript with its
   known non-compliances enumerated.
 
-[Unreleased]: https://github.com/kdoubt/tribunal/compare/v1.1.3...HEAD
+[Unreleased]: https://github.com/kdoubt/tribunal/compare/v1.1.4...HEAD
+[1.1.4]: https://github.com/kdoubt/tribunal/compare/v1.1.3...v1.1.4
 [1.1.3]: https://github.com/kdoubt/tribunal/compare/v1.1.2...v1.1.3
 [1.1.2]: https://github.com/kdoubt/tribunal/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/kdoubt/tribunal/compare/v1.1.0...v1.1.1
