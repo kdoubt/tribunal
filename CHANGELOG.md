@@ -9,6 +9,8 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+## [1.1.8] - 2026-09-17
+
 - README "Honest validation status": the sentence saying grounded review "was not measured" is replaced by the grounded study's result with its numbers and caveats (nine artifact-backed decisions plus one brief-only control; three vendors after the amendment; no lift; union false-objection count an upper bound; Round 1 overturned no claim). A proposed claims sentence ("a filter, not a finder") was dropped on a two-seat panel's finding that it would change the frozen claims. Status now counts "two pilots and two pre-registered studies". `validation/README.md` and `validation/grounded/RESULTS.md` deviation 3 corrected likewise (the resumed Codex seats were a fourth attempt beyond the protocol's three; the peer's Round 1 was never relayed to the resumed seat, and on g08 the orchestrator had already ledgered it). Editorial (PATCH).
 - `adapters/shell/README.md` "Silent seat killers" 2 and `adapters/claude-code/SKILL.md`: a subscription cap (reset time in the message, usually empty output) is handled by freezing the round's packet and resuming the same seat after the cap lifts, never by substituting a vendor; the grounded study's g04/g08 resume is the documented case. PATCH.
 - `adapters/claude-code/SKILL.md` targeted-read bullet: cites the grounded study's numbers (pointers open 0.83-0.97; judged support 0.50-0.81, a lower bound) as the reason an open pointer alone does not establish support. PATCH.
@@ -418,7 +420,8 @@ the methodology itself still has one published run (see README, Status).
   methodology, labeled as a historical bootstrap transcript with its
   known non-compliances enumerated.
 
-[Unreleased]: https://github.com/kdoubt/tribunal/compare/v1.1.7...HEAD
+[Unreleased]: https://github.com/kdoubt/tribunal/compare/v1.1.8...HEAD
+[1.1.8]: https://github.com/kdoubt/tribunal/compare/v1.1.7...v1.1.8
 [1.1.7]: https://github.com/kdoubt/tribunal/compare/v1.1.6...v1.1.7
 [1.1.6]: https://github.com/kdoubt/tribunal/compare/v1.1.5...v1.1.6
 [1.1.5]: https://github.com/kdoubt/tribunal/compare/v1.1.4...v1.1.5
