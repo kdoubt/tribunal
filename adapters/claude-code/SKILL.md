@@ -93,7 +93,10 @@ writes the brief. See the repo README.)
   A limit signature counts only when the required shape (CLAIM blocks /
   ATTACK section) is also missing - briefs about rate limits or quotas
   contain those words legitimately. Exit 0 + non-empty ≠ a position. Re-run
-  a dead seat on the SAME vendor.
+  a dead seat on the SAME vendor; if stderr names a reset time (a
+  subscription cap), freeze the packet and resume that seat once the cap
+  lifts, disclosing the extra attempt as a deviation from your retry limit -
+  never substitute a vendor (shell adapter, "Silent seat killers" 2).
 - **Keep the ledger as a file** you edit between rounds - copy
   `$TRIBUNAL_ROOT/core/templates/ledger.md`. Your conversation
   context is NOT the ledger.
@@ -112,7 +115,12 @@ writes the brief. See the repo README.)
   - a seat's pointer, or a helper you used to find a passage - is a hint,
   never evidence: open the cited span yourself with a targeted read
   (offset/limit or `sed -n`) and widen it until the claim can be checked
-  against the surrounding text, not against the pointer's own summary;
+  against the surrounding text, not against the pointer's own summary - in
+  the grounded study seats' pointers opened 0.83-0.97 of the time but a
+  judge found the opened text supported the claim only 0.50-0.81 of the
+  time, a lower bound since an excerpt can miss support elsewhere in the
+  file (`validation/grounded/RESULTS.md`), so an open pointer alone does not
+  establish a supported claim;
   when adjudicating, fill
   `$TRIBUNAL_ROOT/core/templates/verdict.md` from the ledger only -
   no arguments the seats didn't make.

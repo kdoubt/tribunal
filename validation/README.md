@@ -32,24 +32,28 @@ that there is no lift and say so.
   those rates as the same measurement.
 
 - [`grounded/`](grounded/) - the **pre-registered grounded ablation**: ten
-  real-artifact decisions from the maintainer's archive with known outcomes,
-  four vendors (Claude, Codex, Grok, a local Qwen) as solo arms and rotating
-  judges, a two-seat panel arm, and a new `grounding_rate` metric. Protocol
+  decisions from the maintainer's archive with known outcomes (nine on real
+  artifacts, one brief-only control), three vendors after Amendment 1
+  withdrew the local Qwen seat (registered with four) as solo arms and
+  rotating judges, a two-seat panel arm, and new `grounding_rate` and
+  `support_rate` metrics. Protocol
   and sealed rubrics were committed before any arm ran; the artifacts are
   private, so what is replicable is the protocol and the published scored
   outputs.
   **Run complete (three vendors, ten decisions): no lift** - see
-  [`grounded/RESULTS.md`](grounded/RESULTS.md): the panel scored below the
-  union of its own two solos on must-catch, about even on decision
-  correctness, and made fewer false objections; Round 1 ran on every
-  decision and reversed nothing.
+  [`grounded/RESULTS.md`](grounded/RESULTS.md): paired panel-minus-union
+  must-catch −0.18 (n=10), decision correctness −0.06 strict / +0.06
+  sensitivity (n=9), false objections 1.10 vs the union's upper-bound 2.60;
+  Round 1 ran on all ten, overturned no claim, and changed no verdict input's
+  direction.
 
 This is a pilot harness, stated as such. A handful of decisions is not proof;
 it is the first real evidence, built so it can scale to the ~20+ real-world runs
 the reviews (correctly) set as the bar for calling Tribunal *validated* rather
 than *promising*.
 
-> Why the decision set is public/known-answer rather than real estate decisions:
-> a published ablation needs ground truth anyone can check and outputs anyone can
-> re-score. Real private decisions with fuzzy outcomes come later, for realism,
-> once the harness shows signal here.
+> Why the first decision sets were public/known-answer: a published ablation
+> needs ground truth anyone can check and outputs anyone can re-score. The
+> grounded follow-up now reports nine artifact-backed private decisions and one
+> brief-only control with recorded outcomes; its artifacts stay private, its
+> scored outputs are published.

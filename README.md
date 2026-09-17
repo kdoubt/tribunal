@@ -305,9 +305,18 @@ judge independent of the seats and orchestrator (a fourth model, OpenAI-lineage)
 sealed-rubric-scored decisions, and arms designed to isolate components (executed
 with deviations its RESULTS discloses) - observed **no accuracy lift** over a
 single strong model. That result was measured on decisions the seats answered
-from model knowledge with tools unused (RESULTS, Limitations); grounded review
-of a real artifact - the method's stated use - was not measured, and this
-evidence does not speak to it either way. Across that set the two vendors disagreed on only **1 of
+from model knowledge with tools unused (RESULTS, Limitations). A second
+pre-registered study ([`validation/grounded/`](validation/grounded/), executed
+with disclosed amendments and deviations) then measured grounded review: ten of
+the maintainer's own decisions with known outcomes (nine on real artifacts, one
+brief-only control), three vendors as solos and panel seats after the local
+seat was withdrawn, blind judges rotating among those vendors. Under its
+pre-registered rule it found **no lift**: paired panel-minus-union must-catch
+−0.18 (n=10), decision correctness −0.06 strict / +0.06 sensitivity (n=9),
+false objections 1.10 per memo against the union's upper-bound 2.60; Round 1
+ran on all ten decisions, overturned no claim, and changed no verdict input's
+direction, though seats conceded and revised confidences. Across the first
+study's set the two vendors disagreed on only **1 of
 20** decisions, so the panel's engine (Round 1) almost never activates; when it
 did fire (once), it resolved the split to the sealed-correct call - a
 scope-framing split whose "wrong seat" classification is contestable (see
@@ -339,8 +348,8 @@ runs are not published in-tree. In active use by its maintainer, Square Post
 Labs Inc.
 
 **Project status: stable; the method and its claims are frozen at v1.0.** The methodology is complete and,
-after running its own [validation](validation/) through three pre-registered
-studies, honestly characterized - including the finding that those runs observed
+after running its own [validation](validation/) through two pilots and two
+pre-registered studies, honestly characterized - including the finding that those runs observed
 no accuracy lift over a strong single model. It is intentionally *done*, not abandoned: no further method
 development is planned - v1.1.0 changed no method; it added one orchestrator
 confinement rule (CONTRACT obligation 5: a citation outside the brief's

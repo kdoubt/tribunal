@@ -25,18 +25,19 @@ fewer false objections.
 Lift required both primary means to be greater than zero at two decimals.
 Neither is. The result stands under the strict rule, and the sensitivity
 rule does not rescue it (must-catch is negative under both). The
-false-objection difference is real and in the panel's favour, and is the
-same pattern the confirmatory study saw: the panel is a filter, not a
-finder.
+false-objection difference is real and in the panel's favour, and matches
+the pattern the confirmatory study reported: fewer wrong objections, no more
+correct calls.
 
 ## What the grounded setting added
 
 The confirmatory study's seats answered from model knowledge with tools
-unused and diverged on 1 of 20 decisions. Here every seat read the real
-artifact:
+unused and diverged on 1 of 20 decisions. Here nine decisions gave every
+seat a real artifact and one was a brief-only control:
 
 - **Round 1 ran on all ten decisions.** Every panel had disputed claims; every
-  Round 1 seat validated on its first attempt; in every ledger the count of
+  Round 1 seat validated on its first attempt except the two capped Codex
+  seats, which validated on attempt four (deviation 3); in every ledger the count of
   overturned claims was zero and no verdict input changed direction, so the
   delta-only Round 2 never triggered. Cross-examination produced concessions
   and confidence revisions, not reversals.
@@ -85,9 +86,12 @@ behind every point is beside each arm's output.
    Nothing was re-run. Logged in `results/run.log`.
 3. **Codex usage cap.** During the g04 and g08 Round 1 runs Codex returned
    zero bytes three times each with a subscription-limit error. The packets
-   were frozen with hashes; the seats were resumed the next day (attempt 4,
-   validated) with the other seat's Round 1 still unread. Recorded in each
-   `transformations.log`.
+   were frozen with hashes; the seats were resumed the next day and
+   validated on attempt 4, one attempt beyond the protocol's three, which is
+   a deviation. The peer seat's Round 1 was never relayed to Codex; on g04
+   the orchestrator had also left it unread, on g08 the orchestrator had
+   already ledgered Grok's Round 1 before the resume (`g08/ledger.md`).
+   Recorded in each `transformations.log`.
 4. **`support_rate` window.** The first support-judging pass gave the judge
    about six lines around each pointer and was discarded before any number was
    reported; the second pass hands the full cited range plus context. The
@@ -122,6 +126,6 @@ behind every point is beside each arm's output.
 
 Nothing in `core/`. The README's position, no accuracy lift, now rests on a
 grounded study as well as the knowledge-only one, with one sharpened
-statement: on real artifacts the panel's cross-examination runs every time
-and reverses nothing, and its measurable contribution is fewer false
-objections.
+observation from this study: on these ten real artifacts the panel's
+cross-examination ran every time and reversed nothing, and its measurable
+contribution was fewer false objections.

@@ -72,7 +72,16 @@ be caught by *reading* the output, not by exit codes:
    required output shape is also missing** (no CLAIM block in Round 0, no
    ATTACK section in Round 1) - briefs about rate limiting, quotas, or
    upgrade paths legitimately contain these words, and a seat that used
-   them while still delivering its claims is alive.
+   them while still delivering its claims is alive. A *subscription cap* is
+   the sub-case with a reset time in the message ("try again at ...") and,
+   typically, an empty seat file with the message on stderr - so inspect
+   stderr as well. Do not substitute a vendor. Keep the round's packet
+   unchanged (record its hash), do not relay the peer's answer to the capped
+   seat, and re-run the same seat with the same packet once the cap lifts: a
+   resumed round is the same round, and the resumed run counts as one more
+   attempt, which you disclose; this does not extend the retry limit you
+   set for the panel - the grounded study's fourth attempts on g04 and g08
+   were disclosed deviations from its own three (`validation/grounded/results/`).
 3. **Context overflow / truncation** - output that stops mid-sentence or
    omits the required sections.
 
