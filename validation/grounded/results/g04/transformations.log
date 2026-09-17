@@ -1,0 +1,12 @@
+g04 panel arm — orchestrator log (Claude Code fork), 2026-09-16
+identity: A = grok (S_grok.md), B = codex (S_codex.md); packets label rivals "Peer-n" (randomized order via r1-packet.py, seed = counts), no tallies, no vendor names as seat identities (product names Claude Code/Codex/Grok appear only where the BRIEF or a claim names them as target CLIs).
+transformations applied to relayed text: (1) neutral Peer labels + shuffle (r1-packet.py); (2) ORCH-SUMMARY ledger-note.md (agreed-r0 list + oracle facts only); (3) grok packet carries codex claims 3,4,6,7,8; codex packet carries grok claims 3,5,6,7 (contradictions, unaddressed decision-relevant claims, unverified claims). Nothing else altered.
+oracles: grounding.py grok 20/20 open; codex pointers use R:/U:/C: shorthand (0 by tool) resolved by hand, all open; all pack quotes present in the brief.
+R1 timings: grok attempt 1 ok 85 s. codex attempts 1-3 failed in 2/3/6 s: provider usage limit (message quoted in ledger.md). Seat death recorded; A_panel INCOMPLETE; no substitution; R1_grok left unread.
+A_2seat.md written from the two R0 files verbatim (Memo 1 = grok, Memo 2 = codex).
+
+2026-09-17 resume (orchestrator fork, Claude Code)
+Codex R1 seat death → resume record: attempts 1-3 on 2026-09-16 = 0 bytes, rc=1, 2/3/6 s, stderr "You've hit your usage limit ... try again at Sep 19th, 2026 9:12 AM"; attempt 4 on 2026-09-17 (cap lifted early) = 3370 B, 29 s, validated; packet sha256 c9ac0f7963214ece identical across all four attempts (r1-packet-codex.md unchanged). R1_grok (attempt 1, 85 s, sha 131a0e92cf75d72a) remained unread until R1_codex was accepted; both were read together.
+Round 1 outcomes appended to ledger.md (0 overturned; A6/B6 converged web-scoped; A7/B7 hero-CTA dispute survives; B4 premise and B8 blocker status survive). No load-bearing flip → Round 2 not triggered.
+oracles.md addendum: no new file:line in R1; pricing.tsx scope flag recorded (supporting only).
+A_panel.md written as a mechanical fill of core/templates/verdict.md from ledger rows; A_panel.INCOMPLETE removed. No transformation applied to any relayed text in this step.

@@ -1,0 +1,109 @@
+{
+ "judge": "grok",
+ "grounding": "<path>",
+ "n": 20,
+ "seconds": 539.4,
+ "parsed": true,
+ "items": [
+  {
+   "n": 1,
+   "supports": 1,
+   "why": "the tree keeps workspace/models on the share with models RW to the external party and RO to jobs, so a job RO bind does not stop the editor changing those files"
+  },
+  {
+   "n": 2,
+   "supports": 0,
+   "why": "the arbiter is only called single-writer of queue/window/budget state, with no local-queue, RO-results, or editor-mutable model files"
+  },
+  {
+   "n": 3,
+   "supports": 1,
+   "why": "host mount then bind is said to give sandboxes the files without a network route to the NAS, and CT 206 is placed on node2"
+  },
+  {
+   "n": 4,
+   "supports": 0,
+   "why": "the span specifies unprivileged CT 205 and that GB10 is unbuilt, not CT 206 isolation, host-management interfaces, or a helper-compromise path"
+  },
+  {
+   "n": 5,
+   "supports": 1,
+   "why": "it proposes a dedicated the external party-warm export, root_squash+all_squash to a dedicated uid/gid, and exactly three host IPs"
+  },
+  {
+   "n": 6,
+   "supports": 1,
+   "why": "the live listing grants no_root_squash, * or subnet clients, crossmnt, and anonuid/anongid rather than the prescribed confined export"
+  },
+  {
+   "n": 7,
+   "supports": 1,
+   "why": "the proposal limits clients to abbreviated node1 .10, node2 .11, and gb10 .225"
+  },
+  {
+   "n": 8,
+   "supports": 1,
+   "why": "the listing has no the external party-warm export, mixes * / subnet grants with option-less lines, and cannot uniquely resolve .10/.11/.225 against <lan-address> vs <lan-address>x"
+  },
+  {
+   "n": 9,
+   "supports": 1,
+   "why": "the proposed client opts are vers=3, soft, timeo=150, retrans=3, _netdev, nofail, nolock on RW workspace/queue"
+  },
+  {
+   "n": 10,
+   "supports": 1,
+   "why": "the working precedent is an ro mount that already includes soft, timeo=150, retrans=3, _netdev, nofail"
+  },
+  {
+   "n": 11,
+   "supports": 0,
+   "why": "the readiness probe only checks sandbox exec and that the GPU is free, not mount identity or a write-fsync-rename-cross-client-read"
+  },
+  {
+   "n": 12,
+   "supports": 1,
+   "why": "one arbiter is flock-locked per host and state.json is updated atomically with tmp+rename on local management-host paths"
+  },
+  {
+   "n": 13,
+   "supports": 0,
+   "why": "the span says results are visible instantly, which contradicts CTO caching not being instantaneous visibility"
+  },
+  {
+   "n": 14,
+   "supports": 1,
+   "why": "it changes node1/node2/gb10 mounts, CT 205/206 and GB10 binds, submitter/arbiter/result paths, and the the bench hostname ingress"
+  },
+  {
+   "n": 15,
+   "supports": 1,
+   "why": "current arbiter, GPU-host, and distinct RTX/GB10 spool paths are the submitter/arbiter/result locations a migration must retarget"
+  },
+  {
+   "n": 16,
+   "supports": 1,
+   "why": "GB10 is a separate docker-native bench/relay/proxy layout with all state under /home/<login-user>/the external party-bench/"
+  },
+  {
+   "n": 17,
+   "supports": 1,
+   "why": "CT 205 is explicitly unprivileged, so UID maps are part of its bind/ownership migration"
+  },
+  {
+   "n": 18,
+   "supports": 1,
+   "why": "the dead-man runs on each GPU host independently and restores prod on window deadline or stale heartbeat"
+  },
+  {
+   "n": 19,
+   "supports": 1,
+   "why": "NAS/mount loss mid-window and boot ordering are left as open questions, so NFS-independence is unproven there"
+  },
+  {
+   "n": 20,
+   "supports": 1,
+   "why": "teardown removes CF/CT/SDN/GB10/backup-exclude objects and does not unmount clients or delete a new NFS export"
+  }
+ ]
+}

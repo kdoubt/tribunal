@@ -1,0 +1,114 @@
+{
+ "judge": "claude",
+ "grounding": "<path>",
+ "n": 21,
+ "seconds": 39.4,
+ "parsed": true,
+ "items": [
+  {
+   "n": 1,
+   "supports": 1,
+   "why": "table row shows trial items/day defaulted to 10 flagged OWNER-CALL with dissent of 3"
+  },
+  {
+   "n": 2,
+   "supports": 1,
+   "why": "shows email TEXT NOT NULL UNIQUE in accounts table"
+  },
+  {
+   "n": 3,
+   "supports": 1,
+   "why": "spec states email=NULL requiring a migration making email nullable"
+  },
+  {
+   "n": 4,
+   "supports": 1,
+   "why": "migration is an ALTER TABLE ... ADD COLUMN, as claimed"
+  },
+  {
+   "n": 5,
+   "supports": 1,
+   "why": "only trial_counters SQL is an UPDATE with meta.changes == 0 -> 429 and no INSERT"
+  },
+  {
+   "n": 6,
+   "supports": 1,
+   "why": "magic_tokens schema lists no purpose column"
+  },
+  {
+   "n": 7,
+   "supports": 1,
+   "why": "spec names POST /auth/device/approve as session-authed for claim/init"
+  },
+  {
+   "n": 8,
+   "supports": 1,
+   "why": "sessions.account_id is TEXT NOT NULL"
+  },
+  {
+   "n": 9,
+   "supports": 1,
+   "why": "verify path inserts a session bound to an existing account.id, not creating one"
+  },
+  {
+   "n": 10,
+   "supports": 1,
+   "why": "spec names the 7-day unclaimed expiry as a new cleanup.ts task"
+  },
+  {
+   "n": 11,
+   "supports": 1,
+   "why": "cleanup returns early when the expired-items SELECT is empty"
+  },
+  {
+   "n": 12,
+   "supports": 1,
+   "why": "trigger is wrapper-mediated with key in an unnamed response header, no discriminator named"
+  },
+  {
+   "n": 13,
+   "supports": 1,
+   "why": "code rejects unauthenticated MCP with -32000 before parsing"
+  },
+  {
+   "n": 14,
+   "supports": 1,
+   "why": "enrollment branch is gated on auth.type === 'api_key', unreachable when auth is null"
+  },
+  {
+   "n": 15,
+   "supports": 0,
+   "why": "feature-flag list is unrelated to the header/UA discriminator or auth==null control flow assertions"
+  },
+  {
+   "n": 16,
+   "supports": 1,
+   "why": "residual-risk paragraph already grants that 0600 file theft confers claim authority"
+  },
+  {
+   "n": 17,
+   "supports": 1,
+   "why": "quoted one-pending-claim/no-race language appears with only invalidation, no index"
+  },
+  {
+   "n": 18,
+   "supports": 1,
+   "why": "client note ?? defaultNote shows a supplied note replaces the URL-bearing default"
+  },
+  {
+   "n": 19,
+   "supports": 1,
+   "why": "Google Doc default note stores the title, not the URL"
+  },
+  {
+   "n": 20,
+   "supports": 1,
+   "why": "captured_url appears only in the response payload"
+  },
+  {
+   "n": 21,
+   "supports": 1,
+   "why": "items schema has note but no captured_url column"
+  }
+ ]
+}

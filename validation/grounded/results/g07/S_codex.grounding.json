@@ -1,0 +1,126 @@
+{
+ "arm": "results/g07//S_codex.md",
+ "claims": 8,
+ "pointers": [
+  {
+   "claim": "** Design A is the appropriate scheduling shape, B\u2019s rejection is justified, but the artifacts do not establish that a local spool is safer than carefully isolated NATS admission.",
+   "pointer": "queue-design.md:16-18",
+   "resolves": true,
+   "file": "queue-design.md",
+   "text": "\u2192 bastion). He must NOT be able to stop/start production or exceed a downtime budget.\n- gpt-oss-120b is ~92 GB of weights; a cold start is minutes-scale and expensive.\n- Existing estate async backbone = NATS JetStream spine (`jobs.batch-infer.>`,\n  per-role users, custody boundary: confidential content never transits NATS).\n\n## The core tension\nProduction must come DOWN for the external party's job to have the full GPU, and back UP after.",
+   "supports": null
+  },
+  {
+   "claim": "** Operator-controlled opening is insufficient because neither close script revokes benchmark GPU access, and the runbook explicitly admits workloads can crash the shared driver.",
+   "pointer": "window-rtx.sh:30-41",
+   "resolves": true,
+   "file": "window-rtx.sh",
+   "text": "echo; echo \"[open] NO-GO \u2014 VRAM did not free (stuck at ${u}MiB). Check for a hung vLLM proc on the RTX.\"; exit 1 ;;\nclose)\n  echo \"[close] restarting prod vLLM services\u2026\"\n  px \"systemctl start vllm.service vllm-embed.service\"\n  echo -n \"[close] waiting for BOTH endpoints healthy (not just active)\"\n  for i in $(seq 1 100); do\n    h1=$(health 8000); h2=$(health 8100)\n    echo -n \" [$i:8000=$h1,8100=$h2]\"\n    if [ \"$h1\" = 200 ] && [ \"$h2\" = 200 ]; then\n      echo; echo \"[close] RESTORED \u2014 gpt-oss-120b(:8000) + embed(:8100) both healthy. Confirm LiteLLM route next.\"; exit 0; fi\n    sleep 6\n  done\n  echo; echo \"[close] WARNING \u2014 a service is active but NOT healthy after wait (h8000=$h1 h8100=$h2). 'active' != healthy \u2014 investigate before declaring restored.\"; exit 1 ;;\nstatus)\n  echo \"VRAM used: $(vram_used) MiB\"\n  echo \"vllm.service:      $(px 'systemctl is-active vllm.service')   /health=$(health 8000)\"",
+   "supports": null
+  },
+  {
+   "claim": "** Operator-controlled opening is insufficient because neither close script revokes benchmark GPU access, and the runbook explicitly admits workloads can crash the shared driver.",
+   "pointer": "window-gb10.sh:35-48",
+   "resolves": true,
+   "file": "window-gb10.sh",
+   "text": "echo; echo \"[open] NO-GO \u2014 containers not all exited or memory not freed (${a}G avail). Check for a hung container.\"; exit 1 ;;\nclose)\n  echo \"[close] lowering bench mem cap to 20g\u2026\"\n  gb \"docker update --memory 20g the external party-bench\" >/dev/null\n  echo \"[close] restarting prod vLLM containers\u2026\"\n  gb \"docker start $CONTAINERS\"\n  echo -n \"[close] waiting for all 3 endpoints healthy\"\n  for i in $(seq 1 100); do\n    ok=1; line=\"\"\n    for p in $PORTS; do h=$(health $p); line=\"$line $p=$h\"; [ \"$h\" = 200 ] || ok=0; done\n    echo -n \" [$i:$line]\"\n    [ \"$ok\" = 1 ] && { echo; echo \"[close] RESTORED \u2014 qwen3-30b + rerank + embed all healthy.\"; exit 0; }\n    sleep 6\n  done\n  echo; echo \"[close] WARNING \u2014 not all healthy after wait ($line). 'Up' != healthy \u2014 investigate.\"; exit 1 ;;\nstatus)\n  echo \"unified mem available: $(avail_gb) G (nvidia-smi VRAM 'used' is [N/A] on Grace-Blackwell)\"\n  gb \"docker ps --filter name=vllm --format '{{.Names}} {{.Status}}'\"",
+   "supports": null
+  },
+  {
+   "claim": "** Operator-controlled opening is insufficient because neither close script revokes benchmark GPU access, and the runbook explicitly admits workloads can crash the shared driver.",
+   "pointer": "RUNBOOK.md:103-105",
+   "resolves": true,
+   "file": "RUNBOOK.md",
+   "text": "a prod host cannot reach <island-address>).\n- CT 205 is unprivileged; **GPU shared with CT 201 \u2014 isolation is fs/process-level,\n  not GPU-level.** A driver-crashing workload still hits prod vLLM; the window\n  scripts' health gates are the guard, not a hardware boundary.\n- GB10 bench container: `--internal` network, egress only via squid ACL, `HEALTHCHECK`\n  on sshd; setup script is idempotent with a health readiness gate (no blind sleep).",
+   "supports": null
+  },
+  {
+   "claim": "** The submission design leaves resource exhaustion and hostile filesystem handling unspecified at a boundary where the submitter controls input and the arbiter controls production.",
+   "pointer": "queue-design.md:30-36",
+   "resolves": true,
+   "file": "queue-design.md",
+   "text": "## Proposed design (Design A \u2014 window-batch queue)\nA small **trusted arbiter daemon** (runs on the trusted side: node2 host for RTX,\nGB10 host as `<login-user>` for GB10 \u2014 both can control prod; the external party cannot). Not on NATS.\n\n1. **Submission.** the external party writes a job spec to a spool dir INSIDE his sandbox:\n   `/scratch/queue/incoming/<id>.json` = `{cmd, est_seconds, artifacts_path}`.\n   `cmd` runs as `the external party` INSIDE his sandbox only. The arbiter never executes the external party's\n   code on the host \u2014 it only sequences and starts/stops prod.\n2. **Window as a trusted gate.** A window is opened by an OPERATOR (or a scheduled\n   cron the operator owns), NOT by the external party. Opening a window = `window-*.sh open`\n   (health-gated, frees full GPU). The arbiter runs jobs only while a window is open.",
+   "supports": null
+  },
+  {
+   "claim": "** A1 has nominal job and window limits, but no specified sandbox-readiness check or termination mechanism sufficient to establish that all job descendants are gone.",
+   "pointer": "queue-design.md:40-47",
+   "resolves": true,
+   "file": "queue-design.md",
+   "text": "(health-gated, frees full GPU). The arbiter runs jobs only while a window is open.\n3. **Drain.** While the window is open, the arbiter pops specs in FIFO order, runs\n   each as `the external party` in the sandbox with a per-job `timeout`, captures exit/stdout/stderr\n   to `/scratch/queue/done/<id>/`, and moves to the next. One job at a time.\n4. **Close.** Window close (operator or a max-window-duration cap) \u2192 arbiter finishes\n   the current job or kills it at the cap, then `window-*.sh close` restarts prod\n   health-gated. Un-run specs stay queued for the next window.\n5. **Budget guard.** A max-window-duration and a max-prod-downtime-per-day budget are\n   enforced by the arbiter; exceeding either forces a close. the external party cannot extend it.\n\n### Why not the alternatives\n- **Design B (per-job autonomous preemption):** rejected \u2014 prod cold-start per job is",
+   "supports": null
+  },
+  {
+   "claim": "** A1 has nominal job and window limits, but no specified sandbox-readiness check or termination mechanism sufficient to establish that all job descendants are gone.",
+   "pointer": "RUNBOOK.md:28",
+   "resolves": true,
+   "file": "RUNBOOK.md",
+   "text": "(matches node2 host driver EXACTLY \u2014 if node2 driver is upgraded, rerun the .run\n  in 205 with the new version). User `the external party` HAS passwordless sudo (his sandbox).\n  Internet only via bastion tinyproxy (http/https, set in /etc/profile.d/proxy.sh,\n  apt.conf.d/95proxy). Verified: HF reachable, Infisical/PBS NOT reachable.\n  Excluded from the hourly PBS job (exclude=114,205) \u2014 scratch box, 120G churn.",
+   "supports": null
+  },
+  {
+   "claim": "** The scripts require HTTP health before reporting restoration, but failure paths do not provide unattended recovery or a bounded wall-clock completion time.",
+   "pointer": "window-rtx.sh:34-41",
+   "resolves": true,
+   "file": "window-rtx.sh",
+   "text": "echo -n \"[close] waiting for BOTH endpoints healthy (not just active)\"\n  for i in $(seq 1 100); do\n    h1=$(health 8000); h2=$(health 8100)\n    echo -n \" [$i:8000=$h1,8100=$h2]\"\n    if [ \"$h1\" = 200 ] && [ \"$h2\" = 200 ]; then\n      echo; echo \"[close] RESTORED \u2014 gpt-oss-120b(:8000) + embed(:8100) both healthy. Confirm LiteLLM route next.\"; exit 0; fi\n    sleep 6\n  done\n  echo; echo \"[close] WARNING \u2014 a service is active but NOT healthy after wait (h8000=$h1 h8100=$h2). 'active' != healthy \u2014 investigate before declaring restored.\"; exit 1 ;;\nstatus)\n  echo \"VRAM used: $(vram_used) MiB\"\n  echo \"vllm.service:      $(px 'systemctl is-active vllm.service')   /health=$(health 8000)\"",
+   "supports": null
+  },
+  {
+   "claim": "** The scripts require HTTP health before reporting restoration, but failure paths do not provide unattended recovery or a bounded wall-clock completion time.",
+   "pointer": "window-gb10.sh:41-48",
+   "resolves": true,
+   "file": "window-gb10.sh",
+   "text": "echo -n \"[close] waiting for all 3 endpoints healthy\"\n  for i in $(seq 1 100); do\n    ok=1; line=\"\"\n    for p in $PORTS; do h=$(health $p); line=\"$line $p=$h\"; [ \"$h\" = 200 ] || ok=0; done\n    echo -n \" [$i:$line]\"\n    [ \"$ok\" = 1 ] && { echo; echo \"[close] RESTORED \u2014 qwen3-30b + rerank + embed all healthy.\"; exit 0; }\n    sleep 6\n  done\n  echo; echo \"[close] WARNING \u2014 not all healthy after wait ($line). 'Up' != healthy \u2014 investigate.\"; exit 1 ;;\nstatus)\n  echo \"unified mem available: $(avail_gb) G (nvidia-smi VRAM 'used' is [N/A] on Grace-Blackwell)\"\n  gb \"docker ps --filter name=vllm --format '{{.Names}} {{.Status}}'\"",
+   "supports": null
+  },
+  {
+   "claim": "** A3\u2019s readiness checks are useful but do not establish exclusive full-GPU availability or reliably enforce every transition prerequisite.",
+   "pointer": "window-rtx.sh:11",
+   "resolves": true,
+   "file": "window-rtx.sh",
+   "text": "CT=201\nFREE_MIB=4000                 # VRAM 'used' must drop below this to call it freed\npx() { ssh \"$NODE\" \"pct exec $CT -- $*\"; }\nvram_used() { ssh \"$NODE\" \"nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits\" | tr -d ' '; }\nhealth() { px \"curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:$1/health\" 2>/dev/null; }",
+   "supports": null
+  },
+  {
+   "claim": "** A3\u2019s readiness checks are useful but do not establish exclusive full-GPU availability or reliably enforce every transition prerequisite.",
+   "pointer": "window-gb10.sh:13",
+   "resolves": true,
+   "file": "window-gb10.sh",
+   "text": "PORTS=\"8200 8101 8100\"\nFREE_GB=60                     # unified-mem 'available' must rise above this to call it freed\ngb() { ssh \"$GB10\" \"$*\"; }\n# GB10 is Grace-Blackwell UNIFIED memory: nvidia-smi reports memory.used=[N/A], so the\n# readiness signal is (containers exited) + (system 'available' RAM), not VRAM 'used'.",
+   "supports": null
+  },
+  {
+   "claim": "** A3\u2019s readiness checks are useful but do not establish exclusive full-GPU availability or reliably enforce every transition prerequisite.",
+   "pointer": "window-rtx.sh:19-20",
+   "resolves": true,
+   "file": "window-rtx.sh",
+   "text": "echo \"[open] checking cluster isn't mid-backup (CT 201 = live)\u2026\"\n  pvesh get /cluster/tasks --output-format json 2>/dev/null | grep -q '\"status\":\"running\".*vzdump' && \\\n    { echo \"  ABORT: a vzdump is running \u2014 wait for it (feedback_check_tasks_before_reboot)\"; exit 1; }\n  echo \"[open] stopping prod vLLM services in CT $CT\u2026\"\n  px \"systemctl stop vllm.service vllm-embed.service\"\n  echo -n \"[open] waiting for VRAM to free\"",
+   "supports": null
+  },
+  {
+   "claim": "** A4\u2019s required state changes lack a defined single owner and atomic transition protocol.",
+   "pointer": "queue-design.md:33-47",
+   "resolves": true,
+   "file": "queue-design.md",
+   "text": "1. **Submission.** the external party writes a job spec to a spool dir INSIDE his sandbox:\n   `/scratch/queue/incoming/<id>.json` = `{cmd, est_seconds, artifacts_path}`.\n   `cmd` runs as `the external party` INSIDE his sandbox only. The arbiter never executes the external party's\n   code on the host \u2014 it only sequences and starts/stops prod.\n2. **Window as a trusted gate.** A window is opened by an OPERATOR (or a scheduled\n   cron the operator owns), NOT by the external party. Opening a window = `window-*.sh open`\n   (health-gated, frees full GPU). The arbiter runs jobs only while a window is open.\n3. **Drain.** While the window is open, the arbiter pops specs in FIFO order, runs\n   each as `the external party` in the sandbox with a per-job `timeout`, captures exit/stdout/stderr\n   to `/scratch/queue/done/<id>/`, and moves to the next. One job at a time.\n4. **Close.** Window close (operator or a max-window-duration cap) \u2192 arbiter finishes\n   the current job or kills it at the cap, then `window-*.sh close` restarts prod\n   health-gated. Un-run specs stay queued for the next window.\n5. **Budget guard.** A max-window-duration and a max-prod-downtime-per-day budget are\n   enforced by the arbiter; exceeding either forces a close. the external party cannot extend it.\n\n#",
+   "supports": null
+  },
+  {
+   "claim": "** A5 remains unresolved because the proposal defines neither durable crash recovery nor an independent dead-man restoration mechanism.",
+   "pointer": "queue-design.md:64-65",
+   "resolves": true,
+   "file": "queue-design.md",
+   "text": "exhaust the sandbox to affect the host)?\n- Where should the arbiter run and how does it survive a crash/reboot mid-drain\n  without double-running a job or leaving prod DOWN?\n- Booked-block scheduling (operator opens windows on a calendar) vs. a request-driven\n  model where the external party's submission *notifies* the operator to open a window \u2014 which is safer?",
+   "supports": null
+  },
+  {
+   "claim": "** A5 remains unresolved because the proposal defines neither durable crash recovery nor an independent dead-man restoration mechanism.",
+   "pointer": "RUNBOOK.md:23",
+   "resolves": true,
+   "file": "RUNBOOK.md",
+   "text": ":8888 + dnsmasq :53 serve the island (only <island-address> allowed).\n- **CT 205 the external party-bench-rtx** (12c/32G/120G local-lvm, onboot=0, unprivileged):\n  on SDN vnet `cirub0` (zone `cirub`, node2-only, NO uplink \u2014 physical L2 island,\n  no NAT anywhere). GPU via /dev/nvidia* bind mounts + cgroup allows c 195/510\n  (same pattern as CT 201). NVIDIA user-space 610.43.02 via .run --no-kernel-modules",
+   "supports": null
+  }
+ ]
+}

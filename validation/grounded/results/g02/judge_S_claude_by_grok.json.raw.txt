@@ -1,0 +1,19 @@
+I'll score strictly from the memo against the sealed rubric, mapping each must-catch item to an explicit quote before emitting JSON.I'll check the judge format and G02 outcome notes so the JSON matches how this rubric is applied.{
+  "decision_correct": 0.5,
+  "decision_correct_quote": "Survivable *only after* code changes — the capture path has no per-IP gate (C2) and the MCP path strips the IP (C3), so the proposal's implied controls do not exist yet; quota must be viewport-seconds, not captures (C1); gate = IP+UA hash, global daily budget; kill switch = feature var + `PLAN_LIMITS.trial` zeroing, which cannot touch claimed accounts because they are `plan='free'`.",
+  "must_catch": [
+    {"item": 1, "hit": 1, "quote": "The capture path enforces no per-IP limit at all today — only the per-account daily count. EVIDENCE: `capture.ts:234` calls only `checkDailyUploadLimit`; `checkUploadRateLimit` has exactly one call site, `items-create.ts:70`."},
+    {"item": 2, "hit": 1, "quote": "Even the wired per-IP limit is inert for MCP-originated work, because the internal Request carries no `CF-Connecting-IP`. EVIDENCE: `mcp.ts:948` `new Request(\"https://internal/api/v1/items\", {headers:{\"Content-Type\":\"application/json\"}})`; `mcp.ts:953` \"CF-Connecting-IP not forwarded\"; `rate-limit.ts:21` `if (!ip) return { allowed: true };`"},
+    {"item": 3, "hit": 1, "quote": "Setting `plan='trial'` without adding `PLAN_LIMITS.trial` grants 50/day, not 10 — the lookup falls back to free. EVIDENCE: `rate-limit.ts:70` `const limits = PLAN_LIMITS[plan] ?? PLAN_LIMITS.free;` with `free.uploads_per_day: 50`"},
+    {"item": 4, "hit": 1, "quote": "A zero-PII trial account cannot be inserted as-is; `accounts.email` is `NOT NULL UNIQUE` ... EVIDENCE: `0001_initial_schema.sql:9` `email TEXT NOT NULL UNIQUE`"},
+    {"item": 5, "hit": 1, "quote": "One rung-0 \"capture\" is up to six full browser page-loads plus six OCR jobs, so a quota counted in captures understates cost ~6×. EVIDENCE: `capture.ts:546` `if (viewportNames.length > 6)`; loop `capture.ts:567-619` opens `browser.newPage()` per viewport; `capture.ts:25` `const MAX_WAIT_MS = 25_000;` ... Cap trial captures at 1 viewport"},
+    {"item": 6, "hit": 0, "quote": ""},
+    {"item": 7, "hit": 1, "quote": "Kill switch: flip `FEATURE_RUNG0_TRIAL=0` (stops issuance only) and/or set `PLAN_LIMITS.trial.uploads_per_day=0`. Claimed accounts are `plan='free'` and unaffected."}
+  ],
+  "false_objections": [
+    {"quote": "Error text returns the claim URL **and** the code; the code is the possession proof, the URL alone is inert.", "why": "putting the locator in tool text is the bearer-link trap; conversion belongs on the trial-key-authenticated CLI poll, with the browser click as consent only"},
+    {"quote": "TTL and one-time use defeat hijack direction (a) but not (b); only a code displayed in the user's own CLI and typed on the claim page defeats attacker-generated links.", "why": "a URL-plus-code pair in the same leaked surface is still a bearer a transcript reader can redeem first"},
+    {"quote": "rung 0 needs a synthetic per-account sentinel (e.g. `trial+<id>@invalid.local`)", "why": "the required fix is a nullable-email migration, not a sentinel address"}
+  ],
+  "notes": "The memo correctly requires layered controls after finding the unwired capture limiter and fail-open MCP IP, but fails the bearer-link discriminator by converting on a typed-code claim page instead of a trial-key-authenticated poll."
+}

@@ -1,0 +1,67 @@
+{
+ "judge": "claude",
+ "truth": "<path>",
+ "output": "<path>",
+ "seconds": 67.3,
+ "parsed": true,
+ "scores": {
+  "decision_correct": 0.5,
+  "decision_correct_quote": "PUBLISH VERDICT: blocker - resolve the specification gaps above before an implementing agent builds from it.",
+  "must_catch": [
+   {
+    "item": 1,
+    "hit": 1,
+    "quote": "the `accounts.email` change has no complete migration on this engine (A2, B2) ... A2/B2 \u2192 0001_initial_schema.sql:9 `email TEXT NOT NULL UNIQUE`; later migrations are ADD COLUMN only; spec :85-87 is one clause \u2192 verified."
+   },
+   {
+    "item": 2,
+    "hit": 1,
+    "quote": "the spec operationally selects raw-key delivery while recording that call as unresolved ... A1 keeps \"explicitly open\" (spec :94 OWNER-CALL label)"
+   },
+   {
+    "item": 3,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 4,
+    "hit": 1,
+    "quote": "the shared `device_codes` design is sketched, not composed (A5, B8) ... kind-specific approve/poll contracts"
+   },
+   {
+    "item": 5,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 6,
+    "hit": 1,
+    "quote": "the locator is non-bearer as designed; the stolen 0600 file is the real claim credential"
+   },
+   {
+    "item": 7,
+    "hit": 0,
+    "quote": ""
+   }
+  ],
+  "false_objections": [
+   {
+    "quote": "the session-authed approve endpoint cannot run because neither verify path creates an account and `sessions.account_id` is NOT NULL (A4, B4)",
+    "why": "the existing verify handler does upsert a plan='free' account by email (auth-verify.ts:38-50,71-77)"
+   },
+   {
+    "quote": "B3 (purpose) \u2192 0002:5-13 no purpose column \u2192 verified ... no token purpose column",
+    "why": "v2 specifies a claim-specific magic-token purpose (ONBOARDING_SPEC.md:161-168), so absence of a legacy column is not a spec gap"
+   },
+   {
+    "quote": "B1 \"silently\" for quota: conceded by A (R1 ATTACK Peer-2)",
+    "why": "the spec logs quota as an open OWNER-CALL, so a silent-resolution concession is the landmine reading"
+   },
+   {
+    "quote": "`trial_counters` is specified with an UPDATE and no row creation (A7, B3)",
+    "why": "v2 already specifies UTC-day atomic counters, which the memo treats as an uninitialized-counter blocker"
+   }
+  ],
+  "notes": "The memo lands the load-bearing migration gap and several composition points but escalates to a flat blocker on the strength of v1-era and code-contradicted claims, so the severity call is only half right."
+ }
+}

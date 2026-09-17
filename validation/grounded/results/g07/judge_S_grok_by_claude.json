@@ -1,0 +1,50 @@
+{
+ "judge": "claude",
+ "truth": "<path>",
+ "output": "<path>",
+ "seconds": 53.7,
+ "parsed": true,
+ "scores": {
+  "decision_correct": 1,
+  "decision_correct_quote": "Q1 Architecture: **build-with-changes** (keep A, reject B; keep C off the spine; move the spool to trusted side). - Q2 Security: **build-with-changes** (operator gate stays; it is not a sufficient preemption boundary). - Q3 Systems: **build-with-changes** (reuse health-gated `window-*.sh`; do not ship without an independent dead-man and a close-`exit 1` policy).",
+  "must_catch": [
+   {
+    "item": 1,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 2,
+    "hit": 1,
+    "quote": "A2/A3: both close scripts start prod, wait a bounded time for `/health` 200, then `exit 1` without rolling back; if the arbiter treats that as \"done\" it can leave prod unattended and not HEALTHY ... EVIDENCE: window-rtx.sh:31-41 `systemctl start` then 100\u00d7`sleep 6` until 8000 and 8100 return 200, else \"WARNING \u2026 'active' != healthy\" `exit 1`; window-gb10.sh:38-48 `docker start` then same 100\u00d76s pattern, `exit 1` on non-200"
+   },
+   {
+    "item": 3,
+    "hit": 1,
+    "quote": "there is no dead-man, and crash/reboot mid-drain is an unsolved open question ... EVIDENCE: queue-design.md:64-65 \"how does it survive a crash/reboot mid-drain without double-running a job or leaving prod DOWN?\"; no dead-man, current-job marker, or boot policy anywhere in queue-design.md \u2014 plus: \"blocks him from *starting* preemption but is not sufficient to keep him from *extending* it\" and \"no `timeout -k` / cgroup kill\""
+   },
+   {
+    "item": 4,
+    "hit": 1,
+    "quote": "A4 stores are underspecified and already two-writer: the external party writes the spool the arbiter drains; operator and arbiter can both close; window-open flag, current-job marker, and downtime budget have no named files, locks, or single-writer rule (lost-update precedent applies)."
+   },
+   {
+    "item": 5,
+    "hit": 1,
+    "quote": "GB10 free-VRAM proxy is `all_exited` plus `free -g` available \u2265 60, because \"nvidia-smi reports memory.used=[N/A]\" (window-gb10.sh:15-18, 27-34)"
+   },
+   {
+    "item": 6,
+    "hit": 1,
+    "quote": "the external party, controlling only `{cmd, est_seconds, artifacts_path}` and timing, can still harm prod: fill a host-backed spool (GB10 state is on the GB10 host), run side processes that the per-cmd `timeout` does not cover (passwordless sudo in CT 205), exhaust GB10 unified memory while the cap is 115g/121G, or crash the shared GPU driver ... RUNBOOK.md:103-105 \"GPU shared with CT 201 \u2014 isolation is fs/process-level, not GPU-level.\""
+   },
+   {
+    "item": 7,
+    "hit": 1,
+    "quote": "Rejecting reuse of the NATS spine (C) is correct; the better middle path is still an operator-gated window, but with a trusted-side spool the external party cannot write \u2014 not a subject-scoped NATS user ... queue-design.md:52-56 C rejected because it \"puts an external untrusted party's control-plane on the production spine\""
+   }
+  ],
+  "false_objections": [],
+  "notes": "Strong build-with-changes memo that hits six of seven must-catches with line-level citations and avoids every landmine, but it misses the headline oracle path \u2014 it attributes prod-left-DOWN solely to arbiter death after open (mapping to item 3's crash/dead-man gap) and never flags that the `open` scripts' own NO-GO branch (`window-rtx.sh:29`, `window-gb10.sh:34`) exits 1 with prod stopped and no restart."
+ }
+}

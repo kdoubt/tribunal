@@ -1,0 +1,54 @@
+{
+ "judge": "grok",
+ "truth": "<path>",
+ "output": "<path>",
+ "seconds": 212.6,
+ "parsed": true,
+ "scores": {
+  "decision_correct": 1,
+  "decision_correct_quote": "**Q1: redesign** \u2014 separate authoritative queue control from external-party RW storage (claims 1, 6).\n- **Q2: build-with-changes** \u2014 conditional containment; no demonstrated direct cross-export escape (claims 2\u20134).",
+  "must_catch": [
+   {
+    "item": 1,
+    "hit": 1,
+    "quote": "external-party RW access to queue lifecycle directories under the same squashed identity as the arbiter undermines trusted claim/completion state (`artifact/unified-nfs-design.md:45\u201347`; `artifact/CONTRACT.md:35,73\u201375`)"
+   },
+   {
+    "item": 2,
+    "hit": 1,
+    "quote": "Copying `soft` from the precedent onto a read-write mount is a category error: the precedent is `ro`, and `soft` on RW returns EIO mid-write after timeo*retrans"
+   },
+   {
+    "item": 3,
+    "hit": 1,
+    "quote": "Host mounting does not itself create a sandbox network route or make symlinks resolve against the NAS root"
+   },
+   {
+    "item": 4,
+    "hit": 1,
+    "quote": "a dedicated filesystem export with exactly the three verified client addresses and `rw,sync,root_squash,all_squash,anonuid=<dedicated>,anongid=<dedicated>,secure,nocrossmnt,hide`, no exported ancestor or nested tenant mounts"
+   },
+   {
+    "item": 5,
+    "hit": 1,
+    "quote": "compare NAS persistent rules, `exportfs -v` and active export tables; verify observed client source addresses; test permitted access from each host and denial from an unauthorized client; verify root and ordinary-user writes map to the dedicated identity; inspect sandbox routes, capabilities and mount trees, then test NAS RPC access directly and through helpers plus traversal to harmless tenant canaries"
+   },
+   {
+    "item": 6,
+    "hit": 1,
+    "quote": "an NFS death still fails toward prod-UP \u2014 but only because window.flag, heartbeat and arbiter state are NOT on the share; move any of them and gate 1 dies with the NAS"
+   }
+  ],
+  "false_objections": [
+   {
+    "quote": "the pre-existing `*` + `no_root_squash` (+`crossmnt`) exports (synology-exports.txt:2-3) turn *any* NAS reachability from the party's environment into root-level access to all Proxmox backups \u2014 and the proposal never pins CT 206 to the island",
+    "why": "host-mount + bind does not give the island a NAS route; oracle isolation holds and the residual hole is identity"
+   },
+   {
+    "quote": "all_squash\u2192anonuid 1025 plus unprivileged-LXC uid shifting means the party's processes hit the share as a host uid (\u2248101000) that owns nothing on it, so writes fail with EPERM unless the share is mode 0777",
+    "why": "all_squash to the dedicated uid equates the external party with the arbiter rather than denying writes"
+   }
+  ],
+  "notes": "The union lands the accepted redesign/build-with-changes call and hits all six catches, but Memo 1 ranks the oracle-refuted network path as highest severity and misreads all_squash as EPERM."
+ }
+}

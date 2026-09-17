@@ -1,0 +1,69 @@
+{
+ "judge": "grok",
+ "grounding": "<path>",
+ "n": 12,
+ "seconds": 207.2,
+ "parsed": true,
+ "items": [
+  {
+   "n": 1,
+   "supports": 0,
+   "why": "The snippet inserts a free account on verify, which contradicts deferring creation until browser approval"
+  },
+  {
+   "n": 2,
+   "supports": 1,
+   "why": "Missing auth is rejected with an API-key requirement, so this path is not unauthenticated device-code onboarding"
+  },
+  {
+   "n": 3,
+   "supports": 0,
+   "why": "The update only sets device status to revoked and does not invalidate an API key"
+  },
+  {
+   "n": 4,
+   "supports": 0,
+   "why": "An initialize-plus-api_key guard is unrelated to revocation or key invalidation"
+  },
+  {
+   "n": 5,
+   "supports": 1,
+   "why": "The listing includes other group devices and NULL device_id rows, so content is not private per device"
+  },
+  {
+   "n": 6,
+   "supports": 1,
+   "why": "The handler loads an item by id with no identity or device parameter"
+  },
+  {
+   "n": 7,
+   "supports": 1,
+   "why": "Admission is computed from COUNT of already-created items rather than a reservation"
+  },
+  {
+   "n": 8,
+   "supports": 0,
+   "why": "Launching Puppeteer does not show reservations or completed-item counting"
+  },
+  {
+   "n": 9,
+   "supports": 0,
+   "why": "A per-email magic-link send cap does not establish that email verification is an insufficient farming defense"
+  },
+  {
+   "n": 10,
+   "supports": 1,
+   "why": "The page publishes that limits will not change without notice"
+  },
+  {
+   "n": 11,
+   "supports": 0,
+   "why": "A 250 MiB per-item constant is not a published entitlement or a capture-specific-limit reconciliation"
+  },
+  {
+   "n": 12,
+   "supports": 0,
+   "why": "Returning when no expired rows exist does not show TTL configuration or required cleanup changes"
+  }
+ ]
+}

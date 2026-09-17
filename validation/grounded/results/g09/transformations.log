@@ -1,0 +1,12 @@
+g09 A_panel arm - orchestrator transformations log (2026-09-16)
+identity map: Seat A = claude (S_claude.md), Seat B = grok (S_grok.md); shown only in ledger.md
+R0: solos reused byte for byte (never re-run).
+oracles: grounding.py both seats (claude 18/18; grok 13/14 by tool + route.test.ts:326 opened by hand, same-basename mismatch); every pointer opened; verified only by inspection.
+packets: r1-packet.py, neutral Peer-N labels, deterministic shuffle, no tallies, ORCH-SUMMARY = ledger-note.md; vendor-name grep over both packets = 0.
+  claude packet: own 8 + rival disputed B3,B4,B7,B8 (4). grok packet: own 8 + rival A2,A3,A5,A6,A8 (5).
+R1: run in parallel via run-r1.sh; claude attempt 1 ok 86 s (4896 B); grok attempt 1 ok 237 s (4806 B); neither read before both finished.
+R1 pointers opened after the round: init/route.ts:27 (getDemoSession, true), routeTree.gen.ts:13-15 (static imports of __root and $token route config), sentry-init.ts:26-28 (returns without DSN), PreChatForm.tsx:19-25 (timing constants), demo-share.ts:7 (EXPIRY_DAYS=30).
+Round 2: not run (no load-bearing flip; both VERDICT INPUT headlines unchanged).
+A_panel.md: mechanical fill of core/templates/verdict.md from ledger rows; no new arguments added.
+A_2seat.md: header + Memo 1 (claude) + Memo 2 (grok) verbatim, 18736 B.
+attempt failures: none.

@@ -1,0 +1,180 @@
+{
+ "q01": [
+  "NO `router_settings.fallbacks` configured",
+  []
+ ],
+ "q02": [
+  "empty `content` at `max_tokens=20`",
+  [
+   24
+  ]
+ ],
+ "q03": [
+  "a retest at 300 is pending",
+  [
+   25
+  ]
+ ],
+ "q04": [
+  "`client_confidential` / on-prem only by custody policy",
+  [
+   29
+  ]
+ ],
+ "q05": [
+  "the GB10 alone could carry the",
+  [
+   70
+  ]
+ ],
+ "q06": [
+  "Codex and Grok are up and verified",
+  [
+   35
+  ]
+ ],
+ "q07": [
+  "the documented floor",
+  [
+   66
+  ]
+ ],
+ "q08": [
+  "no API-key/credit billing for",
+  [
+   36
+  ]
+ ],
+ "q09": [
+  "a cost and auth-hygiene decision",
+  [
+   97
+  ]
+ ],
+ "q10": [
+  "Needs an API token with `Workers AI: Read`",
+  [
+   44
+  ]
+ ],
+ "q11": [
+  "estimated under $5/month",
+  [
+   56
+  ]
+ ],
+ "q12": [
+  "active is not healthy",
+  [
+   93
+  ]
+ ],
+ "q13": [
+  "arithmetic probe per route via LiteLLM with the router's",
+  [
+   83
+  ]
+ ],
+ "q14": [
+  "one end-to-end chat",
+  [
+   85
+  ]
+ ],
+ "q15": [
+  "run the adapter against a stored brief",
+  [
+   84
+  ]
+ ],
+ "q16": [
+  "interactively and for an indefinite \"for now\"",
+  [
+   12
+  ]
+ ],
+ "q17": [
+  "timing is the operator's choice",
+  [
+   14
+  ]
+ ],
+ "q18": [
+  "client-confidential data leaving prem",
+  [
+   82
+  ]
+ ],
+ "q19": [
+  "triggers only on failure, so when the",
+  [
+   79
+  ]
+ ],
+ "q20": [
+  "recently killed",
+  [
+   61
+  ]
+ ],
+ "q21": [
+  "probe before",
+  [
+   95
+  ]
+ ],
+ "q22": [
+  "`cpu-limp` is a code stub",
+  [
+   28
+  ]
+ ],
+ "q23": [
+  "architecturally impossible without regenerating",
+  [
+   100
+  ]
+ ],
+ "q24": [
+  "usage-based, 10,000 neurons/day free then $0.011/1k neurons",
+  [
+   43
+  ]
+ ],
+ "q25": [
+  "`max_budget: $100/30d`",
+  [
+   18
+  ]
+ ],
+ "q26": [
+  "Redis cache, analytics logging",
+  [
+   18
+  ]
+ ],
+ "q27": [
+  "50 req/60 s limit and a 1 h cache",
+  [
+   87
+  ]
+ ],
+ "q28": [
+  "A `close`",
+  [
+   13
+  ]
+ ],
+ "q29": [
+  "prunes off-prem rungs at policy-generation time",
+  [
+   30
+  ]
+ ],
+ "q30": [
+  "Gemini CLI is installed but",
+  [
+   35
+  ]
+ ]
+}

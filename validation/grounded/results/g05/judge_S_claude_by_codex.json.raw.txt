@@ -1,0 +1,43 @@
+{
+  "decision_correct": 1,
+  "decision_correct_quote": "Q1 Architecture — harden-first.",
+  "must_catch": [
+    {
+      "item": 1,
+      "hit": 1,
+      "quote": "The Cloudflare identity gate is load-bearing **only for the WAN path**; both bench SSH endpoints are directly reachable from the flat production LAN, so any co-tenant dev box or compromised prod container bypasses Access entirely and faces only `authorized_keys`."
+    },
+    {
+      "item": 2,
+      "hit": 1,
+      "quote": "The highest-severity hole is that a hostile guest gets **root with direct ioctl access to GPU char devices shared with production**, on both hosts — no MIG, no GPU-level isolation — giving a co-tenant outage path by construction"
+    },
+    {
+      "item": 3,
+      "hit": 1,
+      "quote": "The RTX side's SDN island is genuinely strong and the bastion is a **real chokepoint, not theatre**"
+    },
+    {
+      "item": 4,
+      "hit": 1,
+      "quote": "On GB10 the equivalent backstop is squid ACLs alone, and `the external party-proxy` is dual-homed onto the NAT'd default bridge (`gb10-docker-inspect.txt:2` `\"bridge\"...\"IPAddress\":\"172.17.0.6\"`)."
+    },
+    {
+      "item": 5,
+      "hit": 1,
+      "quote": "the GB10 build uses a fixed `sleep 3` as its only readiness predicate."
+    },
+    {
+      "item": 6,
+      "hit": 1,
+      "quote": "`RUNBOOK.md:86` \"restore exclude to `114` only\"; current value `backup-job.json:1` `\"exclude\":\"114,205\"`. Symptom if a third party added `\"114,205,301\"` meanwhile: 301 silently resumes being backed up."
+    },
+    {
+      "item": 7,
+      "hit": 0,
+      "quote": ""
+    }
+  ],
+  "false_objections": [],
+  "notes": "The memo catches six core findings, but does not explicitly identify missing container healthchecks, both helpers' dual-homing, or cache-naive verification."
+}

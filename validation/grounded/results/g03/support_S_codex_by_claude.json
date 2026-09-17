@@ -1,0 +1,69 @@
+{
+ "judge": "claude",
+ "grounding": "<path>",
+ "n": 12,
+ "seconds": 38.7,
+ "parsed": true,
+ "items": [
+  {
+   "n": 1,
+   "supports": 1,
+   "why": "shows the existing accounts table definition the migration would have to alter"
+  },
+  {
+   "n": 2,
+   "supports": 1,
+   "why": "shows the existing ALTER TABLE migration convention/latest migration state"
+  },
+  {
+   "n": 3,
+   "supports": 1,
+   "why": "shows existing auth table DDL that a schema change would build on"
+  },
+  {
+   "n": 4,
+   "supports": 1,
+   "why": "shows the revoke-and-cascade lifecycle step, relevant to incomplete cleanup"
+  },
+  {
+   "n": 5,
+   "supports": 1,
+   "why": "FK to accounts(id) with no ON DELETE action, so deletes would fail"
+  },
+  {
+   "n": 6,
+   "supports": 1,
+   "why": "two FKs referencing accounts and api_keys with no cascade clause"
+  },
+  {
+   "n": 7,
+   "supports": 1,
+   "why": "cleanup job only tombstones rows rather than removing them"
+  },
+  {
+   "n": 8,
+   "supports": 0,
+   "why": "plain sessions table columns say nothing about first-time init reachability"
+  },
+  {
+   "n": 9,
+   "supports": 1,
+   "why": "browser flow issues an HttpOnly session cookie via redirect, the mechanism described"
+  },
+  {
+   "n": 10,
+   "supports": 0,
+   "why": "query-filter construction is unrelated to credential theft or 24-hour rotation"
+  },
+  {
+   "n": 11,
+   "supports": 1,
+   "why": "router dispatches authenticated POST /api/v1/render to handleRender"
+  },
+  {
+   "n": 12,
+   "supports": 1,
+   "why": "render handler only checks auth, with no trial spend or viewport gate"
+  }
+ ]
+}

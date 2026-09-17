@@ -1,0 +1,19 @@
+{
+ "decision_correct": 1,
+ "decision_correct_quote": "Q1: proceed-with-changes (upgrade to 2.14.5; nats2→nats1→nats3; pin installer; do not treat auth CVEs as the reason).",
+ "must_catch": [
+  {"item": 1, "hit": 1, "quote": "Highest real risk to the LIVE desk in the captured state is both CT 116 and CT 201 authenticating as `control` (`publish/subscribe allow [\">\"]`) ... `rtx`/`arm` exist (`:31-38`) but are unused"},
+  {"item": 2, "hit": 1, "quote": "Rank next: `support-intake` `max_deliver=-1` (`live-state.md:22`) can duplicate tickets on redelivery; EVENTS `max_bytes=-1` (`live-state.md:21,33`) ... `nats-store-monitor.sh:2-9` checks only store bytes; route user tried on client port 4222 (`live-state.md:38`); dead `rtx-serve`"},
+  {"item": 3, "hit": 0, "quote": ""},
+  {"item": 4, "hit": 0, "quote": ""},
+  {"item": 5, "hit": 1, "quote": "`systemctl is-active` is not “back and current”; gate the next node from a **surviving** `:8222` with a 2s poll ... (4) survivor `/jsz` has a meta leader and JOBS/RESULTS/EVENTS each have a `leader` ... if present, every replica `current` and `pending==0` ... (7) `connz?auth=true` shows the clients that were on that node"},
+  {"item": 6, "hit": 1, "quote": "`install-nats.sh:6-10` `releases/latest` → `install -m755 … /usr/local/bin/nats-server` with no pin; `live-state.md:10` “no documented rollback path”"},
+  {"item": 7, "hit": 1, "quote": "Harmless iff pending=0 at each stop and the desk is idempotent on redelivery; criterion (1) forbids silent duplicates — verify pending=0 on `support-intake` before signaling the next node."},
+  {"item": 8, "hit": 1, "quote": "`nats-store-monitor.sh:2-9` checks only store bytes ... Optional follow-up: extend `nats-store-monitor.sh` to `/healthz` + version + meta leader."}
+ ],
+ "false_objections": [
+  {"quote": "those CVE-shaped items need TLS, JWT, MQTT, or leafnodes, which this config does not enable", "why": "mirror error — the 2.14.3 pre-auth panic/data-race fixes and the 2.14.4 queue-subscription permission enforcement do apply to this bcrypt-only, non-TLS config"},
+  {"quote": "filestore downgrade 2.14.5→2.14.2 without restoring `js` is SPECULATIVE ... if it opened JS, restore the pre-step `/var/lib/nats/js` tarball then start 2.14.2", "why": "the 2.14 downgrade cautions are 2.14→2.12 only and patch-level downgrade is rehearsal-safe, so the per-node store restore is unneeded procedure weight (hedged, so minor)"}
+ ],
+ "notes": "Memo lands the correct verdict and, unusually, the correct highest-severity call (`control` superuser on both live clients) plus the hygiene list, gate design, pin, idempotency caveat, and monitoring gap; it loses item 3 by flipping into the 'CVEs do not apply at all' mirror error and loses item 4 because, despite the correct nats2→nats1→nats3 ordering, it never prescribes a lame-duck `SIGUSR2` drain and treats replace-then-restart under `Restart=always` as sufficient."
+}

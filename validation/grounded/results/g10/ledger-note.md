@@ -1,0 +1,5 @@
+ORCH-SUMMARY - settled at Round 0 (both seats independently, before exposure; do not relitigate):
+- Q2: Option A as a panel third seat violates the owner's rule in spirit (API token + usage billing vs subscription CLI); a dollar cap alone does not cure the auth-hygiene half; panel seat = C (2-seat Codex+Grok floor).
+- Q4 (part): no cloud custody override for the assistant; a runtime override is impossible without policy regeneration.
+ORACLE RESULTS (orchestrator, non-LLM): every brief statement either seat quoted exists verbatim in the brief (30/30 checked, one spans a line break). There is no artifact, so nothing beyond the brief can be checked. The brief does NOT state: which LiteLLM option is preferred; whether the assistant should be reclaimed or left down; any failure-rate data; a $5 cap (it is an estimate of volume).
+Still disputed and in your packet: the LiteLLM option (A vs B, and what the pending probe decides); the assistant default (reclaim-GB10 vs down) and the deciding factor (service priority vs custody); the Q3 silent-failure mechanisms and checks; the hard-cap line.

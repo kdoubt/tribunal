@@ -1,0 +1,17 @@
+{
+  "decision_correct": 0.5,
+  "decision_correct_quote": "**Mode:** `dont` (as proposed; the agreed bucket is redesign on Q1). Build only as the redesigned shape in bucket 1",
+  "must_catch": [
+    {"item": 1, "hit": 1, "quote": "the queue spool must not sit on a share the party holds RW under the arbiter's squashed identity; authoritative claim/lifecycle state stays single-writer on trusted storage"},
+    {"item": 2, "hit": 1, "quote": "copying `soft` from the RO precedent onto RW paths is wrong; RW paths need `hard`"},
+    {"item": 3, "hit": 0, "quote": ""},
+    {"item": 4, "hit": 1, "quote": "a dedicated export limited to exactly the three host IPs, `root_squash` + `all_squash` to a dedicated uid/gid, no `*`/subnet, no `crossmnt`"},
+    {"item": 5, "hit": 1, "quote": "`showmount` alone cannot verify the export; a negative mount from a non-allowlisted host plus an on-NAS export-configuration comparison is required."},
+    {"item": 6, "hit": 1, "quote": "arbiter.lock/state/window.flag/heartbeat stay local; only the spool moves"}
+  ],
+  "false_objections": [
+    {"quote": "Highest-severity issue. A: NAS reachability from the party's environment (unpinned CT 206 or the unrun `DOCKER-USER` rule) becomes root RW on all Proxmox backups through the pre-existing `*` + `no_root_squash` exports.", "why": "host-mount + bind does not give the island a NAS route; oracle finds :2049 unreachable from the sandboxes"},
+    {"quote": "verified absence of any NAS route from CT 206 and from the GB10 helpers", "why": "isolation already holds, so the residual hole is identity and the fix is ownership/ACLs not more network controls"}
+  ],
+  "notes": "The memo records redesign/build-with-changes and catches identity, soft-on-RW, export shape, and local dead-man state, but labels the mode dont and treats NAS reachability as an open high-severity issue rather than an oracle-refuted red herring."
+}

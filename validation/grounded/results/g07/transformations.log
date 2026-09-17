@@ -1,0 +1,9 @@
+g07 A_panel arm — orchestrator log (Claude Code fork), 2026-09-16
+identity map (ledger only): Seat A = codex (S_codex.md), Seat B = grok (S_grok.md). Packets carry Own-n / Peer-n labels only; vendor-name grep on both packets = 0.
+Round 0: reused S_codex.md and S_grok.md byte for byte; never re-invoked.
+Pointer resolution: grounding.py, codex 15/15, grok 28/28; every span then opened by hand (oracles.md). Tools parsed both heading styles; no local tool copies.
+Packets: r1-packet.py; codex packet = 8 own + 4 peer (grok claims 2,3,4,8); grok packet = 8 own + 4 peer (codex claims 1,2,3,6); peer order shuffled by the tool; no tallies; ORCH-SUMMARY = ledger-note.md (settled items + oracle results).
+Round 1: run-r1.sh in parallel; codex attempt 1 ok 4224 B 37 s; grok attempt 1 ok 4709 B 127 s; wall ~127 s; neither output read before both completed. No attempt failures.
+Round 2: not run (no load-bearing flip).
+Verdict: A_panel.md mechanical fill from ledger rows; A_2seat.md = verbatim concatenation (Memo 1 = codex, Memo 2 = grok).
+Noted, out of scope: run-r1.sh records packet_sha256 correctly here because absolute packet paths were passed.

@@ -1,0 +1,174 @@
+{
+ "arm": "results/g02//S_claude.md",
+ "claims": 8,
+ "pointers": [
+  {
+   "claim": "** One rung-0 \"capture\" is up to six full browser page-loads plus six OCR jobs, so a quota counted in captures understates cost ~6\u00d7.",
+   "pointer": "capture.ts:546",
+   "resolves": true,
+   "file": "apps/worker/src/routes/capture.ts",
+   "text": "}\n  if (viewportNames.length > 6) {\n    return apiError(ErrorCodes.VALIDATION_ERROR, \"Maximum 6 viewports per capture.\");\n  }",
+   "supports": null
+  },
+  {
+   "claim": "** One rung-0 \"capture\" is up to six full browser page-loads plus six OCR jobs, so a quota counted in captures understates cost ~6\u00d7.",
+   "pointer": "capture.ts:567-619",
+   "resolves": true,
+   "file": "apps/worker/src/routes/capture.ts",
+   "text": "for (let i = 0; i < viewportNames.length; i++) {\n      const vpName = viewportNames[i];\n      const vp = VIEWPORTS[vpName];\n      const page = await browser.newPage();\n      await page.setUserAgent(CHROME_UA);\n      await page.setViewport(vp);\n\n      // Navigate with adaptive wait strategy\n      if (isHeavySpa) {\n        // Heavy SPAs keep connections alive \u2014 use networkidle2 + extra settle time\n        await page.goto(url, { waitUntil: \"networkidle2\", timeout: MAX_WAIT_MS });\n        // Give the SPA extra time to render after network settles\n        await new Promise((r) => setTimeout(r, 3000));\n      } else {\n        // Standard sites \u2014 try networkidle0, fall back to networkidle2\n        try {\n          await page.goto(url, { waitUntil: \"networkidle0\", timeout: MAX_WAIT_MS });\n        } catch (navErr: any) {\n          if (navErr?.message?.includes(\"timeout\")) {\n            // Page loaded but still has active connections \u2014 take what we have\n            console.log(`networkidle0 timeout for ${url}, proceeding with current state`);\n          } else {\n            throw navErr;\n          }\n        }\n      }\n\n      // Extract sitemap from the first viewport's page (skip for Google apps",
+   "supports": null
+  },
+  {
+   "claim": "** One rung-0 \"capture\" is up to six full browser page-loads plus six OCR jobs, so a quota counted in captures understates cost ~6\u00d7.",
+   "pointer": "capture.ts:25",
+   "resolves": true,
+   "file": "apps/worker/src/routes/capture.ts",
+   "text": "const URL_RE = /^https?:\\/\\/.+/;\nconst MAX_WAIT_MS = 25_000;\n\n/** Hosts that are heavy SPAs \u2014 use relaxed wait strategy */\nconst HEAVY_SPA_HOSTS = new Set([",
+   "supports": null
+  },
+  {
+   "claim": "** One rung-0 \"capture\" is up to six full browser page-loads plus six OCR jobs, so a quota counted in captures understates cost ~6\u00d7.",
+   "pointer": "capture.ts:579",
+   "resolves": true,
+   "file": "apps/worker/src/routes/capture.ts",
+   "text": "// Give the SPA extra time to render after network settles\n        await new Promise((r) => setTimeout(r, 3000));\n      } else {\n        // Standard sites \u2014 try networkidle0, fall back to networkidle2\n        try {",
+   "supports": null
+  },
+  {
+   "claim": "** One rung-0 \"capture\" is up to six full browser page-loads plus six OCR jobs, so a quota counted in captures understates cost ~6\u00d7.",
+   "pointer": "capture.ts:20",
+   "resolves": true,
+   "file": "apps/worker/src/routes/capture.ts",
+   "text": "\"1080p\":    { width: 1920, height: 1080 },\n  \"4k\":       { width: 3840, height: 2160 },\n};\n\nconst VALID_VIEWPORTS = new Set(Object.keys(VIEWPORTS));",
+   "supports": null
+  },
+  {
+   "claim": "** One rung-0 \"capture\" is up to six full browser page-loads plus six OCR jobs, so a quota counted in captures understates cost ~6\u00d7.",
+   "pointer": "capture.ts:699",
+   "resolves": true,
+   "file": "apps/worker/src/routes/capture.ts",
+   "text": "files: fileRecords\n      .filter((f) => f.filename.endsWith(\".png\"))\n      .map((f) => ({\n        filename: f.filename,\n        mime_type: \"image/png\",",
+   "supports": null
+  },
+  {
+   "claim": "** The capture path enforces no per-IP limit at all today \u2014 only the per-account daily count.",
+   "pointer": "capture.ts:234",
+   "resolves": true,
+   "file": "apps/worker/src/routes/capture.ts",
+   "text": "// Daily upload limit\n  const dailyLimit = await checkDailyUploadLimit(auth.accountId, auth.plan, env);\n  if (!dailyLimit.allowed) {\n    return apiError(ErrorCodes.RATE_LIMITED, dailyLimit.reason!);\n  }",
+   "supports": null
+  },
+  {
+   "claim": "** The capture path enforces no per-IP limit at all today \u2014 only the per-account daily count.",
+   "pointer": "items-create.ts:70",
+   "resolves": true,
+   "file": "apps/worker/src/routes/items-create.ts",
+   "text": "// Rate limit check\n  const rateLimit = await checkUploadRateLimit(request, env);\n  if (!rateLimit.allowed) {\n    return apiError(ErrorCodes.RATE_LIMITED, rateLimit.reason!);\n  }",
+   "supports": null
+  },
+  {
+   "claim": "** Even the wired per-IP limit is inert for MCP-originated work, because the internal Request carries no `CF-Connecting-IP`.",
+   "pointer": "mcp.ts:948",
+   "resolves": true,
+   "file": "apps/worker/src/routes/mcp.ts",
+   "text": "const fakeRequest = new Request(\"https://internal/api/v1/items\", {\n    method: \"POST\",\n    headers: { \"Content-Type\": \"application/json\" },\n    body: JSON.stringify(reqBody),",
+   "supports": null
+  },
+  {
+   "claim": "** Even the wired per-IP limit is inert for MCP-originated work, because the internal Request carries no `CF-Connecting-IP`.",
+   "pointer": "mcp.ts:953",
+   "resolves": true,
+   "file": "apps/worker/src/routes/mcp.ts",
+   "text": "});\n  // Note: CF-Connecting-IP not forwarded - MCP uploads come from Workers, not the client directly.\n  // Unique IP stats rely on browser uploads and direct API calls.\n\n  const ctx = { waitUntil: (p: Promise<any>) => { p.catch(() => {}); }, passThroughOnException: () => {} } as unknown as ExecutionContext;",
+   "supports": null
+  },
+  {
+   "claim": "** Even the wired per-IP limit is inert for MCP-originated work, because the internal Request carries no `CF-Connecting-IP`.",
+   "pointer": "rate-limit.ts:21",
+   "resolves": true,
+   "file": "apps/worker/src/middleware/rate-limit.ts",
+   "text": "const ip = request.headers.get(\"CF-Connecting-IP\");\n  if (!ip) return { allowed: true };\n\n  const ipHash = await hashIp(ip);",
+   "supports": null
+  },
+  {
+   "claim": "** Three of the six documented ABUSE_BUDGET limits have no enforcement site in the worker, so the doc overstates present coverage.",
+   "pointer": "constants.ts:109-113",
+   "resolves": true,
+   "file": "packages/protocol/src/constants.ts",
+   "text": "/** Max downloads per item before rate-limiting kicks in */\n  MAX_DOWNLOADS_PER_ITEM_PER_HOUR: 200,\n  /** Max OCR runs per anonymous IP per day */\n  MAX_OCR_RUNS_PER_IP_PER_DAY: 100,\n  /** Max bandwidth per anonymous IP per hour (500 MiB) */\n  MAX_BANDWIDTH_PER_IP_PER_HOUR: 500 * 1024 * 1024,\n  /** Max uploads per anonymous IP per hour */\n  MAX_UPLOADS_PER_IP_PER_HOUR: 20,\n  /** Max items in processing state per IP (prevents queue flooding) */",
+   "supports": null
+  },
+  {
+   "claim": "** Three of the six documented ABUSE_BUDGET limits have no enforcement site in the worker, so the doc overstates present coverage.",
+   "pointer": "ABUSE_PREVENTION.md:18-20",
+   "resolves": true,
+   "file": "docs/private/ABUSE_PREVENTION.md",
+   "text": "| Max free upload size | 25 MiB | items-create.ts |\n| Max downloads/item/hour | 200 | rate limiting middleware |\n| Max OCR runs/IP/day | 100 | queue consumer |\n| Max bandwidth/IP/hour | 500 MiB | rate limiting middleware |\n| Max uploads/IP/hour | 20 | items-create.ts |\n| Max concurrent processing/IP | 5 | items-create.ts |",
+   "supports": null
+  },
+  {
+   "claim": "** A zero-PII trial account cannot be inserted as-is; `accounts.email` is `NOT NULL UNIQUE`, so rung 0 needs a synthetic per-account sentinel (e.g. `trial+<id>@invalid.local`), and claim is then a plain `UPDATE accounts SET email=?` on the same row.",
+   "pointer": "0001_initial_schema.sql:9",
+   "resolves": true,
+   "file": "apps/worker/migrations/0001_initial_schema.sql",
+   "text": "id            TEXT PRIMARY KEY,\n  email         TEXT NOT NULL UNIQUE,\n  created_at    TEXT NOT NULL,\n  stripe_customer_id TEXT,\n  plan          TEXT NOT NULL DEFAULT 'free',",
+   "supports": null
+  },
+  {
+   "claim": "** A zero-PII trial account cannot be inserted as-is; `accounts.email` is `NOT NULL UNIQUE`, so rung 0 needs a synthetic per-account sentinel (e.g. `trial+<id>@invalid.local`), and claim is then a plain `UPDATE accounts SET email=?` on the same row.",
+   "pointer": "auth-verify.ts:39-51",
+   "resolves": true,
+   "file": "apps/worker/src/routes/auth-verify.ts",
+   "text": "// Upsert account\n  let account = await env.DB.prepare(\"SELECT id, plan FROM accounts WHERE email = ?\")\n    .bind(token.email)\n    .first<{ id: string; plan: string }>();\n\n  if (!account) {\n    const accountId = generateId();\n    await env.DB.prepare(\n      \"INSERT INTO accounts (id, email, created_at, plan, status) VALUES (?, ?, ?, 'free', 'active')\"\n    )\n      .bind(accountId, token.email, now)\n      .run();\n    account = { id: accountId, plan: \"free\" };\n  }\n\n  // Create session\n  const sessionTokenRaw = generateSessionToken();",
+   "supports": null
+  },
+  {
+   "claim": "** Setting `plan='trial'` without adding `PLAN_LIMITS.trial` grants 50/day, not 10 \u2014 the lookup falls back to free.",
+   "pointer": "rate-limit.ts:70",
+   "resolves": true,
+   "file": "apps/worker/src/middleware/rate-limit.ts",
+   "text": "): Promise<RateLimitResult> {\n  const limits = PLAN_LIMITS[plan] ?? PLAN_LIMITS.free;\n  const startOfDay = new Date();\n  startOfDay.setUTCHours(0, 0, 0, 0);",
+   "supports": null
+  },
+  {
+   "claim": "** Setting `plan='trial'` without adding `PLAN_LIMITS.trial` grants 50/day, not 10 \u2014 the lookup falls back to free.",
+   "pointer": "constants.ts:44",
+   "resolves": true,
+   "file": "packages/protocol/src/constants.ts",
+   "text": "free: {\n    uploads_per_day: 50,\n    max_total_bytes_per_item: 25 * 1024 * 1024, // 25 MiB\n    max_file_bytes: 25 * 1024 * 1024, // 25 MiB\n    ttl_hours_max: 24,",
+   "supports": null
+  },
+  {
+   "claim": "** Rung 0's credential must ride the existing `Mcp-Session-Id` header path and never appear in tool text; enrollment today fires only for `api_key` auth, so this is a real code change, not a config flip.",
+   "pointer": "mcp.ts:335",
+   "resolves": true,
+   "file": "apps/worker/src/routes/mcp.ts",
+   "text": "// and this is an initialize request, create a device and assign Mcp-Session-Id\n  if (auth.type === \"api_key\" && isInitializeRequest(body)) {\n    try {\n      // Enforce device quota per API key (max 10) \u2014 atomic via conditional INSERT\n      const sessionToken = generateMcpSessionToken();",
+   "supports": null
+  },
+  {
+   "claim": "** Rung 0's credential must ride the existing `Mcp-Session-Id` header path and never appear in tool text; enrollment today fires only for `api_key` auth, so this is a real code change, not a config flip.",
+   "pointer": "mcp.ts:386",
+   "resolves": true,
+   "file": "apps/worker/src/routes/mcp.ts",
+   "text": "const headers = new Headers(response.headers);\n      headers.set(\"Mcp-Session-Id\", sessionToken);\n      return new Response(response.body, { status: response.status, headers });\n    } catch (err) {\n      log(env, {",
+   "supports": null
+  },
+  {
+   "claim": "** Rung 0's credential must ride the existing `Mcp-Session-Id` header path and never appear in tool text; enrollment today fires only for `api_key` auth, so this is a real code change, not a config flip.",
+   "pointer": "mcp.ts:291-293",
+   "resolves": true,
+   "file": "apps/worker/src/routes/mcp.ts",
+   "text": "if (!auth) {\n    return jsonRpcError(null, -32000, \"Authentication required. Pass your API key in the X-API-Key header.\");\n  }\n\n  // Fix 4: per-account rate limiting\n  if (!checkMcpRateLimit(auth.accountId)) {",
+   "supports": null
+  },
+  {
+   "claim": "** TTL and one-time use defeat hijack direction (a) but not (b); only a code displayed in the user's own CLI and typed on the claim page defeats attacker-generated links.",
+   "pointer": "auth-verify.ts:21-23",
+   "resolves": true,
+   "file": "apps/worker/src/routes/auth-verify.ts",
+   "text": "// where two concurrent requests could both read used_at IS NULL before either writes.\n  const result = await env.DB.prepare(\n    \"UPDATE magic_tokens SET used_at = ? WHERE token_hash = ? AND used_at IS NULL AND expires_at > ?\"\n  ).bind(now, tokenHash, now).run();\n\n  if (!result.meta.changes || result.meta.changes === 0) {\n    return apiError(ErrorCodes.UNAUTHORIZED, \"Invalid, expired, or already used link.\");",
+   "supports": null
+  }
+ ]
+}

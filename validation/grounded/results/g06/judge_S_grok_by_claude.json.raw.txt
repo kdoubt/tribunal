@@ -1,0 +1,14 @@
+{
+ "decision_correct": 1,
+ "decision_correct_quote": "Q1 Architecture: **build-with-changes** (one export for models+workspace is the right warm tier; do not bind `queue/running` or the whole tree RW into CT 206/205 ... Highest-severity issue: **same-uid RW spool in the untrusted editor/sandbox mounts, enabling a second drain of the same job (tie-break: double-run).**",
+ "must_catch": [
+  {"item": 1, "hit": 1, "quote": "Co-mingling the spool on the same `all_squash` export that CT 206 (and CT 205 `/queue`) get RW makes the untrusted party a same-credential writer of `incoming/`, `running/`, and `done/`, which breaks CONTRACT single-writer and at-most-once. EVIDENCE: `unified-nfs-design.md:16-28` ... `:46-47` \"all_squash to one uid and the sandboxes' bind mounts run as that uid\"; `CONTRACT.md:50-51` \"one arbiter… queue claim is an atomic rename incoming→running\" ... POSIX mode bits cannot separate the external party from the arbiter under one squashed uid."},
+  {"item": 2, "hit": 1, "quote": "A1 — copy the GB10 client opts `vers=3,soft,timeo=150,retrans=3,_netdev,nofail,nolock` for RW, not `hard`; `nofail` without a contents-level readiness probe lets a failed mount leave a local empty directory that the arbiter will treat as the spool. EVIDENCE: `gb10-nfs-precedent.txt:1` those opts (plus `ro`); `unified-nfs-design.md:44-45` copies them minus `ro`"},
+  {"item": 3, "hit": 1, "quote": "Host-mount then bind-mount does not give CT 205 or the GB10 `--internal` container a new L3 route to the NAS ... `RUNBOOK.md:23-25` CT 205 \"NO uplink\"; `:113-114` \"LAN unreachable by construction\""},
+  {"item": 4, "hit": 1, "quote": "A dedicated `root_squash+all_squash`, 3-IP, no-`crossmnt` export is defensible ... EVIDENCE: `unified-nfs-design.md:41-43` proposed options vs `synology-exports.txt:2-3` anti-pattern (`*`, `no_root_squash`, `crossmnt`) ... do not copy `synology-exports.txt:2-3`"},
+  {"item": 5, "hit": 1, "quote": "A3 is not `showmount` — prove a fourth IP cannot `mount` `the external party-warm` *or* `proxmoxbackup`, and that each sandbox has no TCP/2049 to `<lan-address>` ... `showmount -e` alone is insufficient (mountd list ≠ enforced export)."},
+  {"item": 6, "hit": 1, "quote": "A5 — dead-man still fail-to-prod-UP on NAS death because `window.flag` and `heartbeat` stay on GPU-host local disk ... `CONTRACT.md:14-16,26-29,48-49` dead-man \"INDEPENDENT\" ... Proposal does not move the flag onto NFS."}
+ ],
+ "false_objections": [],
+ "notes": "Memo lands the correct build-with-changes call with the identity-collision hole as top severity and covers all six must-catch items, avoiding the network-route landmine (its CT 206 caveat is a spec-gap question, not a claim that the bind mount creates a route), with only minor out-of-rubric additions (volume quota, actimeo=0) that are artifact-grounded rather than false."
+}

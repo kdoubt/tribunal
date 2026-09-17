@@ -1,0 +1,47 @@
+{
+  "decision_correct": 0.5,
+  "decision_correct_quote": "I pick **(B)**. ... (B) matches the \"reuse existing tables\" criterion with exactly one new table.",
+  "must_catch": [
+    {
+      "item": 1,
+      "hit": 1,
+      "quote": "Free accounts cannot have per-device API keys; segregation must be per-device rows under a single key (free = 1 key × ≤10 devices)."
+    },
+    {
+      "item": 2,
+      "hit": 1,
+      "quote": "magic-link verification's sole terminal action is a 302 + cookie to the dashboard ... User clicks the emailed link → `auth-verify.ts` runs unchanged, upserting the account ... New branch in the verify handler: if the token carries an init code, bind `init_codes.account_id` and redirect to `/init/done` instead of `/dashboard`."
+    },
+    {
+      "item": 3,
+      "hit": 0,
+      "quote": ""
+    },
+    {
+      "item": 4,
+      "hit": 1,
+      "quote": "Magic-link rate limiting is per-email only, so today's signup surface offers no resistance to one-account-per-disposable-inbox farming ... There is no bot challenge (Turnstile/captcha) anywhere in the tree ... each capture spawns a Puppeteer browser plus R2 writes plus a queue/OCR job"
+    },
+    {
+      "item": 5,
+      "hit": 1,
+      "quote": "**Consent moment (the one human act):** user opens that URL in a browser, sees device name + scope + \"create a free WhipNode account for `<email>`\", types email, passes Turnstile, clicks **Approve**."
+    },
+    {
+      "item": 6,
+      "hit": 0,
+      "quote": ""
+    }
+  ],
+  "false_objections": [
+    {
+      "quote": "so `whipnode init` needs no new device-auth mechanism, only a way to obtain the first key",
+      "why": "existing MCP enrollment does not supply the missing browser device-code authorization exchange"
+    },
+    {
+      "quote": "`/init/done` (or the verify branch itself) calls `handleCreateApiKey` with `name = \"<device> via init\"` — existing route, no change",
+      "why": "unconditional key creation on each init contradicts the one-key free-account limit"
+    }
+  ],
+  "notes": "The memo selects the broad architecture but places approval before mailbox proof, omits explicit recognition that no CLI exists, and does not specify verifier-checked credential delivery or prevention of raw-key redisplay."
+}

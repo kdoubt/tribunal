@@ -1,0 +1,17 @@
+{
+  "decision_correct": 0.5,
+  "decision_correct_quote": "Prefer magic-link proof plus browser-approved device pairing",
+  "must_catch": [
+    {"item": 1, "hit": 0, "quote": ""},
+    {"item": 2, "hit": 1, "quote": "Reuse magic-link email proof, but defer new-account creation until an explicit browser approval. EVIDENCE: `W/routes/auth-verify.ts:43–50` inserts the free account during verification"},
+    {"item": 3, "hit": 0, "quote": ""},
+    {"item": 4, "hit": 1, "quote": "Email verification alone is an insufficient proposed farming defense. EVIDENCE: `W/routes/auth-magic-link.ts:23–32` limits requests per email"},
+    {"item": 5, "hit": 1, "quote": "Human email entry and magic-link verification establish a short-lived verified identity, not an account."},
+    {"item": 6, "hit": 1, "quote": "Generate the API key and device-session secret locally; transmit only hashes over HTTPS. Keep pending secrets in a user-only configuration file, outside repositories, with Unix mode `0600` or equivalent ACL."}
+  ],
+  "false_objections": [
+    {"quote": "change the existing one-key free limit (`P/constants.ts:49`)", "why": "free accounts already allow exactly one API key; init must enroll mcp_devices under that key rather than mint per-device keys"},
+    {"quote": "Device revocation must invalidate its dedicated API key as well to prevent reconnection using retained credentials.", "why": "this treats each device as owning its own API key, which is the per-device-key landmine"}
+  ],
+  "notes": "The memo lands device-code pairing with a browser Authorize click and no anonymous trial, but it inverts the free-tier credential model by minting dedicated per-device keys."
+}

@@ -1,0 +1,19 @@
+{
+  "decision_correct": 0.5,
+  "decision_correct_quote": "VERDICT INPUT: LiteLLM=B ; Assistant=reclaim-GB10 ; Panel-seat=C ; hard-cap=none ... VERDICT INPUT: LiteLLM=A ; Assistant=down ; Panel-seat=C ; hard-cap=$5",
+  "must_catch": [
+    {"item": 1, "hit": 0, "quote": ""},
+    {"item": 2, "hit": 1, "quote": "\"a custody proof prunes off-prem rungs at policy-generation time\"; \"a runtime 'just this once' is architecturally impossible without regenerating policy.\" ... A2: custody override = \"client-confidential data leaving prem (contractual/legal, not technical).\""},
+    {"item": 3, "hit": 1, "quote": "Option A as a panel third seat violates the standing rule in spirit (usage billing + API token, not a subscription CLI); it is not acceptable for that seat while GB10 is lent; a dollar cap does not repair the auth-hygiene half of the rule. ... Documented floor is 2-seat Codex+Grok. ... the catch is the stored-brief adapter run showing two seats and no :8200 call."},
+    {"item": 4, "hit": 1, "quote": "\"a probe … returned empty `content` at `max_tokens=20`\" and \"retest at 300 is pending\" ... exercise the failed-primary alias at the pending 300-token allowance and require a correct, nonempty answer plus attribution to the Groq fallback"},
+    {"item": 5, "hit": 0, "quote": ""},
+    {"item": 6, "hit": 1, "quote": "LiteLLM/A fails silently as HTTP 200 with empty or reasoning-only `content`, or as fallback/cache remaining hot after the RTX is back ... Assistant/down fails silently if `cpu-limp` returns a stub success rather than a hard error"},
+    {"item": 7, "hit": 1, "quote": "Groq \"recently killed two Llama models the config still references (dead aliases … silent failures)\" and precedent is \"probe before relying.\""}
+  ],
+  "false_objections": [
+    {"quote": "Request the GB10 back first and restore the assistant on-prem ... Option D explicitly offers reclaiming the GB10 to carry the assistant at reduced quality", "why": "treats reclaiming the GB10 as an immediate restoration path although the ladder (`rtx-fast -> cpu-limp`) has no GB10 rung and would need policy regeneration"},
+    {"quote": "do not use B until the empty-content probe is actually passed ... LiteLLM alias gpt-oss-120b → A (CF same-weights fallback)", "why": "rejects the already-wired Groq route on a max_tokens=20 artefact and prefers A while never noting that the only CF credential is the leaked Global key"},
+    {"quote": "If the owner still wants a CF spend ceiling on that alias, cap it at **$5** for the loan window (brief's own volume estimate)", "why": "elevates an unverifiable cost estimate into a concrete cap for a route the rubric says should not be adopted without rolling the leaked credential"}
+  ],
+  "notes": "The union is internally contradictory — Memo 1 gets a properly probe-conditioned LiteLLM=B but commits the reclaim-GB10 landmine, while Memo 2 gets Assistant=down and the custody/silent-failure/churn mechanisms but picks A without catching the leaked-Global-key blocker."
+}

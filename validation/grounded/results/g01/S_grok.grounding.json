@@ -1,0 +1,238 @@
+{
+ "arm": "S_grok.md",
+ "claims": 8,
+ "pointers": [
+  {
+   "claim": "MCP and docs today cannot take an agent from nothing to a capture: unauthenticated MCP returns JSON-RPC `-32000` asking for `X-API-Key`, and Getting Started is login \u2192 create key \u2192 paste `claude mcp add \u2026 --header \"X-API-Key: \u2026\"`.",
+   "pointer": "apps/worker/src/routes/mcp.ts:291-292",
+   "resolves": true,
+   "file": "apps/worker/src/routes/mcp.ts",
+   "text": "if (!auth) {\n    return jsonRpcError(null, -32000, \"Authentication required. Pass your API key in the X-API-Key header.\");\n  }\n\n  // Fix 4: per-account rate limiting",
+   "supports": null
+  },
+  {
+   "claim": "MCP and docs today cannot take an agent from nothing to a capture: unauthenticated MCP returns JSON-RPC `-32000` asking for `X-API-Key`, and Getting Started is login \u2192 create key \u2192 paste `claude mcp add \u2026 --header \"X-API-Key: \u2026\"`.",
+   "pointer": "apps/web/app/routes/docs.tsx:29-43",
+   "resolves": true,
+   "file": "apps/web/app/routes/docs.tsx",
+   "text": "<h3>Step 1 - Create an account</h3>\n        <p>\n          <a href=\"/login\">Sign in</a> with your email. No password needed - we\n          send you a magic link.\n        </p>\n\n        <h3>Step 2 - Create an API key</h3>\n        <p>\n          Go to the <a href=\"/dashboard#api-keys\">API Keys tab</a> in your\n          dashboard and create a key. Save it - it's only shown once.\n        </p>\n\n        <h3>Step 3 - Install</h3>\n        <p>Run this in any terminal window:</p>\n        <pre><code>{`claude mcp add whipnode --transport http https://whipnode.com/api/v1/mcp --header \"X-API-Key: YOUR_API_KEY\" -s user`}</code></pre>\n        <p>\n          The <code>-s user</code> flag installs WhipNode globally - available in every project,\n          not just the current directory. Then add WhipNode instructions to your",
+   "supports": null
+  },
+  {
+   "claim": "MCP and docs today cannot take an agent from nothing to a capture: unauthenticated MCP returns JSON-RPC `-32000` asking for `X-API-Key`, and Getting Started is login \u2192 create key \u2192 paste `claude mcp add \u2026 --header \"X-API-Key: \u2026\"`.",
+   "pointer": "apps/worker/src/routes/capture.ts:229-231",
+   "resolves": true,
+   "file": "apps/worker/src/routes/capture.ts",
+   "text": "// Captures require authentication\n  if (!auth) {\n    return apiError(ErrorCodes.UNAUTHORIZED, \"Authentication required. URL captures require an API key.\");\n  }\n\n  // Daily upload limit\n  const dailyLimit = await checkDailyUploadLimit(auth.accountId, auth.plan, env);",
+   "supports": null
+  },
+  {
+   "claim": "MCP and docs today cannot take an agent from nothing to a capture: unauthenticated MCP returns JSON-RPC `-32000` asking for `X-API-Key`, and Getting Started is login \u2192 create key \u2192 paste `claude mcp add \u2026 --header \"X-API-Key: \u2026\"`.",
+   "pointer": "docs/ROADMAP.md:36",
+   "resolves": true,
+   "file": "docs/ROADMAP.md",
+   "text": "- ShareX target uploader\n- CLI tool for terminal workflows\n- Import adapters (Google Drive, Slack, etc.)\n\n### Protocol Evolution",
+   "supports": null
+  },
+  {
+   "claim": "Do not issue anonymous trial keys or auto-create accounts; the single consent moment is a human click on `/init` \u201cAuthorize this device\u201d after a session cookie or magic-link verify, which upserts `accounts.plan='free'` and enrolls the device.",
+   "pointer": "apps/worker/src/routes/auth-verify.ts:43-50",
+   "resolves": true,
+   "file": "apps/worker/src/routes/auth-verify.ts",
+   "text": "if (!account) {\n    const accountId = generateId();\n    await env.DB.prepare(\n      \"INSERT INTO accounts (id, email, created_at, plan, status) VALUES (?, ?, ?, 'free', 'active')\"\n    )\n      .bind(accountId, token.email, now)\n      .run();\n    account = { id: accountId, plan: \"free\" };\n  }\n\n  // Create session",
+   "supports": null
+  },
+  {
+   "claim": "Do not issue anonymous trial keys or auto-create accounts; the single consent moment is a human click on `/init` \u201cAuthorize this device\u201d after a session cookie or magic-link verify, which upserts `accounts.plan='free'` and enrolls the device.",
+   "pointer": "apps/worker/src/lib/email.ts:23-32",
+   "resolves": true,
+   "file": "apps/worker/src/lib/email.ts",
+   "text": "to: [email],\n        subject: \"Sign in to WhipNode\",\n        text: `Sign in to WhipNode by clicking this link:\\n\\n${verifyUrl}\\n\\nThis link expires in 15 minutes. If you didn't request this, ignore this email.`,\n        html: `\n          <div style=\"font-family: -apple-system, sans-serif; max-width: 480px; margin: 0 auto; padding: 32px 0;\">\n            <h2 style=\"font-size: 18px; color: #1a1a1a; margin-bottom: 16px;\">Sign in to WhipNode</h2>\n            <p style=\"font-size: 15px; color: #444; line-height: 1.6; margin-bottom: 24px;\">\n              Click the button below to sign in. This link expires in 15 minutes.\n            </p>\n            <a href=\"${verifyUrl}\" style=\"display: inline-block; background: #2D5F73; color: #fff; padding: 12px 28px; text-decoration: none; font-size: 14px; font-weight: 600;\">\n              Sign in to WhipNode\n            </a>\n            <p style=\"font-size: 13px; color: #888; margin-top: 24px; line-height: 1.5;\">\n              If you didn't request this email, you can safely ignore it.",
+   "supports": null
+  },
+  {
+   "claim": "Build a short-lived device-code pairing API + `/init` page (new); reuse magic-link (15 min, 3/email/15 min), one `api_keys` row, and `mcp_devices` insert/session (90-day sliding, max 10 active per key) instead of OAuth.",
+   "pointer": "apps/worker/src/routes/auth-magic-link.ts:23-32",
+   "resolves": true,
+   "file": "apps/worker/src/routes/auth-magic-link.ts",
+   "text": "// Rate limit: max 3 magic links per email per 15 min\n  const fifteenMinAgo = new Date(Date.now() - 15 * 60_000).toISOString();\n  const recentTokens = await env.DB.prepare(\n    \"SELECT COUNT(*) as cnt FROM magic_tokens WHERE email = ? AND created_at > ?\"\n  )\n    .bind(email, fifteenMinAgo)\n    .first<{ cnt: number }>();\n\n  if ((recentTokens?.cnt ?? 0) >= 3) {\n    return apiError(ErrorCodes.RATE_LIMITED, \"Too many sign-in attempts. Try again in 15 minutes.\");\n  }\n\n  // Generate token",
+   "supports": null
+  },
+  {
+   "claim": "Build a short-lived device-code pairing API + `/init` page (new); reuse magic-link (15 min, 3/email/15 min), one `api_keys` row, and `mcp_devices` insert/session (90-day sliding, max 10 active per key) instead of OAuth.",
+   "pointer": "apps/worker/src/routes/mcp.ts:334-367",
+   "resolves": true,
+   "file": "apps/worker/src/routes/mcp.ts",
+   "text": "// Device enrollment: if authenticated via API key (not yet a device session)\n  // and this is an initialize request, create a device and assign Mcp-Session-Id\n  if (auth.type === \"api_key\" && isInitializeRequest(body)) {\n    try {\n      // Enforce device quota per API key (max 10) \u2014 atomic via conditional INSERT\n      const sessionToken = generateMcpSessionToken();\n      const tokenHash = await hashApiKey(sessionToken);\n      const deviceName = parseDeviceName(request.headers.get(\"User-Agent\"));\n      const ip = request.headers.get(\"CF-Connecting-IP\") ?? \"\";\n      const ua = request.headers.get(\"User-Agent\") ?? \"\";\n      const now = isoNow();\n      const expiresAt = new Date(Date.now() + 90 * 24 * 3600_000).toISOString(); // 90 days\n      const deviceId = generateId();\n\n      // Atomic quota enforcement: INSERT only if count < 10\n      const insertResult = await env.DB.prepare(\n        `INSERT INTO mcp_devices (id, account_id, api_key_id, session_token_hash,\n         device_name, ip_hash, user_agent_hash, created_at, last_seen_at, expires_at, status)\n         SELECT ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'active'\n         WHERE (SELECT COUNT(*) FROM mcp_devices WHERE api_key_id = ? AND sta",
+   "supports": null
+  },
+  {
+   "claim": "Build a short-lived device-code pairing API + `/init` page (new); reuse magic-link (15 min, 3/email/15 min), one `api_keys` row, and `mcp_devices` insert/session (90-day sliding, max 10 active per key) instead of OAuth.",
+   "pointer": "apps/worker/src/middleware/auth.ts:114-115",
+   "resolves": true,
+   "file": "apps/worker/src/middleware/auth.ts",
+   "text": "// Update last_seen and extend session (sliding window \u2014 active devices never expire)\n  const newExpiry = new Date(Date.now() + 90 * 24 * 3600_000).toISOString();\n  env.DB.prepare(\"UPDATE mcp_devices SET last_seen_at = datetime('now'), expires_at = ? WHERE id = ?\")\n    .bind(newExpiry, row.device_id)\n    .run()",
+   "supports": null
+  },
+  {
+   "claim": "Free-tier segregation is per-device `mcp_devices` sessions, not per-device API keys: `PLAN_LIMITS.free.max_api_keys` is 1 and create-key 403s at the cap; pairing must reuse/create that one `[\"write\"]` key and return a device session (raw keys are shown once and only hashed thereafter).",
+   "pointer": "packages/protocol/src/constants.ts:42-51",
+   "resolves": true,
+   "file": "packages/protocol/src/constants.ts",
+   "text": "export const PLAN_LIMITS: Record<string, PlanLimits> = {\n  free: {\n    uploads_per_day: 50,\n    max_total_bytes_per_item: 25 * 1024 * 1024, // 25 MiB\n    max_file_bytes: 25 * 1024 * 1024, // 25 MiB\n    ttl_hours_max: 24,\n    api_access: true,\n    max_api_keys: 1,\n    ocr_included: true,\n    history: false,\n  },\n  pro: {\n    uploads_per_day: 1000,",
+   "supports": null
+  },
+  {
+   "claim": "Free-tier segregation is per-device `mcp_devices` sessions, not per-device API keys: `PLAN_LIMITS.free.max_api_keys` is 1 and create-key 403s at the cap; pairing must reuse/create that one `[\"write\"]` key and return a device session (raw keys are shown once and only hashed thereafter).",
+   "pointer": "apps/worker/src/routes/api-keys.ts:42-46",
+   "resolves": true,
+   "file": "apps/worker/src/routes/api-keys.ts",
+   "text": "if ((existing?.cnt ?? 0) >= maxKeys) {\n    return apiError(\n      ErrorCodes.FORBIDDEN,\n      `Your account allows ${maxKeys} API key(s). Revoke an existing key or upgrade.`\n    );\n  }\n\n  const { raw, prefix } = generateApiKey();",
+   "supports": null
+  },
+  {
+   "claim": "Free-tier segregation is per-device `mcp_devices` sessions, not per-device API keys: `PLAN_LIMITS.free.max_api_keys` is 1 and create-key 403s at the cap; pairing must reuse/create that one `[\"write\"]` key and return a device session (raw keys are shown once and only hashed thereafter).",
+   "pointer": "apps/web/app/components/ApiKeyManager.tsx:309-310",
+   "resolves": true,
+   "file": "apps/web/app/components/ApiKeyManager.tsx",
+   "text": "{createdKey && (\n        <div className=\"created-key-banner\">\n          <p><strong>Save this key now - it won't be shown again.</strong></p>\n          <div className=\"copyable\">\n            <code>{createdKey}</code>\n            <button onClick={copyKey}>",
+   "supports": null
+  },
+  {
+   "claim": "Free-tier segregation is per-device `mcp_devices` sessions, not per-device API keys: `PLAN_LIMITS.free.max_api_keys` is 1 and create-key 403s at the cap; pairing must reuse/create that one `[\"write\"]` key and return a device session (raw keys are shown once and only hashed thereafter).",
+   "pointer": "apps/worker/src/middleware/auth.ts:26-52",
+   "resolves": true,
+   "file": "apps/worker/src/middleware/auth.ts",
+   "text": "*/\nexport async function resolveAuth(\n  request: Request,\n  env: Env\n): Promise<AuthContext> {\n  // 1. Check Mcp-Session-Id header (MCP device sessions)\n  const mcpSessionId = request.headers.get(\"Mcp-Session-Id\");\n  if (mcpSessionId) {\n    const device = await resolveMcpDevice(mcpSessionId, env);\n    if (device) {\n      if (device.type === \"rejected\") {\n        // Expired devices silently fall through to API key re-enrollment\n        if (device.reason !== \"device_expired\") {\n          return device; // Return rejection for revoked/inactive\n        }\n        // Fall through to API key for expired devices\n      } else {\n        return device;\n      }\n    }\n    // If device session unknown or expired, fall through to API key\n  }\n\n  // 2. Check X-API-Key header\n  const apiKey = request.headers.get(\"X-API-Key\");\n  if (apiKey) {\n    return resolveApiKey(apiKey, env);\n  }\n\n  // 3. Check session cookie\n  const cookie = request.headers.get(\"Cookie\");",
+   "supports": null
+  },
+  {
+   "claim": "Shape free for this funnel as: 50 uploads/day, OCR, 25 MB, 24 h TTL, 1 API key, 1 viewport per capture, ~50 captures/month; Pro walls are extra viewports/4k, 50 MB/file, 7 d TTL, history, 10 keys \u2014 viewports are not plan-gated today (`max 6` only).",
+   "pointer": "packages/protocol/src/constants.ts:42-62",
+   "resolves": true,
+   "file": "packages/protocol/src/constants.ts",
+   "text": "export const PLAN_LIMITS: Record<string, PlanLimits> = {\n  free: {\n    uploads_per_day: 50,\n    max_total_bytes_per_item: 25 * 1024 * 1024, // 25 MiB\n    max_file_bytes: 25 * 1024 * 1024, // 25 MiB\n    ttl_hours_max: 24,\n    api_access: true,\n    max_api_keys: 1,\n    ocr_included: true,\n    history: false,\n  },\n  pro: {\n    uploads_per_day: 1000,\n    max_total_bytes_per_item: 250 * 1024 * 1024, // 250 MiB\n    max_file_bytes: 50 * 1024 * 1024, // 50 MiB per file\n    ttl_hours_max: 168,\n    api_access: true,\n    max_api_keys: 10,\n    ocr_included: true,\n    history: true,\n  },\n  team: {\n    uploads_per_day: 5000,\n    max_total_bytes_per_item: 250 * 1024 * 1024, // 250 MiB",
+   "supports": null
+  },
+  {
+   "claim": "Shape free for this funnel as: 50 uploads/day, OCR, 25 MB, 24 h TTL, 1 API key, 1 viewport per capture, ~50 captures/month; Pro walls are extra viewports/4k, 50 MB/file, 7 d TTL, history, 10 keys \u2014 viewports are not plan-gated today (`max 6` only).",
+   "pointer": "apps/web/app/routes/pricing.tsx:27-53",
+   "resolves": true,
+   "file": "apps/web/app/routes/pricing.tsx",
+   "text": "<div className=\"pricing-grid\">\n        <div className=\"plan-card plan-current\">\n          <h2>Early Access</h2>\n          <p className=\"plan-price\">$0</p>\n          <ul>\n            <li>50 uploads/day</li>\n            <li>25 MB per item</li>\n            <li>24h retention</li>\n            <li>OCR text extraction</li>\n            <li>5 output formats</li>\n            <li>1 API key</li>\n          </ul>\n          <a href=\"/new\" className=\"btn btn-primary\">\n            Get Started\n          </a>\n        </div>\n\n        <div className=\"plan-card plan-disabled\">\n          <h2>Pro</h2>\n          <p className=\"plan-price plan-price-tbd\">TBD</p>\n          <ul>\n            <li>50 MB per file, 100 MB per item</li>\n            <li>Higher upload limits</li>\n            <li>Extended retention</li>\n            <li>Priority processing</li>\n            <li>Upload history</li>\n            <li>Advanced analytics</li>\n          </ul>\n        </div>\n\n        <div className=\"plan-card plan-disabled\">",
+   "supports": null
+  },
+  {
+   "claim": "Shape free for this funnel as: 50 uploads/day, OCR, 25 MB, 24 h TTL, 1 API key, 1 viewport per capture, ~50 captures/month; Pro walls are extra viewports/4k, 50 MB/file, 7 d TTL, history, 10 keys \u2014 viewports are not plan-gated today (`max 6` only).",
+   "pointer": "apps/worker/src/routes/capture.ts:536-548",
+   "resolves": true,
+   "file": "apps/worker/src/routes/capture.ts",
+   "text": "// Support single viewport (backward compat) or multiple viewports\n  const viewportNames = body.viewports\n    ?? (body.viewport ? [body.viewport] : [\"desktop\"]);\n  for (const v of viewportNames) {\n    if (!VALID_VIEWPORTS.has(v)) {\n      return apiError(\n        ErrorCodes.VALIDATION_ERROR,\n        `Invalid viewport: ${v}. Must be one of: ${[...VALID_VIEWPORTS].join(\", \")}`\n      );\n    }\n  }\n  if (viewportNames.length > 6) {\n    return apiError(ErrorCodes.VALIDATION_ERROR, \"Maximum 6 viewports per capture.\");\n  }\n\n  const fullPage = body.full_page ?? false;\n  const plan = auth.plan;",
+   "supports": null
+  },
+  {
+   "claim": "Shape free for this funnel as: 50 uploads/day, OCR, 25 MB, 24 h TTL, 1 API key, 1 viewport per capture, ~50 captures/month; Pro walls are extra viewports/4k, 50 MB/file, 7 d TTL, history, 10 keys \u2014 viewports are not plan-gated today (`max 6` only).",
+   "pointer": "apps/web/app/routes/terms.tsx:61",
+   "resolves": true,
+   "file": "apps/web/app/routes/terms.tsx",
+   "text": "<li>OCR included</li>\n        <li>No API access (browser and paste only)</li>\n        <li>No upload history</li>\n      </ul>\n      <p>",
+   "supports": null
+  },
+  {
+   "claim": "Shape free for this funnel as: 50 uploads/day, OCR, 25 MB, 24 h TTL, 1 API key, 1 viewport per capture, ~50 captures/month; Pro walls are extra viewports/4k, 50 MB/file, 7 d TTL, history, 10 keys \u2014 viewports are not plan-gated today (`max 6` only).",
+   "pointer": "login.tsx:94-95",
+   "resolves": true,
+   "file": "apps/web/app/routes/login.tsx",
+   "text": "<p className=\"auth-hint\">\n        Free accounts include 1 API key for agent access, 50 uploads/day, and OCR.\n      </p>\n    </div>\n  );\n}",
+   "supports": null
+  },
+  {
+   "claim": "For users who never open the dashboard, the upsell is the existing limit error that names the plan plus `whipnode_status`\u2019s `Account: \u2026 (plan)` line \u2014 one sentence, only on the wall; the methodology recipe lives on whipnode.com (init URL, what Authorize grants, one capture example, free limits, `/pricing`), not in the unnamed repo.",
+   "pointer": "apps/worker/src/middleware/rate-limit.ts:82-85",
+   "resolves": true,
+   "file": "apps/worker/src/middleware/rate-limit.ts",
+   "text": "if (todayUploads >= limits.uploads_per_day) {\n    return {\n      allowed: false,\n      reason: `Daily upload limit reached. Your ${plan} plan allows ${limits.uploads_per_day} uploads per day.`,\n    };\n  }",
+   "supports": null
+  },
+  {
+   "claim": "For users who never open the dashboard, the upsell is the existing limit error that names the plan plus `whipnode_status`\u2019s `Account: \u2026 (plan)` line \u2014 one sentence, only on the wall; the methodology recipe lives on whipnode.com (init URL, what Authorize grants, one capture example, free limits, `/pricing`), not in the unnamed repo.",
+   "pointer": "apps/worker/src/routes/mcp.ts:672-673",
+   "resolves": true,
+   "file": "apps/worker/src/routes/mcp.ts",
+   "text": "const lines: string[] = [];\n  lines.push(`WhipNode Status`);\n  lines.push(`Account: ${account?.email ?? \"unknown\"} (${account?.plan ?? \"free\"} plan)`);\n  lines.push(`Uploads today: ${uploadCount?.cnt ?? 0}`);\n  lines.push(\"\");",
+   "supports": null
+  },
+  {
+   "claim": "For users who never open the dashboard, the upsell is the existing limit error that names the plan plus `whipnode_status`\u2019s `Account: \u2026 (plan)` line \u2014 one sentence, only on the wall; the methodology recipe lives on whipnode.com (init URL, what Authorize grants, one capture example, free limits, `/pricing`), not in the unnamed repo.",
+   "pointer": "apps/web/app/routes/pricing.tsx:43-45",
+   "resolves": true,
+   "file": "apps/web/app/routes/pricing.tsx",
+   "text": "<div className=\"plan-card plan-disabled\">\n          <h2>Pro</h2>\n          <p className=\"plan-price plan-price-tbd\">TBD</p>\n          <ul>\n            <li>50 MB per file, 100 MB per item</li>\n            <li>Higher upload limits</li>",
+   "supports": null
+  },
+  {
+   "claim": "Email verify is necessary and not sufficient against farming: magic-link has no CAPTCHA, only `COUNT(*) \u2026 >= 3` per email; add Turnstile on `/init`, cap free active devices to 3 (today 10/key), 10-minute pairing TTL, keep hashed IP; the agent may start/poll pairing and capture after, and must not read mail or click the link.",
+   "pointer": "apps/worker/src/routes/auth-magic-link.ts:23-32",
+   "resolves": true,
+   "file": "apps/worker/src/routes/auth-magic-link.ts",
+   "text": "// Rate limit: max 3 magic links per email per 15 min\n  const fifteenMinAgo = new Date(Date.now() - 15 * 60_000).toISOString();\n  const recentTokens = await env.DB.prepare(\n    \"SELECT COUNT(*) as cnt FROM magic_tokens WHERE email = ? AND created_at > ?\"\n  )\n    .bind(email, fifteenMinAgo)\n    .first<{ cnt: number }>();\n\n  if ((recentTokens?.cnt ?? 0) >= 3) {\n    return apiError(ErrorCodes.RATE_LIMITED, \"Too many sign-in attempts. Try again in 15 minutes.\");\n  }\n\n  // Generate token",
+   "supports": null
+  },
+  {
+   "claim": "Email verify is necessary and not sufficient against farming: magic-link has no CAPTCHA, only `COUNT(*) \u2026 >= 3` per email; add Turnstile on `/init`, cap free active devices to 3 (today 10/key), 10-minute pairing TTL, keep hashed IP; the agent may start/poll pairing and capture after, and must not read mail or click the link.",
+   "pointer": "apps/worker/src/routes/mcp.ts:347-352",
+   "resolves": true,
+   "file": "apps/worker/src/routes/mcp.ts",
+   "text": "// Atomic quota enforcement: INSERT only if count < 10\n      const insertResult = await env.DB.prepare(\n        `INSERT INTO mcp_devices (id, account_id, api_key_id, session_token_hash,\n         device_name, ip_hash, user_agent_hash, created_at, last_seen_at, expires_at, status)\n         SELECT ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'active'\n         WHERE (SELECT COUNT(*) FROM mcp_devices WHERE api_key_id = ? AND status = 'active') < 10`\n      )\n        .bind(\n          deviceId,",
+   "supports": null
+  },
+  {
+   "claim": "Email verify is necessary and not sufficient against farming: magic-link has no CAPTCHA, only `COUNT(*) \u2026 >= 3` per email; add Turnstile on `/init`, cap free active devices to 3 (today 10/key), 10-minute pairing TTL, keep hashed IP; the agent may start/poll pairing and capture after, and must not read mail or click the link.",
+   "pointer": "mcp.ts:214-217",
+   "resolves": true,
+   "file": "apps/worker/src/routes/mcp.ts",
+   "text": "},\n        apply_config: {\n          type: \"string\",\n          description: \"Pass the exact JSON config string returned by a previous configure proposal to apply it. Only call this AFTER showing the proposal to the user and getting their confirmation.\",\n        },\n      },\n    },\n  },",
+   "supports": null
+  },
+  {
+   "claim": "Init should store only email, API-key hash, device_name, ip_hash, user_agent_hash, and 24 h items; revocation/expiry already exist (device revoke, key cascade-revoke, 90-day inactive, sliding `expires_at`).",
+   "pointer": "docs/PRIVACY.md:3-16",
+   "resolves": true,
+   "file": "docs/PRIVACY.md",
+   "text": "## What is stored\n\n- Uploaded files (in R2 object storage)\n- Item metadata: ID, timestamps, status, file count, total bytes, MIME types\n- Optional note text provided by the user\n- OCR text extracted from images/PDFs\n- Hashed IP address and user agent (for rate limiting and abuse prevention)\n- For authenticated users: email, plan, API key hashes\n\n## How long it is stored\n\n- Files and derived outputs: until expiration (default 24 hours, max depends on plan)\n- After expiration: file data is deleted from storage within 15 minutes\n- Tombstone metadata (item ID, timestamps, status): may be retained for abuse prevention\n\n## What analytics are collected",
+   "supports": null
+  },
+  {
+   "claim": "Init should store only email, API-key hash, device_name, ip_hash, user_agent_hash, and 24 h items; revocation/expiry already exist (device revoke, key cascade-revoke, 90-day inactive, sliding `expires_at`).",
+   "pointer": "apps/worker/src/routes/mcp-devices.ts:70-74",
+   "resolves": true,
+   "file": "apps/worker/src/routes/mcp-devices.ts",
+   "text": "await env.DB.prepare(\"UPDATE mcp_devices SET status = 'revoked' WHERE id = ?\")\n    .bind(deviceId)\n    .run();\n\n  return Response.json({ ok: true, message: \"Device revoked. It will need to re-authenticate on next request.\" });\n}\n\nexport async function handleRenameMcpDevice(",
+   "supports": null
+  },
+  {
+   "claim": "Init should store only email, API-key hash, device_name, ip_hash, user_agent_hash, and 24 h items; revocation/expiry already exist (device revoke, key cascade-revoke, 90-day inactive, sliding `expires_at`).",
+   "pointer": "apps/worker/src/routes/api-keys.ts:139-143",
+   "resolves": true,
+   "file": "apps/worker/src/routes/api-keys.ts",
+   "text": ".run();\n    // Cascade: revoke all MCP devices enrolled by this key\n    try {\n      await env.DB.prepare(\"UPDATE mcp_devices SET status = 'revoked' WHERE api_key_id = ? AND status = 'active'\")\n        .bind(keyId)\n        .run();\n    } catch (err) {\n      console.error(`Failed to cascade-revoke devices for key ${keyId}:`, err);\n    }",
+   "supports": null
+  },
+  {
+   "claim": "Init should store only email, API-key hash, device_name, ip_hash, user_agent_hash, and 24 h items; revocation/expiry already exist (device revoke, key cascade-revoke, 90-day inactive, sliding `expires_at`).",
+   "pointer": "apps/worker/src/routes/mcp.ts:282-284",
+   "resolves": true,
+   "file": "apps/worker/src/routes/mcp.ts",
+   "text": "const reason = auth.reason;\n    const messages: Record<string, string> = {\n      device_revoked: \"This device has been revoked. Re-run the install command with your API key to reconnect: claude mcp add whipnode --transport http https://whipnode.com/api/v1/mcp --header \\\"X-API-Key: YOUR_KEY\\\"\",\n      device_expired: \"This device session expired (inactive for 90+ days). Re-run the install command to reconnect: claude mcp add whipnode --transport http https://whipnode.com/api/v1/mcp --header \\\"X-API-Key: YOUR_KEY\\\"\",\n      key_revoked: \"The API key used to register this device has been revoked. Create a new key at whipnode.com/dashboard#api-keys and re-run the install command.\",\n      account_inactive: \"Your WhipNode account has been deactivated. Contact <email>.\",\n    };",
+   "supports": null
+  },
+  {
+   "claim": "Init should store only email, API-key hash, device_name, ip_hash, user_agent_hash, and 24 h items; revocation/expiry already exist (device revoke, key cascade-revoke, 90-day inactive, sliding `expires_at`).",
+   "pointer": "apps/web/app/components/McpDeviceManager.tsx:77",
+   "resolves": true,
+   "file": "apps/web/app/components/McpDeviceManager.tsx",
+   "text": "<span>Registered: {new Date(d.created_at).toLocaleDateString()}</span>\n                <span>Session: auto-renews on use (expires if inactive for 90 days)</span>\n              </div>\n              <div className=\"device-actions\">\n                {d.status === \"active\" && (",
+   "supports": null
+  }
+ ]
+}

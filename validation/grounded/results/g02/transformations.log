@@ -1,0 +1,21 @@
+# transformations.log — g02 A_panel arm (orchestrator = Claude Code fork)
+
+Seat identity mapping (ledger only): A = claude (S_claude.md), B = codex (S_codex.md). Panel per PROTOCOL table: g02 = C, X.
+Round 0: reused S_claude.md / S_codex.md byte for byte (sha in S_*.meta.json). No re-run.
+
+Transformations applied to relayed text:
+1. Neutral labels: rival claims relayed as [Peer-k]; own claims as [Own-i]. No vendor names, no seat letters, no tallies in packets.
+2. Order: rival disputed claims shuffled (seeded by counts) by r1-packet-local.py.
+3. ORCH-SUMMARY (ledger-note.md): agreed-r0 list + oracle results only; phrase "(Seat A 21/21 by hand, Seat B 16/16 by tool)" replaced by "(37 pointers, all open)" before packets were built, to avoid pairing counts to seats.
+4. Tool deviation: tools/r1-packet.py and tools/grounding.py match only `^CLAIM:`/`^EVIDENCE:`; the claude memo uses bold numbered headings (`**CLAIM 1:**`, `**EVIDENCE:**`). A local copy r1-packet-local.py (heading-tolerant split, otherwise identical) built the packets; grounding for the claude memo was resolved by hand (oracles.md) - 21/21 pointers open. Tools outside g02 were not modified.
+Selection of disputed rival claims (CONTRACT ob.4: contradictions + decision-relevant unaddressed + unverified):
+- packet for claude: codex claims 2 (race/concurrency clause unaddressed), 3 (Q1 headline), 4 (PII unaddressed), 5 (contradicts A8), 6 (unaddressed, upsell criterion), 7 (migration semantics contradiction).
+- packet for codex: claude claims 5 (sentinel vs nullable; same-row UPDATE vs reissue), 6 (fallback to free, unaddressed), 7 (header path vs local adapter mechanism), 8 (contradicts B5).
+Packet sha256 (first 16): claude 4dcb3976777f566a, codex 385d7933b7bafa76.
+Round 1 run: run-r1.sh g02 <vendor> <packet>, both seats in parallel, up to 3 attempts; attempt files immutable (R1_*.attemptN.*).
+
+Round 1 timings: R1_claude attempt 1 validated (4514 B, 51 s); R1_codex attempt 1 validated (4251 B, 47 s). No failures, no retries.
+Known cosmetic defect: run-r1.sh computes the packet sha after `cd` into the run dir with a relative packet path, so R1_*.meta.json packet_sha256 is empty; the packet shas are recorded above.
+Round 2: not run (no load-bearing flip; ledger "Round 1 outcomes").
+Verdict: A_panel.md filled from ledger rows only; A_2seat.md = verbatim union of the two Round 0 memos.
+New pointer cited in R1 by codex (middleware/auth.ts:30-33,72-83,103-104): opened by the orchestrator; see oracles.md addendum.

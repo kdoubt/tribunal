@@ -1,0 +1,15 @@
+# transformations.log — g06 A_panel arm (orchestrator = Claude Code fork; never a seat here)
+
+identity mapping (ledger only): A = S_claude.md (accepted attempt 1), B = S_codex.md (accepted attempt 1 after the validator was corrected to accept numbered headings; no re-run). Round 0 = these files byte for byte; Round 0 was not re-invoked.
+
+1. grounding.py run on S_claude.md → S_claude.grounding.json (19/19 pointers open).
+2. S_codex.md pointers resolved with an inline parser (grounding.py splits only on plain "CLAIM:" headings; Codex writes "**n. CLAIM:**" and cites `artifact/file:a–b,c`) using the same rule → S_codex.grounding.json (34/34 open). No text altered.
+3. ledger.md: one row per claim, claims trimmed to one sentence (verbatim words, ellipsis-free trimming of clauses), evidence copied, provenance assigned from oracles.md, R0 status assigned by the orchestrator.
+4. oracles.md: pointer resolution + "verified by inspection" facts only; no support ratings, no new arguments.
+5. ledger-note.md: ORCH-SUMMARY of agreed-r0 items and oracle facts (compressed; labelled).
+6. Round 1 packets built with an inline builder (r1-packet.py's block parser does not recognise Codex's headings): standard r1-seat.md head + frozen brief + ledger note + own R0 claims verbatim (numbered Own-n) + rival disputed claims verbatim under Peer-n tags, order shuffled with a fixed seed, no tallies, no vendor names. Claude received Codex claims 1, 2, 5, 7, 8; Codex received Claude claims 1, 2, 6, 7. Selection rule: every contradicting claim, every decision-relevant claim the seat did not address, every unverified rival claim.
+7. R1 seats run in parallel via tools/run-r1.sh (fresh dir with the artifact copy; immutable attempts; up to 3 attempts); neither R1 output read before both finished.
+8. A_2seat.md = header + S_claude.md verbatim + separator + S_codex.md verbatim (fixed order Memo 1 = A, Memo 2 = B).
+9. R1 results: R1_claude attempt 1 ok (4871 B, 59 s); R1_codex attempt 1 ok (4195 B, 51 s); no failed attempts. Both read only after both finished.
+10. ledger.md appended with R1 outcomes (conceded / revised / still disputed) and confidence shifts copied from the seats' REVISE sections; Round 2 not triggered (no verdict input crossed a line; A6 revised, not overturned).
+11. A_panel.md: buckets filled from ledger rows; recommendation mode chosen from bucket 1 (Q1 redesign agreed) = `dont` as proposed; three bucket-3 items left as human calls with their cheapest checks; VERDICT INPUT lines copied from the seats' R1 verdict inputs.

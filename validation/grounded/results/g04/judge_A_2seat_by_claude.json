@@ -1,0 +1,63 @@
+{
+ "judge": "claude",
+ "truth": "<path>",
+ "output": "<path>",
+ "seconds": 39.0,
+ "parsed": true,
+ "scores": {
+  "decision_correct": 1,
+  "decision_correct_quote": "**Q1:** Speaks to the human Claude-Code uploader first; agent-CLI capture/read is a mid-page scenario. Biggest gap: no agent-initiated capture recipe on the conversion path. ... 1. Rewrite hero + primary CTA to agent-first capture (\u201cYour agent can screenshot any URL\u201d) with Claude / Codex / Grok one-liners; demote \u201cUpload something\u201d and drop \u201cSee how to scale\u201d from the hero. 2. Make auth copy match the trial: replace \u201cCreate an account to get your API key\u201d with the real no-email connect",
+  "must_catch": [
+   {
+    "item": 1,
+    "hit": 1,
+    "quote": "CLAIM: The landing\u2019s primary voice is a human uploader unblocking Claude Code, not a terminal agent that captures pages itself. EVIDENCE: Pack: \u201cYou can't paste screenshots into Claude Code. WhipNode fixes that.\u201d Confirmed `index.tsx:42-47` (`hero-explainer`, CTAs `Upload something` \u2192 `/new`, `See how to scale` \u2192 `/pricing`)"
+   },
+   {
+    "item": 2,
+    "hit": 1,
+    "quote": "CLAIM: Codex and Grok are absent from the landing; the only install artifact is a Claude MCP add that requires `YOUR_KEY`. ... Source: `index.tsx:181` `` `claude mcp add whipnode --transport http \u2026 --header \"X-API-Key: YOUR_KEY\" -s user` ``. `index.tsx` contains no `Codex` or `Grok` string."
+   },
+   {
+    "item": 3,
+    "hit": 1,
+    "quote": "CLAIM: \u201cNo account needed\u201d sits on the same page as two account walls (MCP key; URL capture login), which contradicts a zero-click trial and the no-signup honesty rule. EVIDENCE: Pack: \u201cNo account needed. Expil\u201d vs \u201cCreate an account to get your API key.\u201d Source: `index.tsx:72` \u201cNo account needed. Expires in 24 hours. Free.\u201d vs `index.tsx:183-184`"
+   },
+   {
+    "item": 4,
+    "hit": 1,
+    "quote": "CLAIM: First visit is a cookie clickwrap over the upload affordance on both viewports; declining is a hard product block, not analytics-only. EVIDENCE: Pack desktop+mobile: \u201cBefore you continue / WhipNode uses cookies\u2026 Accept and continue / Decline\u201d adjacent to \u201cTask for the\u201d / \u201c0/4000\u201d."
+   },
+   {
+    "item": 5,
+    "hit": 1,
+    "quote": "Hero \u201cSee how to scale\u201d and the install line \u201cCreate an account to get your API key\u2026 50 uploads/day\u2026 no credit card needed\u201d point the trial ladder at signup/pricing instead of an anonymous first capture. ... Pricing page (out of primary artifact, supporting): `pricing.tsx:18-24` early-access free plan \u2014 not shown on `/`."
+   },
+   {
+    "item": 6,
+    "hit": 1,
+    "quote": "the agent is never the first actor in the conversion path \u2014 capture exists as a buried scenario and a late MCP card, not as a pasteable CLI recipe. EVIDENCE: ... \u201cCapture e revieu / One agent screenshots staging\u201d (a2a, not hero) ... No recipe/trial CTA in `index.tsx` (only `/new` and `/pricing`)."
+   },
+   {
+    "item": 7,
+    "hit": 1,
+    "quote": "the pack provides NO-SIGNAL on terminal-command readability ... terminal OCR: \u201cwhipnod                  ttps://whipr\u201d \u2014 **NO-SIGNAL** for actual clipping, wrapping, or usability."
+   }
+  ],
+  "false_objections": [
+   {
+    "quote": "CLAIM: Pricing is discoverable, but the hero\u2019s \u201cSee how to scale\u201d label obscures its destination, so rename it \u201cPricing\u201d",
+    "why": "treats pricing as visible/discoverable when it is only a link, softening blocker 5 into a label tweak"
+   },
+   {
+    "quote": "CLAIM: Replace the hero\u2019s dependency on Claude Code\u2019s alleged screenshot limitation with a direct capture-and-read benefit, since the page\u2019s own feature descriptions support that benefit without establishing the competitor limitation.",
+    "why": "disputes a true product premise rather than the audience mismatch, and is not checkable from the permitted evidence"
+   },
+   {
+    "quote": "CLAIM: The trust chip \u201cEnd-to-end encrypted\u201d is an honesty risk against the page\u2019s own server-side OCR path (the service must read content).",
+    "why": "crypto-implementation claim outside the artifact's evidence and outside the launch blockers, promoted into the TOP-3 fixes"
+   }
+  ],
+  "notes": "The union memo lands the human-uploader-first call and all six substantive blockers with source-anchored quotes plus an explicit NO-SIGNAL label on OCR garble, at the cost of a few off-scope additions (E2E honesty, Claude-Code-limitation framing) and one landmine-adjacent 'pricing is discoverable' framing in Memo 2 that Memo 1 corrects."
+ }
+}

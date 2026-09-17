@@ -1,0 +1,55 @@
+{
+ "judge": "claude",
+ "truth": "<path>",
+ "output": "<path>",
+ "seconds": 72.8,
+ "parsed": true,
+ "scores": {
+  "decision_correct": 1,
+  "decision_correct_quote": "VERDICT INPUT: Q1 proceed-with-changes (2.14.5; nats2->nats1->nats3; pinned checksummed binary; per-node store copy; both-survivor fail-closed gate) \u00b7 Q2 proceed-with-changes (monitor field capture + delivered alerts; `control` -> per-workload users as a separate change after the roll; newsletter extras ignored)",
+  "must_catch": [
+   {
+    "item": 1,
+    "hit": 1,
+    "quote": "Both live workloads authenticate as the `control` superuser; fixing that is a real defect and a separate change after the roll (A7, B7; oracle-verified)."
+   },
+   {
+    "item": 2,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 3,
+    "hit": 1,
+    "quote": "The upgrade is justified by the JetStream/Raft/filestore fixes, above all v2.14.5 #8449 (offline-node catch-up from a metalayer snapshot) and the 2.14.3/2.14.4 Raft fixes; the \"auth/permission CVE\" items need TLS/JWT/MQTT/leafnodes this config does not enable"
+   },
+   {
+    "item": 4,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 5,
+    "hit": 1,
+    "quote": "the gate reads BOTH surviving monitor ports, halts on timeout, separates Raft pending from consumer backlog, hard stop 300 s (A conceded); missing currentness, membership, pending-work or consumer-leadership evidence blocks the next restart and clients are verified across the cluster"
+   },
+   {
+    "item": 6,
+    "hit": 1,
+    "quote": "after saving the 2.14.2 binary and a per-node store copy; pin the installer, which currently fetches \"latest\" (A2, B3, A5 pin half; oracle-verified)"
+   },
+   {
+    "item": 7,
+    "hit": 1,
+    "quote": "redelivery is not to be called harmless; pending=0 at each stop is necessary, not sufficient ... one deliberate nats1 bounce in a window with `support-intake pending=0`, then check CT 116 for a duplicate ticket"
+   },
+   {
+    "item": 8,
+    "hit": 1,
+    "quote": "the monitor turns a missing field into 0 and only logs, so capture live /jsz to establish the field, reject absent metrics, test the alert path"
+   }
+  ],
+  "false_objections": [],
+  "notes": "Correct proceed-with-changes call with a strong gate, pin/rollback, idempotency test and the `control` finding surfaced (though left unranked as owner's call), but it misses the lame-duck SIGUSR2 drain entirely (order-last-meta-leader is caught) and nearly all the capacity/hygiene state defects (EVENTS max_bytes=-1, FIX2SCRATCH, route-user auth error, plaintext route creds), and its \"auth/permission CVE items don't apply\" phrasing risks sweeping in the 2.14.3 pre-auth panic and 2.14.4 queue-permission fixes that do apply."
+ }
+}

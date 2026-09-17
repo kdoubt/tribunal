@@ -1,0 +1,50 @@
+{
+ "judge": "claude",
+ "truth": "<path>",
+ "output": "<path>",
+ "seconds": 58.5,
+ "parsed": true,
+ "scores": {
+  "decision_correct": 0.5,
+  "decision_correct_quote": "**Mode:** `dont` (as proposed) \u2014 build-with-changes on shape, redesign-or-change-list on the trust boundary. ... VERDICT INPUT: Q1 build-with-changes (keep A, reject B; admission trusted-side, bounded, off the party's filesystem; transport preference is surviving dissent) \u00b7 Q2 redesign (A) / build-with-changes (B)",
+  "must_catch": [
+   {
+    "item": 1,
+    "hit": 1,
+    "quote": "Both close scripts start prod, wait a bounded time for /health 200, then exit 1 with no rollback or recovery; failed opens exit 1 without restoring prod ... A5/B6 \u2192 exit-1-without-rollback and no helper deadlines (rtx:29,41,12-14; gb10:34,48,14-19)"
+   },
+   {
+    "item": 2,
+    "hit": 1,
+    "quote": "no retry when prod restart is not healthy (A4, B5) ... Q3 build-with-changes (dead-man that fails toward close, retry/page on non-200, one writer per state file, fail-closed probes, helper deadlines)"
+   },
+   {
+    "item": 3,
+    "hit": 1,
+    "quote": "A5 is unresolved: no durable crash recovery and no dead-man; CT 205 is onboot=0 (A8, B4-fact). ... an independent wall-clock closer and dead-man are mandatory (B3/B4) ... hang handling only via a per-job timeout ... deadlines independent of queue depth and estimates"
+   },
+   {
+    "item": 4,
+    "hit": 1,
+    "quote": "A4 state (window flag, spool, current job, downtime budget) has no single owner, no named files, no locks; the spool is two-writer (A7, B7)."
+   },
+   {
+    "item": 5,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 6,
+    "hit": 1,
+    "quote": "B8 \u2192 partly conceded (cleanup, storage exhaustion, host pressure, driver fault \"require explicit treatment\") ... whether host-backed spool placement and the 115g cap show exhaustion paths or only surfaces. Test: a spool-fill probe with quota state inspected, and a memory-pressure run at the cap with docker/prod observed."
+   },
+   {
+    "item": 7,
+    "hit": 0,
+    "quote": ""
+   }
+  ],
+  "false_objections": [],
+  "notes": "Memo lands the build-with-changes shape and catches the prod-left-DOWN open path, missing close retry/escalation, absent dead-man/crash recovery, unowned shared state, and the DoS/exhaustion surface, but never surfaces the GB10 `memory.used=[N/A]` limitation as an accepted tradeoff and explicitly declines to reject the NATS/Design-C transport (\"A says the artifacts do not establish a local spool over an isolated NATS account and declines to pick\"), leaving the custody boundary and the Q2 redesign-vs-change label unresolved."
+ }
+}

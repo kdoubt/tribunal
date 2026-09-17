@@ -1,0 +1,94 @@
+{
+ "judge": "claude",
+ "grounding": "<path>",
+ "n": 17,
+ "seconds": 62.5,
+ "parsed": true,
+ "items": [
+  {
+   "n": 1,
+   "supports": 1,
+   "why": "lists clustered meta/stream fixes that justify the upgrade"
+  },
+  {
+   "n": 2,
+   "supports": 1,
+   "why": "lists filestore/stream storage fixes applicable to the cluster"
+  },
+  {
+   "n": 3,
+   "supports": 1,
+   "why": "snapshot data-loss is narrowly conditioned on idempotent creates plus offline catch-up"
+  },
+  {
+   "n": 4,
+   "supports": 1,
+   "why": "shows R3 file-backed clustered streams and meta snapshot state the fixes apply to"
+  },
+  {
+   "n": 5,
+   "supports": 1,
+   "why": "auth fixes are narrow (blank-password verify_and_map, whitespace JWT), not blanket exposure"
+  },
+  {
+   "n": 6,
+   "supports": 1,
+   "why": "security fixes listed are condition-specific (leaf trace-dest, monitoring pagination)"
+  },
+  {
+   "n": 7,
+   "supports": 1,
+   "why": "support-intake consumer has max_deliver=-1, so redelivery of tickets is unbounded"
+  },
+  {
+   "n": 8,
+   "supports": 1,
+   "why": "leadership map shows nats3 holds meta and JOBS, nats1 holds RESULTS/EVENTS, leaving nats2 leader-free"
+  },
+  {
+   "n": 9,
+   "supports": 1,
+   "why": "install script resolves the latest tag dynamically, the unpinned behavior the plan changes"
+  },
+  {
+   "n": 10,
+   "supports": 1,
+   "why": "documents vzdump backup windows and the disruptive-op timing/recovery constraint"
+  },
+  {
+   "n": 11,
+   "supports": 1,
+   "why": "notes only defer compatibility to an external guide, asserting nothing about mixed-version or downgrade"
+  },
+  {
+   "n": 12,
+   "supports": 1,
+   "why": "same deferral to the upgrade guide, no downgrade or mixed-version assurance"
+  },
+  {
+   "n": 13,
+   "supports": 1,
+   "why": "same deferral to the upgrade guide, no downgrade or mixed-version assurance"
+  },
+  {
+   "n": 14,
+   "supports": 1,
+   "why": "json .get(\"store\",0) defaults missing field to zero usage"
+  },
+  {
+   "n": 15,
+   "supports": 1,
+   "why": "both clients authenticate as the shared full-privilege control user despite least-privilege users existing"
+  },
+  {
+   "n": 16,
+   "supports": 1,
+   "why": "journal shows route-user auth attempts on the client port and plaintext route password in config"
+  },
+  {
+   "n": 17,
+   "supports": 1,
+   "why": "shows unlimited max_bytes and infinite max_deliver alongside near-zero current volume"
+  }
+ ]
+}

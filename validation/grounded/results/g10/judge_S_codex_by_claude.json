@@ -1,0 +1,59 @@
+{
+ "judge": "claude",
+ "truth": "<path>",
+ "output": "<path>",
+ "seconds": 45.1,
+ "parsed": true,
+ "scores": {
+  "decision_correct": 0.5,
+  "decision_correct_quote": "VERDICT INPUT: LiteLLM=B ; Assistant=reclaim-GB10 ; Panel-seat=C ; hard-cap=none",
+  "must_catch": [
+   {
+    "item": 1,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 2,
+    "hit": 1,
+    "quote": "A2 identifies the override\u2019s consequence as \u201cclient-confidential data leaving prem,\u201d while Precedent requires policy regeneration rather than a runtime exception."
+   },
+   {
+    "item": 3,
+    "hit": 1,
+    "quote": "Option A violates the panel rule in both wording and spirit, and temporary third-seat use requires an explicit owner exception because no monetary cap alone satisfies the authentication rule."
+   },
+   {
+    "item": 4,
+    "hit": 1,
+    "quote": "exercise the failed-primary alias at the pending 300-token allowance and require a correct, nonempty answer plus attribution to the Groq fallback"
+   },
+   {
+    "item": 5,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 6,
+    "hit": 1,
+    "quote": "The leading unnoticed-failure candidates are an unusable Groq completion for B ... For B, Situation (1) records \u201cempty `content`,\u201d and A3 specifies an \u201carithmetic probe per route via LiteLLM with the router\u2019s key\u201d"
+   },
+   {
+    "item": 7,
+    "hit": 1,
+    "quote": "the first observed unnoticed failure instead comes from another mechanism, such as the stated gateway rate limit or a later provider model removal"
+   }
+  ],
+  "false_objections": [
+   {
+    "quote": "Situation (2): the assistant is \u201c`client_confidential` / on-prem only,\u201d and Option D states that \u201cthe GB10 alone could carry the assistant\u2019s model at reduced quality.\u201d",
+    "why": "treats the GB10 as a serving rung when the ladder is rtx-fast -> cpu-limp, so reclaiming it restores nothing absent a new local route and regenerated custody policy"
+   },
+   {
+    "quote": "Request the GB10 back first and restore the assistant on-prem",
+    "why": "presents reclaim as immediate restoration, the rubric's named landmine, without pairing it with adding a local route and regenerating the policy"
+   }
+  ],
+  "notes": "Memo gets conditional-B, C, and the owner-waiver-over-cap reasoning right and names the 300-token discriminating probe, but lands the reclaim-GB10 landmine and misses both the missing-GB10-rung mechanism and the leaked Global-key credential blocker."
+ }
+}

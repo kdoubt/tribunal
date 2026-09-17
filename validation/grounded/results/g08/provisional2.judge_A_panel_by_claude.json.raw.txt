@@ -1,0 +1,18 @@
+{
+ "decision_correct": 1,
+ "decision_correct_quote": "VERDICT INPUT: Q1 proceed-with-changes (2.14.5; nats2->nats1->nats3; pinned checksummed binary; per-node store copy; both-survivor gate) · Q2 proceed-with-changes (`control` -> per-workload users as a separate change after the roll; newsletter extras ignored)",
+ "must_catch": [
+  {"item": 1, "hit": 1, "quote": "Both live workloads authenticate as the `control` superuser; fixing that is a real defect and a separate change after the roll (A7, B7; oracle-verified)."},
+  {"item": 2, "hit": 0, "quote": ""},
+  {"item": 3, "hit": 1, "quote": "The upgrade is justified by the JetStream/Raft/filestore fixes, above all v2.14.5 #8449 (offline-node catch-up from a metalayer snapshot) and the 2.14.3/2.14.4 Raft fixes; the \"auth/permission CVE\" items need TLS/JWT/MQTT/leafnodes this config does not enable"},
+  {"item": 4, "hit": 0, "quote": ""},
+  {"item": 5, "hit": 1, "quote": "A3: the gate reads BOTH surviving monitor ports, halts on timeout, and separates Raft pending from consumer backlog (Seat A conceded toward B4); hard stop 300 s."},
+  {"item": 6, "hit": 1, "quote": "after saving the 2.14.2 binary and a per-node store copy; pin the installer, which currently fetches \"latest\" (A2, B3, A5 pin half; oracle-verified)"},
+  {"item": 7, "hit": 1, "quote": "A4: redelivery is not to be called harmless; pending=0 at each stop is necessary, not sufficient for poll/event overlap ... Cheapest discriminating test: one deliberate nats1 bounce in a window with `support-intake pending=0`, then check CT 116 for a duplicate ticket"},
+  {"item": 8, "hit": 1, "quote": "B6 — monitor before rollout. B: fix `.get(\"store\",0)` and add quorum/version/lag checks first."}
+ ],
+ "false_objections": [
+  {"quote": "the \"auth/permission CVE\" items need TLS/JWT/MQTT/leafnodes this config does not enable", "why": "overbroad — the 2.14.3 pre-auth panic/data-race and 2.14.4 queue-subscription permission fixes do apply to this bcrypt-only config"}
+ ],
+ "notes": "Correct proceed-with-changes call with solid coverage of pinning/rollback, gate design, redelivery non-harmlessness, and the monitor gap, but it misses the drain mechanism entirely (no lame-duck SIGUSR2 vs systemctl-restart/SIGTERM, only the node order), skips the rest of the captured-state cluster (EVENTS max_bytes=-1, FIX2SCRATCH, route-user auth error on the client port, plaintext route creds), leaves highest-severity unresolved as dissent, and overstates the inapplicability of the auth/permission fixes."
+}

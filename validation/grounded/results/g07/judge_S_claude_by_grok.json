@@ -1,0 +1,67 @@
+{
+ "judge": "grok",
+ "truth": "<path>",
+ "output": "<path>",
+ "seconds": 183.7,
+ "parsed": true,
+ "scores": {
+  "decision_correct": 0.5,
+  "decision_correct_quote": "Keep A's window batching; change three things.",
+  "must_catch": [
+   {
+    "item": 1,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 2,
+    "hit": 1,
+    "quote": "window-rtx.sh:41 and window-gb10.sh:48 both end the failure branch with `exit 1` and a WARNING string only."
+   },
+   {
+    "item": 3,
+    "hit": 1,
+    "quote": "Nothing in the artifact restores prod if the arbiter or its host dies with a window open, and `close` failure has no retry \u2014 criterion (3) \"fail toward prod-UP\" is unmet as proposed."
+   },
+   {
+    "item": 4,
+    "hit": 1,
+    "quote": "they need specification (dead-man close, sandbox-readiness precondition, close-failure retry, locked budget counter)."
+   },
+   {
+    "item": 5,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 6,
+    "hit": 1,
+    "quote": "The spool lives inside the attacker's sandbox, so every arbiter read is a read of attacker-controlled bytes on a filesystem he can also fill; nothing in the design bounds either."
+   },
+   {
+    "item": 7,
+    "hit": 1,
+    "quote": "Rejecting Design C is correct, and for a stronger reason than the one given: CT 205 is a no-uplink L2 island, so putting the external party on NATS requires demolishing the build's strongest containment property \u2014 a subject-scoped NATS user is strictly *worse* than a local spool."
+   }
+  ],
+  "false_objections": [
+   {
+    "quote": "Highest-severity issue overall: `window-rtx.sh:12`'s `ssh \"$NODE\" \"pct exec $CT -- $*\"` \u2014 reusing that idiom to launch the external party's `cmd` converts the queue's only attacker-controlled field into root command execution on the node2 host",
+    "why": "hypothetical px reuse is not the oracle defect; the shipped open-path NO-GO leaves prod DOWN unattended"
+   },
+   {
+    "quote": "A `close` path that fails VRAM/`free`-gated before starting prod",
+    "why": "fail-to-prod-UP requires close to restart prod; a VRAM fail-gate on close would leave prod DOWN"
+   },
+   {
+    "quote": "The proposal's stated reason (queue-design.md:53-55, custody boundary \"the reverse\") is a weaker, partly mis-applied argument.",
+    "why": "C is rejected because an external control plane on the prod spine crosses the custody boundary"
+   },
+   {
+    "quote": "a cron open is unattended by definition",
+    "why": "operator-booked window-batch, including an operator-owned schedule, is the correct shape"
+   }
+  ],
+  "notes": "Half-credit on the call: A/B/C shape and recovery scaffolding are right in spirit, but Q1 is labeled build-as-proposed, the oracle open-path NO-GO that leaves prod DOWN is never cited, and a hypothetical px RCE is ranked highest-severity."
+ }
+}

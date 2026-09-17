@@ -1,0 +1,61 @@
+{
+  "decision_correct": 0.5,
+  "decision_correct_quote": "Q1: proceed-with-changes — upgrade to 2.14.5, but on Raft/#8449 grounds, not the auth CVEs; order nats2 → nats1 → nats3; per-node `cp -a /var/lib/nats/js` before restart; rollback = restore binary + that node's store copy.",
+  "must_catch": [
+    {
+      "item": 1,
+      "hit": 1,
+      "quote": "Q2's top risk is not in the newsletter at all: both live workloads authenticate as `control`, which holds publish+subscribe `>` — including full `$JS.API` destructive access to EVENTS/JOBS/RESULTS."
+    },
+    {
+      "item": 2,
+      "hit": 0,
+      "quote": ""
+    },
+    {
+      "item": 3,
+      "hit": 0,
+      "quote": ""
+    },
+    {
+      "item": 4,
+      "hit": 0,
+      "quote": ""
+    },
+    {
+      "item": 5,
+      "hit": 0,
+      "quote": ""
+    },
+    {
+      "item": 6,
+      "hit": 0,
+      "quote": ""
+    },
+    {
+      "item": 7,
+      "hit": 0,
+      "quote": ""
+    },
+    {
+      "item": 8,
+      "hit": 1,
+      "quote": "nats-store-monitor.sh:5 polls only `/jsz` `.store` — the only NATS monitoring that exists (script header line 2)."
+    }
+  ],
+  "false_objections": [
+    {
+      "quote": "upgrade to 2.14.5, but on Raft/#8449 grounds, not the auth CVEs",
+      "why": "excludes applicable pre-auth fixes despite acknowledging queue-permission enforcement elsewhere"
+    },
+    {
+      "quote": "the rollback path must not depend on it",
+      "why": "rejects patch-level downgrade as the rollback basis although the oracle verified it safe"
+    },
+    {
+      "quote": "A5 rollback is store-restore, not downgrade.",
+      "why": "requires restoring an old store copy instead of the verified saved-binary rollback"
+    }
+  ],
+  "notes": "The memo gets the decision label and dominant privilege risk right, but earns no full credit for composite items 2–7 because it omits required findings, drain mechanics, meta-leader gate details, the correct rollback, or the idempotency test."
+}

@@ -1,0 +1,150 @@
+{
+ "arm": "S_claude.md",
+ "claims": 8,
+ "pointers": [
+  {
+   "claim": "** The funnel is not fit as-is: a widget that fails to boot is rendered as a *successful* demo, because the parent page's only post-src behaviour is an unconditional 5-second zoom, and nothing in the widget ever signals \"ready\".",
+   "pointer": "apps/web/src/scripts/live-preview/animation.ts:58-62",
+   "resolves": true,
+   "file": "apps/web/src/scripts/live-preview/animation.ts",
+   "text": "// Fallback: if the iframe never sends the message (e.g. load failure), zoom after 5s\n  widgetZoomTimer = setTimeout(() => {\n    triggerZoom();\n    widgetZoomTimer = null;\n  }, 5000);\n}\n\nexport function resetWidgetAnimation(): void {",
+   "supports": null
+  },
+  {
+   "claim": "** The funnel is not fit as-is: a widget that fails to boot is rendered as a *successful* demo, because the parent page's only post-src behaviour is an unconditional 5-second zoom, and nothing in the widget ever signals \"ready\".",
+   "pointer": "apps/chat/app/components/ChatWidget.tsx:172",
+   "resolves": true,
+   "file": "apps/chat/app/components/ChatWidget.tsx",
+   "text": "// Notify parent window of initial contact data for CRM simulator\n      window.parent.postMessage(\n        {\n          type: 'triagecrm:chat-init',\n          payload: { firstName: data.firstName, lastName: data.lastName, email: data.email },",
+   "supports": null
+  },
+  {
+   "claim": "** C3's class is \"the widget's client module graph never executed to route resolution\", and it is structurally unobservable because the route chunk is requested *only* as a consequence of that execution and Sentry is initialised inside the very graph that failed.",
+   "pointer": "apps/chat/app/routes/__root.tsx:3",
+   "resolves": true,
+   "file": "apps/chat/app/routes/__root.tsx",
+   "text": "import appCss from '~/styles/global.css?url';\nimport { initSentry } from '~/lib/sentry-init';\n\n// Phase 29 DEPLOY-03: Sentry init at module-load time (browser-only via\n// typeof window guard inside initSentry()). No-op when VITE_SENTRY_DSN_CHAT",
+   "supports": null
+  },
+  {
+   "claim": "** C3's class is \"the widget's client module graph never executed to route resolution\", and it is structurally unobservable because the route chunk is requested *only* as a consequence of that execution and Sentry is initialised inside the very graph that failed.",
+   "pointer": "apps/chat/app/client.tsx:6-8",
+   "resolves": true,
+   "file": "apps/chat/app/client.tsx",
+   "text": "const router = createRouter();\n\nhydrateRoot(document, <StartClient router={router} />);",
+   "supports": null
+  },
+  {
+   "claim": "** Search-param validation is *not* the cause: `demoToken` is exactly 20 chars, within the schema bound.",
+   "pointer": "demo-share.ts:20",
+   "resolves": true,
+   "file": "apps/crm/src/lib/live-preview/demo-share.ts",
+   "text": "export async function createDemoShare(data: DemoShareData): Promise<string> {\n  const token = randomBytes(15).toString('base64url').slice(0, 20);\n  const expiresAt = new Date(Date.now() + EXPIRY_DAYS * 24 * 60 * 60 * 1000);\n\n  await prisma.demoShare.create({",
+   "supports": null
+  },
+  {
+   "claim": "** Search-param validation is *not* the cause: `demoToken` is exactly 20 chars, within the schema bound.",
+   "pointer": "token.tsx:8",
+   "resolves": true,
+   "file": "apps/chat/app/routes/widget/$token.tsx",
+   "text": "templateId: z.string().max(50).optional(),\n  demoToken: z.string().max(20).optional(),\n});\n\nexport const Route = createFileRoute('/widget/$token')({",
+   "supports": null
+  },
+  {
+   "claim": "** The post-tool follow-up LLM call omits `tools`, which LiteLLM rejects for Anthropic deployments, so the demo's money moment (tool call \u2192 contact/lead) degrades to canned copy with only a `console.error`.",
+   "pointer": "llm-pipeline.ts:190",
+   "resolves": true,
+   "file": "apps/crm/src/app/api/chat/widget/llm-pipeline.ts",
+   "text": "instrumentedCompletion(\n              { model: MODELS.CHAT, messages: followUpMessages, max_tokens: 1024 },\n              { signal },\n            ),\n          30_000,",
+   "supports": null
+  },
+  {
+   "claim": "** The post-tool follow-up LLM call omits `tools`, which LiteLLM rejects for Anthropic deployments, so the demo's money moment (tool call \u2192 contact/lead) degrades to canned copy with only a `console.error`.",
+   "pointer": "context/litellm-routing-SANITIZED.yaml:42-52",
+   "resolves": true,
+   "file": "context/litellm-routing-SANITIZED.yaml",
+   "text": "# lines 72-82, verbatim\nlitellm_settings:\n  drop_params: true\n  cache: true\n  # HIPAA-mandatory: metadata-only telemetry to PostHog, no prompts/responses\n  success_callback: [\"posthog\"]\n  failure_callback: [\"posthog\"]\n  turn_off_message_logging: True\n  cache_params:\n    type: \"redis\"\n    host: \"redis\"\n    port: 6379\n\n# lines 84-88, verbatim\nrouter_settings:",
+   "supports": null
+  },
+  {
+   "claim": "** The post-tool follow-up LLM call omits `tools`, which LiteLLM rejects for Anthropic deployments, so the demo's money moment (tool call \u2192 contact/lead) degrades to canned copy with only a `console.error`.",
+   "pointer": "llm-pipeline.ts:197-200",
+   "resolves": true,
+   "file": "apps/crm/src/app/api/chat/widget/llm-pipeline.ts",
+   "text": "reply = followUp.choices[0]?.message?.content || '';\n      } catch (followUpErr) {\n        console.error('LLM follow-up call failed:', followUpErr);\n        reply = buildToolFallbackReply(assistantMessage.tool_calls || [], toolResults);\n      }\n\n      if (leadCreated) {\n        done = true;",
+   "supports": null
+  },
+  {
+   "claim": "** The intermittency of C7 (run 1 fails, run 2 clean) is explained by `triagecrm-chat` being a two-deployment group under latency-based routing, so demo replies come non-deterministically from Anthropic Haiku 4.5 or Cloudflare llama-3.1-70b.",
+   "pointer": "litellm-routing-SANITIZED.yaml:11-13",
+   "resolves": true,
+   "file": "context/litellm-routing-SANITIZED.yaml",
+   "text": "# line 21\n  - model_name: \"triagecrm-chat\"\n    litellm_params:\n      model: \"anthropic/claude-haiku-4-5-20251001\"   # line 23\n  # line 29\n  - model_name: \"triagecrm-assistant\"\n    litellm_params:",
+   "supports": null
+  },
+  {
+   "claim": "** Turnstile is a live funnel-killer with two independent defects: the gate is enabled by a *server* env var but rendered from a *build-time* client var, and the client reads the token synchronously without waiting for the challenge.",
+   "pointer": "live-preview.astro:98",
+   "resolves": true,
+   "file": "apps/web/src/pages/live-preview.astro",
+   "text": "<!-- Turnstile widget (only rendered when sitekey is configured) -->\n          {import.meta.env.PUBLIC_TURNSTILE_SITE_KEY && (\n            <div class=\"cf-turnstile\" data-sitekey={import.meta.env.PUBLIC_TURNSTILE_SITE_KEY}></div>\n          )}",
+   "supports": null
+  },
+  {
+   "claim": "** Turnstile is a live funnel-killer with two independent defects: the gate is enabled by a *server* env var but rendered from a *build-time* client var, and the client reads the token synchronously without waiting for the challenge.",
+   "pointer": "route.ts:133",
+   "resolves": true,
+   "file": "apps/crm/src/app/api/public/live-preview/route.ts",
+   "text": "// Turnstile verification \u2014 enforce only when configured\n    const turnstileConfigured = !!process.env.TURNSTILE_SECRET_KEY;\n    if (turnstileConfigured && !turnstileToken) {\n      return apiError('TURNSTILE_REQUIRED', 'Bot verification required', 400);\n    }",
+   "supports": null
+  },
+  {
+   "claim": "** Turnstile is a live funnel-killer with two independent defects: the gate is enabled by a *server* env var but rendered from a *build-time* client var, and the client reads the token synchronously without waiting for the challenge.",
+   "pointer": "form.ts:83-86",
+   "resolves": true,
+   "file": "apps/web/src/scripts/live-preview/form.ts",
+   "text": "// Include Turnstile token if available\n    const turnstileInput = document.querySelector<HTMLInputElement>('[name=\"cf-turnstile-response\"]');\n    if (turnstileInput?.value) {\n      payload['cf-turnstile-response'] = turnstileInput.value;\n    }\n\n    const res = await fetch('/app/api/public/live-preview', {\n      method: 'POST',",
+   "supports": null
+  },
+  {
+   "claim": "** Turnstile is a live funnel-killer with two independent defects: the gate is enabled by a *server* env var but rendered from a *build-time* client var, and the client reads the token synchronously without waiting for the challenge.",
+   "pointer": "form.ts:8",
+   "resolves": true,
+   "file": "apps/web/src/scripts/live-preview/form.ts",
+   "text": "const TRANSIENT_CODES = new Set(['SCREENSHOT_TIMEOUT', 'SCREENSHOT_UNAVAILABLE', 'BUSY', 'SCREENSHOT_BUSY']);\n\nlet retryCount = 0;\nlet retryTimer: ReturnType<typeof setTimeout> | null = null;",
+   "supports": null
+  },
+  {
+   "claim": "** Turnstile is a live funnel-killer with two independent defects: the gate is enabled by a *server* env var but rendered from a *build-time* client var, and the client reads the token synchronously without waiting for the challenge.",
+   "pointer": "form.ts:31-35",
+   "resolves": true,
+   "file": "apps/web/src/scripts/live-preview/form.ts",
+   "text": "const retryBtn = document.getElementById('retry-btn')!;\n  if (retryable) {\n    retryBtn.classList.remove('hidden');\n  } else {\n    retryBtn.classList.add('hidden');\n  }\n  showStep('error');\n}",
+   "supports": null
+  },
+  {
+   "claim": "** The demo's first sentence is grammatically broken for all six verticals.",
+   "pointer": "init/route.ts:261",
+   "resolves": true,
+   "file": "apps/crm/src/app/api/public/live-preview/route.ts",
+   "text": "firstName: nameParts[0] || 'Demo',\n              lastName: nameParts.slice(1).join(' ') || 'User',\n              email,\n              emailHash: blindIndex(email),\n              phone: phone || null,",
+   "supports": null
+  },
+  {
+   "claim": "** The demo's first sentence is grammatically broken for all six verticals.",
+   "pointer": "flow-templates.ts:544",
+   "resolves": true,
+   "file": "packages/shared/src/flow-templates.ts",
+   "text": "id: 'psychology-practice',\n    name: 'Psychology Practice',\n    industry: 'Psychology',\n    description: 'Intent routing, state eligibility, telehealth/in-person, self-pay disclosure, and Calendly booking.',\n    icon: 'Brain',",
+   "supports": null
+  },
+  {
+   "claim": "** There is no shipped observability for this funnel: the live-preview telemetry module is an in-process ring buffer with no exporter, so nothing correlates \"preview 200\" with \"widget init\".",
+   "pointer": "lib/live-preview/telemetry.ts:15-17",
+   "resolves": true,
+   "file": "apps/crm/src/lib/live-preview/telemetry.ts",
+   "text": "const metrics: Metric[] = [];\nconst latencies: LatencyRecord[] = [];\nconst MAX_BUFFER_SIZE = 1000;\n\n/**\n * Record a counter or gauge metric.",
+   "supports": null
+  }
+ ]
+}

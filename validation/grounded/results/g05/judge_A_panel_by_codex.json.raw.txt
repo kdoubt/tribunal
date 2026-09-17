@@ -1,0 +1,48 @@
+{
+  "decision_correct": 1,
+  "decision_correct_quote": "Q1 Architecture = harden-first (shape right; RTX island real; GB10 docker-policy side must reach parity or be accepted in writing as weaker) ; Q2 Security = harden-first (bind :2222 off the LAN, source-restrict bastion :22, `from=` keys, enforce GPU exclusivity with a close-time detach)",
+  "must_catch": [
+    {
+      "item": 1,
+      "hit": 1,
+      "quote": "The identity gate is load-bearing only on the WAN path: bastion :22 accepts from any source and the GB10 sshd is published on the LAN address, so any LAN peer bypasses Access and faces only `authorized_keys`"
+    },
+    {
+      "item": 2,
+      "hit": 1,
+      "quote": "The GPU is shared with production at the device level with no enforcement of exclusivity, and both seats rank that as the top-severity class"
+    },
+    {
+      "item": 3,
+      "hit": 1,
+      "quote": "the RTX side is a no-uplink L2 island behind a bastion whose forward chain drops (a real chokepoint)"
+    },
+    {
+      "item": 4,
+      "hit": 1,
+      "quote": "A conceded B4: 172.30.99.1 and host-published ports are an untested reachability surface from the external party-bench; A added the dual-homed relay/proxy (172.17.0.x) and 169.254/100.64/IPv6 ACL gaps"
+    },
+    {
+      "item": 5,
+      "hit": 0,
+      "quote": ""
+    },
+    {
+      "item": 6,
+      "hit": 0,
+      "quote": ""
+    },
+    {
+      "item": 7,
+      "hit": 1,
+      "quote": "A conceded B6's conclusion (no cache-proof DNS/Access/TLS validation recorded) while rejecting two of its supports."
+    }
+  ],
+  "false_objections": [
+    {
+      "quote": "only cloudflared has a restart/readiness story",
+      "why": "conflates restart-on-failure with readiness despite the absence of tunnel-health verification"
+    }
+  ],
+  "notes": "The memo supports harden-first and catches five findings, but its fixed-sleep observation omits missing healthchecks and its generic teardown criticism omits the literal backup-exclusion overwrite."
+}

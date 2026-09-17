@@ -1,0 +1,55 @@
+2026-09-17T19:04:10Z resume attempt
+2026-09-17T19:04:15Z codex answers; running R1 for g04/g08, then judge + support passes
+[g04 R1_codex] ok attempt=4 3370B 29s
+[g08 R1_codex] ok attempt=4 4254B 42s
+2026-09-16T20:08:54Z g10 A_panel judge=claude start
+judge claude: parsed=True 36.8s
+2026-09-16T20:09:30Z g10 A_panel judge=claude ok
+2026-09-16T20:09:30Z pass complete
+2026-09-16T20:10:20Z g08 A_panel judging quarantined as provisional: the panel arm is INCOMPLETE (Codex R1 dead on usage cap); re-fill and re-judge after resume
+2026-09-17T19:05:26Z g01 A_2seat judge=codex start
+judge codex: parsed=True 26.1s
+2026-09-17T19:05:52Z g01 A_2seat judge=codex ok
+2026-09-17T19:05:52Z g01 A_panel judge=codex start
+judge codex: parsed=True 22.5s
+2026-09-17T19:06:15Z g01 A_panel judge=codex ok
+2026-09-17T19:06:15Z g05 A_2seat judge=codex start
+judge codex: parsed=True 33.1s
+2026-09-17T19:06:48Z g05 A_2seat judge=codex ok
+2026-09-17T19:06:48Z g05 A_panel judge=codex start
+judge codex: parsed=True 25.4s
+2026-09-17T19:07:13Z g05 A_panel judge=codex ok
+2026-09-17T19:07:13Z g08 A_panel judge=claude start
+judge claude: parsed=True 57.3s
+2026-09-17T19:08:11Z g08 A_panel judge=claude ok
+2026-09-17T19:08:11Z g09 A_2seat judge=codex start
+judge codex: parsed=True 28.8s
+2026-09-17T19:08:39Z g09 A_2seat judge=codex ok
+2026-09-17T19:08:39Z g09 A_panel judge=codex start
+judge codex: parsed=True 24.2s
+2026-09-17T19:09:04Z g09 A_panel judge=codex ok
+2026-09-17T19:09:04Z g10 S_claude judge=codex start
+judge codex: parsed=True 31.0s
+2026-09-17T19:09:35Z g10 S_claude judge=codex ok
+2026-09-17T19:09:35Z pass complete
+support judge claude: n=12 parsed=True
+2026-09-16T20:12:55Z g03 S_codex support-judge=claude ok
+support judge claude: n=21 parsed=True
+2026-09-16T20:13:35Z g03 S_grok support-judge=claude ok
+no resolving pointers
+2026-09-16T20:13:35Z g04 S_codex support-judge=claude FAILED
+support judge claude: n=21 parsed=True
+2026-09-16T20:14:55Z g06 S_grok support-judge=claude ok
+support judge grok: n=20 parsed=True
+2026-09-16T20:25:45Z g07 S_claude support-judge=grok ok
+support judge claude: n=15 parsed=True
+2026-09-16T20:26:49Z g07 S_codex support-judge=claude ok
+support judge claude: n=28 parsed=True
+2026-09-16T20:27:58Z g07 S_grok support-judge=claude ok
+2026-09-16T20:27:58Z pass complete
+support judge codex: n=18 parsed=True
+2026-09-17T19:09:57Z g03 S_claude support-judge=codex ok
+no resolving pointers
+2026-09-17T19:09:57Z g04 S_codex support-judge=claude FAILED
+2026-09-17T19:09:57Z pass complete
+2026-09-17T19:09:57Z mechanical resume DONE. Remaining (needs an orchestrator session): read both R1s for g04 and g08, update their ledgers, fill A_panel.md, then judge those two A_panel files (judge-all2.sh), run scores.py, write validation/grounded/RESULTS.md through redact.py, commit.

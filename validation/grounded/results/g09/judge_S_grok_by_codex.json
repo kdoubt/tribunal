@@ -1,0 +1,83 @@
+{
+ "judge": "codex",
+ "truth": "<path>",
+ "output": "<path>",
+ "seconds": 27.9,
+ "parsed": true,
+ "scores": {
+  "decision_correct": 0.5,
+  "decision_correct_quote": "The funnel is not fit for prospects: a generated preview can be shown as live with a non-interactive widget, plus doubled welcome copy and a silent post-tool LLM failure.",
+  "must_catch": [
+   {
+    "item": 1,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 2,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 3,
+    "hit": 1,
+    "quote": "After a native tool call, the follow-up completion omits `tools`, which Anthropic/LiteLLM 400s; the widget still 200s a canned fallback \u2014 tests fake this call and cannot catch it."
+   },
+   {
+    "item": 4,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 5,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 6,
+    "hit": 1,
+    "quote": "Demo welcome always appends \u201c practice\u201d to the template name, so `psychology-practice` \u2192 \u201cpsychology practice practice.\u201d"
+   },
+   {
+    "item": 7,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 8,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 9,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 10,
+    "hit": 1,
+    "quote": "Silent prospect-facing failures and cheapest detectors: (1) widget GET without `_token` or init \u2014 nginx dead-man 15s + parent timeout event; (2) C7 follow-up \u2014 grep `LLM follow-up call failed`; (3) share JSON append \u2014 grep `[demo-share] Failed to record message` or share GET `messages: 0` after a 200 chat; (4) PostHog `screenshot_success` without `live_preview_widget_init`."
+   },
+   {
+    "item": 11,
+    "hit": 0,
+    "quote": ""
+   }
+  ],
+  "false_objections": [
+   {
+    "quote": "Lazy `$token` chunk never `import()`\u2019d after the 1293 B shell + entry chunks; ChatWidget/init never mounted.",
+    "why": "C3 records requests and cannot establish whether an import executed or the precise browser failure mechanism"
+   },
+   {
+    "quote": "parent watchdog (no `triagecrm:prechat-complete` \u2192 error + PostHog/Sentry, not zoom)",
+    "why": "the animation-timer signal can fire while init hangs and therefore cannot establish widget readiness"
+   },
+   {
+    "quote": "abuse controls already fail closed (Turnstile/trust 400s are loud)",
+    "why": "prefetch screenshot and page-text work remain reachable without Turnstile"
+   }
+  ],
+  "notes": "The memo correctly rejects readiness and catches V1, welcome copy, and cheap failure detectors, but misses major blockers; its fallback-zoom finding lacks origin checks, and its verdict lacks the required decide-after-check qualification."
+ }
+}

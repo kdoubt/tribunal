@@ -1,0 +1,194 @@
+{
+ "judge": "codex",
+ "grounding": "<path>",
+ "n": 37,
+ "seconds": 40.8,
+ "parsed": true,
+ "items": [
+  {
+   "n": 1,
+   "supports": 0,
+   "why": "The interface configuration does not establish that cirub0 has no uplink or that the bastion is a chokepoint"
+  },
+  {
+   "n": 2,
+   "supports": 0,
+   "why": "Two bastion interfaces do not establish that all guest traffic must traverse the bastion"
+  },
+  {
+   "n": 3,
+   "supports": 0,
+   "why": "A forward-drop policy does not establish the claimed topology or GB10 exposure"
+  },
+  {
+   "n": 4,
+   "supports": 0,
+   "why": "The excerpt shows proxy networking but no SSH listener publication"
+  },
+  {
+   "n": 5,
+   "supports": 1,
+   "why": "The comment explicitly describes Docker-native isolation without host firewall changes"
+  },
+  {
+   "n": 6,
+   "supports": 0,
+   "why": "The hostname-to-SSH mapping does not establish Access enforcement or LAN reachability"
+  },
+  {
+   "n": 7,
+   "supports": 0,
+   "why": "The email allow policy does not establish where Access can be bypassed"
+  },
+  {
+   "n": 8,
+   "supports": 0,
+   "why": "The excerpt does not show the relay's published address or port"
+  },
+  {
+   "n": 9,
+   "supports": 1,
+   "why": "The SSH accept rule has no source restriction and explicitly includes LAN management"
+  },
+  {
+   "n": 10,
+   "supports": 0,
+   "why": "Forwarding options and tinyproxy settings do not establish SSH listener exposure"
+  },
+  {
+   "n": 11,
+   "supports": 1,
+   "why": "The configuration grants NVIDIA device access through persistent bind mounts and cgroup permissions"
+  },
+  {
+   "n": 12,
+   "supports": 0,
+   "why": "The boot and network settings do not establish GPU access or exclusivity enforcement"
+  },
+  {
+   "n": 13,
+   "supports": 1,
+   "why": "The window procedure manually stops production workloads and adjusts memory without revoking guest GPU access"
+  },
+  {
+   "n": 14,
+   "supports": 1,
+   "why": "The container inspection records a 20 GiB memory limit and unless-stopped restart policy"
+  },
+  {
+   "n": 15,
+   "supports": 1,
+   "why": "The launch command explicitly combines all GPUs with unless-stopped and a 20g memory limit"
+  },
+  {
+   "n": 16,
+   "supports": 0,
+   "why": "The diagram labels the GB10 container not yet built and provides no GPU enforcement evidence"
+  },
+  {
+   "n": 17,
+   "supports": 1,
+   "why": "The proxy has a bridge gateway and an additional cirubench network attachment"
+  },
+  {
+   "n": 18,
+   "supports": 1,
+   "why": "The Squid configuration explicitly denies destinations in the three RFC1918 ranges"
+  },
+  {
+   "n": 19,
+   "supports": 0,
+   "why": "The excerpt identifies the internal gateway but does not show proxy policy or probe coverage"
+  },
+  {
+   "n": 20,
+   "supports": 1,
+   "why": "The displayed LAN probes target <lan-address> rather than 172.30.99.1"
+  },
+  {
+   "n": 21,
+   "supports": 0,
+   "why": "The GB10 containers explicitly have restart policies contrary to the cloudflared-only assertion"
+  },
+  {
+   "n": 22,
+   "supports": 0,
+   "why": "The proxy explicitly has an unless-stopped restart policy"
+  },
+  {
+   "n": 23,
+   "supports": 1,
+   "why": "A fixed three-second sleep precedes container operations without a readiness check"
+  },
+  {
+   "n": 24,
+   "supports": 1,
+   "why": "The checks tolerate failures and label any failed TCP attempt blocked without the claimed validation"
+  },
+  {
+   "n": 25,
+   "supports": 0,
+   "why": "The isolation comment and shell options provide no validation results or false-pass checks"
+  },
+  {
+   "n": 26,
+   "supports": 0,
+   "why": "Access application settings do not establish whether validation was performed"
+  },
+  {
+   "n": 27,
+   "supports": 0,
+   "why": "The onboarding instructions do not establish the claimed validation failures or absence of recorded tests"
+  },
+  {
+   "n": 28,
+   "supports": 0,
+   "why": "The backup snapshot shows the exclusion value but no unlocked write"
+  },
+  {
+   "n": 29,
+   "supports": 0,
+   "why": "The proxy inspection shows no published-port mutation or locking behavior"
+  },
+  {
+   "n": 30,
+   "supports": 0,
+   "why": "The comment provides no evidence of unlocked writes to the three stores"
+  },
+  {
+   "n": 31,
+   "supports": 0,
+   "why": "GPU device permissions and mounts are unrelated to the claimed shared-store writes"
+  },
+  {
+   "n": 32,
+   "supports": 0,
+   "why": "The topology description provides no evidence of SDN mutations or locking"
+  },
+  {
+   "n": 33,
+   "supports": 1,
+   "why": "The script conditionally creates the network and removes existing named containers before recreation"
+  },
+  {
+   "n": 34,
+   "supports": 1,
+   "why": "The teardown procedure contains no step restarting production workloads"
+  },
+  {
+   "n": 35,
+   "supports": 0,
+   "why": "User permissions and proxy variables do not establish key installation or teardown completeness"
+  },
+  {
+   "n": 36,
+   "supports": 0,
+   "why": "User creation and SSH settings do not establish whether keys or email have been installed"
+  },
+  {
+   "n": 37,
+   "supports": 1,
+   "why": "The onboarding section treats receipt and installation of the email and SSH key as pending"
+  }
+ ]
+}

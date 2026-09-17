@@ -1,0 +1,20 @@
+{
+ "decision_correct": 1,
+ "decision_correct_quote": "**Mode:** `decide-after-check` on Q3 (the three dissents above each name a cheap check) with `ship`-as-proceed-with-changes on Q1 and Q2 ... VERDICT INPUT: Q1 proceed-with-changes (2.14.5; nats2->nats1->nats3; pinned checksummed binary; per-node store copy; both-survivor gate)",
+ "must_catch": [
+  {"item": 1, "hit": 1, "quote": "Both live workloads authenticate as the `control` superuser; fixing that is a real defect and a separate change after the roll (A7, B7; oracle-verified)."},
+  {"item": 2, "hit": 0, "quote": "support-intake ack_wait=30s max_deliver=-1 pending=0"},
+  {"item": 3, "hit": 0, "quote": "the \"auth/permission CVE\" items need TLS/JWT/MQTT/leafnodes this config does not enable (A1, B1; oracle-verified against the release notes and the config)"},
+  {"item": 4, "hit": 1, "quote": "Roll nats2 -> nats1 -> nats3, meta leader last, outside the :00 vzdump window, after saving the 2.14.2 binary and a per-node store copy"},
+  {"item": 5, "hit": 1, "quote": "A3: the gate reads BOTH surviving monitor ports, halts on timeout, and separates Raft pending from consumer backlog (Seat A conceded toward B4); hard stop 300 s."},
+  {"item": 6, "hit": 1, "quote": "pin the installer, which currently fetches \"latest\" (A2, B3, A5 pin half; oracle-verified)"},
+  {"item": 7, "hit": 1, "quote": "A4: redelivery is not to be called harmless; pending=0 at each stop is necessary, not sufficient for poll/event overlap ... Cheapest discriminating test: one deliberate nats1 bounce in a window with `support-intake pending=0`, then check CT 116 for a duplicate ticket"},
+  {"item": 8, "hit": 1, "quote": "B6 — monitor before rollout. B: fix `.get(\"store\",0)` and add quorum/version/lag checks first."}
+ ],
+ "false_objections": [
+  {"quote": "the \"auth/permission CVE\" items need TLS/JWT/MQTT/leafnodes this config does not enable", "why": "over-broad — the 2.14.3 pre-auth panic/data-race fixes and 2.14.4 queue-subscription permission enforcement do apply to this bcrypt-only config"},
+  {"quote": "Downgrade of the 2.14.5 file store and prolonged mixed-version operation are SPECULATIVE from the notes", "why": "flirts with the downgrade-unsafe landmine; the 2.14 store cautions are 2.14 -> 2.12 only, though the memo's cloned-data rehearsal remedy is sound"},
+  {"quote": "ARM STATUS: INCOMPLETE ... this arm counts as a seat death unless Round 1 is resumed from the unchanged packet before scoring", "why": "process hedging that leaves the highest-severity call unresolved as 'dissent' rather than making it"}
+ ],
+ "notes": "Correct proceed-with-changes call with solid order, pin/rollback, gate, idempotency-test and monitoring coverage, but it misses the lame-duck SIGUSR2 drain, nearly all of the captured-state findings beyond `control` (EVENTS max_bytes, FIX2SCRATCH, route-user auth error, plaintext route creds), and wrongly writes off the applicable pre-auth/queue-permission fixes."
+}

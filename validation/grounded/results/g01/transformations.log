@@ -1,0 +1,10 @@
+g01 A_panel arm - orchestrator = fork of Claude Code (Amendment 1 table: panel C+G, judge X)
+identity map (ledger only): A = claude (S_claude.md), B = grok (S_grok.md); packets used Peer-N tags
+Round 0: S_claude.md and S_grok.md reused byte for byte (never re-run).
+oracle: grounding.py 13/13 + 29/29 pointers open; all cited spans opened by sed; four extra spans opened in R1 (auth-magic-link.ts:8-14, auth.ts:56-112, mcp.ts:696-702, capture.ts:700-710) to settle attacks. Orchestrator rated nothing as "support"; only literal-inspection verifications recorded.
+packets: r1-packet.py; claude packet = 8 own + 7 peer (grok 1,2,4,5,6,7,8: contradicting 2,4,5,6,7; unaddressed 1,8); grok packet = 8 own + 6 peer (claude 2,3,5,6,7,8: contradicting 3,5,6,8; unaddressed 7; unverified-naming 2). Transformations: neutral labels, seeded shuffle, ORCH-SUMMARY (ledger-note.md). No tallies. Vendor-name grep: 4 hits per packet, all product references inside memos (`claude mcp add`, ApiKeyManager Claude/Codex tabs), not seat labels.
+R1: run in parallel; claude attempt 1 ok 48 s (4094 B); grok attempt 1 ok 152 s (4607 B). Neither R1 read before both finished.
+R2: not run (no VERDICT INPUT changed direction).
+verdict: A_panel.md filled from ledger rows; A_2seat.md = header + both memos verbatim.
+timings: R0 reuse 0 s; oracle pass ~3 min; R1 152 s wall; total ~15 min.
+attempt failures: none.

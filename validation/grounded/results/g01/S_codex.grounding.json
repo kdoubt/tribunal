@@ -1,0 +1,102 @@
+{
+ "arm": "results/g01//S_codex.md",
+ "claims": 8,
+ "pointers": [
+  {
+   "claim": "Reuse magic-link email proof, but defer new-account creation until an explicit browser approval.",
+   "pointer": "W/routes/auth-verify.ts:43-50",
+   "resolves": true,
+   "file": "apps/worker/src/routes/auth-verify.ts",
+   "text": "if (!account) {\n    const accountId = generateId();\n    await env.DB.prepare(\n      \"INSERT INTO accounts (id, email, created_at, plan, status) VALUES (?, ?, ?, 'free', 'active')\"\n    )\n      .bind(accountId, token.email, now)\n      .run();\n    account = { id: accountId, plan: \"free\" };\n  }\n\n  // Create session",
+   "supports": null
+  },
+  {
+   "claim": "Existing MCP enrollment provides reusable device records, but does not provide unauthenticated device-code onboarding.",
+   "pointer": "W/routes/mcp.ts:291-292",
+   "resolves": true,
+   "file": "apps/worker/src/routes/mcp.ts",
+   "text": "if (!auth) {\n    return jsonRpcError(null, -32000, \"Authentication required. Pass your API key in the X-API-Key header.\");\n  }\n\n  // Fix 4: per-account rate limiting",
+   "supports": null
+  },
+  {
+   "claim": "Device revocation must invalidate its dedicated API key as well to prevent reconnection using retained credentials.",
+   "pointer": "W/routes/mcp-devices.ts:70",
+   "resolves": true,
+   "file": "apps/worker/src/routes/mcp-devices.ts",
+   "text": "await env.DB.prepare(\"UPDATE mcp_devices SET status = 'revoked' WHERE id = ?\")\n    .bind(deviceId)\n    .run();",
+   "supports": null
+  },
+  {
+   "claim": "Device revocation must invalidate its dedicated API key as well to prevent reconnection using retained credentials.",
+   "pointer": "W/routes/mcp.ts:335",
+   "resolves": true,
+   "file": "apps/worker/src/routes/mcp.ts",
+   "text": "// and this is an initialize request, create a device and assign Mcp-Session-Id\n  if (auth.type === \"api_key\" && isInitializeRequest(body)) {\n    try {\n      // Enforce device quota per API key (max 10) \u2014 atomic via conditional INSERT\n      const sessionToken = generateMcpSessionToken();",
+   "supports": null
+  },
+  {
+   "claim": "Per-device credentials should segregate installation access without promising private per-device content.",
+   "pointer": "W/routes/mcp.ts:1151",
+   "resolves": true,
+   "file": "apps/worker/src/routes/mcp.ts",
+   "text": "conditions.push(\n        \"(device_id IN (SELECT id FROM mcp_devices WHERE account_id = ? AND group_name = ?) OR device_id IS NULL)\"\n      );\n      binds.push(auth.accountId, thisDevice.group_name);\n    }",
+   "supports": null
+  },
+  {
+   "claim": "Per-device credentials should segregate installation access without promising private per-device content.",
+   "pointer": "W/routes/items-get.ts:7-13",
+   "resolves": true,
+   "file": "apps/worker/src/routes/items-get.ts",
+   "text": "export async function handleGetItem(\n  itemId: string,\n  env: Env\n): Promise<Response> {\n  const row = await env.DB.prepare(\"SELECT * FROM items WHERE id = ?\")\n    .bind(itemId)\n    .first<ItemRow>();\n\n  if (!row) {\n    return apiError(ErrorCodes.ITEM_NOT_FOUND, \"Item not found.\");",
+   "supports": null
+  },
+  {
+   "claim": "Capture admission needs durable reservations before browser work rather than relying on completed-item counts.",
+   "pointer": "W/middleware/rate-limit.ts:74-78",
+   "resolves": true,
+   "file": "apps/worker/src/middleware/rate-limit.ts",
+   "text": "const countResult = await env.DB.prepare(\n    \"SELECT COUNT(*) as cnt FROM items WHERE account_id = ? AND created_at > ?\"\n  )\n    .bind(accountId, startOfDay.toISOString())\n    .first<{ cnt: number }>();\n\n  const todayUploads = countResult?.cnt ?? 0;",
+   "supports": null
+  },
+  {
+   "claim": "Capture admission needs durable reservations before browser work rather than relying on completed-item counts.",
+   "pointer": "W/routes/capture.ts:565",
+   "resolves": true,
+   "file": "apps/worker/src/routes/capture.ts",
+   "text": "try {\n    const browser = await puppeteer.launch(env.BROWSER);\n\n    for (let i = 0; i < viewportNames.length; i++) {\n      const vpName = viewportNames[i];",
+   "supports": null
+  },
+  {
+   "claim": "Email verification alone is an insufficient proposed farming defense.",
+   "pointer": "W/routes/auth-magic-link.ts:23-32",
+   "resolves": true,
+   "file": "apps/worker/src/routes/auth-magic-link.ts",
+   "text": "// Rate limit: max 3 magic links per email per 15 min\n  const fifteenMinAgo = new Date(Date.now() - 15 * 60_000).toISOString();\n  const recentTokens = await env.DB.prepare(\n    \"SELECT COUNT(*) as cnt FROM magic_tokens WHERE email = ? AND created_at > ?\"\n  )\n    .bind(email, fifteenMinAgo)\n    .first<{ cnt: number }>();\n\n  if ((recentTokens?.cnt ?? 0) >= 3) {\n    return apiError(ErrorCodes.RATE_LIMITED, \"Too many sign-in attempts. Try again in 15 minutes.\");\n  }\n\n  // Generate token",
+   "supports": null
+  },
+  {
+   "claim": "Published entitlements must be reconciled before introducing capture-specific limits.",
+   "pointer": "apps/web/app/routes/pricing.tsx:18-19",
+   "resolves": true,
+   "file": "apps/web/app/routes/pricing.tsx",
+   "text": "<p className=\"pricing-subtitle\">\n        WhipNode is in early access. All early adopters get the free plan - no limits will change\n        without notice.\n      </p>\n\n      <div className=\"pricing-early-banner\">",
+   "supports": null
+  },
+  {
+   "claim": "Published entitlements must be reconciled before introducing capture-specific limits.",
+   "pointer": "P/constants.ts:55",
+   "resolves": true,
+   "file": "packages/protocol/src/constants.ts",
+   "text": "uploads_per_day: 1000,\n    max_total_bytes_per_item: 250 * 1024 * 1024, // 250 MiB\n    max_file_bytes: 50 * 1024 * 1024, // 50 MiB per file\n    ttl_hours_max: 168,\n    api_access: true,",
+   "supports": null
+  },
+  {
+   "claim": "Data minimization requires cleanup changes, beyond configuring a 24-hour TTL.",
+   "pointer": "W/scheduled/cleanup.ts:22-24",
+   "resolves": true,
+   "file": "apps/worker/src/scheduled/cleanup.ts",
+   "text": "if (!expired.results || expired.results.length === 0) {\n    return;\n  }\n\n  for (const item of expired.results) {\n    await cleanupItem(item.id, env);",
+   "supports": null
+  }
+ ]
+}

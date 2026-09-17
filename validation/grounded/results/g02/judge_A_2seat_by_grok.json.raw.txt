@@ -1,0 +1,19 @@
+{
+  "decision_correct": 0.5,
+  "decision_correct_quote": "Survivable *only after* code changes — the capture path has no per-IP gate (C2) and the MCP path strips the IP (C3), so the proposal's implied controls do not exist yet; quota must be viewport-seconds, not captures (C1); gate = IP+UA hash, global daily budget; kill switch = feature var + `PLAN_LIMITS.trial` zeroing, which cannot touch claimed accounts because they are `plan='free'`.",
+  "must_catch": [
+    {"item": 1, "hit": 1, "quote": "The capture path enforces no per-IP limit at all today — only the per-account daily count. EVIDENCE: `capture.ts:234` calls only `checkDailyUploadLimit`; `checkUploadRateLimit` has exactly one call site, `items-create.ts:70`."},
+    {"item": 2, "hit": 1, "quote": "Even the wired per-IP limit is inert for MCP-originated work, because the internal Request carries no `CF-Connecting-IP`. [...] `rate-limit.ts:21` `if (!ip) return { allowed: true };` [...] `1009-1013` constructs captures without client-IP headers."},
+    {"item": 3, "hit": 1, "quote": "Setting `plan='trial'` without adding `PLAN_LIMITS.trial` grants 50/day, not 10 — the lookup falls back to free. EVIDENCE: `rate-limit.ts:70` `const limits = PLAN_LIMITS[plan] ?? PLAN_LIMITS.free;`"},
+    {"item": 4, "hit": 1, "quote": "`0001_initial_schema.sql:9` `email TEXT NOT NULL UNIQUE` [...] Make account email nullable and add an explicit trial state."},
+    {"item": 5, "hit": 1, "quote": "One rung-0 \"capture\" is up to six full browser page-loads plus six OCR jobs [...] `capture.ts:25` `const MAX_WAIT_MS = 25_000;` [...] Cap trial captures at 1 viewport and `full_page:false`"},
+    {"item": 6, "hit": 1, "quote": "Link alone must be inert. [...] No bearer credential is ever printed. [...] This link alone grants no access."},
+    {"item": 7, "hit": 1, "quote": "Kill switch: flip `FEATURE_RUNG0_TRIAL=0` (stops issuance only) [...] Claimed accounts are `plan='free'` and unaffected."}
+  ],
+  "false_objections": [
+    {"quote": "replace trial credentials and device session without grace", "why": "reissue on claim breaks the agent's stored config; conversion is in-place on the same key and device rows"},
+    {"quote": "Error text returns the claim URL **and** the code; the code is the possession proof, the URL alone is inert.", "why": "a locator plus the possession secret in MCP error/tool text is still a transcript bearer"},
+    {"quote": "Then one **Authorize** click commits", "why": "browser Authorize is consent only; conversion is the trial-key-authenticated CLI poll"}
+  ],
+  "notes": "Union catches the live capture-limiter bug and the non-bearer requirement, but the possession path is wrong (page-typed code / loopback+Authorize, plus a reissue landmine) rather than a trial-key-authenticated poll."
+}

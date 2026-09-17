@@ -1,0 +1,50 @@
+{
+ "judge": "claude",
+ "truth": "<path>",
+ "output": "<path>",
+ "seconds": 44.8,
+ "parsed": true,
+ "scores": {
+  "decision_correct": 1,
+  "decision_correct_quote": "Q2 - before launch: agent-first hero leading with capture-and-read; a primary signup-free trial instruction with expected output and a recipe link before the MCP-key install; disclose the URL-capture and MCP account requirements beside \"No account needed\"",
+  "must_catch": [
+   {
+    "item": 1,
+    "hit": 1,
+    "quote": "A1/B1: the page uses agent language but its conversion path is human-first; the biggest gap is that the agent is never the first actor (no agent-initiated capture-and-read as the primary action)."
+   },
+   {
+    "item": 2,
+    "hit": 1,
+    "quote": "A3 conceded by B (absence of Codex/Grok guidance; not incompatibility)... with A's note that a Claude-only instruction still leaves Codex/Grok unaddressed"
+   },
+   {
+    "item": 3,
+    "hit": 1,
+    "quote": "A4/B2: \"No account needed\" (`index.tsx:72`) contradicts the URL-capture login wall (`UploadForm.tsx:182-184`, `:540`) and the \"Create an account to get your API key\" install line (`:183-184`)."
+   },
+   {
+    "item": 4,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 5,
+    "hit": 1,
+    "quote": "A7 vs B7 (hero \"See how to scale\"): A - drop the hero pricing CTA; it points a zero-click trial at plans. B - keep pricing discoverable, rename the CTA and state anonymous-trial vs account limits beside it."
+   },
+   {
+    "item": 6,
+    "hit": 1,
+    "quote": "A2/B1/B3: capture is a buried scenario and a late MCP card, not a pasteable recipe; a primary trial instruction is missing."
+   },
+   {
+    "item": 7,
+    "hit": 0,
+    "quote": ""
+   }
+  ],
+  "false_objections": [],
+  "notes": "Memo lands all three launch blockers (agent-first hero, Codex/Grok gap, account-CTA contradiction) and the missing trial recipe, but treats the cookie issue only as a functional hard-wall on decline rather than a banner overlaying the hero in both captures, never labels the OCR garble NO-SIGNAL, and leaves on-page pricing unresolved as dissent; it commits no landmine errors."
+ }
+}

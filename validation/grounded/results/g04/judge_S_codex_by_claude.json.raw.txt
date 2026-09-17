@@ -1,0 +1,18 @@
+{
+ "decision_correct": 0.5,
+ "decision_correct_quote": "The page explicitly addresses agents, but its biggest message gap is making \u201cmy agent captures and reads a web page\u201d the primary action instead of asking the human to upload. ... Replace the hero with \u201cLet your agent capture and read web pages,\u201d make the verified trial instruction primary, and move manual upload below it",
+ "must_catch": [
+  {"item": 1, "hit": 1, "quote": "EVIDENCE: Capture: \u201cYour AI agent can finally see\u201d; \u201cUpload something\u201d; \u201cPaste or upload\u201d"},
+  {"item": 2, "hit": 0, "quote": ""},
+  {"item": 3, "hit": 1, "quote": "The blanket \u201cNo account needed\u201d promise conflicts with the landing form\u2019s account requirement for URL capture ... `R:72`: \u201cNo account needed. Expires in 24 hours. Free.\u201d ... `R:183`: \u201cCreate an account\u201d ... state anonymous limits, expiry, and the later account/API-key step together"},
+  {"item": 4, "hit": 1, "quote": "The captured consent prompt introduces a visible decision before continuation on both viewports ... EVIDENCE: Desktop and mobile capture: \u201cBefore you continue,\u201d \u201cAccept and continue,\u201d \u201cDecline\u201d; `C:32\u201334`"},
+  {"item": 5, "hit": 1, "quote": "Pricing is discoverable, but the hero\u2019s \u201cSee how to scale\u201d label obscures its destination, so rename it \u201cPricing\u201d and distinguish anonymous-trial limits from account benefits beside the trial CTA ... `R:47`: `<a href=\"/pricing\" \u2026>See how to scale</a>`"},
+  {"item": 6, "hit": 1, "quote": "the page needs a primary trial instruction and review-recipe link because its displayed terminal instruction installs Claude MCP with an API key rather than demonstrating the promised capture-and-read outcome ... Add a compact capture \u2192 readable output \u2192 review-recipe section"},
+  {"item": 7, "hit": 1, "quote": "terminal OCR: \u201cwhipnod                  ttps://whipr\u201d \u2014 **NO-SIGNAL** for actual clipping, wrapping, or usability."}
+ ],
+ "false_objections": [
+  {"quote": "Replace the hero\u2019s dependency on Claude Code\u2019s alleged screenshot limitation with a direct capture-and-read benefit, since the page\u2019s own feature descriptions support that benefit without establishing the competitor limitation.", "why": "treats an accurate product-positioning line as an unsupported competitor claim needing pre-launch removal"},
+  {"quote": "\u201cEnd-to-end encrypted\u201d needs substantiation or removal before launch because the captured page asserts it alongside content analysis and capability-link sharing without explaining the encryption boundary.", "why": "escalates an implementation detail the pack cannot adjudicate into a launch blocker"}
+ ],
+ "notes": "Memo nails the upload-first-vs-agent-first diagnosis, the account contradiction, the cookie wall, pricing labeling, the missing trial recipe, and correctly NO-SIGNALs the OCR garble, but misses the Codex/Grok multi-CLI install blocker entirely and spends two of eight claims on non-blocker messaging objections."
+}

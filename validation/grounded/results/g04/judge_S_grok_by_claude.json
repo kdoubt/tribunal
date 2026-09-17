@@ -1,0 +1,55 @@
+{
+ "judge": "claude",
+ "truth": "<path>",
+ "output": "<path>",
+ "seconds": 38.6,
+ "parsed": true,
+ "scores": {
+  "decision_correct": 1,
+  "decision_correct_quote": "**Q1:** Speaks to the human Claude-Code uploader first; agent-CLI capture/read is a mid-page scenario. Biggest gap: no agent-initiated capture recipe on the conversion path. ... 1. Rewrite hero + primary CTA to agent-first capture (\u201cYour agent can screenshot any URL\u201d) with Claude / Codex / Grok one-liners; demote \u201cUpload something\u201d ... 2. ... replace \u201cCreate an account to get your API key\u201d with the real no-email connect",
+  "must_catch": [
+   {
+    "item": 1,
+    "hit": 1,
+    "quote": "CLAIM: The landing\u2019s primary voice is a human uploader unblocking Claude Code, not a terminal agent that captures pages itself. EVIDENCE: Pack: \u201cYou can't paste screenshots into Claude Code. WhipNode fixes that.\u201d Confirmed `index.tsx:42-47` (`hero-explainer`, CTAs `Upload something` \u2192 `/new`, `See how to scale` \u2192 `/pricing`)"
+   },
+   {
+    "item": 2,
+    "hit": 1,
+    "quote": "CLAIM: Codex and Grok are absent from the landing; the only install artifact is a Claude MCP add that requires `YOUR_KEY`. EVIDENCE: ... Source: `index.tsx:181` `` `claude mcp add whipnode --transport http \u2026 --header \"X-API-Key: YOUR_KEY\" -s user` ``. `index.tsx` contains no `Codex` or `Grok` string."
+   },
+   {
+    "item": 3,
+    "hit": 1,
+    "quote": "CLAIM: \u201cNo account needed\u201d sits on the same page as two account walls (MCP key; URL capture login), which contradicts a zero-click trial and the no-signup honesty rule. EVIDENCE: Pack: \u201cNo account needed. Expil\u201d vs \u201cCreate an account to get your API key.\u201d Source: `index.tsx:72` \u201cNo account needed. Expires in 24 hours. Free.\u201d vs `index.tsx:183-184`"
+   },
+   {
+    "item": 4,
+    "hit": 1,
+    "quote": "CLAIM: First visit is a cookie clickwrap over the upload affordance on both viewports ... EVIDENCE: Pack desktop+mobile: \u201cBefore you continue / WhipNode uses cookies\u2026 Accept and continue / Decline\u201d adjacent to \u201cTask for the\u201d / \u201c0/4000\u201d. Source: `CookieConsent.tsx:51-77` overlay"
+   },
+   {
+    "item": 5,
+    "hit": 1,
+    "quote": "CLAIM: Hero \u201cSee how to scale\u201d and the install line \u201cCreate an account to get your API key\u2026 50 uploads/day\u2026 no credit card needed\u201d point the trial ladder at signup/pricing instead of an anonymous first capture. ... Pricing page (out of primary artifact, supporting): `pricing.tsx:18-24` early-access free plan \u2014 not shown on `/`."
+   },
+   {
+    "item": 6,
+    "hit": 1,
+    "quote": "the agent is never the first actor in the conversion path \u2014 capture exists as a buried scenario and a late MCP card, not as a pasteable CLI recipe. EVIDENCE: ... \u201cCapture e revieu / One agent screenshots staging\u201d (a2a, not hero) ... No recipe/trial CTA in `index.tsx` (only `/new` and `/pricing`)."
+   },
+   {
+    "item": 7,
+    "hit": 0,
+    "quote": ""
+   }
+  ],
+  "false_objections": [
+   {
+    "quote": "CLAIM: The trust chip \u201cEnd-to-end encrypted\u201d is an honesty risk against the page\u2019s own server-side OCR path (the service must read content).",
+    "why": "speculative marketing-honesty claim outside the artifact's decision scope, and it displaces a top-3 slot the rubric reserves for hero/CLI/account blockers"
+   }
+  ],
+  "notes": "Memo lands the decision and six of seven must-catches with tight pack-plus-source citations; it never reports the OCR garble as real typos (landmine avoided) but also never explicitly labels that noise NO-SIGNAL, so item 7 has no supporting span, and it spends a top-3 slot on an out-of-scope E2E-encryption honesty claim."
+ }
+}

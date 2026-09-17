@@ -1,0 +1,75 @@
+{
+ "judge": "codex",
+ "truth": "<path>",
+ "output": "<path>",
+ "seconds": 24.2,
+ "parsed": true,
+ "scores": {
+  "decision_correct": 0.5,
+  "decision_correct_quote": "**Mode:** `dont` (as it stands) \u2192 ship after the agreed minimum.",
+  "must_catch": [
+   {
+    "item": 1,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 2,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 3,
+    "hit": 1,
+    "quote": "The post-tool follow-up completion omits `tools`, which the deployed LiteLLM config (drop_params, no modify_params) rejects for the Anthropic deployment; the failure is swallowed into canned copy (A4, B6; C7)."
+   },
+   {
+    "item": 4,
+    "hit": 1,
+    "quote": "a watchdog keyed on prechat-complete false-positives on slow init - key it on a distinct widget-ready at init success."
+   },
+   {
+    "item": 5,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 6,
+    "hit": 1,
+    "quote": "The welcome string doubles \"practice\" (A7, B5; C8)."
+   },
+   {
+    "item": 7,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 8,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 9,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 10,
+    "hit": 1,
+    "quote": "Q3 - silent: dead widget under a \"live\" heading, C7 follow-up swallow, share-append swallow, expired/missing replay screenshot with no onerror, screenshot_success without widget_init; cheapest detectors disputed between per-session dead-man (A) and grep/PostHog-ratio (B)."
+   },
+   {
+    "item": 11,
+    "hit": 0,
+    "quote": ""
+   }
+  ],
+  "false_objections": [
+   {
+    "quote": "C3's class: the client graph never reached the lazily imported `/widget/$token` route, so ChatWidget never mounted and `init` was never issued",
+    "why": "asserts a lazy-route execution mechanism that the request captures cannot establish"
+   }
+  ],
+  "notes": "The memo gets the not-fit headline but misses template contamination, replay-write authorization, origin checks, duplicate exchanges, screenshot lease and cached-expiry defects, and the validated-prefetch distinction; its minimum also lacks live provider verification."
+ }
+}

@@ -1,0 +1,54 @@
+{
+ "judge": "codex",
+ "truth": "<path>",
+ "output": "<path>",
+ "seconds": 26.1,
+ "parsed": true,
+ "scores": {
+  "decision_correct": 0.5,
+  "decision_correct_quote": "Q1: Device-code `/init` Authorize over magic-link + one `api_keys` + `mcp_devices` session; no anonymous keys; dashboard paste stays fallback.",
+  "must_catch": [
+   {
+    "item": 1,
+    "hit": 1,
+    "quote": "Free-tier segregation is per-device `mcp_devices` sessions, not per-device API keys: `PLAN_LIMITS.free.max_api_keys` is 1 and create-key 403s at the cap; pairing must reuse/create that one `[\"write\"]` key"
+   },
+   {
+    "item": 2,
+    "hit": 1,
+    "quote": "Account insert only in `apps/worker/src/routes/auth-verify.ts:43-50` (`plan, 'free'`); ... Build a short-lived device-code pairing API + `/init` page (new); ... verify redirects to `/init?code=` not `/dashboard` (`auth-verify.ts:73`)."
+   },
+   {
+    "item": 3,
+    "hit": 1,
+    "quote": "Getting Started is login \u2192 create key \u2192 paste `claude mcp add \u2026 --header \"X-API-Key: \u2026\"`. ... ROADMAP \u201cCLI tool\u201d is Future (`docs/ROADMAP.md:36`)."
+   },
+   {
+    "item": 4,
+    "hit": 1,
+    "quote": "Email verify is necessary and not sufficient against farming: magic-link has no CAPTCHA, only `COUNT(*) \u2026 >= 3` per email; ... reuse magic-link (15 min, 3/email/15 min) ... each capture spawns a Puppeteer browser plus R2 writes plus a queue/OCR job ... Viewports per capture | 2 | 6 (capture.ts:546 cap)"
+   },
+   {
+    "item": 5,
+    "hit": 1,
+    "quote": "the single consent moment is a human click on `/init` \u201cAuthorize this device\u201d after a session cookie or magic-link verify ... email is \u201cSign in to WhipNode\u201d, not device consent"
+   },
+   {
+    "item": 6,
+    "hit": 0,
+    "quote": ""
+   }
+  ],
+  "false_objections": [
+   {
+    "quote": "so `whipnode init` needs no new device-auth mechanism, only a way to obtain the first key.",
+    "why": "existing MCP enrollment does not supply the required browser device-code authorization exchange"
+   },
+   {
+    "quote": "The only genuinely new server component is an init-code table in D1",
+    "why": "the flow also requires new pairing endpoints and verification return-path handling"
+   }
+  ],
+  "notes": "The union identifies the intended architecture and five must-catches, but contains conflicting consent and key-creation instructions and never explicitly binds credential redemption to verifier proof; owner-selected parameters were not scored."
+ }
+}

@@ -1,0 +1,7 @@
+captured 2026-09-17T19:11:00Z
+codex: codex-cli 0.153.2
+claude: 2.1.274 (Claude Code)
+grok: grok 1.0.13 (5e9a58528b76) [stable]
+codex model: model: gpt-6-astra
+claude seat model: claude-opus-5 (self-reported; the headless `claude -p` default on this host, not the orchestrator model)
+grok seat model: Grok 4.6 (self-reported)

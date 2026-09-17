@@ -1,0 +1,13 @@
+# g03 A_panel transformations log (orchestrator)
+identity: Seat A = codex (S_codex.md), Seat B = grok (S_grok.md); in R1 packets: for codex, grok's claims labelled Peer-1..5 (shuffled by r1-packet.py, seed = count); for grok, codex's claims labelled Peer-1..4. No vendor names, no tallies in any packet.
+T1 S_codex.norm.md: heading normalization ONLY for tooling (`**CLAIM n:**`→`CLAIM:`, `**EVIDENCE:**`→`EVIDENCE:` etc.); claim/evidence text untouched. Used as --own/--rival input to r1-packet.py and as input to grounding.py. S_codex.md (canonical) is unchanged and is what A_2seat.md and the judges receive.
+T2 grounding: tools/grounding.py on both memos → S_codex.grounding.json (14 pointers, 12 resolved by the tool; 2 reported MISSING because the basename search matched a different auth.ts — opened by hand, resolves), S_grok.grounding.json (21/21).
+T3 ledger.md written from the memos; statuses assigned per LEDGER.md; oracles.md records every opened span. No claim text altered; one-sentence claims quoted verbatim (B-claims are long single sentences and are kept whole).
+T4 ledger-note.md = ORCH-SUMMARY (agreed-r0 list + oracle results + the disputed list). No arguments added.
+T5 r1-packet.py: codex packet = own 8 claims + rival B1,B3,B6,B7,B8; grok packet = own 8 claims + rival A1,A3,A6,A8. Packets saved verbatim (r1-packet-codex.md, r1-packet-grok.md).
+T6 R1 seats run via tools/run-r1.sh (fresh dir with artifact + packet only; timeout 1800 s; up to 3 attempts; immutable attempts).
+T7 R1 results: codex attempt 1 ok (4307 B, 56 s); grok attempt 1 ok (4595 B, 182 s). No failed attempts. Tool note: run-r1.sh computes packet_sha256 after cd into the run dir with a relative packet path, so meta packet_sha256 is empty (cosmetic; packets are saved verbatim in this dir).
+T8 ledger.md updated with R1 outcomes (conceded/revised/still disputed per row); no load-bearing flip → no Round 2.
+T9 A_panel.md filled mechanically from ledger buckets; VERDICT INPUT lines composed from bucket contents only.
+T10 A_2seat.md = header + S_codex.md verbatim + separator + S_grok.md verbatim (17665 B).
+timings: R0 (reused solos) codex 2 min 17 s / grok 6 min 07 s per their meta; R1 window 18:11:54Z-18:14:56Z.

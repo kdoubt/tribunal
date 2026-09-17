@@ -1,0 +1,63 @@
+{
+ "judge": "grok",
+ "truth": "<path>",
+ "output": "<path>",
+ "seconds": 406.6,
+ "parsed": true,
+ "scores": {
+  "decision_correct": 0.5,
+  "decision_correct_quote": "Q1: Reject current economics; permit only a measured, tightly capped pilot.",
+  "must_catch": [
+   {
+    "item": 1,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 2,
+    "hit": 1,
+    "quote": "`1009-1013` constructs captures without client-IP headers."
+   },
+   {
+    "item": 3,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 4,
+    "hit": 1,
+    "quote": "`apps/worker/migrations/0001_initial_schema.sql:9` requires email; Make account email nullable and add an explicit trial state."
+   },
+   {
+    "item": 5,
+    "hit": 1,
+    "quote": "`W/routes/capture.ts:25,546-547,565-621`: six sequential viewports, each allowing 25-second navigation; Permit one 1280\u00d7800 viewport"
+   },
+   {
+    "item": 6,
+    "hit": 1,
+    "quote": "A transcript-visible link plus approval by the originating device does not defeat attacker-originated claiming. This link alone grants no access."
+   },
+   {
+    "item": 7,
+    "hit": 1,
+    "quote": "A D1 `trial_enabled=false` blocks issuance and new trial work; claimed accounts, claim completion and existing reads continue."
+   }
+  ],
+  "false_objections": [
+   {
+    "quote": "Atomically attach email and preserve account/item IDs; replace trial credentials and device session without grace.",
+    "why": "the agreed shape is same-key in-place conversion; reissuing the key breaks the agent's stored config"
+   },
+   {
+    "quote": "At a wall return structured reason/reset information and `https://whipnode.com/claim/<public-id>`.",
+    "why": "the claim locator must never appear in tool text"
+   },
+   {
+    "quote": "Then one **Authorize** click commits.",
+    "why": "conversion belongs on the trial-key-authenticated CLI poll; the browser click is consent only"
+   }
+  ],
+  "notes": "The memo correctly requires a capped 1-viewport pilot with IP/global budgets, a non-bearer locator, nullable email, complementary init, and a claimed-account-safe kill switch, but it never states that checkUploadRateLimit is unwired on captures or that an unknown trial plan falls back to free's 50/day, and it reissues keys while converting on Authorize after putting the claim URL in tool text."
+ }
+}

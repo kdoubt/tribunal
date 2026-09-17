@@ -1,0 +1,83 @@
+{
+ "judge": "codex",
+ "truth": "<path>",
+ "output": "<path>",
+ "seconds": 27.2,
+ "parsed": true,
+ "scores": {
+  "decision_correct": 0.5,
+  "decision_correct_quote": "Not fit. Minimum: (1) pass `tools: qualifierTools, tool_choice:'none'` at `llm-pipeline.ts:190`",
+  "must_catch": [
+   {
+    "item": 1,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 2,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 3,
+    "hit": 1,
+    "quote": "`llm-pipeline.ts:190` `{ model: MODELS.CHAT, messages: followUpMessages, max_tokens: 1024 }` (no `tools`) vs `:100` which passes them; `context/litellm-routing-SANITIZED.yaml:42-52` has `drop_params: true` and **no** `modify_params`; C7 verbatim error."
+   },
+   {
+    "item": 4,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 5,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 6,
+    "hit": 1,
+    "quote": "`init/route.ts:261` `` `\u2026a ${templateName.toLowerCase()} practice\u2026` `` with `flow-templates.ts:544` `name: 'Psychology Practice'` \u2192 \"a psychology practice practice\" (C8)"
+   },
+   {
+    "item": 7,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 8,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 9,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 10,
+    "hit": 1,
+    "quote": "Silent: widget boot failure (detector: parent handshake timeout \u2192 Sentry event); tool-follow-up 400 (detector: assert no `LLM follow-up call failed` during a forced-tool synthetic run, and alert on that log line)"
+   },
+   {
+    "item": 11,
+    "hit": 0,
+    "quote": ""
+   }
+  ],
+  "false_objections": [
+   {
+    "quote": "The widget's module graph did not execute to route resolution in that browser",
+    "why": "the captures establish a browser-side stall but cannot establish this execution mechanism"
+   },
+   {
+    "quote": "`hydrateRoot` is the only thing that resolves `/widget/$token` \u2192 its lazy chunk",
+    "why": "the static route import and separate production chunk do not establish why the browser omitted the request"
+   },
+   {
+    "quote": "The demo's first sentence is grammatically broken for all six verticals.",
+    "why": "the verified duplicated suffix affects two verticals rather than all six"
+   }
+  ],
+  "notes": "The memo reaches the negative verdict and catches the tools omission, duplicated welcome wording, and silent-failure detectors, but misses major blockers and origin checks, proposes mount readiness rather than honest init readiness, and omits the decide-after-check qualification."
+ }
+}

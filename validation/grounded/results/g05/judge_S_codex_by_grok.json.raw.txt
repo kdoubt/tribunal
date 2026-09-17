@@ -1,0 +1,15 @@
+{
+  "decision_correct": 1,
+  "decision_correct_quote": "Q1: **harden-first** — useful architecture, incomplete chokepoint (claims 1, 4). Q2: **harden-first** — identity bypass paths and unresolved host-service exposure (claims 2, 4). Q3: **don’t** ship the current lifecycle procedure (claims 3, 5–8).",
+  "must_catch": [
+    {"item": 1, "hit": 1, "quote": "Cloudflare gates the intended public route but is not a mandatory identity gate for every SSH entry path. **EVIDENCE:** ... `artifact/bastion-nftables.conf:8` accepts SSH without source/interface restriction; `artifact/ct204.conf:8` supplies its LAN address. `artifact/gb10-docker-inspect.txt:3` publishes LAN port 2222. `artifact/gb10_setup.sh:48–50` supplies no source restriction."},
+    {"item": 2, "hit": 1, "quote": "The highest-severity demonstrated design hole is retained guest GPU access when production resumes, allowing benchmark workloads to compete with production outside the accepted window. **EVIDENCE:** `artifact/ct205.conf:14–20` grants persistent shared-device access; `artifact/gb10_setup.sh:53–55` grants all GPUs. ... neither closure stops the bench environment or revokes devices."},
+    {"item": 3, "hit": 1, "quote": "`artifact/ct205.conf:8` attaches RTX only to `cirub0`; `artifact/sdn.cfg:1–5` defines its simple zone. `artifact/bastion-nftables.conf:14,19–24` drops forwarding and restricts private IPv4 output."},
+    {"item": 4, "hit": 1, "quote": "the asymmetric design makes it an incomplete chokepoint. ... Conversely, `artifact/gb10-docker-inspect.txt:2–3` shows two dual-network intermediaries."},
+    {"item": 5, "hit": 1, "quote": "Cloudflared uses notification readiness, a 15-second startup timeout, and five-second failure restart (`artifact/bastion-cloudflared.service:7–11`), but no separate tunnel-health probe is supplied. Squid, socat, and GB10 sshd use `unless-stopped` (`artifact/gb10_setup.sh:43–58`); setup then sleeps three seconds (`:60`)."},
+    {"item": 6, "hit": 1, "quote": "Backup exclusions are `114,205` (`artifact/backup-job.json:1`), while teardown overwrites them with `114` (`artifact/RUNBOOK.md:86`): omission leaves stale state; overwriting can erase intervening exclusions."},
+    {"item": 7, "hit": 1, "quote": "A2–A3 validation does not establish convergence or cache-independent DNS/Access/TLS correctness. ... **ASSUMPTION:** DNS caching, Access propagation, and concurrent Docker firewall changes can produce transient results"}
+  ],
+  "false_objections": [],
+  "notes": "Memo matches harden-first-then-onboard, hits all seven must-catch facts with cited artifacts, and avoids the three landmines (it treats the bastion as a real IPv4 chokepoint and notes gb10_setup.sh:38–41 trusts an existing network rather than failing on it)."
+}

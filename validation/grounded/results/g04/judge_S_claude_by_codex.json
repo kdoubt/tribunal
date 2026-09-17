@@ -1,0 +1,55 @@
+{
+ "judge": "codex",
+ "truth": "<path>",
+ "output": "<path>",
+ "seconds": 23.8,
+ "parsed": true,
+ "scores": {
+  "decision_correct": 0.5,
+  "decision_correct_quote": "biggest gap is that no flow on the page is agent-initiated \u2014 there is no example of an agent capturing and reading a page, only humans uploading to agents.",
+  "must_catch": [
+   {
+    "item": 1,
+    "hit": 1,
+    "quote": "every flow on the page is human-initiated \u2014 \"You \u2192 Agent\" \u2014 so a visitor whose goal is \"my agent captures and reads web pages itself\" finds no agent-side invocation anywhere on the page."
+   },
+   {
+    "item": 2,
+    "hit": 1,
+    "quote": "exclusively a Claude Code one \u2014 the landing route names Claude Code six times and names no other agent CLI, so a Codex/Grok arrival sees no proof it applies to them."
+   },
+   {
+    "item": 3,
+    "hit": 1,
+    "quote": "The page makes a \"No account needed\" promise directly under an upload form whose URL path refuses anonymous users, which is a hard contradiction for a zero-click trial funnel. [...] The install command is the page's key conversion asset but is gated behind account creation, so the landing page currently has no zero-click entry point at all. EVIDENCE: Pack: \"Create an account to get your API key.50 uploads/day, OCR, Al analysis, and full MCP integration-no credit card needed.\""
+   },
+   {
+    "item": 4,
+    "hit": 1,
+    "quote": "A blocking cookie modal is interposed over the hero and upload form on first paint in both viewports"
+   },
+   {
+    "item": 5,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 6,
+    "hit": 1,
+    "quote": "The only terminal block on the page is the connect command (\"claude mcp add whipnode \u2026\"); the pack contains no example of an agent calling a tool and no sample output URL/format."
+   },
+   {
+    "item": 7,
+    "hit": 0,
+    "quote": ""
+   }
+  ],
+  "false_objections": [
+   {
+    "quote": "On mobile the install command renders truncated rather than wrapped, so the page's one copy-paste payload is unusable",
+    "why": "OCR fragments do not establish mobile wrapping behavior or copy-paste usability"
+   }
+  ],
+  "notes": "The memo partially matches the launch decision but prioritizes different fixes, misses the explicit on-page free-tier visibility issue, and labels only unrelated footer garble NO-SIGNAL."
+ }
+}

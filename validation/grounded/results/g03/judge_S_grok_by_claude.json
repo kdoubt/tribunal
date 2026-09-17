@@ -1,0 +1,67 @@
+{
+ "judge": "claude",
+ "truth": "<path>",
+ "output": "<path>",
+ "seconds": 77.0,
+ "parsed": true,
+ "scores": {
+  "decision_correct": 0.5,
+  "decision_correct_quote": "**PUBLISH VERDICT:** `blocker` \u2014 do not commit this as implementation input until email nullability has a D1 rebuild, approve auth matches \u201cno account at verify,\u201d and every counter/purpose/IP/cleanup path is named as SQL an agent can paste.",
+  "must_catch": [
+   {
+    "item": 1,
+    "hit": 1,
+    "quote": "The required `accounts.email` nullability change has no complete D1 migration: email is `TEXT NOT NULL UNIQUE`, and this repo only ever `ADD COLUMN`s \u2014 SQLite/D1 cannot `ALTER` away NOT NULL without a table rebuild the spec does not give. ... FALSIFIER: A numbered migration that recreates `accounts` with nullable `email`, copies rows, and restores indexes/FKs"
+   },
+   {
+    "item": 2,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 3,
+    "hit": 1,
+    "quote": "`magic_tokens` has no `purpose` column the claim/init verify split requires. EVIDENCE: ... `:164-169` and `:247-248` \u201cclaim-specific token purpose\u201d; `apps/worker/migrations/0002_auth_sessions.sql:5-13` ... session mint lives only in `auth-verify.ts:53-69` after the account upsert (`:38-51`) the spec forbids for these tokens"
+   },
+   {
+    "item": 4,
+    "hit": 1,
+    "quote": "Two state machines on one `device_codes` table are sketched, not composed: no unique partial index backs \u201cone pending claim\u201d ... init Authorize must create the account and later poll may return key material, claim Authorize must not mutate the account and must not return a key ... (`ONBOARDING_SPEC.md:154-156, 183-191, 210-226`)"
+   },
+   {
+    "item": 5,
+    "hit": 1,
+    "quote": "Q2 Buildability: Cited line numbers for today\u2019s bugs check out (`capture.ts:233-237`, `rate-limit.ts:20-21,70`, `mcp.ts:291-293`, `auth-verify.ts:22,38-77`, `api-keys.ts:139-142`, `types.ts:32`)"
+   },
+   {
+    "item": 6,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 7,
+    "hit": 0,
+    "quote": ""
+   }
+  ],
+  "false_objections": [
+   {
+    "quote": "silently defaults two OWNER-CALLs (trial quota 10, free devices 3)",
+    "why": "the memo's own evidence quotes \u201c10 (OWNER-CALL\u2026)\u201d, so the spec logs these as open owner calls rather than silently resolving them"
+   },
+   {
+    "quote": "leaves Turnstile and raw-key vs device-token unresolved for an agent that will not get a human call",
+    "why": "recording these as open OWNER-CALLs in the decision log is the correct fidelity behavior, not a defect"
+   },
+   {
+    "quote": "an implementer either mints on every unauthenticated `initialize` (raw `wn_` in an unnamed response header \u2014 a new bearer surface, plus a burned IP slot)",
+    "why": "the spec routes the rung-0 raw key through the CLI wrapper only, which is the mitigation for the transcript-bearer risk, not a new bearer surface"
+   },
+   {
+    "quote": "`POST /auth/device/approve (session-authed)` cannot run for claim or init as specified",
+    "why": "asserted as unbuildable from the inventory line alone while the memo itself quotes the approve endpoint as \u201ckind-aware,\u201d overstating a sequencing detail into a hard blocker"
+   }
+  ],
+  "notes": "The memo lands the sealed miss \u2014 the SQLite/D1 rebuild for nullable `accounts.email` with index/FK restoration \u2014 but never names the partial index the new 7-day cleanup query needs, walks straight into the quota/owner-call landmine, and escalates to `blocker` where the correct call was ship-after-fixes."
+ }
+}

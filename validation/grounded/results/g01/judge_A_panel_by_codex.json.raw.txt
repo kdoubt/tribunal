@@ -1,0 +1,43 @@
+{
+  "decision_correct": 0.5,
+  "decision_correct_quote": "Q1 - device-code pairing over magic-link with one human Authorize click, one new D1 pairing table plus /init page, reuse the single free key and mcp_devices enrollment on initialize, keep the raw key in a 0600 credentials file for re-enrollment; consent placement (before vs after email verify) and poll payload are owner calls (D1, D2).",
+  "must_catch": [
+    {
+      "item": 1,
+      "hit": 1,
+      "quote": "free segregation is one key with per-device rows"
+    },
+    {
+      "item": 2,
+      "hit": 0,
+      "quote": ""
+    },
+    {
+      "item": 3,
+      "hit": 0,
+      "quote": ""
+    },
+    {
+      "item": 4,
+      "hit": 1,
+      "quote": "the signup surface today is per-email rate limiting only, with `ip_hash` stored but unread and no Turnstile/captcha anywhere (A3, A4, B7-facts); free segregation is one key with per-device rows (A5, B4); captures are the expensive unit yet are gated only by the shared 50 uploads/day counter, so a capture meter is needed"
+    },
+    {
+      "item": 5,
+      "hit": 0,
+      "quote": ""
+    },
+    {
+      "item": 6,
+      "hit": 1,
+      "quote": "A revised A7 (0.87→0.95, widened) and its FLOW step 9 (poll returns raw key once). Converged: a DAILY capture sub-quota; status shows remaining vs limit and refusal names the limit; poll must be bound by a server-issued secret; credentials file 0600"
+    }
+  ],
+  "false_objections": [
+    {
+      "quote": "consent placement (before vs after email verify) and poll payload are owner calls (D1, D2).",
+      "why": "D1 leaves the required post-verification browser authorization unresolved as an owner parameter"
+    }
+  ],
+  "notes": "The memo supports the shared architecture but omits the required verification return path and absent-CLI finding, and reports identity-versus-authorization only as surviving dissent."
+}

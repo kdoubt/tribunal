@@ -1,0 +1,6 @@
+INCOMPLETE decision=g08 arm=R1_codex reason="invalid: empty too small 0B missing ATTACK missing CONCEDE missing REVISE missing VERDICT INPUT ends mid-sentence" attempt=1 rc=1 seconds=5
+INCOMPLETE decision=g08 arm=R1_codex reason="invalid: empty too small 0B missing ATTACK missing CONCEDE missing REVISE missing VERDICT INPUT ends mid-sentence" attempt=2 rc=1 seconds=2
+INCOMPLETE decision=g08 arm=R1_codex reason="invalid: empty too small 0B missing ATTACK missing CONCEDE missing REVISE missing VERDICT INPUT ends mid-sentence" attempt=3 rc=1 seconds=2
+codex rc=1
+[g08 R1_grok] ok attempt=1 4173B 134s
+grok rc=0

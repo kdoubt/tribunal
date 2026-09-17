@@ -1,0 +1,19 @@
+{
+ "decision_correct": 0.5,
+ "decision_correct_quote": "**PUBLISH VERDICT: blocker** — Resolve these specification gaps before implementation proceeds without human review.",
+ "must_catch": [
+  {"item": 1, "hit": 1, "quote": "CLAIM 2: The required schema changes lack a complete migration plan for the existing database.  EVIDENCE: S:85–87 says only “migration makes email nullable”; M/0001_initial_schema.sql:9 declares `email TEXT NOT NULL UNIQUE`, :16–18 adds indexes, and M/0009_api_keys_override.sql:2 adds a column that must survive any rebuild. ... FALSIFIER: An artifact section supplies executable migrations preserving existing data, columns, indexes, and references"},
+  {"item": 2, "hit": 0, "quote": "S:68–72 mandates raw-key delivery and `X-API-Key`, contradicting S:202–204"},
+  {"item": 3, "hit": 1, "quote": "S:164–169 requires token purposes and pairing association, but M/0002_auth_sessions.sql:5–13 contains neither. ... W/routes/auth-verify.ts:64–74 creates that account-bound session cookie."},
+  {"item": 4, "hit": 0, "quote": ""},
+  {"item": 5, "hit": 0, "quote": ""},
+  {"item": 6, "hit": 0, "quote": ""},
+  {"item": 7, "hit": 1, "quote": "S:185–191 specifies one account UPDATE checking approved/unconsumed pairing and active key/device"}
+ ],
+ "false_objections": [
+  {"quote": "operationally selects raw trial keys despite calling that choice unresolved ... S:68–72 mandates raw-key delivery and `X-API-Key`, contradicting S:202–204", "why": "v2 logs the raw-key credential as an open OWNER-CALL and routes rung-0 key material through the CLI wrapper only, so this is not a silent resolution or contradiction"},
+  {"quote": "CLAIM 6: Credential-file theft can retain authority after conversion, so the stated 24-hour blast-radius rationale does not bound continuing account access.", "why": "the spec explicitly acknowledges file theft at S:31–33 as an accepted-risk owner decision, not an unspecified gap"},
+  {"quote": "CLAIM 8: The enforcement inventory leaves an authenticated Browser-rendering path outside the trial spend and viewport controls.", "why": "pre-existing render-path quota coverage is outside the staged spec's scope and is not a spec defect blocking this build"}
+ ],
+ "notes": "The memo lands the decisive migration-completeness catch (must_catch 1, the item the original panel missed) with correct file/line grounding, but misses the kind discriminator, prerequisite bugfixes, and raw-key-transcript items, mis-frames the raw-key OWNER-CALL as a resolved contradiction, and over-escalates a ship-after-fixes spec to blocker."
+}

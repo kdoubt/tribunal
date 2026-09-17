@@ -1,0 +1,50 @@
+{
+ "judge": "claude",
+ "truth": "<path>",
+ "output": "<path>",
+ "seconds": 35.7,
+ "parsed": true,
+ "scores": {
+  "decision_correct": 1,
+  "decision_correct_quote": "**Q1:** Survivable **only** with scarce issuance (1/IP/day + global cap + flag), a shrunk browser envelope (10 jobs, 1 viewport, no 4k/full_page), IP limits actually applied to capture/render (including MCP), and a flag that freezes unclaimed trials without touching claimed accounts \u2014 not as a naked auto-provision on first tool use.",
+  "must_catch": [
+   {
+    "item": 1,
+    "hit": 1,
+    "quote": "that cost is **not** bounded by `ABUSE_BUDGET` IP caps because `handleCapture` never calls `checkUploadRateLimit` ... `capture.ts:233-237` daily account limit only; `rate-limit.ts:16-40` IP hourly cap is `checkUploadRateLimit`, imported by `items-create.ts:70` not `capture.ts`"
+   },
+   {
+    "item": 2,
+    "hit": 1,
+    "quote": "MCP then strips the client IP: `mcp.ts:1009-1013` builds `new Request(\"https://internal/api/v1/captures\")` with no `CF-Connecting-IP`. ... missing IP currently fail-opens: `rate-limit.ts:21` `if (!ip) return { allowed: true }`"
+   },
+   {
+    "item": 3,
+    "hit": 1,
+    "quote": "`AccountPlan` has no trial ... `types.ts:32` `AccountPlan = \"free\" | \"pro\" | \"team\" | \"owner\"` ... `constants.ts:43-51` free is already 50/day \u2014 trial must be a new `PLAN_LIMITS.trial` row, not `free`"
+   },
+   {
+    "item": 4,
+    "hit": 1,
+    "quote": "`accounts.email` is `NOT NULL UNIQUE` ... `0001_initial_schema.sql:9` `email TEXT NOT NULL UNIQUE` ... FALSIFIER: A migration making `accounts.email` nullable"
+   },
+   {
+    "item": 5,
+    "hit": 1,
+    "quote": "`capture.ts:25` `MAX_WAIT_MS = 25_000`; ... `capture.ts:546-548` \"Maximum 6 viewports\" ... forced single `desktop` viewport, `full_page` and `4k` rejected ... a farm at 10 jobs \u00d7 many minted trials exhausts included hours and the 10-concurrency grant"
+   },
+   {
+    "item": 6,
+    "hit": 1,
+    "quote": "A claim URL that attaches email on GET (the current magic-link verify shape) is a transcript bearer and is unacceptable; the surfaced value may only be a public index `https://whipnode.com/claim` plus a short `WHIP-XXXX` user_code ... finish needs bound `mcp_devices` + browser nonce ... FALSIFIER: Completing a claim with only the user_code from a transcript"
+   },
+   {
+    "item": 7,
+    "hit": 1,
+    "quote": "The kill switch is `FEATURE_ENABLE_TRIAL_ISSUANCE` off ... existing `plan='trial' AND email IS NULL` rows may read/fetch but `handleCapture`/`handleRender` reject; rows with email set and `plan` in `{free,pro,team,owner}` are untouched"
+   }
+  ],
+  "false_objections": [],
+  "notes": "Memo lands the verified capture-path limiter bug plus the MCP IP-stripping/fail-open chain, avoids every landmine (non-bearer claim locator, in-place same-key conversion, complements `init`, migration for NOT NULL email), and its only divergence from the oracle is substituting a browser-only nonce POSTed by the bound device for the trial-key-authenticated poll \u2014 a different but still possession-proving mechanism, not a false objection."
+ }
+}

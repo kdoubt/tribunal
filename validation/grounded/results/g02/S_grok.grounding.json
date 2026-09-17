@@ -1,0 +1,290 @@
+{
+ "arm": "results/g02//S_grok.md",
+ "claims": 8,
+ "pointers": [
+  {
+   "claim": "A single `whipnode_capture` can pin Cloudflare Browser Rendering for up to 25s per viewport (plus a 3s heavy-SPA settle) across as many as 6 viewports including 4k and `full_page`, and that cost is **not** bounded by `ABUSE_BUDGET` IP caps because `handleCapture` never calls `checkUploadRateLimit`.",
+   "pointer": "capture.ts:25",
+   "resolves": true,
+   "file": "apps/worker/src/routes/capture.ts",
+   "text": "const URL_RE = /^https?:\\/\\/.+/;\nconst MAX_WAIT_MS = 25_000;\n\n/** Hosts that are heavy SPAs \u2014 use relaxed wait strategy */\nconst HEAVY_SPA_HOSTS = new Set([",
+   "supports": null
+  },
+  {
+   "claim": "A single `whipnode_capture` can pin Cloudflare Browser Rendering for up to 25s per viewport (plus a 3s heavy-SPA settle) across as many as 6 viewports including 4k and `full_page`, and that cost is **not** bounded by `ABUSE_BUDGET` IP caps because `handleCapture` never calls `checkUploadRateLimit`.",
+   "pointer": "capture.ts:14-21",
+   "resolves": true,
+   "file": "apps/worker/src/routes/capture.ts",
+   "text": "const VIEWPORTS: Record<string, { width: number; height: number; deviceScaleFactor?: number; isMobile?: boolean }> = {\n  desktop:    { width: 1280, height: 800 },\n  laptop:     { width: 1024, height: 768 },\n  tablet:     { width: 768, height: 1024, isMobile: true },\n  mobile:     { width: 375, height: 812, isMobile: true, deviceScaleFactor: 2 },\n  \"1080p\":    { width: 1920, height: 1080 },\n  \"4k\":       { width: 3840, height: 2160 },\n};\n\nconst VALID_VIEWPORTS = new Set(Object.keys(VIEWPORTS));\nconst URL_RE = /^https?:\\/\\/.+/;",
+   "supports": null
+  },
+  {
+   "claim": "A single `whipnode_capture` can pin Cloudflare Browser Rendering for up to 25s per viewport (plus a 3s heavy-SPA settle) across as many as 6 viewports including 4k and `full_page`, and that cost is **not** bounded by `ABUSE_BUDGET` IP caps because `handleCapture` never calls `checkUploadRateLimit`.",
+   "pointer": "capture.ts:546-548",
+   "resolves": true,
+   "file": "apps/worker/src/routes/capture.ts",
+   "text": "}\n  if (viewportNames.length > 6) {\n    return apiError(ErrorCodes.VALIDATION_ERROR, \"Maximum 6 viewports per capture.\");\n  }\n\n  const fullPage = body.full_page ?? false;\n  const plan = auth.plan;",
+   "supports": null
+  },
+  {
+   "claim": "A single `whipnode_capture` can pin Cloudflare Browser Rendering for up to 25s per viewport (plus a 3s heavy-SPA settle) across as many as 6 viewports including 4k and `full_page`, and that cost is **not** bounded by `ABUSE_BUDGET` IP caps because `handleCapture` never calls `checkUploadRateLimit`.",
+   "pointer": "capture.ts:576-578",
+   "resolves": true,
+   "file": "apps/worker/src/routes/capture.ts",
+   "text": "if (isHeavySpa) {\n        // Heavy SPAs keep connections alive \u2014 use networkidle2 + extra settle time\n        await page.goto(url, { waitUntil: \"networkidle2\", timeout: MAX_WAIT_MS });\n        // Give the SPA extra time to render after network settles\n        await new Promise((r) => setTimeout(r, 3000));\n      } else {\n        // Standard sites \u2014 try networkidle0, fall back to networkidle2",
+   "supports": null
+  },
+  {
+   "claim": "A single `whipnode_capture` can pin Cloudflare Browser Rendering for up to 25s per viewport (plus a 3s heavy-SPA settle) across as many as 6 viewports including 4k and `full_page`, and that cost is **not** bounded by `ABUSE_BUDGET` IP caps because `handleCapture` never calls `checkUploadRateLimit`.",
+   "pointer": "capture.ts:233-237",
+   "resolves": true,
+   "file": "apps/worker/src/routes/capture.ts",
+   "text": "// Daily upload limit\n  const dailyLimit = await checkDailyUploadLimit(auth.accountId, auth.plan, env);\n  if (!dailyLimit.allowed) {\n    return apiError(ErrorCodes.RATE_LIMITED, dailyLimit.reason!);\n  }\n\n  let body: { url?: string; note?: string; viewport?: string; viewports?: string[]; full_page?: boolean; ttl_hours?: number };\n  try {",
+   "supports": null
+  },
+  {
+   "claim": "A single `whipnode_capture` can pin Cloudflare Browser Rendering for up to 25s per viewport (plus a 3s heavy-SPA settle) across as many as 6 viewports including 4k and `full_page`, and that cost is **not** bounded by `ABUSE_BUDGET` IP caps because `handleCapture` never calls `checkUploadRateLimit`.",
+   "pointer": "rate-limit.ts:16-40",
+   "resolves": true,
+   "file": "apps/worker/src/middleware/rate-limit.ts",
+   "text": "*/\nexport async function checkUploadRateLimit(\n  request: Request,\n  env: Env\n): Promise<RateLimitResult> {\n  const ip = request.headers.get(\"CF-Connecting-IP\");\n  if (!ip) return { allowed: true };\n\n  const ipHash = await hashIp(ip);\n\n  // Check uploads in the last hour\n  const oneHourAgo = new Date(Date.now() - 3600_000).toISOString();\n  const countResult = await env.DB.prepare(\n    \"SELECT COUNT(*) as cnt FROM items WHERE source_ip_hash = ? AND created_at > ?\"\n  )\n    .bind(ipHash, oneHourAgo)\n    .first<{ cnt: number }>();\n\n  const recentUploads = countResult?.cnt ?? 0;\n\n  if (recentUploads >= ABUSE_BUDGET.MAX_UPLOADS_PER_IP_PER_HOUR) {\n    return {\n      allowed: false,\n      reason: `Rate limit exceeded. Maximum ${ABUSE_BUDGET.MAX_UPLOADS_PER_IP_PER_HOUR} uploads per hour.`,\n    };\n  }\n\n  // Check concurrent processing items\n  const processingResult = await env.DB.prepare(",
+   "supports": null
+  },
+  {
+   "claim": "A single `whipnode_capture` can pin Cloudflare Browser Rendering for up to 25s per viewport (plus a 3s heavy-SPA settle) across as many as 6 viewports including 4k and `full_page`, and that cost is **not** bounded by `ABUSE_BUDGET` IP caps because `handleCapture` never calls `checkUploadRateLimit`.",
+   "pointer": "items-create.ts:70",
+   "resolves": true,
+   "file": "apps/worker/src/routes/items-create.ts",
+   "text": "// Rate limit check\n  const rateLimit = await checkUploadRateLimit(request, env);\n  if (!rateLimit.allowed) {\n    return apiError(ErrorCodes.RATE_LIMITED, rateLimit.reason!);\n  }",
+   "supports": null
+  },
+  {
+   "claim": "A single `whipnode_capture` can pin Cloudflare Browser Rendering for up to 25s per viewport (plus a 3s heavy-SPA settle) across as many as 6 viewports including 4k and `full_page`, and that cost is **not** bounded by `ABUSE_BUDGET` IP caps because `handleCapture` never calls `checkUploadRateLimit`.",
+   "pointer": "mcp.ts:1009-1013",
+   "resolves": true,
+   "file": "apps/worker/src/routes/mcp.ts",
+   "text": "// Build an internal Request and call handleCapture directly\n  const fakeRequest = new Request(\"https://internal/api/v1/captures\", {\n    method: \"POST\",\n    headers: { \"Content-Type\": \"application/json\" },\n    body: JSON.stringify(body),\n  });\n\n  // Use a no-op execution context for the direct call\n  const ctx = { waitUntil: () => {}, passThroughOnException: () => {} } as unknown as ExecutionContext;",
+   "supports": null
+  },
+  {
+   "claim": "Naked auto-provision on first unauthenticated MCP call is not survivable on the current schema or gates: MCP rejects missing auth, `accounts.email` is `NOT NULL UNIQUE`, `AccountPlan` has no trial, and nothing in the worker reads `request.cf` bot score or ASN.",
+   "pointer": "mcp.ts:291-293",
+   "resolves": true,
+   "file": "apps/worker/src/routes/mcp.ts",
+   "text": "if (!auth) {\n    return jsonRpcError(null, -32000, \"Authentication required. Pass your API key in the X-API-Key header.\");\n  }\n\n  // Fix 4: per-account rate limiting\n  if (!checkMcpRateLimit(auth.accountId)) {",
+   "supports": null
+  },
+  {
+   "claim": "Naked auto-provision on first unauthenticated MCP call is not survivable on the current schema or gates: MCP rejects missing auth, `accounts.email` is `NOT NULL UNIQUE`, `AccountPlan` has no trial, and nothing in the worker reads `request.cf` bot score or ASN.",
+   "pointer": "0001_initial_schema.sql:9",
+   "resolves": true,
+   "file": "apps/worker/migrations/0001_initial_schema.sql",
+   "text": "id            TEXT PRIMARY KEY,\n  email         TEXT NOT NULL UNIQUE,\n  created_at    TEXT NOT NULL,\n  stripe_customer_id TEXT,\n  plan          TEXT NOT NULL DEFAULT 'free',",
+   "supports": null
+  },
+  {
+   "claim": "Naked auto-provision on first unauthenticated MCP call is not survivable on the current schema or gates: MCP rejects missing auth, `accounts.email` is `NOT NULL UNIQUE`, `AccountPlan` has no trial, and nothing in the worker reads `request.cf` bot score or ASN.",
+   "pointer": "types.ts:32",
+   "resolves": false,
+   "text": null
+  },
+  {
+   "claim": "Rung-0 issuance must create `accounts` (nullable email, `plan='trial'`) + `api_keys` + `mcp_devices` in one D1 batch on `initialize`, return **only** `Mcp-Session-Id` (existing enrollment header), and refuse unless `FEATURE_ENABLE_TRIAL_ISSUANCE` is on, this IP hash has minted fewer than 1 trial in 24h, and a global daily trial-capture counter is under budget.",
+   "pointer": "mcp.ts:335-387",
+   "resolves": true,
+   "file": "apps/worker/src/routes/mcp.ts",
+   "text": "// and this is an initialize request, create a device and assign Mcp-Session-Id\n  if (auth.type === \"api_key\" && isInitializeRequest(body)) {\n    try {\n      // Enforce device quota per API key (max 10) \u2014 atomic via conditional INSERT\n      const sessionToken = generateMcpSessionToken();\n      const tokenHash = await hashApiKey(sessionToken);\n      const deviceName = parseDeviceName(request.headers.get(\"User-Agent\"));\n      const ip = request.headers.get(\"CF-Connecting-IP\") ?? \"\";\n      const ua = request.headers.get(\"User-Agent\") ?? \"\";\n      const now = isoNow();\n      const expiresAt = new Date(Date.now() + 90 * 24 * 3600_000).toISOString(); // 90 days\n      const deviceId = generateId();\n\n      // Atomic quota enforcement: INSERT only if count < 10\n      const insertResult = await env.DB.prepare(\n        `INSERT INTO mcp_devices (id, account_id, api_key_id, session_token_hash,\n         device_name, ip_hash, user_agent_hash, created_at, last_seen_at, expires_at, status)\n         SELECT ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'active'\n         WHERE (SELECT COUNT(*) FROM mcp_devices WHERE api_key_id = ? AND status = 'active') < 10`\n      )\n        .bind(\n          deviceId,\n          auth.",
+   "supports": null
+  },
+  {
+   "claim": "Rung-0 issuance must create `accounts` (nullable email, `plan='trial'`) + `api_keys` + `mcp_devices` in one D1 batch on `initialize`, return **only** `Mcp-Session-Id` (existing enrollment header), and refuse unless `FEATURE_ENABLE_TRIAL_ISSUANCE` is on, this IP hash has minted fewer than 1 trial in 24h, and a global daily trial-capture counter is under budget.",
+   "pointer": "env.ts:39-41",
+   "resolves": true,
+   "file": "apps/worker/src/env.ts",
+   "text": "// Feature flags\n  FEATURE_ENABLE_ZIP_BUNDLES?: string;\n  FEATURE_ENABLE_EMAIL_SHARING?: string;\n  FEATURE_ENABLE_FACE_BLOCKING?: string;\n}",
+   "supports": null
+  },
+  {
+   "claim": "Rung-0 issuance must create `accounts` (nullable email, `plan='trial'`) + `api_keys` + `mcp_devices` in one D1 batch on `initialize`, return **only** `Mcp-Session-Id` (existing enrollment header), and refuse unless `FEATURE_ENABLE_TRIAL_ISSUANCE` is on, this IP hash has minted fewer than 1 trial in 24h, and a global daily trial-capture counter is under budget.",
+   "pointer": "rate-limit.ts:20-23",
+   "resolves": true,
+   "file": "apps/worker/src/middleware/rate-limit.ts",
+   "text": "): Promise<RateLimitResult> {\n  const ip = request.headers.get(\"CF-Connecting-IP\");\n  if (!ip) return { allowed: true };\n\n  const ipHash = await hashIp(ip);\n\n  // Check uploads in the last hour\n  const oneHourAgo = new Date(Date.now() - 3600_000).toISOString();",
+   "supports": null
+  },
+  {
+   "claim": "Rung-0 issuance must create `accounts` (nullable email, `plan='trial'`) + `api_keys` + `mcp_devices` in one D1 batch on `initialize`, return **only** `Mcp-Session-Id` (existing enrollment header), and refuse unless `FEATURE_ENABLE_TRIAL_ISSUANCE` is on, this IP hash has minted fewer than 1 trial in 24h, and a global daily trial-capture counter is under budget.",
+   "pointer": "rate-limit.ts:21",
+   "resolves": true,
+   "file": "apps/worker/src/middleware/rate-limit.ts",
+   "text": "const ip = request.headers.get(\"CF-Connecting-IP\");\n  if (!ip) return { allowed: true };\n\n  const ipHash = await hashIp(ip);",
+   "supports": null
+  },
+  {
+   "claim": "The survivable trial envelope is 10 **browser jobs** (capture+render) per UTC day, forced single `desktop` viewport, `full_page` and `4k` rejected, TTL 24h (`DEFAULT_TTL_HOURS`), with file `whipnode_upload` sharing that 10; unconstrained 6\u00d74k captures are not insurable for a small Worker+bindings bill.",
+   "pointer": "constants.ts:38",
+   "resolves": true,
+   "file": "packages/protocol/src/constants.ts",
+   "text": "export const MAX_NOTE_CHARS = 4000;\nexport const DEFAULT_TTL_HOURS = 24;\n\n// \u2500\u2500 Plan limits \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500",
+   "supports": null
+  },
+  {
+   "claim": "The survivable trial envelope is 10 **browser jobs** (capture+render) per UTC day, forced single `desktop` viewport, `full_page` and `4k` rejected, TTL 24h (`DEFAULT_TTL_HOURS`), with file `whipnode_upload` sharing that 10; unconstrained 6\u00d74k captures are not insurable for a small Worker+bindings bill.",
+   "pointer": "constants.ts:43-51",
+   "resolves": true,
+   "file": "packages/protocol/src/constants.ts",
+   "text": "export const PLAN_LIMITS: Record<string, PlanLimits> = {\n  free: {\n    uploads_per_day: 50,\n    max_total_bytes_per_item: 25 * 1024 * 1024, // 25 MiB\n    max_file_bytes: 25 * 1024 * 1024, // 25 MiB\n    ttl_hours_max: 24,\n    api_access: true,\n    max_api_keys: 1,\n    ocr_included: true,\n    history: false,\n  },\n  pro: {\n    uploads_per_day: 1000,",
+   "supports": null
+  },
+  {
+   "claim": "The survivable trial envelope is 10 **browser jobs** (capture+render) per UTC day, forced single `desktop` viewport, `full_page` and `4k` rejected, TTL 24h (`DEFAULT_TTL_HOURS`), with file `whipnode_upload` sharing that 10; unconstrained 6\u00d74k captures are not insurable for a small Worker+bindings bill.",
+   "pointer": "render.ts:18",
+   "resolves": true,
+   "file": "apps/worker/src/routes/render.ts",
+   "text": "const VALID_VIEWPORTS = new Set(Object.keys(VIEWPORTS));\nconst MAX_WAIT_MS = 15_000;\n\n/**\n * POST /api/v1/render",
+   "supports": null
+  },
+  {
+   "claim": "The survivable trial envelope is 10 **browser jobs** (capture+render) per UTC day, forced single `desktop` viewport, `full_page` and `4k` rejected, TTL 24h (`DEFAULT_TTL_HOURS`), with file `whipnode_upload` sharing that 10; unconstrained 6\u00d74k captures are not insurable for a small Worker+bindings bill.",
+   "pointer": "render.ts:56",
+   "resolves": true,
+   "file": "apps/worker/src/routes/render.ts",
+   "text": "const viewportNames = body.viewports ?? [\"desktop\", \"tablet\", \"mobile\"];\n  for (const v of viewportNames) {\n    if (!VALID_VIEWPORTS.has(v)) {\n      return apiError(ErrorCodes.VALIDATION_ERROR, `Invalid viewport: ${v}. Must be one of: ${[...VALID_VIEWPORTS].join(\", \")}`);",
+   "supports": null
+  },
+  {
+   "claim": "A claim URL that attaches email on GET (the current magic-link verify shape) is a transcript bearer and is unacceptable; the surfaced value may only be a public index `https://whipnode.com/claim` plus a short `WHIP-XXXX` user_code (15 min TTL, same as `magic_tokens`).",
+   "pointer": "auth-verify.ts:10-26",
+   "resolves": true,
+   "file": "apps/worker/src/routes/auth-verify.ts",
+   "text": "const url = new URL(request.url);\n  const tokenRaw = url.searchParams.get(\"token\");\n\n  if (!tokenRaw) {\n    return apiError(ErrorCodes.VALIDATION_ERROR, \"Missing token.\");\n  }\n\n  const tokenHash = await hashApiKey(tokenRaw);\n  const now = isoNow();\n\n  // Atomically mark token as used \u2014 the WHERE clause prevents TOCTOU races\n  // where two concurrent requests could both read used_at IS NULL before either writes.\n  const result = await env.DB.prepare(\n    \"UPDATE magic_tokens SET used_at = ? WHERE token_hash = ? AND used_at IS NULL AND expires_at > ?\"\n  ).bind(now, tokenHash, now).run();\n\n  if (!result.meta.changes || result.meta.changes === 0) {\n    return apiError(ErrorCodes.UNAUTHORIZED, \"Invalid, expired, or already used link.\");\n  }\n\n  // Fetch email from the now-consumed token",
+   "supports": null
+  },
+  {
+   "claim": "A claim URL that attaches email on GET (the current magic-link verify shape) is a transcript bearer and is unacceptable; the surfaced value may only be a public index `https://whipnode.com/claim` plus a short `WHIP-XXXX` user_code (15 min TTL, same as `magic_tokens`).",
+   "pointer": "auth-magic-link.ts:39",
+   "resolves": true,
+   "file": "apps/worker/src/routes/auth-magic-link.ts",
+   "text": "const now = isoNow();\n  const expiresAt = new Date(Date.now() + 15 * 60_000).toISOString();\n  const ip = request.headers.get(\"CF-Connecting-IP\") ?? \"\";\n  const ipHash = ip ? await hashIp(ip) : null;",
+   "supports": null
+  },
+  {
+   "claim": "A claim URL that attaches email on GET (the current magic-link verify shape) is a transcript bearer and is unacceptable; the surfaced value may only be a public index `https://whipnode.com/claim` plus a short `WHIP-XXXX` user_code (15 min TTL, same as `magic_tokens`).",
+   "pointer": "auth-magic-link.ts:51",
+   "resolves": true,
+   "file": "apps/worker/src/routes/auth-magic-link.ts",
+   "text": "// Send email in background \u2014 respond immediately so UI doesn't freeze\n  const verifyUrl = `${env.APP_BASE_URL}/api/v1/auth/verify?token=${encodeURIComponent(tokenRaw)}`;\n\n  if (env.RESEND_API_KEY) {\n    ctx.waitUntil(",
+   "supports": null
+  },
+  {
+   "claim": "Hijack (a) (leaked index claims the victim\u2019s trial) and (b) (victim\u2019s email bound to an attacker-held key) are both defeated only by a four-factor finish: bound `mcp_devices.id`, magic-link proof of email, Authorize page showing device name + last item notes/URLs, and a **browser-only** nonce that the bound device must POST; if `accounts.email` already exists, refuse in-place attach (do not merge).",
+   "pointer": "mcp.ts:348-367",
+   "resolves": true,
+   "file": "apps/worker/src/routes/mcp.ts",
+   "text": "// Atomic quota enforcement: INSERT only if count < 10\n      const insertResult = await env.DB.prepare(\n        `INSERT INTO mcp_devices (id, account_id, api_key_id, session_token_hash,\n         device_name, ip_hash, user_agent_hash, created_at, last_seen_at, expires_at, status)\n         SELECT ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'active'\n         WHERE (SELECT COUNT(*) FROM mcp_devices WHERE api_key_id = ? AND status = 'active') < 10`\n      )\n        .bind(\n          deviceId,\n          auth.accountId,\n          auth.keyId,\n          tokenHash,\n          deviceName,\n          ip ? await hashIp(ip) : null,\n          ua ? await hashUserAgent(ua) : null,\n          now,\n          now,\n          expiresAt,\n          auth.keyId\n        )\n        .run();\n\n      if (!insertResult.meta.changes) {\n        log(env, {",
+   "supports": null
+  },
+  {
+   "claim": "Hijack (a) (leaked index claims the victim\u2019s trial) and (b) (victim\u2019s email bound to an attacker-held key) are both defeated only by a four-factor finish: bound `mcp_devices.id`, magic-link proof of email, Authorize page showing device name + last item notes/URLs, and a **browser-only** nonce that the bound device must POST; if `accounts.email` already exists, refuse in-place attach (do not merge).",
+   "pointer": "auth.ts:74",
+   "resolves": false,
+   "text": null
+  },
+  {
+   "claim": "Hijack (a) (leaked index claims the victim\u2019s trial) and (b) (victim\u2019s email bound to an attacker-held key) are both defeated only by a four-factor finish: bound `mcp_devices.id`, magic-link proof of email, Authorize page showing device name + last item notes/URLs, and a **browser-only** nonce that the bound device must POST; if `accounts.email` already exists, refuse in-place attach (do not merge).",
+   "pointer": "auth-magic-link.ts:23-32",
+   "resolves": true,
+   "file": "apps/worker/src/routes/auth-magic-link.ts",
+   "text": "// Rate limit: max 3 magic links per email per 15 min\n  const fifteenMinAgo = new Date(Date.now() - 15 * 60_000).toISOString();\n  const recentTokens = await env.DB.prepare(\n    \"SELECT COUNT(*) as cnt FROM magic_tokens WHERE email = ? AND created_at > ?\"\n  )\n    .bind(email, fifteenMinAgo)\n    .first<{ cnt: number }>();\n\n  if ((recentTokens?.cnt ?? 0) >= 3) {\n    return apiError(ErrorCodes.RATE_LIMITED, \"Too many sign-in attempts. Try again in 15 minutes.\");\n  }\n\n  // Generate token",
+   "supports": null
+  },
+  {
+   "claim": "Hijack (a) (leaked index claims the victim\u2019s trial) and (b) (victim\u2019s email bound to an attacker-held key) are both defeated only by a four-factor finish: bound `mcp_devices.id`, magic-link proof of email, Authorize page showing device name + last item notes/URLs, and a **browser-only** nonce that the bound device must POST; if `accounts.email` already exists, refuse in-place attach (do not merge).",
+   "pointer": "auth-verify.ts:38-50",
+   "resolves": true,
+   "file": "apps/worker/src/routes/auth-verify.ts",
+   "text": "// Upsert account\n  let account = await env.DB.prepare(\"SELECT id, plan FROM accounts WHERE email = ?\")\n    .bind(token.email)\n    .first<{ id: string; plan: string }>();\n\n  if (!account) {\n    const accountId = generateId();\n    await env.DB.prepare(\n      \"INSERT INTO accounts (id, email, created_at, plan, status) VALUES (?, ?, ?, 'free', 'active')\"\n    )\n      .bind(accountId, token.email, now)\n      .run();\n    account = { id: accountId, plan: \"free\" };\n  }\n\n  // Create session",
+   "supports": null
+  },
+  {
+   "claim": "Hijack (a) (leaked index claims the victim\u2019s trial) and (b) (victim\u2019s email bound to an attacker-held key) are both defeated only by a four-factor finish: bound `mcp_devices.id`, magic-link proof of email, Authorize page showing device name + last item notes/URLs, and a **browser-only** nonce that the bound device must POST; if `accounts.email` already exists, refuse in-place attach (do not merge).",
+   "pointer": "mcp.ts:282-286",
+   "resolves": true,
+   "file": "apps/worker/src/routes/mcp.ts",
+   "text": "const reason = auth.reason;\n    const messages: Record<string, string> = {\n      device_revoked: \"This device has been revoked. Re-run the install command with your API key to reconnect: claude mcp add whipnode --transport http https://whipnode.com/api/v1/mcp --header \\\"X-API-Key: YOUR_KEY\\\"\",\n      device_expired: \"This device session expired (inactive for 90+ days). Re-run the install command to reconnect: claude mcp add whipnode --transport http https://whipnode.com/api/v1/mcp --header \\\"X-API-Key: YOUR_KEY\\\"\",\n      key_revoked: \"The API key used to register this device has been revoked. Create a new key at whipnode.com/dashboard#api-keys and re-run the install command.\",\n      account_inactive: \"Your WhipNode account has been deactivated. Contact <email>.\",\n    };\n    return jsonRpcError(null, -32000, messages[reason] ?? \"Authentication failed.\");\n  }",
+   "supports": null
+  },
+  {
+   "claim": "Rung 0 **complements** `whipnode init` (USER-FACT); it does not replace the consent path to a named free account. Claim reuses magic-link + the Authorize page, not CLI-secret device-code (that code would leak in the same transcript). Conversion is in-place: `UPDATE accounts SET email=?, plan='free'` keeping the same `api_keys` row and `mcp_devices` rows; do not rotate the key.",
+   "pointer": "index.tsx:181",
+   "resolves": true,
+   "file": "apps/web/app/routes/index.tsx",
+   "text": "<h2>One command to connect</h2>\n        <pre><code>{`claude mcp add whipnode --transport http https://whipnode.com/api/v1/mcp --header \"X-API-Key: YOUR_KEY\" -s user`}</code></pre>\n        <p className=\"install-note\">\n          <a href=\"/login\">Create an account</a> to get your API key.\n          50 uploads/day, OCR, AI analysis, and full MCP integration - no credit card needed.",
+   "supports": null
+  },
+  {
+   "claim": "Rung 0 **complements** `whipnode init` (USER-FACT); it does not replace the consent path to a named free account. Claim reuses magic-link + the Authorize page, not CLI-secret device-code (that code would leak in the same transcript). Conversion is in-place: `UPDATE accounts SET email=?, plan='free'` keeping the same `api_keys` row and `mcp_devices` rows; do not rotate the key.",
+   "pointer": "docs.tsx:43",
+   "resolves": true,
+   "file": "apps/web/app/routes/docs.tsx",
+   "text": "<p>Run this in any terminal window:</p>\n        <pre><code>{`claude mcp add whipnode --transport http https://whipnode.com/api/v1/mcp --header \"X-API-Key: YOUR_API_KEY\" -s user`}</code></pre>\n        <p>\n          The <code>-s user</code> flag installs WhipNode globally - available in every project,\n          not just the current directory. Then add WhipNode instructions to your",
+   "supports": null
+  },
+  {
+   "claim": "Rung 0 **complements** `whipnode init` (USER-FACT); it does not replace the consent path to a named free account. Claim reuses magic-link + the Authorize page, not CLI-secret device-code (that code would leak in the same transcript). Conversion is in-place: `UPDATE accounts SET email=?, plan='free'` keeping the same `api_keys` row and `mcp_devices` rows; do not rotate the key.",
+   "pointer": "llms.txt:21",
+   "resolves": true,
+   "file": "apps/web/public/llms.txt",
+   "text": "```\nclaude mcp add whipnode --transport http https://whipnode.com/api/v1/mcp --header \"X-API-Key: YOUR_KEY\"\n```\n\nAvailable MCP tools:",
+   "supports": null
+  },
+  {
+   "claim": "Rung 0 **complements** `whipnode init` (USER-FACT); it does not replace the consent path to a named free account. Claim reuses magic-link + the Authorize page, not CLI-secret device-code (that code would leak in the same transcript). Conversion is in-place: `UPDATE accounts SET email=?, plan='free'` keeping the same `api_keys` row and `mcp_devices` rows; do not rotate the key.",
+   "pointer": "0006_mcp_devices.sql:3-7",
+   "resolves": true,
+   "file": "apps/worker/migrations/0006_mcp_devices.sql",
+   "text": "CREATE TABLE IF NOT EXISTS mcp_devices (\n  id                TEXT PRIMARY KEY,\n  account_id        TEXT NOT NULL,\n  api_key_id        TEXT NOT NULL,\n  session_token_hash TEXT NOT NULL UNIQUE,\n  device_name       TEXT NOT NULL,\n  ip_hash           TEXT,\n  user_agent_hash   TEXT,\n  created_at        TEXT NOT NULL,",
+   "supports": null
+  },
+  {
+   "claim": "Rung 0 **complements** `whipnode init` (USER-FACT); it does not replace the consent path to a named free account. Claim reuses magic-link + the Authorize page, not CLI-secret device-code (that code would leak in the same transcript). Conversion is in-place: `UPDATE accounts SET email=?, plan='free'` keeping the same `api_keys` row and `mcp_devices` rows; do not rotate the key.",
+   "pointer": "api-keys.ts:139-143",
+   "resolves": true,
+   "file": "apps/worker/src/routes/api-keys.ts",
+   "text": ".run();\n    // Cascade: revoke all MCP devices enrolled by this key\n    try {\n      await env.DB.prepare(\"UPDATE mcp_devices SET status = 'revoked' WHERE api_key_id = ? AND status = 'active'\")\n        .bind(keyId)\n        .run();\n    } catch (err) {\n      console.error(`Failed to cascade-revoke devices for key ${keyId}:`, err);\n    }",
+   "supports": null
+  },
+  {
+   "claim": "The kill switch is `FEATURE_ENABLE_TRIAL_ISSUANCE` off: unauthenticated `initialize` returns today\u2019s auth error pointing at `whipnode init` / login; existing `plan='trial' AND email IS NULL` rows may read/fetch but `handleCapture`/`handleRender` reject; rows with email set and `plan` in `{free,pro,team,owner}` are untouched.",
+   "pointer": "env.ts:39-41",
+   "resolves": true,
+   "file": "apps/worker/src/env.ts",
+   "text": "// Feature flags\n  FEATURE_ENABLE_ZIP_BUNDLES?: string;\n  FEATURE_ENABLE_EMAIL_SHARING?: string;\n  FEATURE_ENABLE_FACE_BLOCKING?: string;\n}",
+   "supports": null
+  },
+  {
+   "claim": "The kill switch is `FEATURE_ENABLE_TRIAL_ISSUANCE` off: unauthenticated `initialize` returns today\u2019s auth error pointing at `whipnode init` / login; existing `plan='trial' AND email IS NULL` rows may read/fetch but `handleCapture`/`handleRender` reject; rows with email set and `plan` in `{free,pro,team,owner}` are untouched.",
+   "pointer": "capture.ts:229-231",
+   "resolves": true,
+   "file": "apps/worker/src/routes/capture.ts",
+   "text": "// Captures require authentication\n  if (!auth) {\n    return apiError(ErrorCodes.UNAUTHORIZED, \"Authentication required. URL captures require an API key.\");\n  }\n\n  // Daily upload limit\n  const dailyLimit = await checkDailyUploadLimit(auth.accountId, auth.plan, env);",
+   "supports": null
+  },
+  {
+   "claim": "The kill switch is `FEATURE_ENABLE_TRIAL_ISSUANCE` off: unauthenticated `initialize` returns today\u2019s auth error pointing at `whipnode init` / login; existing `plan='trial' AND email IS NULL` rows may read/fetch but `handleCapture`/`handleRender` reject; rows with email set and `plan` in `{free,pro,team,owner}` are untouched.",
+   "pointer": "render.ts:33-35",
+   "resolves": true,
+   "file": "apps/worker/src/routes/render.ts",
+   "text": "): Promise<Response> {\n  if (!auth) {\n    return apiError(ErrorCodes.UNAUTHORIZED, \"Authentication required.\");\n  }\n\n  let body: {\n    item_id?: string;",
+   "supports": null
+  },
+  {
+   "claim": "The kill switch is `FEATURE_ENABLE_TRIAL_ISSUANCE` off: unauthenticated `initialize` returns today\u2019s auth error pointing at `whipnode init` / login; existing `plan='trial' AND email IS NULL` rows may read/fetch but `handleCapture`/`handleRender` reject; rows with email set and `plan` in `{free,pro,team,owner}` are untouched.",
+   "pointer": "mcp.ts:292",
+   "resolves": true,
+   "file": "apps/worker/src/routes/mcp.ts",
+   "text": "if (!auth) {\n    return jsonRpcError(null, -32000, \"Authentication required. Pass your API key in the X-API-Key header.\");\n  }\n\n  // Fix 4: per-account rate limiting",
+   "supports": null
+  }
+ ]
+}

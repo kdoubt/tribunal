@@ -35,9 +35,14 @@ that there is no lift and say so.
   real-artifact decisions from the maintainer's archive with known outcomes,
   four vendors (Claude, Codex, Grok, a local Qwen) as solo arms and rotating
   judges, a two-seat panel arm, and a new `grounding_rate` metric. Protocol
-  and sealed rubrics are committed before any arm runs; the artifacts are
+  and sealed rubrics were committed before any arm ran; the artifacts are
   private, so what is replicable is the protocol and the published scored
   outputs.
+  **Run complete (three vendors, ten decisions): no lift** - see
+  [`grounded/RESULTS.md`](grounded/RESULTS.md): the panel scored below the
+  union of its own two solos on must-catch, about even on decision
+  correctness, and made fewer false objections; Round 1 ran on every
+  decision and reversed nothing.
 
 This is a pilot harness, stated as such. A handful of decisions is not proof;
 it is the first real evidence, built so it can scale to the ~20+ real-world runs

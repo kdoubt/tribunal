@@ -1,0 +1,114 @@
+{
+ "judge": "claude",
+ "grounding": "<path>",
+ "n": 21,
+ "seconds": 80.3,
+ "parsed": true,
+ "items": [
+  {
+   "n": 1,
+   "supports": 1,
+   "why": "layout puts queue/{incoming,running,done} on the same share with CT 205 /queue and CT 206 RW"
+  },
+  {
+   "n": 2,
+   "supports": 1,
+   "why": "states single-writer atomic state and atomic rename incoming\u2192running as the contract"
+  },
+  {
+   "n": 3,
+   "supports": 1,
+   "why": "says host-mount then bind gives files without a network route, and CT 206 is described only as isolated/bastion-reachable"
+  },
+  {
+   "n": 4,
+   "supports": 1,
+   "why": "CT 205 is on a no-uplink, no-NAT L2 island vnet"
+  },
+  {
+   "n": 5,
+   "supports": 1,
+   "why": "shows the live proxmoxbackup export with no_root_squash and a `*` client"
+  },
+  {
+   "n": 6,
+   "supports": 1,
+   "why": "shows CT 206 RW with unspecified network and gb10 binding the share into its containers"
+  },
+  {
+   "n": 7,
+   "supports": 1,
+   "why": "states the arbiter drains the queue while the window is open, the mechanism the claim cites"
+  },
+  {
+   "n": 8,
+   "supports": 1,
+   "why": "shows rw /volume1 proxmoxbackup exports adjacent to the proposed share"
+  },
+  {
+   "n": 9,
+   "supports": 1,
+   "why": "shows the incoming/running/done spool directories the claim describes mutating"
+  },
+  {
+   "n": 10,
+   "supports": 1,
+   "why": "spool quotas are arbiter-side only and hard fs-quota is explicitly deferred"
+  },
+  {
+   "n": 11,
+   "supports": 1,
+   "why": "fstab line contains exactly vers=3,soft,timeo=150,retrans=3,_netdev,nofail,nolock"
+  },
+  {
+   "n": 12,
+   "supports": 1,
+   "why": "design copies those GB10 opts and gives workspace/queue RW"
+  },
+  {
+   "n": 13,
+   "supports": 1,
+   "why": "readiness probe checks sandbox exec and GPU, not spool contents"
+  },
+  {
+   "n": 14,
+   "supports": 1,
+   "why": "arbiter.lock flock is host-local and only one arbiter runs, with tmp+rename writes"
+  },
+  {
+   "n": 15,
+   "supports": 1,
+   "why": "proposes nolock with queue RW and specifies no actimeo/noac"
+  },
+  {
+   "n": 16,
+   "supports": 1,
+   "why": "dead-man runs on each GPU host independent of arbiter/management host and restores prod on stale heartbeat"
+  },
+  {
+   "n": 17,
+   "supports": 1,
+   "why": "arbiter reads/writes the spool over its own the external party-warm mount"
+  },
+  {
+   "n": 18,
+   "supports": 1,
+   "why": "proposes root_squash+all_squash export limited to three host IPs, no crossmnt"
+  },
+  {
+   "n": 19,
+   "supports": 1,
+   "why": "proxmoxbackup exports are wildcard-client, so any IP is a mount candidate"
+  },
+  {
+   "n": 20,
+   "supports": 1,
+   "why": "shows an existing NFS mount to <lan-address>, the NAS endpoint referenced"
+  },
+  {
+   "n": 21,
+   "supports": 1,
+   "why": "shows an existing single-IP-restricted export precedent on the same NAS"
+  }
+ ]
+}

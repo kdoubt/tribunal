@@ -1,0 +1,18 @@
+{
+ "decision_correct": 1,
+ "decision_correct_quote": "VERDICT INPUT: LiteLLM=decide-after-check (B if the pending 300-token Groq probe passes through the router's key, else A after its own probe; never C) ; Assistant=down-unless-owner-instructs-reclaim (no override; human-call on priority) ; Panel-seat=C ; hard-cap=none for the panel, $5-on-the-LiteLLM-alias is surviving dissent",
+ "must_catch": [
+  {"item": 1, "hit": 0, "quote": ""},
+  {"item": 2, "hit": 1, "quote": "Q4 (override part): no cloud custody override for the assistant; a runtime \"just this once\" is impossible without regenerating policy (A4, B4)."},
+  {"item": 3, "hit": 1, "quote": "Option A (Workers AI) as a panel third seat violates the owner's \"no API-key/credit billing for panel models; use subscription-auth CLIs\" rule in spirit as well as wording; a dollar cap does not cure the auth-hygiene half; therefore the panel seat is C (the 2-seat Codex + Grok floor)"},
+  {"item": 4, "hit": 1, "quote": "Cheapest discriminating test: run the pending 300-token probe of `groq-gpt-oss-120b` through the router's actual key; a correct non-empty answer collapses the dispute to \"B\""},
+  {"item": 5, "hit": 0, "quote": ""},
+  {"item": 6, "hit": 1, "quote": "B: 200-with-empty content or fallback/cache staying hot after the RTX returns. A: unusable completion, and a cached answer cannot establish health."},
+  {"item": 7, "hit": 1, "quote": "B blocked until the probe passes and given Groq's catalog churn (0.68)"}
+ ],
+ "false_objections": [
+  {"quote": "The deciding factor for reclaim-GB10 vs leaving the assistant down is the owner's stated priority of assistant uptime versus the partner's remaining need, not custody", "why": "explicitly displaces the real mechanism — the ladder is rtx-fast -> cpu-limp with no GB10 rung, so reclaiming restores nothing absent a policy regeneration"},
+  {"quote": "Assistant default pending the owner's instruction. A: request the GB10 back (conditional on priority and acceptable quality, 0.70)", "why": "endorsed as a live human-call option without flagging that a returned GB10 is not a routable rung"}
+ ],
+ "notes": "Memo lands the full correct call (conditional-B LiteLLM tied to the named 300-token probe, assistant down, panel C) and catches 5/7 must-catch items, but misses the GB10-is-not-a-rung mechanism (actively arguing custody is not the deciding factor) and never names the leaked Global key / scoped-token blocker on Option A."
+}

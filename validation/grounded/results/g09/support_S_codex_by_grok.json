@@ -1,0 +1,99 @@
+{
+ "judge": "grok",
+ "grounding": "<path>",
+ "n": 18,
+ "seconds": 293.6,
+ "parsed": true,
+ "items": [
+  {
+   "n": 1,
+   "supports": 0,
+   "why": "hydrateRoot shows client hydration but does not show that C3 is a hydration failure or that its cause is unproven"
+  },
+  {
+   "n": 2,
+   "supports": 0,
+   "why": "post-mount widget init is unrelated to bootstrap or hydration failure before route execution"
+  },
+  {
+   "n": 3,
+   "supports": 0,
+   "why": "an import list does not show incomplete screenshot deadlines or a lease shorter than retry work"
+  },
+  {
+   "n": 4,
+   "supports": 0,
+   "why": "a TTL lease is shown, but not that it is shorter than permitted retry work or that deadlines are incomplete"
+  },
+  {
+   "n": 5,
+   "supports": 1,
+   "why": "createDemoSession and createDemoShare are awaited with no deadline or reconciliation in this text"
+  },
+  {
+   "n": 6,
+   "supports": 0,
+   "why": "trust and Turnstile checks are unrelated to session, share, widget, or tool readiness"
+  },
+  {
+   "n": 7,
+   "supports": 1,
+   "why": "widget/init is fetched with a bare await and no timeout or abort signal"
+  },
+  {
+   "n": 8,
+   "supports": 0,
+   "why": "screenshot_success as the response is about to return does not show disagreement with prospect receipt or replay inconsistency"
+  },
+  {
+   "n": 9,
+   "supports": 0,
+   "why": "a single Prisma contact transaction does not show independently updated stores or non-idempotency across interruption"
+  },
+  {
+   "n": 10,
+   "supports": 0,
+   "why": "input, trust, and Turnstile validation do not show independently updated stores or non-idempotent interruption behavior"
+  },
+  {
+   "n": 11,
+   "supports": 0,
+   "why": "writing a demo token into history does not show a multi-store run or non-idempotency across interruption"
+  },
+  {
+   "n": 12,
+   "supports": 0,
+   "why": "a 90-second lock TTL does not show independently updated stores or non-idempotent interruption behavior"
+  },
+  {
+   "n": 13,
+   "supports": 0,
+   "why": "the follow-up completion and fallback do not mention C7 or C3 or show that this contract explains C7 independently"
+  },
+  {
+   "n": 14,
+   "supports": 0,
+   "why": "LLM client test doubles do not show the post-tool completion contract or that it explains C7 independently of C3"
+  },
+  {
+   "n": 15,
+   "supports": 0,
+   "why": "fail-closed IP identification does not show that abuse and replay need targeted gates rather than a security redesign"
+  },
+  {
+   "n": 16,
+   "supports": 1,
+   "why": "iframe load-failure fallback only zooms after 5s and shows no operator notification"
+  },
+  {
+   "n": 17,
+   "supports": 1,
+   "why": "retrieval failure is swallowed with a silent fallback and available:true, with no operator notification"
+  },
+  {
+   "n": 18,
+   "supports": 0,
+   "why": "parent postMessage of CRM data is the success path; the truncated catch does not show a degraded outcome lacking operator notification"
+  }
+ ]
+}

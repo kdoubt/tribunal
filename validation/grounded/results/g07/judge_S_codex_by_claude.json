@@ -1,0 +1,63 @@
+{
+ "judge": "claude",
+ "truth": "<path>",
+ "output": "<path>",
+ "seconds": 40.8,
+ "parsed": true,
+ "scores": {
+  "decision_correct": 0.5,
+  "decision_correct_quote": "**Q1:** build-with-changes \u2014 retain window batching and bounded admission. ... **Q3:** build-with-changes \u2014 require durable transitions, bounded operations and independent recovery. ... **Q2:** redesign \u2014 enforce GPU revocation; the literal no-DoS guarantee conflicts with the documented shared-driver residual.",
+  "must_catch": [
+   {
+    "item": 1,
+    "hit": 1,
+    "quote": "failed opens return without rollback at RTX line 29 and GB10 line 34"
+   },
+   {
+    "item": 2,
+    "hit": 1,
+    "quote": "RTX health success and failure: `artifact/window-rtx.sh:34\u201341`; GB10: `artifact/window-gb10.sh:41\u201348` ... failure paths do not provide unattended recovery or a bounded wall-clock completion time. ... Nonzero exit or deadline expiry must enter a persistent recovery state, prohibit further dispatch, retry restoration with bounded backoff and alert independently."
+   },
+   {
+    "item": 3,
+    "hit": 1,
+    "quote": "A5 remains unresolved because the proposal defines neither durable crash recovery nor an independent dead-man restoration mechanism. **EVIDENCE:** `artifact/queue-design.md:64\u201365` explicitly asks how to survive crashes without double-running jobs or leaving production down ... Persist a bounded lease before stopping production; an independent supervisor must restore production on expiry. Boot into recovery, never resume an old open window automatically. ... Use a host-owned execution scope, bounded TERM-to-KILL escalation and whole-sandbox shutdown where necessary. ... Neither a user-supplied estimate nor a continuously replenished queue may extend the absolute window deadline."
+   },
+   {
+    "item": 4,
+    "hit": 1,
+    "quote": "A4\u2019s required state changes lack a defined single owner and atomic transition protocol. **EVIDENCE:** `artifact/queue-design.md:33\u201347` assigns spool writes to the submitter, draining and budgets to the arbiter, and opening/closing to operator or scheduler; neither script implements a window-state transaction. ... Missed updates respectively permit dispatch during closure, lost/duplicate execution, incomplete restoration, overlapping GPU access, incorrect limits or budget overruns."
+   },
+   {
+    "item": 5,
+    "hit": 1,
+    "quote": "GB10 accepts three exited containers and at least 60 GiB available ... For GB10, combine exited consumers with validated unified-memory headroom; `[N/A]` is not evidence of zero usage."
+   },
+   {
+    "item": 6,
+    "hit": 1,
+    "quote": "Bound bytes, inodes, queued jobs, submission rate, JSON size/depth, directory scanning, stdout/stderr and artifacts. Validate IDs; handle symlinks, special files, traversal and replacement races; copy accepted specs into trusted immutable storage. ... Enforce host-side CPU, RAM, PID and I/O limits. ... `artifact/RUNBOOK.md:103\u2013105`: \u201cA driver-crashing workload still hits prod vLLM.\u201d ... demonstrates bounded termination of signal-resistant, detached and privileged sandbox descendants"
+   },
+   {
+    "item": 7,
+    "hit": 0,
+    "quote": ""
+   }
+  ],
+  "false_objections": [
+   {
+    "quote": "the artifacts do not establish that a local spool is safer than carefully isolated NATS admission ... Either a bounded spool or isolated broker can supply jobs without authority to open windows. ... No stable position on which transport is strictly safer without configurations.",
+    "why": "declines to hold the Design C rejection, treating an external party's control plane on the production spine as an open transport question rather than a custody-boundary violation"
+   },
+   {
+    "quote": "The \u201ctwice\u201d cold-start count at lines 24\u201327 is unsupported by the described stop/run/restart sequence",
+    "why": "pedantic arithmetic quibble against a design point the memo concedes in the same sentence"
+   },
+   {
+    "quote": "**Q2:** redesign \u2014 enforce GPU revocation; the literal no-DoS guarantee conflicts with the documented shared-driver residual.",
+    "why": "escalates a documented, accepted shared-driver residual into a redesign verdict"
+   }
+  ],
+  "notes": "Strong technical coverage \u2014 six of seven must_catch items hit, including the prod-left-DOWN open path at rtx:29/gb10:34 \u2014 but the memo names the shared-driver GPU residual rather than the unattended prod-DOWN path as highest severity, and refuses to affirm the Design C rejection, so the decision scores partial."
+ }
+}

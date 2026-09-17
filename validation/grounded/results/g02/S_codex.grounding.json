@@ -1,0 +1,134 @@
+{
+ "arm": "results/g02//S_codex.md",
+ "claims": 7,
+ "pointers": [
+  {
+   "claim": "The current capture handler does not establish a bounded total cost or a sub-30-second completion guarantee.",
+   "pointer": "W/routes/capture.ts:25",
+   "resolves": true,
+   "file": "apps/worker/src/routes/capture.ts",
+   "text": "const URL_RE = /^https?:\\/\\/.+/;\nconst MAX_WAIT_MS = 25_000;\n\n/** Hosts that are heavy SPAs \u2014 use relaxed wait strategy */\nconst HEAVY_SPA_HOSTS = new Set([",
+   "supports": null
+  },
+  {
+   "claim": "The current capture handler does not establish a bounded total cost or a sub-30-second completion guarantee.",
+   "pointer": "capture.ts:695-706",
+   "resolves": true,
+   "file": "apps/worker/src/routes/capture.ts",
+   "text": "// Enqueue for OCR + output generation (only image files need processing)\n  const queueMsg: ItemProcessingMessage = {\n    item_id: itemId,\n    files: fileRecords\n      .filter((f) => f.filename.endsWith(\".png\"))\n      .map((f) => ({\n        filename: f.filename,\n        mime_type: \"image/png\",\n        r2_key: f.r2_key,\n      })),\n  };\n  await env.QUEUE.send(queueMsg);\n\n  const base = env.APP_BASE_URL;\n  return Response.json({",
+   "supports": null
+  },
+  {
+   "claim": "Existing quotas cannot safely serve as trial capture admission controls.",
+   "pointer": "W/middleware/rate-limit.ts:74-78",
+   "resolves": true,
+   "file": "apps/worker/src/middleware/rate-limit.ts",
+   "text": "const countResult = await env.DB.prepare(\n    \"SELECT COUNT(*) as cnt FROM items WHERE account_id = ? AND created_at > ?\"\n  )\n    .bind(accountId, startOfDay.toISOString())\n    .first<{ cnt: number }>();\n\n  const todayUploads = countResult?.cnt ?? 0;",
+   "supports": null
+  },
+  {
+   "claim": "Existing quotas cannot safely serve as trial capture admission controls.",
+   "pointer": "W/routes/capture.ts:234",
+   "resolves": true,
+   "file": "apps/worker/src/routes/capture.ts",
+   "text": "// Daily upload limit\n  const dailyLimit = await checkDailyUploadLimit(auth.accountId, auth.plan, env);\n  if (!dailyLimit.allowed) {\n    return apiError(ErrorCodes.RATE_LIMITED, dailyLimit.reason!);\n  }",
+   "supports": null
+  },
+  {
+   "claim": "Existing quotas cannot safely serve as trial capture admission controls.",
+   "pointer": "W/routes/mcp.ts:319-320",
+   "resolves": true,
+   "file": "apps/worker/src/routes/mcp.ts",
+   "text": "}\n    const results = await Promise.all(\n      body.map((req: unknown) => handleSingleRequest(req, env, auth))\n    );\n    const responses = results.filter((r): r is JsonRpcResponse => r !== null);\n    response = responses.length === 0",
+   "supports": null
+  },
+  {
+   "claim": "No stable position on \u201cabuse cost exceeds abuse value\u201d; a capped experiment is defensible, unrestricted renewable trial credentials are not.",
+   "pointer": "P/constants.ts:105-117",
+   "resolves": true,
+   "file": "packages/protocol/src/constants.ts",
+   "text": "export const ABUSE_BUDGET = {\n  /** Max free upload payload size in bytes (25 MiB) */\n  MAX_FREE_UPLOAD_BYTES: 25 * 1024 * 1024,\n  /** Max downloads per item before rate-limiting kicks in */\n  MAX_DOWNLOADS_PER_ITEM_PER_HOUR: 200,\n  /** Max OCR runs per anonymous IP per day */\n  MAX_OCR_RUNS_PER_IP_PER_DAY: 100,\n  /** Max bandwidth per anonymous IP per hour (500 MiB) */\n  MAX_BANDWIDTH_PER_IP_PER_HOUR: 500 * 1024 * 1024,\n  /** Max uploads per anonymous IP per hour */\n  MAX_UPLOADS_PER_IP_PER_HOUR: 20,\n  /** Max items in processing state per IP (prevents queue flooding) */\n  MAX_CONCURRENT_PROCESSING_PER_IP: 5,\n} as const;\n\n// \u2500\u2500 Content policy \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500",
+   "supports": null
+  },
+  {
+   "claim": "No stable position on \u201cabuse cost exceeds abuse value\u201d; a capped experiment is defensible, unrestricted renewable trial credentials are not.",
+   "pointer": "W/middleware/rate-limit.ts:16-58",
+   "resolves": true,
+   "file": "apps/worker/src/middleware/rate-limit.ts",
+   "text": "*/\nexport async function checkUploadRateLimit(\n  request: Request,\n  env: Env\n): Promise<RateLimitResult> {\n  const ip = request.headers.get(\"CF-Connecting-IP\");\n  if (!ip) return { allowed: true };\n\n  const ipHash = await hashIp(ip);\n\n  // Check uploads in the last hour\n  const oneHourAgo = new Date(Date.now() - 3600_000).toISOString();\n  const countResult = await env.DB.prepare(\n    \"SELECT COUNT(*) as cnt FROM items WHERE source_ip_hash = ? AND created_at > ?\"\n  )\n    .bind(ipHash, oneHourAgo)\n    .first<{ cnt: number }>();\n\n  const recentUploads = countResult?.cnt ?? 0;\n\n  if (recentUploads >= ABUSE_BUDGET.MAX_UPLOADS_PER_IP_PER_HOUR) {\n    return {\n      allowed: false,\n      reason: `Rate limit exceeded. Maximum ${ABUSE_BUDGET.MAX_UPLOADS_PER_IP_PER_HOUR} uploads per hour.`,\n    };\n  }\n\n  // Check concurrent processing items\n  const processingResult = await env.DB.prepare(\n    \"SELECT COUNT(*) as cnt FROM items WHERE source_ip_hash = ? AND status = 'processing'\"\n  )\n    .bind(ipHash)\n    .first<{ cnt: number }>();\n\n  const processing = processingResult?.cnt ?? 0;\n\n  if (processing >= ABUSE_BUDGET.MAX_CONCURRENT_PROCESSING_PER_IP) {\n    return {\n      allowed: false,\n      rea",
+   "supports": null
+  },
+  {
+   "claim": "\u201cNo email required\u201d is supportable as a redesign, but \u201czero PII stored\u201d is not established.",
+   "pointer": "apps/worker/migrations/0001_initial_schema.sql:9",
+   "resolves": true,
+   "file": "apps/worker/migrations/0001_initial_schema.sql",
+   "text": "id            TEXT PRIMARY KEY,\n  email         TEXT NOT NULL UNIQUE,\n  created_at    TEXT NOT NULL,\n  stripe_customer_id TEXT,\n  plan          TEXT NOT NULL DEFAULT 'free',",
+   "supports": null
+  },
+  {
+   "claim": "\u201cNo email required\u201d is supportable as a redesign, but \u201czero PII stored\u201d is not established.",
+   "pointer": "W/routes/capture.ts:606",
+   "resolves": true,
+   "file": "apps/worker/src/routes/capture.ts",
+   "text": "const screenshotBytes = (await page.screenshot({ type: \"png\", fullPage })) as Uint8Array;\n      await page.close();\n\n      const filename = `capture-${vpName}.png`;",
+   "supports": null
+  },
+  {
+   "claim": "\u201cNo email required\u201d is supportable as a redesign, but \u201czero PII stored\u201d is not established.",
+   "pointer": "packages/shared/src/hash.ts:20-25",
+   "resolves": true,
+   "file": "packages/shared/src/hash.ts",
+   "text": "export async function hashIp(ip: string): Promise<string> {\n  return sha256Hex(`ip:${ip}`);\n}\n\nexport async function hashUserAgent(ua: string): Promise<string> {\n  return sha256Hex(`ua:${ua}`);\n}\n\n/**",
+   "supports": null
+  },
+  {
+   "claim": "A transcript-visible link plus approval by the originating device does not defeat attacker-originated claiming.",
+   "pointer": "W/routes/auth-verify.ts:38-50",
+   "resolves": true,
+   "file": "apps/worker/src/routes/auth-verify.ts",
+   "text": "// Upsert account\n  let account = await env.DB.prepare(\"SELECT id, plan FROM accounts WHERE email = ?\")\n    .bind(token.email)\n    .first<{ id: string; plan: string }>();\n\n  if (!account) {\n    const accountId = generateId();\n    await env.DB.prepare(\n      \"INSERT INTO accounts (id, email, created_at, plan, status) VALUES (?, ?, ?, 'free', 'active')\"\n    )\n      .bind(accountId, token.email, now)\n      .run();\n    account = { id: accountId, plan: \"free\" };\n  }\n\n  // Create session",
+   "supports": null
+  },
+  {
+   "claim": "Claiming free cannot honestly promise recovery of expired content or longer retention.",
+   "pointer": "P/constants.ts:43-51",
+   "resolves": true,
+   "file": "packages/protocol/src/constants.ts",
+   "text": "export const PLAN_LIMITS: Record<string, PlanLimits> = {\n  free: {\n    uploads_per_day: 50,\n    max_total_bytes_per_item: 25 * 1024 * 1024, // 25 MiB\n    max_file_bytes: 25 * 1024 * 1024, // 25 MiB\n    ttl_hours_max: 24,\n    api_access: true,\n    max_api_keys: 1,\n    ocr_included: true,\n    history: false,\n  },\n  pro: {\n    uploads_per_day: 1000,",
+   "supports": null
+  },
+  {
+   "claim": "Claiming free cannot honestly promise recovery of expired content or longer retention.",
+   "pointer": "W/scheduled/cleanup.ts:7-8",
+   "resolves": true,
+   "file": "apps/worker/src/scheduled/cleanup.ts",
+   "text": "/**\n * Scheduled cleanup: runs every 15 minutes.\n * Finds expired items, deletes R2 objects, marks items as deleted.\n */\nexport async function handleScheduled(env: Env): Promise<void> {\n  const now = new Date().toISOString();",
+   "supports": null
+  },
+  {
+   "claim": "Rung 0 should complement `init`, reusing enrollment and authentication components while adding a separate claim transaction.",
+   "pointer": "W/routes/mcp.ts:333-386",
+   "resolves": true,
+   "file": "apps/worker/src/routes/mcp.ts",
+   "text": "// Device enrollment: if authenticated via API key (not yet a device session)\n  // and this is an initialize request, create a device and assign Mcp-Session-Id\n  if (auth.type === \"api_key\" && isInitializeRequest(body)) {\n    try {\n      // Enforce device quota per API key (max 10) \u2014 atomic via conditional INSERT\n      const sessionToken = generateMcpSessionToken();\n      const tokenHash = await hashApiKey(sessionToken);\n      const deviceName = parseDeviceName(request.headers.get(\"User-Agent\"));\n      const ip = request.headers.get(\"CF-Connecting-IP\") ?? \"\";\n      const ua = request.headers.get(\"User-Agent\") ?? \"\";\n      const now = isoNow();\n      const expiresAt = new Date(Date.now() + 90 * 24 * 3600_000).toISOString(); // 90 days\n      const deviceId = generateId();\n\n      // Atomic quota enforcement: INSERT only if count < 10\n      const insertResult = await env.DB.prepare(\n        `INSERT INTO mcp_devices (id, account_id, api_key_id, session_token_hash,\n         device_name, ip_hash, user_agent_hash, created_at, last_seen_at, expires_at, status)\n         SELECT ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'active'\n         WHERE (SELECT COUNT(*) FROM mcp_devices WHERE api_key_id = ? AND sta",
+   "supports": null
+  },
+  {
+   "claim": "Rung 0 should complement `init`, reusing enrollment and authentication components while adding a separate claim transaction.",
+   "pointer": "W/routes/auth-verify.ts:19-23",
+   "resolves": true,
+   "file": "apps/worker/src/routes/auth-verify.ts",
+   "text": "// Atomically mark token as used \u2014 the WHERE clause prevents TOCTOU races\n  // where two concurrent requests could both read used_at IS NULL before either writes.\n  const result = await env.DB.prepare(\n    \"UPDATE magic_tokens SET used_at = ? WHERE token_hash = ? AND used_at IS NULL AND expires_at > ?\"\n  ).bind(now, tokenHash, now).run();\n\n  if (!result.meta.changes || result.meta.changes === 0) {\n    return apiError(ErrorCodes.UNAUTHORIZED, \"Invalid, expired, or already used link.\");",
+   "supports": null
+  },
+  {
+   "claim": "Rung 0 should complement `init`, reusing enrollment and authentication components while adding a separate claim transaction.",
+   "pointer": "apps/web/app/routes/index.tsx:181-184",
+   "resolves": true,
+   "file": "apps/web/app/routes/index.tsx",
+   "text": "<h2>One command to connect</h2>\n        <pre><code>{`claude mcp add whipnode --transport http https://whipnode.com/api/v1/mcp --header \"X-API-Key: YOUR_KEY\" -s user`}</code></pre>\n        <p className=\"install-note\">\n          <a href=\"/login\">Create an account</a> to get your API key.\n          50 uploads/day, OCR, AI analysis, and full MCP integration - no credit card needed.\n        </p>\n      </section>",
+   "supports": null
+  }
+ ]
+}

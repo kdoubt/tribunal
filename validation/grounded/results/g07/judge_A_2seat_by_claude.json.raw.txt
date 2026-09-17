@@ -1,0 +1,19 @@
+{
+ "decision_correct": 1,
+ "decision_correct_quote": "Q1 Architecture: **build-with-changes** (keep A, reject B; keep C off the spine; move the spool to trusted side). ... Q3 Systems: **build-with-changes** (reuse health-gated `window-*.sh`; do not ship without an independent dead-man and a close-`exit 1` policy).",
+ "must_catch": [
+  {"item": 1, "hit": 1, "quote": "failed opens return without rollback at RTX line 29 and GB10 line 34 (Memo 1, claim 5); \"window-rtx.sh:22 and window-gb10.sh:25 stop prod on open\" (Memo 2)"},
+  {"item": 2, "hit": 1, "quote": "both close scripts start prod, wait a bounded time for `/health` 200, then `exit 1` without rolling back ... `window-rtx.sh:31-41` `systemctl start` then 100×`sleep 6` ... else \u201cWARNING \u2026 'active' != healthy\u201d `exit 1`; `window-gb10.sh:38-48` ... same 100×6s pattern, `exit 1` on non-200 — with \u201cNonzero exit or deadline expiry must ... retry restoration with bounded backoff and alert independently\u201d"},
+  {"item": 3, "hit": 1, "quote": "Highest-severity hole (A5): there is no dead-man, and crash/reboot mid-drain is an unsolved open question, so arbiter death after `window-*.sh open` leaves production DOWN unattended ... \u201cThe operator opens the window, not the external party\u201d blocks him from *starting* preemption but is not sufficient to keep him from *extending* it ... no `timeout -k` / cgroup kill"},
+  {"item": 4, "hit": 1, "quote": "A4 stores are underspecified and already two-writer: the external party writes the spool the arbiter drains; operator and arbiter can both close; window-open flag, current-job marker, and downtime budget have no named files, locks, or single-writer rule (lost-update precedent applies)."},
+  {"item": 5, "hit": 1, "quote": "GB10 free-VRAM proxy is `all_exited` plus `free -g` available \u2265 60, because \u201cnvidia-smi reports memory.used=[N/A]\u201d (window-gb10.sh:15-18, 27-34) ... starts a job only after open\u2019s `exit 0` (RTX `memory.used` < 4000 MiB; GB10 exited+avail\u226560G)"},
+  {"item": 6, "hit": 1, "quote": "the external party, controlling only `{cmd, est_seconds, artifacts_path}` and timing, can still harm prod: fill a host-backed spool ..., run side processes that the per-cmd `timeout` does not cover (passwordless sudo in CT 205), exhaust GB10 unified memory ..., or crash the shared GPU driver ... \u201cA driver-crashing workload still hits prod vLLM\u201d"},
+  {"item": 7, "hit": 1, "quote": "Rejecting reuse of the NATS spine (C) is correct; the better middle path is still an operator-gated window, but with a trusted-side spool the external party cannot write \u2014 not a subject-scoped NATS user ... C rejected because it \u201cputs an external untrusted party's control-plane on the production spine\u201d"}
+ ],
+ "false_objections": [
+  {"quote": "the artifacts do not establish that a local spool is safer than carefully isolated NATS admission ... No stable position on which transport is strictly safer without configurations.", "why": "reopens the settled custody-boundary rejection of C and contradicts the union's own Memo 2 finding"},
+  {"quote": "**Q2:** redesign — enforce GPU revocation; the literal no-DoS guarantee conflicts with the documented shared-driver residual.", "why": "the fs/process-level-only GPU isolation is a stated residual surface to bound, not grounds for a redesign verdict"},
+  {"quote": "The \u201ctwice\u201d cold-start count at lines 24\u201327 is unsupported by the described stop/run/restart sequence", "why": "textual quibble with the proposal's own arithmetic that changes nothing about the accepted per-job-preemption rejection"}
+ ],
+ "notes": "The union lands the full must-catch set including the oracle-verified failed-open path that abandons prod stopped, but Memo 1 drags in an unsettled NATS-vs-spool position and a Q2 redesign call that Memo 2 contradicts, with no ledger to reconcile them."
+}

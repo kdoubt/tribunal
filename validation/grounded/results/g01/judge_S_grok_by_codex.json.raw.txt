@@ -1,0 +1,38 @@
+{
+  "decision_correct": 1,
+  "decision_correct_quote": "Q1: Device-code `/init` Authorize over magic-link + one `api_keys` + `mcp_devices` session; no anonymous keys; dashboard paste stays fallback.",
+  "must_catch": [
+    {
+      "item": 1,
+      "hit": 1,
+      "quote": "Free-tier segregation is per-device `mcp_devices` sessions, not per-device API keys: `PLAN_LIMITS.free.max_api_keys` is 1 and create-key 403s at the cap; pairing must reuse/create that one `[\"write\"]` key"
+    },
+    {
+      "item": 2,
+      "hit": 1,
+      "quote": "Account insert only in `apps/worker/src/routes/auth-verify.ts:43-50` (`plan, 'free'`); ... grep has no device-code/Turnstile/OAuth. ... verify redirects to `/init?code=` not `/dashboard` (`auth-verify.ts:73`)."
+    },
+    {
+      "item": 3,
+      "hit": 1,
+      "quote": "Getting Started is login → create key → paste `claude mcp add … --header \"X-API-Key: …\"`. ... ROADMAP “CLI tool” is Future (`docs/ROADMAP.md:36`)."
+    },
+    {
+      "item": 4,
+      "hit": 1,
+      "quote": "Email verify is necessary and not sufficient against farming: magic-link has no CAPTCHA, only `COUNT(*) … >= 3` per email; ... reuse magic-link (15 min, 3/email/15 min) ... grep has no device-code/Turnstile/OAuth. ... viewports are not plan-gated today (`max 6` only). ... Browser Rendering is billed such that 50 captures/day is cheaper than email farming."
+    },
+    {
+      "item": 5,
+      "hit": 1,
+      "quote": "the single consent moment is a human click on `/init` “Authorize this device” after a session cookie or magic-link verify ... email is “Sign in to WhipNode”, not device consent"
+    },
+    {
+      "item": 6,
+      "hit": 0,
+      "quote": ""
+    }
+  ],
+  "false_objections": [],
+  "notes": "The memo selects the intended architecture and catches five requirements, but does not specify verifier-bound credential delivery; its one-time polling and hashed-key statements only partially cover item 6."
+}

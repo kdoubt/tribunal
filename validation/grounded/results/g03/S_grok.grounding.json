@@ -1,0 +1,174 @@
+{
+ "arm": "results/g03//S_grok.md",
+ "claims": 8,
+ "pointers": [
+  {
+   "claim": "The spec encodes both USER-FACT decisions (init as device-code wrapping magic-link with one Authorize click and key + `mcp_devices` enrollment; rung 0 as anonymous no-PII trial, non-bearer locator, possession-proof same-key conversion, complementary to init) but silently defaults two OWNER-CALLs (trial quota 10, free devices 3) and leaves Turnstile and raw-key vs device-token unresolved for an agent that will not get a human call.",
+   "pointer": "ONBOARDING_SPEC.md:94",
+   "resolves": true,
+   "file": "ONBOARDING_SPEC.md",
+   "text": "|---|---|\n| Items (captures+uploads)/day | 10 (OWNER-CALL; codex-seat dissent: 3 until billing telemetry) |\n| Viewports per capture | 1; `full_page`, `4k`, `1080p` rejected in capture validation |\n| Retention (TTL) | 24h |\n| Concurrent processing | <= 2 (reservation/release, not just a constant) |",
+   "supports": null
+  },
+  {
+   "claim": "The required `accounts.email` nullability change has no complete D1 migration: email is `TEXT NOT NULL UNIQUE`, and this repo only ever `ADD COLUMN`s \u2014 SQLite/D1 cannot `ALTER` away NOT NULL without a table rebuild the spec does not give.",
+   "pointer": "apps/worker/migrations/0001_initial_schema.sql:9",
+   "resolves": true,
+   "file": "apps/worker/migrations/0001_initial_schema.sql",
+   "text": "id            TEXT PRIMARY KEY,\n  email         TEXT NOT NULL UNIQUE,\n  created_at    TEXT NOT NULL,\n  stripe_customer_id TEXT,\n  plan          TEXT NOT NULL DEFAULT 'free',",
+   "supports": null
+  },
+  {
+   "claim": "The required `accounts.email` nullability change has no complete D1 migration: email is `TEXT NOT NULL UNIQUE`, and this repo only ever `ADD COLUMN`s \u2014 SQLite/D1 cannot `ALTER` away NOT NULL without a table rebuild the spec does not give.",
+   "pointer": "ONBOARDING_SPEC.md:85-87",
+   "resolves": true,
+   "file": "ONBOARDING_SPEC.md",
+   "text": "On pass: create `accounts` row (`plan='trial'`, `email=NULL` - migration\nmakes email nullable; SQLite UNIQUE permits multiple NULLs, no\nsentinels), one `wn_` key, enroll the `mcp_devices` row via the existing\nmcp.ts:333-367 path.\n\n### Trial shape (`PLAN_LIMITS.trial` + enforcement inventory)",
+   "supports": null
+  },
+  {
+   "claim": "The required `accounts.email` nullability change has no complete D1 migration: email is `TEXT NOT NULL UNIQUE`, and this repo only ever `ADD COLUMN`s \u2014 SQLite/D1 cannot `ALTER` away NOT NULL without a table rebuild the spec does not give.",
+   "pointer": "0009_api_keys_override.sql:2",
+   "resolves": true,
+   "file": "apps/worker/migrations/0009_api_keys_override.sql",
+   "text": "-- Per-account override for max API keys (NULL = use plan default)\nALTER TABLE accounts ADD COLUMN max_api_keys_override INTEGER DEFAULT NULL;",
+   "supports": null
+  },
+  {
+   "claim": "Spend-ceiling and token-purpose schema are not implementable as written: the only `trial_counters` SQL is an `UPDATE` whose `meta.changes == 0` is defined as 429, so a missing UTC-day row (every new day, and forever if no INSERT is specified) looks like cap exhaustion; no table is named for the 1/IP/24h cap; `magic_tokens` has no `purpose` column the claim/init verify split requires.",
+   "pointer": "ONBOARDING_SPEC.md:108-115",
+   "resolves": true,
+   "file": "ONBOARDING_SPEC.md",
+   "text": "Table: `trial_counters (day TEXT PRIMARY KEY, issuances INTEGER NOT NULL\nDEFAULT 0, captures INTEGER NOT NULL DEFAULT 0)` - UTC-day keyed,\nappend-only (never reset in place; the day key IS the reset, matching the\n00:00 UTC wall copy). Every increment is atomic-conditional immediately\nbefore allocation:\n\n    UPDATE trial_counters SET captures = captures + 1\n      WHERE day = ? AND captures < ?    -- meta.changes == 0 -> 429\n\nStart caps ~250 issuances / 200-500 captures per day; alert email at 80%.\nCap-exhaustion 429 of legitimate onboarding is ACCEPTED fail-closed",
+   "supports": null
+  },
+  {
+   "claim": "Spend-ceiling and token-purpose schema are not implementable as written: the only `trial_counters` SQL is an `UPDATE` whose `meta.changes == 0` is defined as 429, so a missing UTC-day row (every new day, and forever if no INSERT is specified) looks like cap exhaustion; no table is named for the 1/IP/24h cap; `magic_tokens` has no `purpose` column the claim/init verify split requires.",
+   "pointer": "apps/worker/migrations/0002_auth_sessions.sql:5-13",
+   "resolves": true,
+   "file": "apps/worker/migrations/0002_auth_sessions.sql",
+   "text": "-- \u2500\u2500 Magic Link Tokens \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nCREATE TABLE IF NOT EXISTS magic_tokens (\n  id          TEXT PRIMARY KEY,\n  email       TEXT NOT NULL,\n  token_hash  TEXT NOT NULL UNIQUE,\n  created_at  TEXT NOT NULL,\n  expires_at  TEXT NOT NULL,\n  used_at     TEXT,\n  ip_hash     TEXT\n);\n\nCREATE INDEX idx_magic_tokens_hash ON magic_tokens(token_hash);\nCREATE INDEX idx_magic_tokens_email ON magic_tokens(email);",
+   "supports": null
+  },
+  {
+   "claim": "`POST /auth/device/approve (session-authed)` cannot run for claim or init as specified: both verify paths create no account, so no `wn_session` exists, while `sessions.account_id` is `NOT NULL`.",
+   "pointer": "ONBOARDING_SPEC.md:246-247",
+   "resolves": true,
+   "file": "ONBOARDING_SPEC.md",
+   "text": "Worker: trial issuance inside unauthenticated `initialize`;\n`POST /auth/device/start` (kind-aware); `POST /auth/device/poll`;\n`POST /auth/device/approve` (session-authed, kind-aware); claim/init\nmagic-token purpose in auth-magic-link/auth-verify; `GET /claim/:id`\npage; capture validation for trial options; trial cleanup task.",
+   "supports": null
+  },
+  {
+   "claim": "`POST /auth/device/approve (session-authed)` cannot run for claim or init as specified: both verify paths create no account, so no `wn_session` exists, while `sessions.account_id` is `NOT NULL`.",
+   "pointer": "0002_auth_sessions.sql:21",
+   "resolves": true,
+   "file": "apps/worker/migrations/0002_auth_sessions.sql",
+   "text": "id          TEXT PRIMARY KEY,\n  account_id  TEXT NOT NULL,\n  token_hash  TEXT NOT NULL UNIQUE,\n  created_at  TEXT NOT NULL,\n  expires_at  TEXT NOT NULL,",
+   "supports": null
+  },
+  {
+   "claim": "`POST /auth/device/approve (session-authed)` cannot run for claim or init as specified: both verify paths create no account, so no `wn_session` exists, while `sessions.account_id` is `NOT NULL`.",
+   "pointer": "auth-verify.ts:53-69",
+   "resolves": true,
+   "file": "apps/worker/src/routes/auth-verify.ts",
+   "text": "// Create session\n  const sessionTokenRaw = generateSessionToken();\n  const sessionHash = await hashApiKey(sessionTokenRaw);\n  const sessionExpires = new Date(Date.now() + 30 * 24 * 3600_000).toISOString(); // 30 days\n  const ip = request.headers.get(\"CF-Connecting-IP\") ?? \"\";\n  const ipHash = ip ? await hashIp(ip) : null;\n  const ua = request.headers.get(\"User-Agent\") ?? \"\";\n\n  // Note: the \"user_agent\" column stores a SHA-256 hash (via hashUserAgent),\n  // not the raw User-Agent string. The column name is a legacy misnomer \u2014\n  // renaming would require a migration for a non-functional change.\n  await env.DB.prepare(\n    `INSERT INTO sessions (id, account_id, token_hash, created_at, expires_at, last_seen, ip_hash, user_agent)\n     VALUES (?, ?, ?, ?, ?, ?, ?, ?)`\n  )\n    .bind(generateId(), account.id, sessionHash, now, sessionExpires, now, ipHash, await hashUserAgent(ua))\n    .run();\n\n  // Redirect to dashboard with session cookie\n  const headers = new Headers({",
+   "supports": null
+  },
+  {
+   "claim": "The named 7-day unclaimed-trial cleanup will not run on any cron tick where no items are expired, because `handleScheduled` returns before later tasks when that SELECT is empty.",
+   "pointer": "ONBOARDING_SPEC.md:100",
+   "resolves": true,
+   "file": "ONBOARDING_SPEC.md",
+   "text": "| OCR + prompt packs | included (it is the product) |\n| Unclaimed account expiry | 7 days - a NEW cleanup.ts task: revoke the key (existing cascade revokes devices, api-keys.ts:139-142), then delete the account row; a PENDING claim freezes this expiry |\n\nEnforcement is not `PLAN_LIMITS` alone: capture-option validation,\naccount-level device quota, and concurrency reservation each need",
+   "supports": null
+  },
+  {
+   "claim": "The named 7-day unclaimed-trial cleanup will not run on any cron tick where no items are expired, because `handleScheduled` returns before later tasks when that SELECT is empty.",
+   "pointer": "apps/worker/src/scheduled/cleanup.ts:14-24",
+   "resolves": true,
+   "file": "apps/worker/src/scheduled/cleanup.ts",
+   "text": "// Find expired items not yet cleaned up\n  const expired = await env.DB.prepare(\n    `SELECT id FROM items\n     WHERE expires_at <= ? AND status NOT IN ('deleted')\n     LIMIT ?`\n  )\n    .bind(now, CLEANUP_BATCH_SIZE)\n    .all<{ id: string }>();\n\n  if (!expired.results || expired.results.length === 0) {\n    return;\n  }\n\n  for (const item of expired.results) {\n    await cleanupItem(item.id, env);",
+   "supports": null
+  },
+  {
+   "claim": "Wrapper-only trial issuance is not a testable worker condition: no request header/UA is named, so an implementer either mints on every unauthenticated `initialize` (raw `wn_` in an unnamed response header \u2014 a new bearer surface, plus a burned IP slot) or invents a discriminator; enrollment \u201cvia mcp.ts:333-367\u201d also cannot run on the arriving `auth == null` request without an unstated control-flow rewrite.",
+   "pointer": "ONBOARDING_SPEC.md:62-73",
+   "resolves": true,
+   "file": "ONBOARDING_SPEC.md",
+   "text": "Trigger: unauthenticated MCP `initialize` **mediated by the `npx\nwhipnode` CLI wrapper**, when `FEATURE_ENABLE_ANON_TRIAL=true`. Two\ntransport realities (panel-verified):\n\n- The worker rejects unauthenticated MCP before parsing today\n  (mcp.ts:291-293); issuance is a carve-out for `initialize` only.\n- **The raw `wn_` key never travels in JSON-RPC/tool text.** A vanilla\n  remote-MCP client has no way to persist an in-band key anyway. The key\n  is delivered once in a response header consumed by the `npx whipnode`\n  stdio wrapper, which writes the 0600 credential file and thereafter\n  supplies `X-API-Key`. Bare HTTP-MCP clients without the wrapper get the\n  existing `-32000` plus one line: run `npx whipnode init`.\n- Reconnects authenticate with the stored key; they never mint a second\n  trial (the 1/IP/24h cap also blocks accidental remints).",
+   "supports": null
+  },
+  {
+   "claim": "Wrapper-only trial issuance is not a testable worker condition: no request header/UA is named, so an implementer either mints on every unauthenticated `initialize` (raw `wn_` in an unnamed response header \u2014 a new bearer surface, plus a burned IP slot) or invents a discriminator; enrollment \u201cvia mcp.ts:333-367\u201d also cannot run on the arriving `auth == null` request without an unstated control-flow rewrite.",
+   "pointer": "mcp.ts:291-293",
+   "resolves": true,
+   "file": "apps/worker/src/routes/mcp.ts",
+   "text": "if (!auth) {\n    return jsonRpcError(null, -32000, \"Authentication required. Pass your API key in the X-API-Key header.\");\n  }\n\n  // Fix 4: per-account rate limiting\n  if (!checkMcpRateLimit(auth.accountId)) {",
+   "supports": null
+  },
+  {
+   "claim": "Wrapper-only trial issuance is not a testable worker condition: no request header/UA is named, so an implementer either mints on every unauthenticated `initialize` (raw `wn_` in an unnamed response header \u2014 a new bearer surface, plus a burned IP slot) or invents a discriminator; enrollment \u201cvia mcp.ts:333-367\u201d also cannot run on the arriving `auth == null` request without an unstated control-flow rewrite.",
+   "pointer": "mcp.ts:335",
+   "resolves": true,
+   "file": "apps/worker/src/routes/mcp.ts",
+   "text": "// and this is an initialize request, create a device and assign Mcp-Session-Id\n  if (auth.type === \"api_key\" && isInitializeRequest(body)) {\n    try {\n      // Enforce device quota per API key (max 10) \u2014 atomic via conditional INSERT\n      const sessionToken = generateMcpSessionToken();",
+   "supports": null
+  },
+  {
+   "claim": "Wrapper-only trial issuance is not a testable worker condition: no request header/UA is named, so an implementer either mints on every unauthenticated `initialize` (raw `wn_` in an unnamed response header \u2014 a new bearer surface, plus a burned IP slot) or invents a discriminator; enrollment \u201cvia mcp.ts:333-367\u201d also cannot run on the arriving `auth == null` request without an unstated control-flow rewrite.",
+   "pointer": "env.ts:38-41",
+   "resolves": true,
+   "file": "apps/worker/src/env.ts",
+   "text": "// Feature flags\n  FEATURE_ENABLE_ZIP_BUNDLES?: string;\n  FEATURE_ENABLE_EMAIL_SHARING?: string;\n  FEATURE_ENABLE_FACE_BLOCKING?: string;\n}",
+   "supports": null
+  },
+  {
+   "claim": "Stolen 0600 file is already a complete claim credential (claim-start and converting poll both authenticate with the trial key); combining it with a leaked locator adds nothing the spec\u2019s residual-risk paragraph does not already grant, while \u201ca PENDING claim freezes this expiry\u201d with no `expires_at > now` predicate lets that same key refresh freeze indefinitely (`whipnode claim` inside the 10-min TTL).",
+   "pointer": "ONBOARDING_SPEC.md:31-33",
+   "resolves": true,
+   "file": "ONBOARDING_SPEC.md",
+   "text": "locators; conversion requires possession of the trial key. Residual risk,\nstated honestly: **theft of the 0600 credential file grants claim\nauthority over that trial** - blast radius is capped by never-merge, zero\npre-claim identity, and 24h item TTL. If credential-file theft is observed\nin practice, the recorded escalation path is the codex-seat dissent: an\nEd25519 installation keypair with loopback signing, so the possession\nsecret never exists in any file an agent can read.",
+   "supports": null
+  },
+  {
+   "claim": "Two state machines on one `device_codes` table are sketched, not composed: no unique partial index backs \u201cone pending claim\u201d / \u201cconcurrent starts can't race two emails\u201d; init Authorize must create the account and later poll may return key material, claim Authorize must not mutate the account and must not return a key; activity snapshot \u201cparsed\u201d from `items.note` is lossy because a client `note` replaces the URL-bearing default and Google Doc captures store the title, not the URL (`captured_url` is response-only).",
+   "pointer": "ONBOARDING_SPEC.md:154-156",
+   "resolves": true,
+   "file": "ONBOARDING_SPEC.md",
+   "text": "key-possession + code-match design. Claim-start authenticates with\n   the trial key (key must be `status='active'`); it invalidates any\n   prior pending claim for this account (one pending claim per trial;\n   concurrent starts can't race two emails).\n2. Claim-start snapshots the trial's recent capture hosts\n   (`{host, created_at}` x3, parsed at claim time - there is no\n   `captured_url` column; items carry the URL only in `note`) onto the",
+   "supports": null
+  },
+  {
+   "claim": "Two state machines on one `device_codes` table are sketched, not composed: no unique partial index backs \u201cone pending claim\u201d / \u201cconcurrent starts can't race two emails\u201d; init Authorize must create the account and later poll may return key material, claim Authorize must not mutate the account and must not return a key; activity snapshot \u201cparsed\u201d from `items.note` is lossy because a client `note` replaces the URL-bearing default and Google Doc captures store the title, not the URL (`captured_url` is response-only).",
+   "pointer": "capture.ts:658-674",
+   "resolves": true,
+   "file": "apps/worker/src/routes/capture.ts",
+   "text": "const defaultNote = viewportNames.length === 1\n    ? `Screenshot of ${url} (${viewportNames[0]})`\n    : `Screenshots of ${url} (${viewportNames.join(\", \")})`;\n\n  // Insert item\n  await env.DB.prepare(\n    `INSERT INTO items (id, account_id, created_at, expires_at, status, note,\n     client_type, origin, file_count, total_bytes, ocr_status, moderation_status,\n     public_token, source_ip_hash, user_agent_hash, device_id)\n     VALUES (?, ?, ?, ?, 'processing', ?, 'agent', 'capture', ?, ?, 'pending', 'pending', ?, ?, ?, ?)`\n  )\n    .bind(\n      itemId,\n      auth.accountId,\n      now,\n      expiresAt,\n      note ?? defaultNote,\n      fileRecords.length,\n      totalBytes,\n      publicToken,",
+   "supports": null
+  },
+  {
+   "claim": "Two state machines on one `device_codes` table are sketched, not composed: no unique partial index backs \u201cone pending claim\u201d / \u201cconcurrent starts can't race two emails\u201d; init Authorize must create the account and later poll may return key material, claim Authorize must not mutate the account and must not return a key; activity snapshot \u201cparsed\u201d from `items.note` is lossy because a client `note` replaces the URL-bearing default and Google Doc captures store the title, not the URL (`captured_url` is response-only).",
+   "pointer": "capture.ts:494",
+   "resolves": true,
+   "file": "apps/worker/src/routes/capture.ts",
+   "text": "txtItemId, auth.accountId, txtNow, txtExpiresAt,\n              note ?? `Google Doc: ${docTitle}`,\n              txtBytes.byteLength, txtPublicToken, ipHash, uaHash,\n              auth.type === \"mcp_device\" ? auth.deviceId : null\n            )",
+   "supports": null
+  },
+  {
+   "claim": "Two state machines on one `device_codes` table are sketched, not composed: no unique partial index backs \u201cone pending claim\u201d / \u201cconcurrent starts can't race two emails\u201d; init Authorize must create the account and later poll may return key material, claim Authorize must not mutate the account and must not return a key; activity snapshot \u201cparsed\u201d from `items.note` is lossy because a client `note` replaces the URL-bearing default and Google Doc captures store the title, not the URL (`captured_url` is response-only).",
+   "pointer": "capture.ts:712",
+   "resolves": true,
+   "file": "apps/worker/src/routes/capture.ts",
+   "text": "status: \"processing\",\n    captured_url: url,\n    viewports: viewportNames,\n    url: `${base}/p/${itemId}`,\n    json_url: `${base}/api/v1/items/${itemId}`,",
+   "supports": null
+  },
+  {
+   "claim": "Two state machines on one `device_codes` table are sketched, not composed: no unique partial index backs \u201cone pending claim\u201d / \u201cconcurrent starts can't race two emails\u201d; init Authorize must create the account and later poll may return key material, claim Authorize must not mutate the account and must not return a key; activity snapshot \u201cparsed\u201d from `items.note` is lossy because a client `note` replaces the URL-bearing default and Google Doc captures store the title, not the URL (`captured_url` is response-only).",
+   "pointer": "0001_initial_schema.sql:40-58",
+   "resolves": true,
+   "file": "apps/worker/migrations/0001_initial_schema.sql",
+   "text": "CREATE TABLE IF NOT EXISTS items (\n  id                TEXT PRIMARY KEY,\n  account_id        TEXT,\n  created_at        TEXT NOT NULL,\n  expires_at        TEXT NOT NULL,\n  status            TEXT NOT NULL DEFAULT 'processing',\n  note              TEXT,\n  client_type       TEXT NOT NULL,\n  origin            TEXT,\n  file_count        INTEGER NOT NULL,\n  total_bytes       INTEGER NOT NULL,\n  ocr_status        TEXT NOT NULL DEFAULT 'pending',\n  moderation_status TEXT NOT NULL DEFAULT 'pending',\n  public_token      TEXT NOT NULL,\n  source_ip_hash    TEXT,\n  user_agent_hash   TEXT,\n\n  FOREIGN KEY (account_id) REFERENCES accounts(id)\n);\n\nCREATE INDEX idx_items_expires ON items(expires_at)\n  WHERE status NOT IN ('deleted');",
+   "supports": null
+  }
+ ]
+}

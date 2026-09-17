@@ -1,0 +1,63 @@
+{
+ "judge": "codex",
+ "truth": "<path>",
+ "output": "<path>",
+ "seconds": 31.0,
+ "parsed": true,
+ "scores": {
+  "decision_correct": 0.5,
+  "decision_correct_quote": "LiteLLM alias -> B (fallback to groq-gpt-oss-120b, contingent on the max_tokens=300 retest returning non-empty content); the assistant -> leave down and ask the partner for the GB10 back; the panel third seat -> C (run the documented 2-seat floor).",
+  "must_catch": [
+   {
+    "item": 1,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 2,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 3,
+    "hit": 1,
+    "quote": "For the panel, A is the only option that introduces credit billing for a *panel* model, i.e. the exact thing the standing rule names (BRIEF.md:84\u201385); ... the panel third seat -> C (run the documented 2-seat floor). ... (panel-C) a 2-seat verdict being read as if it were 3-seat, caught by requiring the seat roster in the panel run record."
+   },
+   {
+    "item": 4,
+    "hit": 1,
+    "quote": "contingent on the max_tokens=300 retest returning non-empty content"
+   },
+   {
+    "item": 5,
+    "hit": 1,
+    "quote": "A buys nothing B doesn't (same model), and costs a token mint against an account whose only existing credential is a *leaked* Global API Key pending roll"
+   },
+   {
+    "item": 6,
+    "hit": 1,
+    "quote": "(B) a 200 OK with empty `content` from the reasoning model, caught by the arithmetic probe at max_tokens=300 through LiteLLM with the router's own key asserting non-empty content; ... Secondary B mode: BRIEF.md:128\u2013129 \"risk = silent cost/quality drift if nobody notices the fallback stayed hot\" \u2014 caught by checking the groq deployment's request count is 0 after `close` runs."
+   },
+   {
+    "item": 7,
+    "hit": 1,
+    "quote": "The retest at max_tokens=300 still returns empty `content`, or `groq-gpt-oss-120b` 404s like the removed Llama aliases (BRIEF.md:109-111) \u2014 either flips LiteLLM to A."
+   }
+  ],
+  "false_objections": [
+   {
+    "quote": "the GB10 recommendation is doubly leveraged \u2014 it restores the assistant *and* the panel's Qwen seat",
+    "why": "reclaiming the GB10 cannot restore an assistant ladder that has no GB10 rung"
+   },
+   {
+    "quote": "Option A violates the rule's letter but not its purpose",
+    "why": "a metered cloud panel seat violates both the letter and spirit of the rule without a written owner waiver and hard cap"
+   },
+   {
+    "quote": "The assistant is load-bearing for a client SLA during the interim (an outage costs more than the disclosure risk), or the client contract already permits named cloud subprocessors \u2014 either makes a scoped, time-boxed override the right call.",
+    "why": "SLA pressure does not authorize disclosure or make generation-time custody pruning a runtime override"
+   }
+  ],
+  "notes": "The memo earns partial decision credit for conditional B and panel C, but incorrectly treats GB10 reclaim as assistant restoration, omits custody pruning and the cpu-limp stub, and never requires a written owner waiver."
+ }
+}

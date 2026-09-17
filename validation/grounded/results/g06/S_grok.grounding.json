@@ -1,0 +1,180 @@
+{
+ "arm": "results/g06//S_grok.md",
+ "claims": 8,
+ "pointers": [
+  {
+   "claim": "Co-mingling the spool on the same `all_squash` export that CT 206 (and CT 205 `/queue`) get RW makes the untrusted party a same-credential writer of `incoming/`, `running/`, and `done/`, which breaks CONTRACT single-writer and at-most-once.",
+   "pointer": "unified-nfs-design.md:16-28",
+   "resolves": true,
+   "file": "unified-nfs-design.md",
+   "text": "## The design\n**One Synology NFS share is the shared substrate** (workspace + models + queue spool):\n```\n/volume1/the external party-warm/\n  workspace/            # the external party's scripts/configs (RW to the external party)\n  models/               # staged model files (RW to the external party, RO to jobs)\n  queue/rtx/{incoming,running,done}      # per-GPU spool\n  queue/gb10/{incoming,running,done}\n```\nMounted via the HOST, then bind-mounted into each sandbox \u2014 so the island/internal\nsandboxes get the FILES without a network ROUTE to the NAS (isolation preserved):\n- **node2** mounts `the external party-warm` \u2192 bind into **CT 205** (RTX sandbox) at /workspace, /models(ro),\n  /queue; and into a NEW **CT 206 `the external party-code`** (unified code-server, node2, isolated,\n  bastion-reachable) RW.\n- **gb10** mounts `the external party-warm` \u2192 bind into the GB10 job/bench containers (same paths).\n- **node1** (arbiter host) mounts `the external party-warm` \u2192 arbiter reads/writes the spool LOCALLY\n  (replaces today's over-ssh spool reads).",
+   "supports": null
+  },
+  {
+   "claim": "Co-mingling the spool on the same `all_squash` export that CT 206 (and CT 205 `/queue`) get RW makes the untrusted party a same-credential writer of `incoming/`, `running/`, and `done/`, which breaks CONTRACT single-writer and at-most-once.",
+   "pointer": "CONTRACT.md:50-51",
+   "resolves": true,
+   "file": "CONTRACT.md",
+   "text": "window-overrun or stale heartbeat, and on boot ensures prod-UP if no valid window.\n2. **Single-writer atomic state** \u2014 one arbiter (flock); every state write is tmp+rename;\n   queue claim is an atomic rename incoming\u2192running; budget counter is monotonic per day.\n3. **Cgroup kill-tree per job** \u2014 RTX: `systemd-run --scope -p RuntimeMaxSec` (systemd\n   kills the whole cgroup at the deadline). GB10: ephemeral `docker run --rm` with\n   `--memory/--pids-limit/--cpus` + `timeout`, arbiter `docker kill` fallback.",
+   "supports": null
+  },
+  {
+   "claim": "Host-mount then bind-mount does not give CT 205 or the GB10 `--internal` container a new L3 route to the NAS; the unspecified CT 206 network is the residual path to the live `*` / `no_root_squash` backup exports.",
+   "pointer": "unified-nfs-design.md:24-25",
+   "resolves": true,
+   "file": "unified-nfs-design.md",
+   "text": "```\nMounted via the HOST, then bind-mounted into each sandbox \u2014 so the island/internal\nsandboxes get the FILES without a network ROUTE to the NAS (isolation preserved):\n- **node2** mounts `the external party-warm` \u2192 bind into **CT 205** (RTX sandbox) at /workspace, /models(ro),\n  /queue; and into a NEW **CT 206 `the external party-code`** (unified code-server, node2, isolated,\n  bastion-reachable) RW.",
+   "supports": null
+  },
+  {
+   "claim": "Host-mount then bind-mount does not give CT 205 or the GB10 `--internal` container a new L3 route to the NAS; the unspecified CT 206 network is the residual path to the live `*` / `no_root_squash` backup exports.",
+   "pointer": "RUNBOOK.md:23-25",
+   "resolves": true,
+   "file": "RUNBOOK.md",
+   "text": ":8888 + dnsmasq :53 serve the island (only <island-address> allowed).\n- **CT 205 the external party-bench-rtx** (12c/32G/120G local-lvm, onboot=0, unprivileged):\n  on SDN vnet `cirub0` (zone `cirub`, node2-only, NO uplink \u2014 physical L2 island,\n  no NAT anywhere). GPU via /dev/nvidia* bind mounts + cgroup allows c 195/510\n  (same pattern as CT 201). NVIDIA user-space 610.43.02 via .run --no-kernel-modules\n  (matches node2 host driver EXACTLY \u2014 if node2 driver is upgraded, rerun the .run\n  in 205 with the new version). User `the external party` HAS passwordless sudo (his sandbox).",
+   "supports": null
+  },
+  {
+   "claim": "Host-mount then bind-mount does not give CT 205 or the GB10 `--internal` container a new L3 route to the NAS; the unspecified CT 206 network is the residual path to the live `*` / `no_root_squash` backup exports.",
+   "pointer": "synology-exports.txt:2",
+   "resolves": true,
+   "file": "synology-exports.txt",
+   "text": "Export list for <lan-address>:\n/volume1/proxmoxbackup/<lan-address>/24(rw,async,no_wdelay,no_root_squash,insecure_locks,sec=sys,anonuid=1025,anongid=100) *\n/volume1/proxmox<lan-address>(rw,async,no_wdelay,crossmnt,no_root_squash,insecure_locks,sec=sys,anonuid=1025,anongid=100) *\n/volume1/1-RPX-Workspace-Data                                                                                              <lan-address>\n/volume1/NeoMoat-Hub                                                                                                       <lan-address>",
+   "supports": null
+  },
+  {
+   "claim": "Host-mount then bind-mount does not give CT 205 or the GB10 `--internal` container a new L3 route to the NAS; the unspecified CT 206 network is the residual path to the live `*` / `no_root_squash` backup exports.",
+   "pointer": "unified-nfs-design.md:27-28",
+   "resolves": true,
+   "file": "unified-nfs-design.md",
+   "text": "- **node2** mounts `the external party-warm` \u2192 bind into **CT 205** (RTX sandbox) at /workspace, /models(ro),\n  /queue; and into a NEW **CT 206 `the external party-code`** (unified code-server, node2, isolated,\n  bastion-reachable) RW.\n- **gb10** mounts `the external party-warm` \u2192 bind into the GB10 job/bench containers (same paths).\n- **node1** (arbiter host) mounts `the external party-warm` \u2192 arbiter reads/writes the spool LOCALLY\n  (replaces today's over-ssh spool reads).",
+   "supports": null
+  },
+  {
+   "claim": "Highest-severity hole as written is spool mutation (copy `running/<id>.json` back to `incoming/` or a new id with the same `cmd`) so the arbiter drains and runs the job twice \u2014 a tie-break failure; a close second is unconstrained RW on `/volume1` with no quota next to `proxmoxbackup`.",
+   "pointer": "CONTRACT.md:66-67",
+   "resolves": true,
+   "file": "CONTRACT.md",
+   "text": "(health-gated, rollback on fail), writes `window.flag{open, expires_at=now+120m}`.\n- The arbiter (already running) sees the open flag and drains the queue until the flag\n  closes or expires.\n- `queuectl --host rtx close` \u2192 `window-rtx.sh close` (retry), clears the flag.\n- Hard caps: `WINDOW_MAX_MIN` per window, `DAILY_BUDGET_MIN` total prod-downtime/day.\n  the external party cannot open, extend, or bypass these.",
+   "supports": null
+  },
+  {
+   "claim": "Highest-severity hole as written is spool mutation (copy `running/<id>.json` back to `incoming/` or a new id with the same `cmd`) so the arbiter drains and runs the job twice \u2014 a tie-break failure; a close second is unconstrained RW on `/volume1` with no quota next to `proxmoxbackup`.",
+   "pointer": "synology-exports.txt:2-3",
+   "resolves": true,
+   "file": "synology-exports.txt",
+   "text": "Export list for <lan-address>:\n/volume1/proxmoxbackup/<lan-address>/24(rw,async,no_wdelay,no_root_squash,insecure_locks,sec=sys,anonuid=1025,anongid=100) *\n/volume1/proxmox<lan-address>(rw,async,no_wdelay,crossmnt,no_root_squash,insecure_locks,sec=sys,anonuid=1025,anongid=100) *\n/volume1/1-RPX-Workspace-Data                                                                                              <lan-address>\n/volume1/NeoMoat-Hub                                                                                                       <lan-address>\n/volume1/proxmoxbackup                                                                                                     <lan-address>",
+   "supports": null
+  },
+  {
+   "claim": "Highest-severity hole as written is spool mutation (copy `running/<id>.json` back to `incoming/` or a new id with the same `cmd`) so the arbiter drains and runs the job twice \u2014 a tie-break failure; a close second is unconstrained RW on `/volume1` with no quota next to `proxmoxbackup`.",
+   "pointer": "unified-nfs-design.md:17-23",
+   "resolves": true,
+   "file": "unified-nfs-design.md",
+   "text": "**One Synology NFS share is the shared substrate** (workspace + models + queue spool):\n```\n/volume1/the external party-warm/\n  workspace/            # the external party's scripts/configs (RW to the external party)\n  models/               # staged model files (RW to the external party, RO to jobs)\n  queue/rtx/{incoming,running,done}      # per-GPU spool\n  queue/gb10/{incoming,running,done}\n```\nMounted via the HOST, then bind-mounted into each sandbox \u2014 so the island/internal\nsandboxes get the FILES without a network ROUTE to the NAS (isolation preserved):\n- **node2** mounts `the external party-warm` \u2192 bind into **CT 205** (RTX sandbox) at /workspace, /models(ro),",
+   "supports": null
+  },
+  {
+   "claim": "Highest-severity hole as written is spool mutation (copy `running/<id>.json` back to `incoming/` or a new id with the same `cmd`) so the arbiter drains and runs the job twice \u2014 a tie-break failure; a close second is unconstrained RW on `/volume1` with no quota next to `proxmoxbackup`.",
+   "pointer": "CONTRACT.md:55-57",
+   "resolves": true,
+   "file": "CONTRACT.md",
+   "text": "`--memory/--pids-limit/--cpus` + `timeout`, arbiter `docker kill` fallback.\n4. **Sandbox quotas** \u2014 arbiter refuses to claim when the spool exceeds MAX_SPOOL_BYTES\n   or MAX_SPOOL_FILES, and rejects a spec over MAX_SPEC_BYTES; per-job PID/CPU/mem caps\n   via the run context. (Hard fs-quota on GB10's dir needs root \u2014 documented, deferred.)\n5. **Restart retry + escalation** \u2014 window close retries prod restart; on failure it\n   leaves the window.flag CLOSED so the dead-man/next-open re-asserts prod-UP, and alerts.\n6. **Readiness probe** \u2014 before each job the arbiter verifies the sandbox exec responds",
+   "supports": null
+  },
+  {
+   "claim": "A1 \u2014 copy the GB10 client opts `vers=3,soft,timeo=150,retrans=3,_netdev,nofail,nolock` for RW, not `hard`; `nofail` without a contents-level readiness probe lets a failed mount leave a local empty directory that the arbiter will treat as the spool.",
+   "pointer": "gb10-nfs-precedent.txt:1",
+   "resolves": true,
+   "file": "gb10-nfs-precedent.txt",
+   "text": "<lan-address>:/volume1/1-RPX-Workspace-Data  /mnt/nas-workspace  nfs  ro,vers=3,nolock,rsize=1048576,wsize=1048576,soft,timeo=150,retrans=3,_netdev,nofail  0  0\n---mount---",
+   "supports": null
+  },
+  {
+   "claim": "A1 \u2014 copy the GB10 client opts `vers=3,soft,timeo=150,retrans=3,_netdev,nofail,nolock` for RW, not `hard`; `nofail` without a contents-level readiness probe lets a failed mount leave a local empty directory that the arbiter will treat as the spool.",
+   "pointer": "unified-nfs-design.md:44-45",
+   "resolves": true,
+   "file": "unified-nfs-design.md",
+   "text": "NOT no_root_squash (unlike the existing proxmoxbackup exports).\n- Mount opts mirror the working GB10 precedent: `vers=3, soft, timeo=150, retrans=3,\n  _netdev, nofail, nolock`; models bind RO into sandboxes; workspace/queue RW.\n- uid alignment: Synology maps anon to uid 1025; the sandbox `the external party` users are 1000/1001.\n  The export will all_squash to one uid and the sandboxes' bind mounts run as that uid.",
+   "supports": null
+  },
+  {
+   "claim": "A1 \u2014 copy the GB10 client opts `vers=3,soft,timeo=150,retrans=3,_netdev,nofail,nolock` for RW, not `hard`; `nofail` without a contents-level readiness probe lets a failed mount leave a local empty directory that the arbiter will treat as the spool.",
+   "pointer": "CONTRACT.md:60-61",
+   "resolves": true,
+   "file": "CONTRACT.md",
+   "text": "leaves the window.flag CLOSED so the dead-man/next-open re-asserts prod-UP, and alerts.\n6. **Readiness probe** \u2014 before each job the arbiter verifies the sandbox exec responds\n   and (via window open) the GPU is actually free.\n\n## Booked-block model\n- `queuectl --host rtx open 120` \u2192 checks daily budget, runs `window-rtx.sh open`",
+   "supports": null
+  },
+  {
+   "claim": "A2 \u2014 NFSv3 `rename` on one export is still a single-RPC atomic claim *if* only the arbiter can write `running/` and the arbiter mount uses `actimeo=0` (or `noac`); as proposed, `nolock` is fine (flock is local) but default attribute cache plus the external party RW on `queue/` is not.",
+   "pointer": "CONTRACT.md:21-24",
+   "resolves": true,
+   "file": "CONTRACT.md",
+   "text": "## On-disk layout\n### Management host (arbiter state, single-writer)\n`~/.the external party-queue/<host>/`  (host = rtx|gb10)\n- `arbiter.lock`   \u2014 flock; only one arbiter per host runs.\n- `state.json`     \u2014 `{budget:{date, used_seconds}}`, updated atomically (tmp+rename).\n\n### GPU host (readable by the LOCAL dead-man, written by the arbiter over ssh)\n- node2: `/var/lib/the external party-queue/`   GB10: `/home/<login-user>/the external party-queue/`",
+   "supports": null
+  },
+  {
+   "claim": "A2 \u2014 NFSv3 `rename` on one export is still a single-RPC atomic claim *if* only the arbiter can write `running/` and the arbiter mount uses `actimeo=0` (or `noac`); as proposed, `nolock` is fine (flock is local) but default attribute cache plus the external party RW on `queue/` is not.",
+   "pointer": "unified-nfs-design.md:44-45",
+   "resolves": true,
+   "file": "unified-nfs-design.md",
+   "text": "NOT no_root_squash (unlike the existing proxmoxbackup exports).\n- Mount opts mirror the working GB10 precedent: `vers=3, soft, timeo=150, retrans=3,\n  _netdev, nofail, nolock`; models bind RO into sandboxes; workspace/queue RW.\n- uid alignment: Synology maps anon to uid 1025; the sandbox `the external party` users are 1000/1001.\n  The export will all_squash to one uid and the sandboxes' bind mounts run as that uid.",
+   "supports": null
+  },
+  {
+   "claim": "A5 \u2014 dead-man still fail-to-prod-UP on NAS death because `window.flag` and `heartbeat` stay on GPU-host local disk; an arbiter that keeps rewriting heartbeat while spool I/O returns EIO leaves prod down until `expires_at`.",
+   "pointer": "CONTRACT.md:14-16",
+   "resolves": true,
+   "file": "CONTRACT.md",
+   "text": "window. Reuses the health-gated `window-*.sh` (with fail-to-prod-UP rollback).\n- **Dead-man** \u2014 runs ON each GPU host, INDEPENDENT of the arbiter and the management\n  host. Restores prod if a window overruns its deadline or the arbiter's heartbeat\n  goes stale. This is the gate-1 safety net: prod-UP survives arbiter/host death.\n- **the external party** \u2014 writes job specs into his sandbox spool via `the external party-submit`; never controls\n  windows or preemption.",
+   "supports": null
+  },
+  {
+   "claim": "A5 \u2014 dead-man still fail-to-prod-UP on NAS death because `window.flag` and `heartbeat` stay on GPU-host local disk; an arbiter that keeps rewriting heartbeat while spool I/O returns EIO leaves prod down until `expires_at`.",
+   "pointer": "unified-nfs-design.md:30-31",
+   "resolves": true,
+   "file": "unified-nfs-design.md",
+   "text": "- **gb10** mounts `the external party-warm` \u2192 bind into the GB10 job/bench containers (same paths).\n- **node1** (arbiter host) mounts `the external party-warm` \u2192 arbiter reads/writes the spool LOCALLY\n  (replaces today's over-ssh spool reads).\n\n**Access:** retire the two per-GPU code-server endpoints; the bastion fronts ONE new\ningress `the bench hostname` \u2192 CT 206 code-server, one CF Access app (OTP), policy allows",
+   "supports": null
+  },
+  {
+   "claim": "A dedicated `root_squash+all_squash`, 3-IP, no-`crossmnt` export is defensible; A3 is not `showmount` \u2014 prove a fourth IP cannot `mount` `the external party-warm` *or* `proxmoxbackup`, and that each sandbox has no TCP/2049 to `<lan-address>`.",
+   "pointer": "unified-nfs-design.md:41-43",
+   "resolves": true,
+   "file": "unified-nfs-design.md",
+   "text": "## NFS specifics (proposed)\n- New export `the external party-warm`, **root_squash + all_squash to a dedicated `the external party` uid/gid**,\n  limited to the three host IPs (node1 .10, node2 .11, gb10 .225) \u2014 NOT the whole subnet,\n  NOT no_root_squash (unlike the existing proxmoxbackup exports).\n- Mount opts mirror the working GB10 precedent: `vers=3, soft, timeo=150, retrans=3,\n  _netdev, nofail, nolock`; models bind RO into sandboxes; workspace/queue RW.\n- uid alignment: Synology maps anon to uid 1025; the sandbox `the external party` users are 1000/1001.",
+   "supports": null
+  },
+  {
+   "claim": "A dedicated `root_squash+all_squash`, 3-IP, no-`crossmnt` export is defensible; A3 is not `showmount` \u2014 prove a fourth IP cannot `mount` `the external party-warm` *or* `proxmoxbackup`, and that each sandbox has no TCP/2049 to `<lan-address>`.",
+   "pointer": "synology-exports.txt:2-3",
+   "resolves": true,
+   "file": "synology-exports.txt",
+   "text": "Export list for <lan-address>:\n/volume1/proxmoxbackup/<lan-address>/24(rw,async,no_wdelay,no_root_squash,insecure_locks,sec=sys,anonuid=1025,anongid=100) *\n/volume1/proxmox<lan-address>(rw,async,no_wdelay,crossmnt,no_root_squash,insecure_locks,sec=sys,anonuid=1025,anongid=100) *\n/volume1/1-RPX-Workspace-Data                                                                                              <lan-address>\n/volume1/NeoMoat-Hub                                                                                                       <lan-address>\n/volume1/proxmoxbackup                                                                                                     <lan-address>",
+   "supports": null
+  },
+  {
+   "claim": "A dedicated `root_squash+all_squash`, 3-IP, no-`crossmnt` export is defensible; A3 is not `showmount` \u2014 prove a fourth IP cannot `mount` `the external party-warm` *or* `proxmoxbackup`, and that each sandbox has no TCP/2049 to `<lan-address>`.",
+   "pointer": "gb10-nfs-precedent.txt:1",
+   "resolves": true,
+   "file": "gb10-nfs-precedent.txt",
+   "text": "<lan-address>:/volume1/1-RPX-Workspace-Data  /mnt/nas-workspace  nfs  ro,vers=3,nolock,rsize=1048576,wsize=1048576,soft,timeo=150,retrans=3,_netdev,nofail  0  0\n---mount---",
+   "supports": null
+  },
+  {
+   "claim": "A dedicated `root_squash+all_squash`, 3-IP, no-`crossmnt` export is defensible; A3 is not `showmount` \u2014 prove a fourth IP cannot `mount` `the external party-warm` *or* `proxmoxbackup`, and that each sandbox has no TCP/2049 to `<lan-address>`.",
+   "pointer": "synology-exports.txt:4",
+   "resolves": true,
+   "file": "synology-exports.txt",
+   "text": "/volume1/proxmox<lan-address>(rw,async,no_wdelay,crossmnt,no_root_squash,insecure_locks,sec=sys,anonuid=1025,anongid=100) *\n/volume1/1-RPX-Workspace-Data                                                                                              <lan-address>\n/volume1/NeoMoat-Hub                                                                                                       <lan-address>\n/volume1/proxmoxbackup                                                                                                     <lan-address>",
+   "supports": null
+  },
+  {
+   "claim": "A4 skip-map (who else writes / symptom): Synology new share (other DSM admins / wrong clone of `no_root_squash,*` \u2192 backup exposure); fstab on node1/node2/gb10 (empty local dir, split-brain spool); pct bind of CT 205 and new CT 206 (jobs/editor miss files); GB10 `docker -v` (jobs miss models); arbiter + `the external party-submit` spool path move (`CONTRACT.md:31-33` old paths still used \u2192 two queues); uid 1025 vs 1000/1001 (`unified-nfs-design.md:46-47` EACCES or mixed owners); CF app `the bench hostname` (`unified-nfs-design.md:33-35`); `teardown.sh` (`RUNBOOK.md:94-101`) does not remove a NAS export \u2014 skip leaves a live RW export after engagement.",
+   "pointer": null,
+   "resolves": null,
+   "text": null
+  }
+ ]
+}

@@ -1,0 +1,122 @@
+{
+ "arm": "results/g04//S_claude.md",
+ "claims": 8,
+ "pointers": [
+  {
+   "claim": "The page does speak to an agent-CLI adopter, but exclusively a Claude Code one \u2014 the landing route names Claude Code six times and names no other agent CLI, so a Codex/Grok arrival sees no proof it applies to them.",
+   "pointer": "faq.tsx:79",
+   "resolves": true,
+   "file": "apps/web/app/routes/faq.tsx",
+   "text": "{\n    q: \"How do I use WhipNode with Codex or other AI agents?\",\n    a: \"Upload your context at whipnode.com or via the API (POST /api/v1/items). Pass the JSON or prompt pack URL to your agent. Any agent that can make HTTP GET requests can consume WhipNode outputs - no SDK or special integration required. The API returns all format URLs in the creation response.\",\n  },\n  {",
+   "supports": null
+  },
+  {
+   "claim": "The page does speak to an agent-CLI adopter, but exclusively a Claude Code one \u2014 the landing route names Claude Code six times and names no other agent CLI, so a Codex/Grok arrival sees no proof it applies to them.",
+   "pointer": "docs.examples.tsx:51",
+   "resolves": true,
+   "file": "apps/web/app/routes/docs.examples.tsx",
+   "text": "<section>\n        <h2>Codex Integration</h2>\n        <pre><code>{`# Upload context before invoking Codex:\nITEM=$(curl -s -X POST https://whipnode.com/api/v1/items \\\\\n  -H \"Content-Type: application/json\" \\\\",
+   "supports": null
+  },
+  {
+   "claim": "The page does speak to an agent-CLI adopter, but exclusively a Claude Code one \u2014 the landing route names Claude Code six times and names no other agent CLI, so a Codex/Grok arrival sees no proof it applies to them.",
+   "pointer": "about.tsx:33",
+   "resolves": true,
+   "file": "apps/web/app/routes/about.tsx",
+   "text": "<p>\n        AI coding agents like Claude Code, Codex, and Copilot can't read your\n        screenshots. They can't access files on your clipboard. They can't parse\n        the error dialog you're staring at. The context is trapped on your\n        screen and there's no standard way to get it into an agent's context",
+   "supports": null
+  },
+  {
+   "claim": "The page does speak to an agent-CLI adopter, but exclusively a Claude Code one \u2014 the landing route names Claude Code six times and names no other agent CLI, so a Codex/Grok arrival sees no proof it applies to them.",
+   "pointer": "__root.tsx:18",
+   "resolves": true,
+   "file": "apps/web/app/routes/__root.tsx",
+   "text": "content:\n          \"Give your AI coding agent vision. Upload screenshots, paste URLs, drop files - get structured context via MCP with OCR, AI analysis, and responsive previews. Works with Claude Code, Codex, and any MCP-compatible tool.\",\n      },\n    ],\n    links: [",
+   "supports": null
+  },
+  {
+   "claim": "The single biggest message gap is that every flow on the page is human-initiated \u2014 \"You \u2192 Agent\" \u2014 so a visitor whose goal is \"my agent captures and reads web pages itself\" finds no agent-side invocation anywhere on the page.",
+   "pointer": null,
+   "resolves": null,
+   "text": null
+  },
+  {
+   "claim": "The page makes a \"No account needed\" promise directly under an upload form whose URL path refuses anonymous users, which is a hard contradiction for a zero-click trial funnel.",
+   "pointer": "index.tsx:72",
+   "resolves": true,
+   "file": "apps/web/app/routes/index.tsx",
+   "text": "<UploadForm />\n        <p className=\"quick-drop-hint\">No account needed. Expires in 24 hours. Free.</p>\n      </section>\n\n      {/* \u2500\u2500 How It Works - visual flow \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */}",
+   "supports": null
+  },
+  {
+   "claim": "The page makes a \"No account needed\" promise directly under an upload form whose URL path refuses anonymous users, which is a hard contradiction for a zero-click trial funnel.",
+   "pointer": "UploadForm.tsx:182-185",
+   "resolves": true,
+   "file": "apps/web/app/components/UploadForm.tsx",
+   "text": "// \u2500\u2500 URL capture path \u2500\u2500\n      if (!authenticated && !authLoading) {\n        setError(\"URL capture requires an account. Please log in first.\");\n        return;\n      }\n\n      setState(\"uploading\");\n      try {",
+   "supports": null
+  },
+  {
+   "claim": "The trust bar asserts \"End-to-end encrypted,\" which the repo's own security doc lists as explicitly out of scope \u2014 an honesty-rule violation and the most defensible thing a skeptical developer could call out publicly.",
+   "pointer": "index.tsx:194",
+   "resolves": true,
+   "file": "apps/web/app/routes/index.tsx",
+   "text": "<span className=\"trust-divider\">&middot;</span>\n        <span>End-to-end encrypted</span>\n        <span className=\"trust-divider\">&middot;</span>\n        <span>Open MCP standard</span>\n      </section>",
+   "supports": null
+  },
+  {
+   "claim": "The trust bar asserts \"End-to-end encrypted,\" which the repo's own security doc lists as explicitly out of scope \u2014 an honesty-rule violation and the most defensible thing a skeptical developer could call out publicly.",
+   "pointer": "docs/SECURITY.md:51-52",
+   "resolves": true,
+   "file": "docs/SECURITY.md",
+   "text": "### What is NOT in scope\n- End-to-end encryption (context must be readable by agents)\n- DRM or access revocation\n- Permanent deletion guarantees beyond storage cleanup",
+   "supports": null
+  },
+  {
+   "claim": "A blocking cookie modal is interposed over the hero and upload form on first paint in both viewports, and declining it disables the product entirely \u2014 the worst possible first rung of a zero-click ladder.",
+   "pointer": "CookieConsent.tsx:83-90",
+   "resolves": true,
+   "file": "apps/web/app/components/CookieConsent.tsx",
+   "text": "if (consent === \"declined\") {\n    return (\n      <div className=\"consent-blocked\">\n        <h2>Cookies required</h2>\n        <p>\n          You must accept the <a href=\"/terms\">Terms of Service</a> and cookie\n          policy to use WhipNode. This is required for the service to function.\n        </p>\n        <button\n          className=\"btn btn-primary\"\n          onClick={() => {",
+   "supports": null
+  },
+  {
+   "claim": "The secondary hero CTA \"See how to scale\" routes to a pricing page that offers nothing to scale to, burning the page's second-most-valuable click.",
+   "pointer": "index.tsx:47",
+   "resolves": true,
+   "file": "apps/web/app/routes/index.tsx",
+   "text": "<a href=\"/new\" className=\"btn btn-primary\">Upload something</a>\n            <a href=\"/pricing\" className=\"btn btn-secondary\">See how to scale</a>\n          </div>\n        </div>",
+   "supports": null
+  },
+  {
+   "claim": "The secondary hero CTA \"See how to scale\" routes to a pricing page that offers nothing to scale to, burning the page's second-most-valuable click.",
+   "pointer": "pricing.tsx:18",
+   "resolves": true,
+   "file": "apps/web/app/routes/pricing.tsx",
+   "text": "<p className=\"pricing-subtitle\">\n        WhipNode is in early access. All early adopters get the free plan - no limits will change\n        without notice.\n      </p>",
+   "supports": null
+  },
+  {
+   "claim": "The secondary hero CTA \"See how to scale\" routes to a pricing page that offers nothing to scale to, burning the page's second-most-valuable click.",
+   "pointer": "pricing.tsx:29",
+   "resolves": true,
+   "file": "apps/web/app/routes/pricing.tsx",
+   "text": "<h2>Early Access</h2>\n          <p className=\"plan-price\">$0</p>\n          <ul>\n            <li>50 uploads/day</li>\n            <li>25 MB per item</li>",
+   "supports": null
+  },
+  {
+   "claim": "The install command is the page's key conversion asset but is gated behind account creation, so the landing page currently has no zero-click entry point at all.",
+   "pointer": "index.tsx:181-184",
+   "resolves": true,
+   "file": "apps/web/app/routes/index.tsx",
+   "text": "<h2>One command to connect</h2>\n        <pre><code>{`claude mcp add whipnode --transport http https://whipnode.com/api/v1/mcp --header \"X-API-Key: YOUR_KEY\" -s user`}</code></pre>\n        <p className=\"install-note\">\n          <a href=\"/login\">Create an account</a> to get your API key.\n          50 uploads/day, OCR, AI analysis, and full MCP integration - no credit card needed.\n        </p>\n      </section>",
+   "supports": null
+  },
+  {
+   "claim": "On mobile the install command renders truncated rather than wrapped, so the page's one copy-paste payload is unusable in the viewport the brief says must reach parity.",
+   "pointer": null,
+   "resolves": null,
+   "text": null
+  }
+ ]
+}

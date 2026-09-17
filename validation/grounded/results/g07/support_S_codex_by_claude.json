@@ -1,0 +1,84 @@
+{
+ "judge": "claude",
+ "grounding": "<path>",
+ "n": 15,
+ "seconds": 63.4,
+ "parsed": true,
+ "items": [
+  {
+   "n": 1,
+   "supports": 1,
+   "why": "text names the existing NATS JetStream spine with per-role users and a custody boundary, i.e. the isolated-NATS alternative the claim says was not compared against"
+  },
+  {
+   "n": 2,
+   "supports": 1,
+   "why": "the close branch only restarts prod vLLM and health-polls; nothing revokes or constrains bench GPU access"
+  },
+  {
+   "n": 3,
+   "supports": 1,
+   "why": "close only lowers a memory cap and restarts prod containers \u2014 bench container keeps GPU access, consistent with 'neither script revokes' it"
+  },
+  {
+   "n": 4,
+   "supports": 1,
+   "why": "runbook states GPU sharing is not GPU-level isolation and a driver-crashing workload still hits prod vLLM"
+  },
+  {
+   "n": 5,
+   "supports": 1,
+   "why": "submission step defines only spec fields and the trust boundary, with no spool quota, size, or symlink/path handling specified"
+  },
+  {
+   "n": 6,
+   "supports": 1,
+   "why": "shows per-job timeout, cap-kill, and max-window/downtime budgets but no process-tree reaping or sandbox-readiness verification"
+  },
+  {
+   "n": 7,
+   "supports": 1,
+   "why": "notes the external party has passwordless sudo in the sandbox and a manual driver-match precondition, bearing on why a plain timeout kill/readiness assumption is insufficient"
+  },
+  {
+   "n": 8,
+   "supports": 1,
+   "why": "restoration requires HTTP 200 on both ports, and the exhausted-loop path only prints a WARNING telling a human to investigate"
+  },
+  {
+   "n": 9,
+   "supports": 1,
+   "why": "same pattern for three ports: health-gated success, and failure exits with a warning requiring human investigation"
+  },
+  {
+   "n": 10,
+   "supports": 1,
+   "why": "readiness is a 4000 MiB VRAM-used threshold, a proxy that does not prove the full GPU is exclusively free"
+  },
+  {
+   "n": 11,
+   "supports": 1,
+   "why": "comment states VRAM used is [N/A] so readiness relies on containers-exited plus available system RAM above 60G, an indirect proxy"
+  },
+  {
+   "n": 12,
+   "supports": 1,
+   "why": "only a vzdump prerequisite is checked, via a brittle single-line grep over JSON with stderr suppressed"
+  },
+  {
+   "n": 13,
+   "supports": 1,
+   "why": "window open/close can come from operator, operator-owned cron, or arbiter caps, with no lock, lease, or atomic state-transition protocol specified"
+  },
+  {
+   "n": 14,
+   "supports": 1,
+   "why": "arbiter placement, crash/reboot survival, double-run avoidance, and 'leaving prod DOWN' are listed as still-open questions"
+  },
+  {
+   "n": 15,
+   "supports": 0,
+   "why": "opens to CT 205 provisioning details (network island, GPU bind mounts, driver) with nothing about crash recovery or dead-man restoration"
+  }
+ ]
+}

@@ -1,0 +1,99 @@
+{
+ "judge": "codex",
+ "grounding": "<path>",
+ "n": 18,
+ "seconds": 23.7,
+ "parsed": true,
+ "items": [
+  {
+   "n": 1,
+   "supports": 0,
+   "why": "The timer is described as a fallback for an iframe message, not the only unconditional behavior"
+  },
+  {
+   "n": 2,
+   "supports": 0,
+   "why": "The excerpt shows a chat-init message but establishes nothing about ready signaling"
+  },
+  {
+   "n": 3,
+   "supports": 1,
+   "why": "The root module imports Sentry initialization and describes initialization at module load"
+  },
+  {
+   "n": 4,
+   "supports": 0,
+   "why": "Router creation and hydration do not establish when route chunks are requested or structural unobservability"
+  },
+  {
+   "n": 5,
+   "supports": 1,
+   "why": "The token is generated from 15 bytes as base64url and sliced to 20 characters"
+  },
+  {
+   "n": 6,
+   "supports": 1,
+   "why": "The schema permits demoToken strings up to 20 characters"
+  },
+  {
+   "n": 7,
+   "supports": 1,
+   "why": "The shown follow-up completion arguments omit tools"
+  },
+  {
+   "n": 8,
+   "supports": 0,
+   "why": "The configuration does not establish Anthropic rejection of requests omitting tools"
+  },
+  {
+   "n": 9,
+   "supports": 1,
+   "why": "The catch block logs the failure and builds a fallback reply"
+  },
+  {
+   "n": 10,
+   "supports": 0,
+   "why": "The excerpt shows one triagecrm-chat deployment and no latency-based routing or Cloudflare alternative"
+  },
+  {
+   "n": 11,
+   "supports": 1,
+   "why": "Turnstile rendering is conditional on import.meta.env.PUBLIC_TURNSTILE_SITE_KEY"
+  },
+  {
+   "n": 12,
+   "supports": 1,
+   "why": "The server enforces a token when process.env.TURNSTILE_SECRET_KEY is configured"
+  },
+  {
+   "n": 13,
+   "supports": 1,
+   "why": "The client synchronously reads the current token value before issuing the request"
+  },
+  {
+   "n": 14,
+   "supports": 0,
+   "why": "Transient error codes and retry state do not establish either claimed Turnstile defect"
+  },
+  {
+   "n": 15,
+   "supports": 0,
+   "why": "Retry-button visibility does not establish either claimed Turnstile defect"
+  },
+  {
+   "n": 16,
+   "supports": 0,
+   "why": "Contact-field assignments contain no demo opening sentence"
+  },
+  {
+   "n": 17,
+   "supports": 0,
+   "why": "Template metadata contains no demo opening sentence or evidence about all six verticals"
+  },
+  {
+   "n": 18,
+   "supports": 0,
+   "why": "Arrays and a size constant do not establish ring-buffer behavior or the absence of exporters and correlation"
+  }
+ ]
+}

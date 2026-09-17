@@ -1,0 +1,149 @@
+{
+ "judge": "claude",
+ "grounding": "<path>",
+ "n": 28,
+ "seconds": 69.1,
+ "parsed": true,
+ "items": [
+  {
+   "n": 1,
+   "supports": 1,
+   "why": "line states gpt-oss-120b cold start is minutes-scale and expensive"
+  },
+  {
+   "n": 2,
+   "supports": 1,
+   "why": "explicitly contrasts per-job preemption (pathological, flaps HAL) with window batching"
+  },
+  {
+   "n": 3,
+   "supports": 1,
+   "why": "Design B rejected for per-job minutes cold-start and continuous flapping"
+  },
+  {
+   "n": 4,
+   "supports": 1,
+   "why": "shows spool at /scratch/queue/incoming inside the external party's sandbox plus operator-opened window"
+  },
+  {
+   "n": 5,
+   "supports": 1,
+   "why": "Design C deferred/rejected, naming the subject-scoped NATS user alternative vs local spool"
+  },
+  {
+   "n": 6,
+   "supports": 1,
+   "why": "describes the NATS spine with per-role users and custody boundary the claim reasons about"
+  },
+  {
+   "n": 7,
+   "supports": 1,
+   "why": "operator-only window opening plus arbiter FIFO drain are both in the opened text"
+  },
+  {
+   "n": 8,
+   "supports": 1,
+   "why": "drain, close, and budget guard are all shown as arbiter-enforced"
+  },
+  {
+   "n": 9,
+   "supports": 1,
+   "why": "spec fields include est_seconds submitted by the external party"
+  },
+  {
+   "n": 10,
+   "supports": 1,
+   "why": "open question asks how arbiter survives crash/reboot mid-drain without leaving prod DOWN"
+  },
+  {
+   "n": 11,
+   "supports": 1,
+   "why": "open path stops prod vLLM services, so prod is down once open succeeds"
+  },
+  {
+   "n": 12,
+   "supports": 1,
+   "why": "open path stops prod containers on GB10"
+  },
+  {
+   "n": 13,
+   "supports": 1,
+   "why": "prod restart occurs only in the close path the arbiter must run"
+  },
+  {
+   "n": 14,
+   "supports": 1,
+   "why": "drain step specifies only a per-job timeout, no sandbox readiness check"
+  },
+  {
+   "n": 15,
+   "supports": 0,
+   "why": "budget-guard text concerns downtime caps, not readiness, hang handling, or restart retries"
+  },
+  {
+   "n": 16,
+   "supports": 1,
+   "why": "close loop bounded at 100 tries then warns 'active != healthy' and exit 1 with no rollback"
+  },
+  {
+   "n": 17,
+   "supports": 1,
+   "why": "GB10 close loop bounded, warns 'Up' != healthy, exit 1 without rollback"
+  },
+  {
+   "n": 18,
+   "supports": 1,
+   "why": "defines the health() probe returning /health HTTP code used by the close gate"
+  },
+  {
+   "n": 19,
+   "supports": 1,
+   "why": "close step hands off to window-*.sh close as the design's terminal 'health-gated' action"
+  },
+  {
+   "n": 20,
+   "supports": 1,
+   "why": "the external party writes specs into the spool that the arbiter later drains"
+  },
+  {
+   "n": 21,
+   "supports": 1,
+   "why": "close may be triggered by operator or arbiter cap; budget state named without files or locks"
+  },
+  {
+   "n": 22,
+   "supports": 0,
+   "why": "CT 205 networking/GPU container spec says nothing about queue stores or writers"
+  },
+  {
+   "n": 23,
+   "supports": 1,
+   "why": "confirms the external party controls only cmd, est_seconds, artifacts_path"
+  },
+  {
+   "n": 24,
+   "supports": 1,
+   "why": "states user the external party has passwordless sudo in CT 205"
+  },
+  {
+   "n": 25,
+   "supports": 1,
+   "why": "all bench state lives under /home/<login-user>/the external party-bench on the gb10 host"
+  },
+  {
+   "n": 26,
+   "supports": 1,
+   "why": "bench memory cap raised to 115g of 121G unified"
+  },
+  {
+   "n": 27,
+   "supports": 1,
+   "why": "GPU shared with CT 201; driver-crashing workload still hits prod vLLM"
+  },
+  {
+   "n": 28,
+   "supports": 1,
+   "why": "CT 205 gets GPU via the same /dev/nvidia bind-mount pattern as prod CT 201"
+  }
+ ]
+}

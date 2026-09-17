@@ -1,0 +1,54 @@
+{
+ "arm": "S_codex.md",
+ "claims": 8,
+ "pointers": [
+  {
+   "claim": "The page explicitly addresses agents, but its biggest message gap is making \u201cmy agent captures and reads a web page\u201d the primary action instead of asking the human to upload.",
+   "pointer": null,
+   "resolves": null,
+   "text": null
+  },
+  {
+   "claim": "The blanket \u201cNo account needed\u201d promise conflicts with the landing form\u2019s account requirement for URL capture, making that path incompatible with a signup-free capture trial as currently implemented.",
+   "pointer": null,
+   "resolves": null,
+   "text": null
+  },
+  {
+   "claim": "Before launch, the page needs a primary trial instruction and review-recipe link because its displayed terminal instruction installs Claude MCP with an API key rather than demonstrating the promised capture-and-read outcome.",
+   "pointer": null,
+   "resolves": null,
+   "text": null
+  },
+  {
+   "claim": "Replace the hero\u2019s dependency on Claude Code\u2019s alleged screenshot limitation with a direct capture-and-read benefit, since the page\u2019s own feature descriptions support that benefit without establishing the competitor limitation.",
+   "pointer": null,
+   "resolves": null,
+   "text": null
+  },
+  {
+   "claim": "\u201cEnd-to-end encrypted\u201d needs substantiation or removal before launch because the captured page asserts it alongside content analysis and capability-link sharing without explaining the encryption boundary.",
+   "pointer": null,
+   "resolves": null,
+   "text": null
+  },
+  {
+   "claim": "The captured consent prompt introduces a visible decision before continuation on both viewports, so the landing experience should not be presented as literally zero-click without qualifying that promise.",
+   "pointer": null,
+   "resolves": null,
+   "text": null
+  },
+  {
+   "claim": "Pricing is discoverable, but the hero\u2019s \u201cSee how to scale\u201d label obscures its destination, so rename it \u201cPricing\u201d and distinguish anonymous-trial limits from account benefits beside the trial CTA.",
+   "pointer": null,
+   "resolves": null,
+   "text": null
+  },
+  {
+   "claim": "Mobile repeats the agent messaging and account requirement, but the pack provides NO-SIGNAL on terminal-command readability, making mobile copy-and-run verification necessary before launch.",
+   "pointer": null,
+   "resolves": null,
+   "text": null
+  }
+ ]
+}

@@ -1,0 +1,54 @@
+{
+ "judge": "grok",
+ "truth": "<path>",
+ "output": "<path>",
+ "seconds": 173.0,
+ "parsed": true,
+ "scores": {
+  "decision_correct": 1,
+  "decision_correct_quote": "Q1 Architecture \u2014 redesign. One share as workspace+models+spool is the wrong shape: split into `models` ... and `workspace` (RW), and leave the spool where CONTRACT.md has it (local/over-ssh), so NFS is never in the at-most-once path. ... Q2 Security \u2014 build-with-changes. ... Q3 Systems/ops \u2014 build-with-changes.",
+  "must_catch": [
+   {
+    "item": 1,
+    "hit": 1,
+    "quote": "Putting the spool on a share the party holds RW breaks the arbiter's single-writer premise \u2014 he can create `queue/<host>/running/<id>.json` and `done/<id>/result.json` directly, and re-dropping a claimed id into `incoming/` makes the claim-rename clobber the running record. ... FALSIFIER: the export/mode layout gives the sandbox write access to `incoming/` only, with `running/`/`done/` owned by the arbiter identity and not writable by the squashed uid."
+   },
+   {
+    "item": 2,
+    "hit": 1,
+    "quote": "Copying `soft` from the precedent onto a read-write mount is a category error: the precedent is `ro`, and `soft` on RW returns EIO mid-write after timeo*retrans ... gb10-nfs-precedent.txt:1 `ro,vers=3,nolock,...,soft,...` vs unified-nfs-design.md:44-45 \"mirror the working GB10 precedent: `vers=3, soft, ... nolock`; models bind RO ... workspace/queue RW\"."
+   },
+   {
+    "item": 3,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 4,
+    "hit": 1,
+    "quote": "Defensible only as: dedicated share, `root_squash,all_squash,anonuid=<the external party>`, `sec=sys` with explicit per-host IPs (no `*`, no subnet), no `crossmnt`, no `insecure`"
+   },
+   {
+    "item": 5,
+    "hit": 1,
+    "quote": "`showmount` output is not an adequate oracle for A3 ... verification needs a negative mount attempt from a non-allowlisted host plus an on-DSM export-config diff. ... from CT 204 ... `mount -t nfs <lan-address>:/volume1/the external party-warm` \u2192 expect EACCES; from CT 205/206/GB10 container `nc -z <lan-address> 2049` \u2192 expect no route; before/after diff of DSM's `/etc/exports`."
+   },
+   {
+    "item": 6,
+    "hit": 1,
+    "quote": "A5 is satisfied \u2014 an NFS death still fails toward prod-UP \u2014 but only because window.flag, heartbeat and arbiter state are NOT on the share; move any of them and gate 1 dies with the NAS. EVIDENCE: CONTRACT.md:22-30 `arbiter.lock \u2014 flock`, `state.json` under `~/.the external party-queue/`, and `window.flag`/`heartbeat` under node2 `/var/lib/the external party-queue/`"
+   }
+  ],
+  "false_objections": [
+   {
+    "quote": "The design's safety rests entirely on the untrusted party having no IP route to <lan-address> ... Highest-severity issue: the pre-existing `*` + `no_root_squash` (+`crossmnt`) exports (synology-exports.txt:2-3) turn *any* NAS reachability from the party's environment into root-level access to all Proxmox backups",
+    "why": "host-mount + bind does not give sandboxes a NAS route; oracle already shows :2049 unreachable, so residual exposure is identity not network"
+   },
+   {
+    "quote": "all_squash\u2192anonuid 1025 plus unprivileged-LXC uid shifting means the party's processes hit the share as a host uid (\u2248101000) that owns nothing on it, so writes fail with EPERM unless the share is mode 0777",
+    "why": "all_squash makes the external party and the arbiter the same principal on the share rather than causing writes to fail"
+   }
+  ],
+  "notes": "Call matches targeted redesign/build-with-changes and hits spool-identity, soft-on-RW, export shape, verification-beyond-showmount, and local dead-man, but treats the oracle-refuted NAS network path as the highest-severity issue and never concludes isolation already holds so the fix is ownership not more network controls."
+ }
+}

@@ -1,0 +1,50 @@
+{
+ "judge": "grok",
+ "truth": "<path>",
+ "output": "<path>",
+ "seconds": 159.4,
+ "parsed": true,
+ "scores": {
+  "decision_correct": 0.5,
+  "decision_correct_quote": "Q1 - not survivable on today's code; ship rung 0 only after atomic pre-launch reservation, a 1-viewport/no-full-page/no-4k trial plan with PLAN_LIMITS.trial defined, browser close on the failure path, and a global daily trial budget with an independent kill switch; whether that is \"survivable\" or \"pilot only\" is decided by running the capped pilot. Q2 - decide-after-check: link alone must be inert and plan must flip only after verified email (agreed); whether a CLI-displayed code suffices or installation-bound proof is required is settled by the named red-team check. Q3 - complement `init`; reuse enrollment and magic-token consume; preserve account and items; credential carry (same key vs reissue) and the existing-email collision are the owner's design calls.",
+  "must_catch": [
+   {
+    "item": 1,
+    "hit": 1,
+    "quote": "no per-IP control reaches the capture path"
+   },
+   {
+    "item": 2,
+    "hit": 1,
+    "quote": "MCP-originated internal Requests carry no client IP, and the IP limiter allows when the header is absent."
+   },
+   {
+    "item": 3,
+    "hit": 1,
+    "quote": "an unknown `plan` falls back to `PLAN_LIMITS.free` (50/day) - rate-limit.ts:70, constants.ts:44."
+   },
+   {
+    "item": 4,
+    "hit": 1,
+    "quote": "`accounts.email` is NOT NULL UNIQUE and no later migration changes it."
+   },
+   {
+    "item": 5,
+    "hit": 1,
+    "quote": "one capture is unbounded in cost today - up to 6 viewports x 25 s (+3 s), fullPage allowed, OCR per png, browser closed only on the success path."
+   },
+   {
+    "item": 6,
+    "hit": 1,
+    "quote": "link alone must be inert and plan must flip only after verified email (agreed)"
+   },
+   {
+    "item": 7,
+    "hit": 0,
+    "quote": ""
+   }
+  ],
+  "false_objections": [],
+  "notes": "Right Q1 framing (not viable as-is; 1-viewport plus global budget) and the capture-path fail-open bug are caught, but the ship list omits fail-closed per-IP issuance, kill-switch issuance-only semantics, trial-key-authenticated poll conversion, and required same-key in-place conversion."
+ }
+}

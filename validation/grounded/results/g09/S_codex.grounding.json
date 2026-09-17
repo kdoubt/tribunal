@@ -1,0 +1,150 @@
+{
+ "arm": "results/g09//S_codex.md",
+ "claims": 8,
+ "pointers": [
+  {
+   "claim": "** C3 most likely represents client bootstrap/hydration failure before route execution, but its exact cause is unproven.",
+   "pointer": "apps/chat/app/client.tsx:6-8",
+   "resolves": true,
+   "file": "apps/chat/app/client.tsx",
+   "text": "const router = createRouter();\n\nhydrateRoot(document, <StartClient router={router} />);",
+   "supports": null
+  },
+  {
+   "claim": "** C3 most likely represents client bootstrap/hydration failure before route execution, but its exact cause is unproven.",
+   "pointer": "ChatWidget.tsx:94-109",
+   "resolves": true,
+   "file": "apps/chat/app/components/ChatWidget.tsx",
+   "text": "useEffect(() => {\n    let cancelled = false;\n\n    async function init() {\n      try {\n        // Demo mode: show animated pre-chat form IMMEDIATELY while init runs in parallel\n        if (demoSessionToken) {\n          // Show form right away with default styling \u2014 no await before render\n          setShowPreChat(true);\n          setLoading(false);\n\n          // Fire full init in background with demo pre-chat data so the LLM skips name/email collection\n          demoInitPromiseRef.current = initWidgetSession(chatbotToken, demoSessionToken, templateId, {\n            preChatData: { firstName: 'Sarah', lastName: 'Johnson', email: '<email>' },\n            demoToken,\n          });\n\n          // Update brand color/orgName once the init resolves (form is already visible)\n          demoInitPromiseRef.current.then((data) => {",
+   "supports": null
+  },
+  {
+   "claim": "** Screenshot readiness has incomplete deadlines and a lease shorter than permitted retry work.",
+   "pointer": "prefetch/route.ts:19",
+   "resolves": true,
+   "file": "apps/crm/src/app/api/public/live-preview/route.ts",
+   "text": "acquireSemaphore,\n  releaseSemaphore,\n  getScreenshot,\n  getMetadata,\n  persistDemoMetadata,",
+   "supports": null
+  },
+  {
+   "claim": "** Screenshot readiness has incomplete deadlines and a lease shorter than permitted retry work.",
+   "pointer": "semaphore.ts:17-27",
+   "resolves": true,
+   "file": "apps/crm/src/lib/live-preview/semaphore.ts",
+   "text": "-- Clean expired holders\nredis.call('ZREMRANGEBYSCORE', key, 0, now)\n\n-- Check capacity\nlocal count = redis.call('ZCARD', key)\nif count >= max then\n  return 0\nend\n\n-- Add holder with expiry as score\nredis.call('ZADD', key, now + ttl_ms, holder)\nredis.call('PEXPIRE', key, ttl_ms)\nreturn 1\n`;",
+   "supports": null
+  },
+  {
+   "claim": "** Session, share, widget, and tool readiness mostly relies on awaited calls without end-to-end deadlines or reconciliation.",
+   "pointer": "route.ts:292-328",
+   "resolves": true,
+   "file": "apps/crm/src/app/api/public/live-preview/route.ts",
+   "text": "// Create server-side demo session instead of HMAC-signed token\n      const demoSessionId = await createDemoSession({\n        contactId: contact.id,\n        orgId: demoOrg.id,\n        brandColor,\n        orgName: siteName || businessName,\n        chatbotToken,\n        ...(bookingUrl ? { bookingUrl } : {}),\n      });\n\n      // Create shareable demo token + mint signed screenshot URL.\n      //\n      // TENANT-04 (Phase 26): the persisted DemoShare.screenshotUrl AND the\n      // JSON response BOTH carry an HMAC-signed share-scoped token. The\n      // share token is the OUTPUT of createDemoShare(), so we create the row\n      // first with a placeholder and then update it with the signed URL.\n      let demoToken: string | undefined;\n      let signedScreenshotPath: string;\n      try {\n        demoToken = await createDemoShare({\n          organizationId: demoOrg.id,\n          contactId: contact.id,\n          websiteUrl: url,\n          screenshotUrl: '', // placeholder; updated to signed URL below\n          brandColor,\n          orgName: siteName || businessName,\n          templateId: detectedIndustry || undefined,\n        });\n        const screenshotToken = mintScreenshotToken({\n         ",
+   "supports": null
+  },
+  {
+   "claim": "** Session, share, widget, and tool readiness mostly relies on awaited calls without end-to-end deadlines or reconciliation.",
+   "pointer": "init/route.ts:113-221",
+   "resolves": true,
+   "file": "apps/crm/src/app/api/public/live-preview/route.ts",
+   "text": "}\n\n    const { url, businessName, email, phone } = parsed.data;\n    const prefetchId = typeof rawPrefetchId === 'string' && /^[a-f0-9]{32}$/.test(rawPrefetchId)\n      ? rawPrefetchId\n      : null;\n\n    // Trust controls: honeypot + prefetch timing\n    const prefetchElapsedMs = prefetchStartedAt !== null ? Date.now() - prefetchStartedAt : null;\n    const trustResult = evaluateTrust({\n      honeypotFilled: !!honeypot,\n      prefetchElapsedMs,\n    });\n\n    if (!trustResult.trusted) {\n      // Silently reject suspicious requests with a generic success-like response\n      console.log(`[trust:rejected] ip=${ip} reason=${trustResult.reason}`);\n      return apiError('REJECTED', 'Unable to process request.', 400);\n    }\n\n    // Turnstile verification \u2014 enforce only when configured\n    const turnstileConfigured = !!process.env.TURNSTILE_SECRET_KEY;\n    if (turnstileConfigured && !turnstileToken) {\n      return apiError('TURNSTILE_REQUIRED', 'Bot verification required', 400);\n    }\n    if (turnstileToken) {\n      const turnstileValid = await verifyTurnstile(turnstileToken, ip);\n      if (!turnstileValid) {\n        return apiError('TURNSTILE_FAILED', 'Bot verification failed. Please try again.",
+   "supports": null
+  },
+  {
+   "claim": "** Session, share, widget, and tool readiness mostly relies on awaited calls without end-to-end deadlines or reconciliation.",
+   "pointer": "lib/api.ts:40-49",
+   "resolves": true,
+   "file": "apps/chat/app/lib/api.ts",
+   "text": "if (options?.demoToken) payload.demoToken = options.demoToken;\n  const res = await fetch(`${API_BASE}/widget/init`, {\n    method: 'POST',\n    headers: { 'Content-Type': 'application/json' },\n    body: JSON.stringify(payload),\n  });\n  if (!res.ok) {\n    const data = await res.json().catch(() => ({}));\n    throw new Error(data.error || 'Failed to initialize chat');\n  }\n  return res.json();\n}\n\nexport async function sendWidgetMessage(",
+   "supports": null
+  },
+  {
+   "claim": "** Replay consistency and producer-side success checks can disagree with what prospects receive.",
+   "pointer": "route.ts:396-434",
+   "resolves": true,
+   "file": "apps/crm/src/app/api/public/live-preview/route.ts",
+   "text": "// LAUNCH-06: PostHog conversion funnel \u2014 screenshot_success\n      // Fires after the screenshot is captured/stored, the demo session is\n      // created, the DemoShare row exists, and the response is about to be\n      // returned. Payload contains NO PHI: organizationId is a server UUID,\n      // url_domain is hostname-only (never path/query), duration_ms is\n      // millisecond elapsed from handler entry.\n      try {\n        const posthog = getPostHog();\n        if (posthog) {\n          posthog.capture({\n            distinctId: demoSessionId,\n            event: EVENTS.LIVE_PREVIEW_SCREENSHOT_SUCCESS,\n            properties: {\n              organizationId: demoOrg.id,\n              url_domain: (() => { try { return new URL(url).hostname; } catch { return 'unknown'; } })(),\n              duration_ms: Date.now() - requestStart,\n            },\n          });\n        }\n      } catch (posthogErr) {\n        logger.error('[posthog] screenshot_success tracking failed', {\n          request_id: requestId,\n          org_id: demoOrg.id,\n          route,\n          outcome: 'error',\n          latency_ms: Date.now() - requestStart,\n          error_class: posthogErr instanceof Error ? posthogErr.n",
+   "supports": null
+  },
+  {
+   "claim": "** A run spans independently updated stores and is not idempotent across interruption.",
+   "pointer": "route.ts:243-383",
+   "resolves": true,
+   "file": "apps/crm/src/app/api/public/live-preview/route.ts",
+   "text": "// Find or create contact in demo org (transactional)\n      const contact = await prisma.$transaction(async (tx) => {\n        let existing = await tx.contact.findFirst({\n          where: { organizationId: demoOrg.id, emailHash: blindIndex(email) },\n        });\n\n        if (existing) {\n          if (existing.company !== businessName) {\n            existing = await tx.contact.update({\n              where: { id: existing.id },\n              data: { company: businessName },\n            });\n          }\n        } else {\n          const nameParts = businessName.split(' ');\n          existing = await tx.contact.create({\n            data: {\n              organizationId: demoOrg.id,\n              firstName: nameParts[0] || 'Demo',\n              lastName: nameParts.slice(1).join(' ') || 'User',\n              email,\n              emailHash: blindIndex(email),\n              phone: phone || null,\n              company: businessName,\n            },\n          });\n        }\n\n        if (demoOrg.tags[0]) {\n          await tx.tagAssignment.upsert({\n            where: {\n              tagId_contactId: {\n                tagId: demoOrg.tags[0].id,\n                contactId: existing.id,\n              },\n",
+   "supports": null
+  },
+  {
+   "claim": "** A run spans independently updated stores and is not idempotent across interruption.",
+   "pointer": "init/route.ts:110-221",
+   "resolves": true,
+   "file": "apps/crm/src/app/api/public/live-preview/route.ts",
+   "text": "const parsed = livePreviewRequestSchema.safeParse(body);\n    if (!parsed.success) {\n      return apiError('INVALID_INPUT', 'Invalid input', 400, parsed.error.flatten().fieldErrors as Record<string, unknown>);\n    }\n\n    const { url, businessName, email, phone } = parsed.data;\n    const prefetchId = typeof rawPrefetchId === 'string' && /^[a-f0-9]{32}$/.test(rawPrefetchId)\n      ? rawPrefetchId\n      : null;\n\n    // Trust controls: honeypot + prefetch timing\n    const prefetchElapsedMs = prefetchStartedAt !== null ? Date.now() - prefetchStartedAt : null;\n    const trustResult = evaluateTrust({\n      honeypotFilled: !!honeypot,\n      prefetchElapsedMs,\n    });\n\n    if (!trustResult.trusted) {\n      // Silently reject suspicious requests with a generic success-like response\n      console.log(`[trust:rejected] ip=${ip} reason=${trustResult.reason}`);\n      return apiError('REJECTED', 'Unable to process request.', 400);\n    }\n\n    // Turnstile verification \u2014 enforce only when configured\n    const turnstileConfigured = !!process.env.TURNSTILE_SECRET_KEY;\n    if (turnstileConfigured && !turnstileToken) {\n      return apiError('TURNSTILE_REQUIRED', 'Bot verification required', 400);\n    }\n ",
+   "supports": null
+  },
+  {
+   "claim": "** A run spans independently updated stores and is not idempotent across interruption.",
+   "pointer": "form.ts:124-128",
+   "resolves": true,
+   "file": "apps/web/src/scripts/live-preview/form.ts",
+   "text": "// Reflect the demo token in the browser URL for easy sharing\n    if (currentDemoToken) {\n      const shareUrl = new URL(window.location.href);\n      shareUrl.searchParams.set('d', currentDemoToken);\n      window.history.replaceState({}, '', shareUrl.toString());\n    }\n\n    (document.getElementById('url-bar') as HTMLElement).textContent = data.url;",
+   "supports": null
+  },
+  {
+   "claim": "** A run spans independently updated stores and is not idempotent across interruption.",
+   "pointer": "session-lock.ts:4",
+   "resolves": true,
+   "file": "apps/crm/src/app/api/chat/widget/session-lock.ts",
+   "text": "const LOCK_TTL_S = 90;\n\nexport async function acquireSessionLock(\n  sessionId: string,",
+   "supports": null
+  },
+  {
+   "claim": "** The post-tool completion contract explains C7 independently of C3.",
+   "pointer": "llm-pipeline.ts:180-199",
+   "resolves": true,
+   "file": "apps/crm/src/app/api/chat/widget/llm-pipeline.ts",
+   "text": "try {\n        const followUpMessages = [\n          ...messages,\n          { role: 'assistant' as const, content: assistantMessage.content || '', tool_calls: assistantMessage.tool_calls },\n          ...toolResults,\n        ] as Parameters<typeof client.chat.completions.create>[0]['messages'];\n\n        // Phase 29 DEPLOY-03: route through instrumentedCompletion for histogram.\n        const followUp = await withAbortableTimeout(\n          (signal) =>\n            instrumentedCompletion(\n              { model: MODELS.CHAT, messages: followUpMessages, max_tokens: 1024 },\n              { signal },\n            ),\n          30_000,\n          'LLM follow-up',\n        );\n        reply = followUp.choices[0]?.message?.content || '';\n      } catch (followUpErr) {\n        console.error('LLM follow-up call failed:', followUpErr);\n        reply = buildToolFallbackReply(assistantMessage.tool_calls || [], toolResults);\n      }\n\n      if (leadCreated) {",
+   "supports": null
+  },
+  {
+   "claim": "** The post-tool completion contract explains C7 independently of C3.",
+   "pointer": "__tests__/llm-pipeline-tool-drop.test.ts:23-28",
+   "resolves": true,
+   "file": "apps/crm/src/app/api/chat/widget/__tests__/llm-pipeline-tool-drop.test.ts",
+   "text": "return {\n    getLLMClient: vi.fn().mockReturnValue({\n      chat: { completions: { create: (...args: unknown[]) => llmCreateMock(...args) } },\n    }),\n    instrumentedCompletion: (...args: unknown[]) => llmCreateMock(...args),\n    MODELS: { CHAT: 'fake-model' },\n    qualifierTools: [],\n    qualifierToolSchemas: tools.qualifierToolSchemas,\n    retrieveContext: vi.fn().mockResolvedValue(''),\n    getPromRegistry: vi.fn(() => ({})),",
+   "supports": null
+  },
+  {
+   "claim": "** Public abuse and replay boundaries need targeted gates, not a speculative security redesign.",
+   "pointer": "route.ts:42-76",
+   "resolves": true,
+   "file": "apps/crm/src/app/api/public/live-preview/route.ts",
+   "text": "export async function POST(request: NextRequest) {\n  // LAUNCH-06: capture handler-entry timestamp so screenshot_success can\n  // emit a duration_ms metric. Declared before ip so the helper closure\n  // below can reference it without temporal-dead-zone issues.\n  const requestStart = Date.now();\n  const requestId = request.headers.get('x-request-id') ?? crypto.randomUUID();\n  const route = 'public.live-preview';\n  // Phase 27 DELIVERY-03: fail-closed posture matching chat widget.\n  // ip === 'unknown' returns 400 IP_REQUIRED; Redis throw returns 503\n  // SERVICE_UNAVAILABLE. No fail-OPEN swallow remains.\n  const ip = getRateLimitIp(request);\n  if (ip === 'unknown') return apiError('IP_REQUIRED', 'Unable to identify client', 400);\n  // LAUNCH-06: PostHog conversion funnel \u2014 screenshot_fail helper.\n  // Called immediately before every apiError(...) exit that represents a\n  // screenshot-pipeline failure (not rate-limit/IP/validation early exits \u2014\n  // those are pre-screenshot abuse controls). Best-effort: capture failures\n  // never abort the primary apiError response. distinctId is the client IP\n  // because demoSession isn't created yet at most failure points.\n  const captureScreens",
+   "supports": null
+  },
+  {
+   "claim": "** Several degraded outcomes have no demonstrated operator notification despite existing logs and metrics.",
+   "pointer": "animation.ts:58-62",
+   "resolves": true,
+   "file": "apps/web/src/scripts/live-preview/animation.ts",
+   "text": "// Fallback: if the iframe never sends the message (e.g. load failure), zoom after 5s\n  widgetZoomTimer = setTimeout(() => {\n    triggerZoom();\n    widgetZoomTimer = null;\n  }, 5000);\n}\n\nexport function resetWidgetAnimation(): void {",
+   "supports": null
+  },
+  {
+   "claim": "** Several degraded outcomes have no demonstrated operator notification despite existing logs and metrics.",
+   "pointer": "tool-executor.ts:107-123",
+   "resolves": true,
+   "file": "apps/crm/src/app/api/chat/widget/tool-executor.ts",
+   "text": "const service = typeof args.service === 'string' ? args.service : String(args.service ?? '');\n      let serviceInfo = `Yes, we can help with ${service}. If the patient wants to book, proceed to collect any missing required fields then create the lead.`;\n      try {\n        const context = await retrieveContext(session.organizationId, service, 1);\n        if (context) {\n          serviceInfo = `Service info: ${context}. If the patient wants to book, proceed to collect any missing required fields then create the lead.`;\n        } else {\n          const fallback = getDemoServiceFallback(service);\n          if (fallback) serviceInfo = fallback;\n        }\n      } catch {\n        const fallback = getDemoServiceFallback(service);\n        if (fallback) serviceInfo = fallback;\n      }\n      toolResults.push({\n        role: 'tool',\n        tool_call_id: toolCall.id,\n        content: JSON.stringify({ available: true, info: serviceInfo }),\n      });\n    }\n  }",
+   "supports": null
+  },
+  {
+   "claim": "** Several degraded outcomes have no demonstrated operator notification despite existing logs and metrics.",
+   "pointer": "ChatWidget.tsx:224-235",
+   "resolves": true,
+   "file": "apps/chat/app/components/ChatWidget.tsx",
+   "text": "// Forward CRM data to parent window for the live CRM simulator\n      if (data.crmData) {\n        window.parent.postMessage(\n          { type: 'triagecrm:chat-message', payload: data.crmData },\n          '*',\n        );\n      }\n      if (data.done) {\n        window.parent.postMessage(\n          { type: 'triagecrm:chat-done', payload: data.crmData || {} },\n          '*',\n        );\n      }\n    } catch (err) {\n      // LAUNCH-03: resolve the structured error code (preserved by",
+   "supports": null
+  }
+ ]
+}

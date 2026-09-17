@@ -1,0 +1,132 @@
+{
+ "arm": "results/g03//S_codex.md",
+ "claims": 8,
+ "pointers": [
+  {
+   "claim": "** The draft preserves the central ladder but adds product decisions and operationally selects raw trial keys despite calling that choice unresolved.",
+   "pointer": null,
+   "resolves": null,
+   "text": null
+  },
+  {
+   "claim": "** The required schema changes lack a complete migration plan for the existing database.",
+   "pointer": "M/0001_initial_schema.sql:9",
+   "resolves": true,
+   "file": "apps/worker/migrations/0001_initial_schema.sql",
+   "text": "id            TEXT PRIMARY KEY,\n  email         TEXT NOT NULL UNIQUE,\n  created_at    TEXT NOT NULL,\n  stripe_customer_id TEXT,\n  plan          TEXT NOT NULL DEFAULT 'free',",
+   "supports": null
+  },
+  {
+   "claim": "** The required schema changes lack a complete migration plan for the existing database.",
+   "pointer": "M/0009_api_keys_override.sql:2",
+   "resolves": true,
+   "file": "apps/worker/migrations/0009_api_keys_override.sql",
+   "text": "-- Per-account override for max API keys (NULL = use plan default)\nALTER TABLE accounts ADD COLUMN max_api_keys_override INTEGER DEFAULT NULL;",
+   "supports": null
+  },
+  {
+   "claim": "** The required schema changes lack a complete migration plan for the existing database.",
+   "pointer": "M/0002_auth_sessions.sql:5-13",
+   "resolves": true,
+   "file": "apps/worker/migrations/0002_auth_sessions.sql",
+   "text": "-- \u2500\u2500 Magic Link Tokens \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nCREATE TABLE IF NOT EXISTS magic_tokens (\n  id          TEXT PRIMARY KEY,\n  email       TEXT NOT NULL,\n  token_hash  TEXT NOT NULL UNIQUE,\n  created_at  TEXT NOT NULL,\n  expires_at  TEXT NOT NULL,\n  used_at     TEXT,\n  ip_hash     TEXT\n);\n\nCREATE INDEX idx_magic_tokens_hash ON magic_tokens(token_hash);\nCREATE INDEX idx_magic_tokens_email ON magic_tokens(email);",
+   "supports": null
+  },
+  {
+   "claim": "** The specified seven-day account deletion fails against existing foreign keys, and the cleanup lifecycle is incomplete.",
+   "pointer": "W/routes/api-keys.ts:136-143",
+   "resolves": true,
+   "file": "apps/worker/src/routes/api-keys.ts",
+   "text": "// Step 1: Revoke \u2014 deactivate but keep visible\n    await env.DB.prepare(\"UPDATE api_keys SET status = 'revoked' WHERE id = ?\")\n      .bind(keyId)\n      .run();\n    // Cascade: revoke all MCP devices enrolled by this key\n    try {\n      await env.DB.prepare(\"UPDATE mcp_devices SET status = 'revoked' WHERE api_key_id = ? AND status = 'active'\")\n        .bind(keyId)\n        .run();\n    } catch (err) {\n      console.error(`Failed to cascade-revoke devices for key ${keyId}:`, err);\n    }",
+   "supports": null
+  },
+  {
+   "claim": "** The specified seven-day account deletion fails against existing foreign keys, and the cleanup lifecycle is incomplete.",
+   "pointer": "M/0001_initial_schema.sql:32",
+   "resolves": true,
+   "file": "apps/worker/migrations/0001_initial_schema.sql",
+   "text": "FOREIGN KEY (account_id) REFERENCES accounts(id)\n);\n\nCREATE INDEX idx_api_keys_hash ON api_keys(key_hash);",
+   "supports": null
+  },
+  {
+   "claim": "** The specified seven-day account deletion fails against existing foreign keys, and the cleanup lifecycle is incomplete.",
+   "pointer": "M/0006_mcp_devices.sql:15-16",
+   "resolves": true,
+   "file": "apps/worker/migrations/0006_mcp_devices.sql",
+   "text": "FOREIGN KEY (account_id) REFERENCES accounts(id),\n  FOREIGN KEY (api_key_id) REFERENCES api_keys(id)\n);\n\nCREATE INDEX idx_mcp_devices_session ON mcp_devices(session_token_hash);",
+   "supports": null
+  },
+  {
+   "claim": "** The specified seven-day account deletion fails against existing foreign keys, and the cleanup lifecycle is incomplete.",
+   "pointer": "W/scheduled/cleanup.ts:188-191",
+   "resolves": true,
+   "file": "apps/worker/src/scheduled/cleanup.ts",
+   "text": "// Mark item as deleted (tombstone for analytics/abuse tracking)\n  await env.DB.prepare(\"UPDATE items SET status = 'deleted' WHERE id = ?\")\n    .bind(itemId)\n    .run();\n}",
+   "supports": null
+  },
+  {
+   "claim": "** First-time init cannot reach the specified session-authenticated Authorize endpoint using the browser authentication mechanism described.",
+   "pointer": "M/0002_auth_sessions.sql:21",
+   "resolves": true,
+   "file": "apps/worker/migrations/0002_auth_sessions.sql",
+   "text": "id          TEXT PRIMARY KEY,\n  account_id  TEXT NOT NULL,\n  token_hash  TEXT NOT NULL UNIQUE,\n  created_at  TEXT NOT NULL,\n  expires_at  TEXT NOT NULL,",
+   "supports": null
+  },
+  {
+   "claim": "** First-time init cannot reach the specified session-authenticated Authorize endpoint using the browser authentication mechanism described.",
+   "pointer": "W/routes/auth-verify.ts:64-74",
+   "resolves": true,
+   "file": "apps/worker/src/routes/auth-verify.ts",
+   "text": "// renaming would require a migration for a non-functional change.\n  await env.DB.prepare(\n    `INSERT INTO sessions (id, account_id, token_hash, created_at, expires_at, last_seen, ip_hash, user_agent)\n     VALUES (?, ?, ?, ?, ?, ?, ?, ?)`\n  )\n    .bind(generateId(), account.id, sessionHash, now, sessionExpires, now, ipHash, await hashUserAgent(ua))\n    .run();\n\n  // Redirect to dashboard with session cookie\n  const headers = new Headers({\n    Location: `${env.APP_BASE_URL}/dashboard`,\n    \"Set-Cookie\": `wn_session=${sessionTokenRaw}; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=${30 * 24 * 3600}`,\n  });\n\n  return new Response(null, { status: 302, headers });",
+   "supports": null
+  },
+  {
+   "claim": "** The shared pairing design does not fully specify atomic completion, identity binding, or expiry enforcement, despite naming states and revoked-key checks.",
+   "pointer": null,
+   "resolves": null,
+   "text": null
+  },
+  {
+   "claim": "** Credential-file theft can retain authority after conversion, so the stated 24-hour blast-radius rationale does not bound continuing account access.",
+   "pointer": "W/middleware/auth.ts:174",
+   "resolves": false,
+   "text": null
+  },
+  {
+   "claim": "** Credential-file theft can retain authority after conversion, so the stated 24-hour blast-radius rationale does not bound continuing account access.",
+   "pointer": "W/routes/account-items.ts:19-20",
+   "resolves": true,
+   "file": "apps/worker/src/routes/account-items.ts",
+   "text": "// Build dynamic WHERE from query params\n  const conditions = [\"account_id = ?\", \"status NOT IN ('deleted')\"];\n  const binds: (string | number)[] = [auth.accountId];\n\n  const category = url.searchParams.get(\"category\");\n  if (category) { conditions.push(\"category = ?\"); binds.push(category); }",
+   "supports": null
+  },
+  {
+   "claim": "** The UTC counter design prevents an in-place reset race but omits creation of each day\u2019s counter row.",
+   "pointer": null,
+   "resolves": null,
+   "text": null
+  },
+  {
+   "claim": "** The enforcement inventory leaves an authenticated Browser-rendering path outside the trial spend and viewport controls.",
+   "pointer": "W/routes/router.ts:154-155",
+   "resolves": true,
+   "file": "apps/worker/src/routes/router.ts",
+   "text": "// \u2500\u2500 Responsive render \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n    else if (method === \"POST\" && path === \"/api/v1/render\") {\n      response = await handleRender(request, env, ctx, auth);\n    }\n    // \u2500\u2500 Raw upload (streaming, for large files) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n    else if (method === \"POST\" && path === \"/api/v1/uploads\") {",
+   "supports": null
+  },
+  {
+   "claim": "** The enforcement inventory leaves an authenticated Browser-rendering path outside the trial spend and viewport controls.",
+   "pointer": "W/routes/render.ts:33-35",
+   "resolves": true,
+   "file": "apps/worker/src/routes/render.ts",
+   "text": "): Promise<Response> {\n  if (!auth) {\n    return apiError(ErrorCodes.UNAUTHORIZED, \"Authentication required.\");\n  }\n\n  let body: {\n    item_id?: string;",
+   "supports": null
+  },
+  {
+   "claim": "** The enforcement inventory leaves an authenticated Browser-rendering path outside the trial spend and viewport controls.",
+   "pointer": "W/middleware/auth.ts:174",
+   "resolves": false,
+   "text": null
+  }
+ ]
+}

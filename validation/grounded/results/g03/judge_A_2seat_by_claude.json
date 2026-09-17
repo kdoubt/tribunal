@@ -1,0 +1,67 @@
+{
+ "judge": "claude",
+ "truth": "<path>",
+ "output": "<path>",
+ "seconds": 61.6,
+ "parsed": true,
+ "scores": {
+  "decision_correct": 0.5,
+  "decision_correct_quote": "**PUBLISH VERDICT:** `blocker` \u2014 do not commit this as implementation input until email nullability has a D1 rebuild, approve auth matches \"no account at verify,\" and every counter/purpose/IP/cleanup path is named as SQL an agent can paste.",
+  "must_catch": [
+   {
+    "item": 1,
+    "hit": 1,
+    "quote": "The required `accounts.email` nullability change has no complete D1 migration: email is `TEXT NOT NULL UNIQUE`, and this repo only ever `ADD COLUMN`s \u2014 SQLite/D1 cannot `ALTER` away NOT NULL without a table rebuild the spec does not give. ... FALSIFIER: A numbered migration that recreates `accounts` with nullable `email`, copies rows, and restores indexes/FKs"
+   },
+   {
+    "item": 2,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 3,
+    "hit": 1,
+    "quote": "`magic_tokens` has no `purpose` column the claim/init verify split requires. EVIDENCE: ... `:164-169` and `:247-248` \"claim-specific token purpose\"; `apps/worker/migrations/0002_auth_sessions.sql:5-13` (`magic_tokens` columns: id, email, token_hash, created_at, expires_at, used_at, ip_hash)"
+   },
+   {
+    "item": 4,
+    "hit": 1,
+    "quote": "Two state machines on one `device_codes` table are sketched, not composed: ... init Authorize must create the account and later poll may return key material, claim Authorize must not mutate the account and must not return a key ... FALSIFIER: DDL with `UNIQUE(account_id) WHERE kind='claim' AND status='pending'`, kind-specific approve/poll contracts including when the init key is minted"
+   },
+   {
+    "item": 5,
+    "hit": 1,
+    "quote": "Q2 Buildability: Cited line numbers for today's bugs check out (`capture.ts:233-237`, `rate-limit.ts:20-21,70`, `mcp.ts:291-293`, `auth-verify.ts:22,38-77`, `api-keys.ts:139-142`, `types.ts:32`)"
+   },
+   {
+    "item": 6,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 7,
+    "hit": 1,
+    "quote": "S:185\u2013191 specifies one account UPDATE checking approved/unconsumed pairing and active key/device"
+   }
+  ],
+  "false_objections": [
+   {
+    "quote": "silently defaults two OWNER-CALLs (trial quota 10, free devices 3)",
+    "why": "the memo's own quoted span shows the spec labels the quota as \"10 (OWNER-CALL\u2026)\", i.e. still open, so this is the rubric's quota-dissent landmine"
+   },
+   {
+    "quote": "S:68\u201372 mandates raw-key delivery and `X-API-Key`, contradicting S:202\u2013204",
+    "why": "treats the spec as operationally resolving the raw-key-vs-device-token OWNER-CALL that it records as UNRESOLVED"
+   },
+   {
+    "quote": "unnamed initialize header is a new bearer surface",
+    "why": "the spec routes the rung-0 raw key through the CLI wrapper precisely to keep it out of RPC/tool text, which the memo inverts into a defect"
+   },
+   {
+    "quote": "The enforcement inventory leaves an authenticated Browser-rendering path outside the trial spend and viewport controls.",
+    "why": "scope objection about `/api/v1/render` that no rubric item or oracle outcome supports"
+   }
+  ],
+  "notes": "Both halves land the central missed migration/table-rebuild gap (though neither names the partial index the 7-day cleanup sweep needs) and most composition and prerequisite-bugfix checks, but they overshoot to `blocker` and walk into the quota/raw-key fidelity landmines, so the decision earns only partial credit."
+ }
+}

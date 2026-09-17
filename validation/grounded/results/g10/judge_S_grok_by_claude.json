@@ -1,0 +1,59 @@
+{
+ "judge": "claude",
+ "truth": "<path>",
+ "output": "<path>",
+ "seconds": 56.2,
+ "parsed": true,
+ "scores": {
+  "decision_correct": 0.5,
+  "decision_correct_quote": "VERDICT INPUT: LiteLLM=A ; Assistant=down ; Panel-seat=C ; hard-cap=$5",
+  "must_catch": [
+   {
+    "item": 1,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 2,
+    "hit": 1,
+    "quote": "\"a custody proof prunes off-prem rungs at policy-generation time\"; \"a runtime 'just this once' is architecturally impossible without regenerating policy.\" ... A2: custody override = \"client-confidential data leaving prem (contractual/legal, not technical).\""
+   },
+   {
+    "item": 3,
+    "hit": 1,
+    "quote": "Option A as a panel third seat violates the standing rule in spirit (usage billing + API token, not a subscription CLI); it is not acceptable for that seat while GB10 is lent ... Documented floor is 2-seat Codex+Grok ... a 3-seat report is emitted on a 2-seat run; the catch is the stored-brief adapter run showing two seats"
+   },
+   {
+    "item": 4,
+    "hit": 1,
+    "quote": "\"a probe \u2026 returned empty `content` at `max_tokens=20`\" and \"retest at 300 is pending\" ... FALSIFIER: Groq retest at 300 returns non-empty, correct content"
+   },
+   {
+    "item": 5,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 6,
+    "hit": 1,
+    "quote": "LiteLLM/A fails silently as HTTP 200 with empty or reasoning-only `content`, or as fallback/cache remaining hot after the RTX is back ... Assistant/down fails silently if `cpu-limp` returns a stub success rather than a hard error"
+   },
+   {
+    "item": 7,
+    "hit": 1,
+    "quote": "Groq \"recently killed two Llama models the config still references (dead aliases \u2026 silent failures)\" and precedent is \"probe before relying.\""
+   }
+  ],
+  "false_objections": [
+   {
+    "quote": "**B for LiteLLM** is the least-new-surface path but is currently an unverified reasoning-model 200-with-empty-body, on a vendor that already left dead aliases in this estate.",
+    "why": "treats a max_tokens=20 artefact on an already-wired, already-billed vendor as disqualifying while preferring an unprobed new vendor"
+   },
+   {
+    "quote": "GB10 \"alone could carry the assistant's model at reduced quality\" \u2014 that is the on-prem recovery path, not a default.",
+    "why": "accepts GB10 as a restoration path though the ladder is `rtx-fast -> cpu-limp` with no GB10 rung, so reclaiming restores nothing without regenerating policy"
+   }
+  ],
+  "notes": "Correct on assistant=down and panel=C with strong custody and silent-failure mechanism work, but picks A over B for LiteLLM despite naming the pending 300-token probe, and never flags that the only CF credential is the leaked Global key."
+ }
+}

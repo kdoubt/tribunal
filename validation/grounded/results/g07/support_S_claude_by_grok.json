@@ -1,0 +1,109 @@
+{
+ "judge": "grok",
+ "grounding": "<path>",
+ "n": 20,
+ "seconds": 650.2,
+ "parsed": true,
+ "items": [
+  {
+   "n": 1,
+   "supports": 1,
+   "why": "px() interpolates $* inside a double-quoted ssh/pct-exec string, so the remote shell evaluates the command again"
+  },
+  {
+   "n": 2,
+   "supports": 0,
+   "why": "the design prose does not show a sandbox-entry helper or double-evaluation"
+  },
+  {
+   "n": 3,
+   "supports": 1,
+   "why": "the text states the external party writes the spool directory inside his sandbox"
+  },
+  {
+   "n": 4,
+   "supports": 0,
+   "why": "the runbook excerpt describes CT 205 resources and networking, not the spool or arbiter reads"
+  },
+  {
+   "n": 5,
+   "supports": 1,
+   "why": "the close branch starts prod immediately with no GPU-free/VRAM gate, unlike the open wait above it"
+  },
+  {
+   "n": 6,
+   "supports": 1,
+   "why": "close issues systemctl start then waits only for HTTP health, with no GPU-free check"
+  },
+  {
+   "n": 7,
+   "supports": 0,
+   "why": "the design has the arbiter finish or kill the job before close and does not show a missing GPU-free check"
+  },
+  {
+   "n": 8,
+   "supports": 0,
+   "why": "the excerpt is a close-failure warning plus status output, not arbiter or host death"
+  },
+  {
+   "n": 9,
+   "supports": 0,
+   "why": "the excerpt is the GB10 close-failure warning plus status output, not arbiter or host death"
+  },
+  {
+   "n": 10,
+   "supports": 1,
+   "why": "the design lists crash/reboot mid-drain leaving prod DOWN as an unanswered question"
+  },
+  {
+   "n": 11,
+   "supports": 1,
+   "why": "CT 205 is specified with onboot=0, so a node2 reboot leaves the sandbox stopped"
+  },
+  {
+   "n": 12,
+   "supports": 0,
+   "why": "the window/drain/close narrative does not mention reboot or a stopped sandbox"
+  },
+  {
+   "n": 13,
+   "supports": 0,
+   "why": "the excerpt is the open path raising the memory cap after checks, not the close path"
+  },
+  {
+   "n": 14,
+   "supports": 1,
+   "why": "set -uo pipefail omits -e, so command failures on this script including close are not aborted on"
+  },
+  {
+   "n": 15,
+   "supports": 0,
+   "why": "the excerpt is the RTX script header, not the GB10 close path"
+  },
+  {
+   "n": 16,
+   "supports": 1,
+   "why": "the text states CT 205 is a no-uplink L2 island and LAN-unreachable"
+  },
+  {
+   "n": 17,
+   "supports": 1,
+   "why": "the opened text includes CT 205 as a no-uplink physical L2 island"
+  },
+  {
+   "n": 18,
+   "supports": 0,
+   "why": "this is the custody/NATS reason for deferring C and does not mention CT 205"
+  },
+  {
+   "n": 19,
+   "supports": 1,
+   "why": "the text says a window may be opened by a scheduled cron the operator owns, not only by a live operator"
+  },
+  {
+   "n": 20,
+   "supports": 1,
+   "why": "the spec includes the external party-authored est_seconds, which is a scheduling input from inside the sandbox"
+  }
+ ]
+}

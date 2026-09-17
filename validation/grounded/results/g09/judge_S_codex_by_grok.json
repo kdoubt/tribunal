@@ -1,0 +1,75 @@
+{
+ "judge": "grok",
+ "truth": "<path>",
+ "output": "<path>",
+ "seconds": 206.5,
+ "parsed": true,
+ "scores": {
+  "decision_correct": 0.5,
+  "decision_correct_quote": "Q1: No; ship the bounded fixes/gates above with destination checks. Defer framework replacement, extraction redesign, paid monitoring and a second runtime.",
+  "must_catch": [
+   {
+    "item": 1,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 2,
+    "hit": 1,
+    "quote": "client-supplied demoToken reaches token-only updates without ownership binding. Bind it server-side."
+   },
+   {
+    "item": 3,
+    "hit": 1,
+    "quote": "Supply the tool definitions on follow-up and verify a forced tool turn through the deployed proxy. C7 establishes actual dependency behavior; the fake model does not."
+   },
+   {
+    "item": 4,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 5,
+    "hit": 0,
+    "quote": ""
+   },
+   {
+    "item": 6,
+    "hit": 1,
+    "quote": "Fix that and \u201cpractice practice.\u201d"
+   },
+   {
+    "item": 7,
+    "hit": 1,
+    "quote": "MESSAGE plus DONE currently appends final messages twice."
+   },
+   {
+    "item": 8,
+    "hit": 1,
+    "quote": "Fetch has a 20-second timer cleared before body consumption; prefetch permits one retry after one second, exceeding its 30-second unrenewed lease."
+   },
+   {
+    "item": 9,
+    "hit": 1,
+    "quote": "C3 most likely represents client bootstrap/hydration failure before route execution, but its exact cause is unproven."
+   },
+   {
+    "item": 10,
+    "hit": 1,
+    "quote": "Several degraded outcomes have no demonstrated operator notification despite existing logs and metrics."
+   },
+   {
+    "item": 11,
+    "hit": 1,
+    "quote": "Prefetch spends screenshot capacity without Turnstile"
+   }
+  ],
+  "false_objections": [
+   {
+    "quote": "append invalidation errors are swallowed, completion does not invalidate, and cache hits skip expiry validation. Read-fill races can repopulate stale data.",
+    "why": "appendMessage already redis.del; the specified Redis defect is expiry-skip only, not general cache inconsistency"
+   }
+  ],
+  "notes": "Not-fit plus deferrals of a second runtime and paid monitoring match, but the memo never names the cloned psychology template (V10), the dishonest prechat liveness signal (V9), or parent origin checks (V6)."
+ }
+}

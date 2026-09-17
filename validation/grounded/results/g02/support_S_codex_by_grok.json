@@ -1,0 +1,89 @@
+{
+ "judge": "grok",
+ "grounding": "<path>",
+ "n": 16,
+ "seconds": 496.2,
+ "parsed": true,
+ "items": [
+  {
+   "n": 1,
+   "supports": 0,
+   "why": "a 25s MAX_WAIT constant is a wait cap and does not show missing total cost or a missing completion guarantee"
+  },
+  {
+   "n": 2,
+   "supports": 1,
+   "why": "the handler enqueues OCR and output work with no cost or time bound in this text"
+  },
+  {
+   "n": 3,
+   "supports": 1,
+   "why": "admission is a COUNT of already-created items per account, not an atomic trial-capture reservation"
+  },
+  {
+   "n": 4,
+   "supports": 0,
+   "why": "applying the per-account daily upload check does not show that this quota cannot safely admit trial captures"
+  },
+  {
+   "n": 5,
+   "supports": 1,
+   "why": "unbounded Promise.all over the MCP batch can race check-then-act quotas"
+  },
+  {
+   "n": 6,
+   "supports": 0,
+   "why": "declared ABUSE_BUDGET caps are a stated position and do not address trial credentials or abuse-value economics"
+  },
+  {
+   "n": 7,
+   "supports": 0,
+   "why": "the function enforces two IP item-count caps and does not address trial credentials or the abuse-value inequality"
+  },
+  {
+   "n": 8,
+   "supports": 1,
+   "why": "email is TEXT NOT NULL UNIQUE, so email is required stored PII"
+  },
+  {
+   "n": 9,
+   "supports": 1,
+   "why": "a full-page screenshot is captured, so zero PII stored is not established"
+  },
+  {
+   "n": 10,
+   "supports": 1,
+   "why": "IP and User-Agent are deterministically hashed, so zero PII stored is not established"
+  },
+  {
+   "n": 11,
+   "supports": 1,
+   "why": "the account is selected or created by token email with no originating-device binding"
+  },
+  {
+   "n": 12,
+   "supports": 1,
+   "why": "free ttl_hours_max is 24 and history is false, so claiming free cannot promise longer retention or recovery"
+  },
+  {
+   "n": 13,
+   "supports": 1,
+   "why": "expired items are deleted from R2, so recovery of expired content cannot be promised"
+  },
+  {
+   "n": 14,
+   "supports": 1,
+   "why": "initialize already enrolls devices, an enrollment component to reuse rather than replace"
+  },
+  {
+   "n": 15,
+   "supports": 1,
+   "why": "atomic one-time magic-token consume is a reusable authentication component"
+  },
+  {
+   "n": 16,
+   "supports": 0,
+   "why": "the install snippet requiring an account and API key does not show enrollment reuse or a separate claim transaction"
+  }
+ ]
+}

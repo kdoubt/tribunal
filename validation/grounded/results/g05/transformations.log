@@ -1,0 +1,11 @@
+g05 A_panel arm - orchestrator transformations log
+identity: Seat A = claude (S_claude.md, canonical attempt 1), Seat B = grok (S_grok.md, canonical attempt 1). Round 0 = those files byte for byte; not re-run.
+oracles: grounding.py run on both (27/25 and 39/37 pointers; the four "MISSING" are IP:port strings misread as file:line, not citations); every real pointer opened by hand; results in oracles.md. One off-by-one noted (ct205.conf:10 -> :9).
+ledger-note.md = ORCH-SUMMARY (settled items + oracle results only; no argument added).
+packets: r1-packet.py; claude packet = 8 own + 4 peer (grok claims 3,4,6,8); grok packet = 8 own + 5 peer (claude claims 1,3,5,7,8). Labels Peer-n, shuffled (seeded), no tallies, no vendor names (grep = 0).
+R1: run-r1.sh in parallel; claude attempt 1 ok 81 s (5965 B); grok attempt 1 ok 187 s (4676 B). Neither read before both finished.
+post-R1 oracle: gb10_setup.sh:66-71 re-opened to settle B's attack on A5 (:70 lacks `|| true`) - narrowed, recorded in ledger.
+Round 2: not run (no overturned claim, no load-bearing flip).
+A_panel.md: mechanical fill of core/templates/verdict.md from ledger rows; VERDICT INPUT taken from buckets.
+A_2seat.md: header + Memo 1 (claude) + Memo 2 (grok) verbatim.
+Not done here: judging (J = codex per Amendment 1).

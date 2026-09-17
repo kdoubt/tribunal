@@ -1,0 +1,166 @@
+{
+ "arm": "S_grok.md",
+ "claims": 8,
+ "pointers": [
+  {
+   "claim": "The landing\u2019s primary voice is a human uploader unblocking Claude Code, not a terminal agent that captures pages itself.",
+   "pointer": "index.tsx:42-47",
+   "resolves": true,
+   "file": "apps/web/app/routes/index.tsx",
+   "text": "<h1>Your AI agent<br />can finally see.</h1>\n          <p className=\"hero-explainer\">\n            You can't paste screenshots into Claude Code. WhipNode fixes that.\n          </p>\n          <div className=\"hero-cta\">\n            <a href=\"/new\" className=\"btn btn-primary\">Upload something</a>\n            <a href=\"/pricing\" className=\"btn btn-secondary\">See how to scale</a>\n          </div>\n        </div>",
+   "supports": null
+  },
+  {
+   "claim": "The landing\u2019s primary voice is a human uploader unblocking Claude Code, not a terminal agent that captures pages itself.",
+   "pointer": "index.tsx:78",
+   "resolves": true,
+   "file": "apps/web/app/routes/index.tsx",
+   "text": "<h2>How it works</h2>\n        <h3 className=\"flow-label\">You \u2192 Agent</h3>\n        <div className=\"flow-steps\">\n          <div className=\"flow-step\">\n            <div className=\"flow-icon\">1</div>",
+   "supports": null
+  },
+  {
+   "claim": "The single biggest message gap for \u201cmy agent can capture and read web pages\u201d is that the agent is never the first actor in the conversion path \u2014 capture exists as a buried scenario and a late MCP card, not as a pasteable CLI recipe.",
+   "pointer": "index.tsx:79-97",
+   "resolves": true,
+   "file": "apps/web/app/routes/index.tsx",
+   "text": "<h3 className=\"flow-label\">You \u2192 Agent</h3>\n        <div className=\"flow-steps\">\n          <div className=\"flow-step\">\n            <div className=\"flow-icon\">1</div>\n            <h3>Paste or upload</h3>\n            <p>Screenshot, file, or URL</p>\n          </div>\n          <div className=\"flow-connector\" />\n          <div className=\"flow-step\">\n            <div className=\"flow-icon\">2</div>\n            <h3>AI analyzes</h3>\n            <p><T>OCR</T> + smart instructions</p>\n          </div>\n          <div className=\"flow-connector\" />\n          <div className=\"flow-step\">\n            <div className=\"flow-icon\">3</div>\n            <h3>Agent reads</h3>\n            <p>Via <T>MCP</T> or <T>URL</T></p>\n          </div>\n        </div>\n      </section>\n\n      {/* \u2500\u2500 Agent to Agent \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */}",
+   "supports": null
+  },
+  {
+   "claim": "Codex and Grok are absent from the landing; the only install artifact is a Claude MCP add that requires `YOUR_KEY`.",
+   "pointer": "index.tsx:181",
+   "resolves": true,
+   "file": "apps/web/app/routes/index.tsx",
+   "text": "<h2>One command to connect</h2>\n        <pre><code>{`claude mcp add whipnode --transport http https://whipnode.com/api/v1/mcp --header \"X-API-Key: YOUR_KEY\" -s user`}</code></pre>\n        <p className=\"install-note\">\n          <a href=\"/login\">Create an account</a> to get your API key.\n          50 uploads/day, OCR, AI analysis, and full MCP integration - no credit card needed.",
+   "supports": null
+  },
+  {
+   "claim": "\u201cNo account needed\u201d sits on the same page as two account walls (MCP key; URL capture login), which contradicts a zero-click trial and the no-signup honesty rule.",
+   "pointer": "index.tsx:72",
+   "resolves": true,
+   "file": "apps/web/app/routes/index.tsx",
+   "text": "<UploadForm />\n        <p className=\"quick-drop-hint\">No account needed. Expires in 24 hours. Free.</p>\n      </section>\n\n      {/* \u2500\u2500 How It Works - visual flow \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */}",
+   "supports": null
+  },
+  {
+   "claim": "\u201cNo account needed\u201d sits on the same page as two account walls (MCP key; URL capture login), which contradicts a zero-click trial and the no-signup honesty rule.",
+   "pointer": "index.tsx:183-184",
+   "resolves": true,
+   "file": "apps/web/app/routes/index.tsx",
+   "text": "<p className=\"install-note\">\n          <a href=\"/login\">Create an account</a> to get your API key.\n          50 uploads/day, OCR, AI analysis, and full MCP integration - no credit card needed.\n        </p>\n      </section>",
+   "supports": null
+  },
+  {
+   "claim": "\u201cNo account needed\u201d sits on the same page as two account walls (MCP key; URL capture login), which contradicts a zero-click trial and the no-signup honesty rule.",
+   "pointer": "UploadForm.tsx:182-185",
+   "resolves": true,
+   "file": "apps/web/app/components/UploadForm.tsx",
+   "text": "// \u2500\u2500 URL capture path \u2500\u2500\n      if (!authenticated && !authLoading) {\n        setError(\"URL capture requires an account. Please log in first.\");\n        return;\n      }\n\n      setState(\"uploading\");\n      try {",
+   "supports": null
+  },
+  {
+   "claim": "\u201cNo account needed\u201d sits on the same page as two account walls (MCP key; URL capture login), which contradicts a zero-click trial and the no-signup honesty rule.",
+   "pointer": "UploadForm.tsx:495-499",
+   "resolves": true,
+   "file": "apps/web/app/components/UploadForm.tsx",
+   "text": "</p>\n          {!authLoading && !authenticated && (\n            <div className=\"url-auth-notice\">\n              <p>URL capture requires an account.</p>\n              <a href=\"/login\" className=\"btn btn-secondary\">Log in</a>\n            </div>\n          )}\n        </div>\n      )}",
+   "supports": null
+  },
+  {
+   "claim": "The hero drop-zone sells \u201center a URL\u201d as equivalent to dropping a file, without disclosing the login wall until after a URL is detected.",
+   "pointer": "UploadForm.tsx:405",
+   "resolves": true,
+   "file": "apps/web/app/components/UploadForm.tsx",
+   "text": "<div className=\"drop-zone\">\n          <p>Drop files, paste a screenshot, or enter a URL</p>\n          <div className=\"drop-zone-actions\">\n            <input\n              ref={fileInputRef}",
+   "supports": null
+  },
+  {
+   "claim": "The hero drop-zone sells \u201center a URL\u201d as equivalent to dropping a file, without disclosing the login wall until after a URL is detected.",
+   "pointer": "UploadForm.tsx:469-499",
+   "resolves": true,
+   "file": "apps/web/app/components/UploadForm.tsx",
+   "text": "{/* URL detected - shown inline when a URL is pasted/dropped */}\n      {hasUrl && (\n        <div className=\"url-detected\">\n          <div className=\"url-detected-header\">\n            <span className=\"url-detected-label\">URL detected</span>\n            <button className=\"url-detected-clear\" onClick={clearUrl}>Clear</button>\n          </div>\n          <div className=\"url-detected-value\">\n            <code>{url}</code>\n          </div>\n          <div className=\"url-options-row\">\n            <label className=\"url-checkbox\">\n              <input\n                type=\"checkbox\"\n                checked={allDevices}\n                onChange={(e) => setAllDevices(e.target.checked)}\n                disabled={isBusy}\n              />\n              <span>All devices</span>\n            </label>\n            <span className=\"url-devices-hint\">\n              {allDevices ? \"Desktop + Tablet + Mobile\" : \"Desktop only\"}\n            </span>\n          </div>\n          <p className=\"url-hint\">\n            Captures a screenshot with OCR - works with Google Sheets, dashboards, docs, and any public page.\n          </p>\n          {!authLoading && !authenticated && (\n            <div className=\"url-auth-noti",
+   "supports": null
+  },
+  {
+   "claim": "The hero drop-zone sells \u201center a URL\u201d as equivalent to dropping a file, without disclosing the login wall until after a URL is detected.",
+   "pointer": "UploadForm.tsx:540",
+   "resolves": true,
+   "file": "apps/web/app/components/UploadForm.tsx",
+   "text": "onClick={handleSubmit}\n        disabled={isBusy || (!hasFiles && !hasUrl) || (hasUrl && !authenticated && !authLoading)}\n      >\n        {isBusy\n          ? hasUrl ? \"Capturing...\" : state === \"validating\" ? \"Converting...\" : \"Uploading...\"",
+   "supports": null
+  },
+  {
+   "claim": "First visit is a cookie clickwrap over the upload affordance on both viewports; declining is a hard product block, not analytics-only.",
+   "pointer": "CookieConsent.tsx:51-77",
+   "resolves": true,
+   "file": "apps/web/app/components/CookieConsent.tsx",
+   "text": "return (\n    <div className=\"consent-overlay\">\n      <div className=\"consent-banner\">\n        <div className=\"consent-text\">\n          <h3>Before you continue</h3>\n          <p>\n            WhipNode uses cookies for essential functionality and anonymous\n            analytics. By using this service, you agree to our{\" \"}\n            <a href=\"/terms\">Terms of Service</a> and{\" \"}\n            <a href=\"/privacy\">Privacy Policy</a>.\n          </p>\n          <p className=\"consent-detail\">\n            We collect anonymous usage data (page views, upload counts, format\n            usage). No file content, notes, or personal information is sent to\n            analytics. No cross-site tracking. No ads.\n          </p>\n        </div>\n        <div className=\"consent-actions\">\n          <button className=\"btn btn-primary\" onClick={accept}>\n            Accept and continue\n          </button>\n          <button className=\"btn btn-secondary\" onClick={decline}>\n            Decline\n          </button>\n        </div>\n      </div>\n    </div>\n  );\n}\n\nexport function ConsentGate({ children }: { children: React.ReactNode }) {",
+   "supports": null
+  },
+  {
+   "claim": "First visit is a cookie clickwrap over the upload affordance on both viewports; declining is a hard product block, not analytics-only.",
+   "pointer": "CookieConsent.tsx:83-90",
+   "resolves": true,
+   "file": "apps/web/app/components/CookieConsent.tsx",
+   "text": "if (consent === \"declined\") {\n    return (\n      <div className=\"consent-blocked\">\n        <h2>Cookies required</h2>\n        <p>\n          You must accept the <a href=\"/terms\">Terms of Service</a> and cookie\n          policy to use WhipNode. This is required for the service to function.\n        </p>\n        <button\n          className=\"btn btn-primary\"\n          onClick={() => {",
+   "supports": null
+  },
+  {
+   "claim": "First visit is a cookie clickwrap over the upload affordance on both viewports; declining is a hard product block, not analytics-only.",
+   "pointer": "__root.tsx:103-105",
+   "resolves": true,
+   "file": "apps/web/app/routes/__root.tsx",
+   "text": "<ErrorBoundary>\n                <ConsentGate>\n                  <Outlet />\n                </ConsentGate>\n              </ErrorBoundary>\n            </main>\n            <footer className=\"footer\">",
+   "supports": null
+  },
+  {
+   "claim": "Hero \u201cSee how to scale\u201d and the install line \u201cCreate an account to get your API key\u2026 50 uploads/day\u2026 no credit card needed\u201d point the trial ladder at signup/pricing instead of an anonymous first capture.",
+   "pointer": "index.tsx:47",
+   "resolves": true,
+   "file": "apps/web/app/routes/index.tsx",
+   "text": "<a href=\"/new\" className=\"btn btn-primary\">Upload something</a>\n            <a href=\"/pricing\" className=\"btn btn-secondary\">See how to scale</a>\n          </div>\n        </div>",
+   "supports": null
+  },
+  {
+   "claim": "Hero \u201cSee how to scale\u201d and the install line \u201cCreate an account to get your API key\u2026 50 uploads/day\u2026 no credit card needed\u201d point the trial ladder at signup/pricing instead of an anonymous first capture.",
+   "pointer": "index.tsx:183-184",
+   "resolves": true,
+   "file": "apps/web/app/routes/index.tsx",
+   "text": "<p className=\"install-note\">\n          <a href=\"/login\">Create an account</a> to get your API key.\n          50 uploads/day, OCR, AI analysis, and full MCP integration - no credit card needed.\n        </p>\n      </section>",
+   "supports": null
+  },
+  {
+   "claim": "Hero \u201cSee how to scale\u201d and the install line \u201cCreate an account to get your API key\u2026 50 uploads/day\u2026 no credit card needed\u201d point the trial ladder at signup/pricing instead of an anonymous first capture.",
+   "pointer": "pricing.tsx:18-24",
+   "resolves": true,
+   "file": "apps/web/app/routes/pricing.tsx",
+   "text": "<p className=\"pricing-subtitle\">\n        WhipNode is in early access. All early adopters get the free plan - no limits will change\n        without notice.\n      </p>\n\n      <div className=\"pricing-early-banner\">\n        Early access - all features included free while we build in public.\n      </div>\n\n      <div className=\"pricing-grid\">\n        <div className=\"plan-card plan-current\">",
+   "supports": null
+  },
+  {
+   "claim": "The trust chip \u201cEnd-to-end encrypted\u201d is an honesty risk against the page\u2019s own server-side OCR path (the service must read content).",
+   "pointer": "index.tsx:189-196",
+   "resolves": true,
+   "file": "apps/web/app/routes/index.tsx",
+   "text": "{/* \u2500\u2500 Trust Bar \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */}\n      <section className=\"trust-bar\">\n        <span>Global edge network</span>\n        <span className=\"trust-divider\">&middot;</span>\n        <span>24h auto-delete</span>\n        <span className=\"trust-divider\">&middot;</span>\n        <span>End-to-end encrypted</span>\n        <span className=\"trust-divider\">&middot;</span>\n        <span>Open MCP standard</span>\n      </section>\n    </div>\n  );",
+   "supports": null
+  },
+  {
+   "claim": "The trust chip \u201cEnd-to-end encrypted\u201d is an honesty risk against the page\u2019s own server-side OCR path (the service must read content).",
+   "pointer": "index.tsx:86-88",
+   "resolves": true,
+   "file": "apps/web/app/routes/index.tsx",
+   "text": "<div className=\"flow-connector\" />\n          <div className=\"flow-step\">\n            <div className=\"flow-icon\">2</div>\n            <h3>AI analyzes</h3>\n            <p><T>OCR</T> + smart instructions</p>\n          </div>\n          <div className=\"flow-connector\" />",
+   "supports": null
+  },
+  {
+   "claim": "The trust chip \u201cEnd-to-end encrypted\u201d is an honesty risk against the page\u2019s own server-side OCR path (the service must read content).",
+   "pointer": "UploadForm.tsx:180-205",
+   "resolves": true,
+   "file": "apps/web/app/components/UploadForm.tsx",
+   "text": "if (hasUrl) {\n      // \u2500\u2500 URL capture path \u2500\u2500\n      if (!authenticated && !authLoading) {\n        setError(\"URL capture requires an account. Please log in first.\");\n        return;\n      }\n\n      setState(\"uploading\");\n      try {\n        events.uploadStarted({ file_count: 1, source: \"url_capture\" });\n        const resp = await captureUrl({\n          url: url.trim(),\n          ...(allDevices ? { viewports: [\"desktop\", \"tablet\", \"mobile\"] } : {}),\n          note: note || undefined,\n        });\n        setResult({\n          id: resp.id,\n          share_url: resp.url,\n          json_url: resp.json_url,\n          markdown_url: resp.markdown_url,\n          yaml_url: resp.prompt_url,\n          txt_url: resp.markdown_url.replace(/\\.md$/, \".txt\"),\n          expires_at: resp.expires_at,\n        });\n        setState(\"uploaded_processing\");\n        events.uploadCompleted({ item_id: resp.id, file_count: 1, total_bytes: 0 });\n      } catch (err) {\n        const msg = err instanceof Error ? err.message : \"Capture failed.\";\n        setError(msg);",
+   "supports": null
+  }
+ ]
+}

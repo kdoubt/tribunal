@@ -1,0 +1,109 @@
+{
+ "judge": "claude",
+ "grounding": "<path>",
+ "n": 20,
+ "seconds": 31.6,
+ "parsed": true,
+ "items": [
+  {
+   "n": 1,
+   "supports": 1,
+   "why": "hero addresses \"you\" who can't paste screenshots into Claude Code, CTA \"Upload something\""
+  },
+  {
+   "n": 2,
+   "supports": 1,
+   "why": "flow label literally reads \"You \u2192 Agent\", human first"
+  },
+  {
+   "n": 3,
+   "supports": 1,
+   "why": "the three-step path starts with \"Paste or upload\" and the agent only reads at step 3"
+  },
+  {
+   "n": 4,
+   "supports": 1,
+   "why": "the sole install snippet is `claude mcp add` with `X-API-Key: YOUR_KEY`"
+  },
+  {
+   "n": 5,
+   "supports": 1,
+   "why": "quick-drop hint states \"No account needed\""
+  },
+  {
+   "n": 6,
+   "supports": 1,
+   "why": "install note requires creating an account for the API key"
+  },
+  {
+   "n": 7,
+   "supports": 1,
+   "why": "URL path errors out with \"URL capture requires an account\""
+  },
+  {
+   "n": 8,
+   "supports": 1,
+   "why": "unauthenticated users get a URL-capture login notice"
+  },
+  {
+   "n": 9,
+   "supports": 1,
+   "why": "drop zone offers files, screenshot paste, or URL with no login caveat"
+  },
+  {
+   "n": 10,
+   "supports": 1,
+   "why": "auth notice renders only inside the `hasUrl` detected block"
+  },
+  {
+   "n": 11,
+   "supports": 1,
+   "why": "submit is disabled for URL + unauthenticated, i.e. gate applies post-detection"
+  },
+  {
+   "n": 12,
+   "supports": 1,
+   "why": "full-screen consent overlay with Accept/Decline precedes content"
+  },
+  {
+   "n": 13,
+   "supports": 1,
+   "why": "declining renders \"Cookies required\" and blocks use of the service"
+  },
+  {
+   "n": 14,
+   "supports": 1,
+   "why": "ConsentGate wraps the entire Outlet at the root"
+  },
+  {
+   "n": 15,
+   "supports": 1,
+   "why": "secondary hero CTA is \"See how to scale\" linking to /pricing"
+  },
+  {
+   "n": 16,
+   "supports": 1,
+   "why": "install note matches the quoted account/50-uploads/no-credit-card line"
+  },
+  {
+   "n": 17,
+   "supports": 0,
+   "why": "pricing copy says everything is free in early access, saying nothing about the landing's CTA targets"
+  },
+  {
+   "n": 18,
+   "supports": 1,
+   "why": "trust bar literally contains the \"End-to-end encrypted\" chip"
+  },
+  {
+   "n": 19,
+   "supports": 1,
+   "why": "flow step 2 advertises server-side \"AI analyzes\" with OCR"
+  },
+  {
+   "n": 20,
+   "supports": 1,
+   "why": "capture path posts the URL to a server that returns generated markdown/json text"
+  }
+ ]
+}

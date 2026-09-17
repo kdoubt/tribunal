@@ -1,0 +1,20 @@
+{
+ "decision_correct": 1,
+ "decision_correct_quote": "Q1: **proceed-with-changes**.  \nQ2: **proceed-with-changes**.  \nQ3: **proceed-with-changes**, contingent on gates and recovery rehearsal.",
+ "must_catch": [
+  {"item": 1, "hit": 1, "quote": "**CLAIM 7:** After immediate continuity safeguards, shared unrestricted credentials are the highest-priority security correction and should remain a separate change.  \n**EVIDENCE:** `live-state.md:25–30`; `nats-server.conf.sanitized:29–38`. Proposed sequence: add workload-specific permissions on all nodes... then retire shared application credentials."},
+  {"item": 2, "hit": 1, "quote": "`live-state.md:21–22,33–35`: unlimited EVENTS bytes, infinite retries and an unused demo consumer. ... Investigate route-user misuse and production scratch creation (`live-state.md:38–39`); neither proves compromise."},
+  {"item": 3, "hit": 1, "quote": "`release-notes-v2.14.5.md:29` specifically requires **idempotent stream creates** during offline-node metalayer catch-up. ... JWT, TLS, MQTT, leafnode and no-auth fixes have no demonstrated configured trigger (`nats-server.conf.sanitized:1–41`); queue-permission fixes are conditional"},
+  {"item": 4, "hit": 0, "quote": "Through host `pct exec`, explicitly stop `nats`, verify termination, back up that node's store preserving ownership, `install -m755` the exact staged binary, start, then pass claim 4."},
+  {"item": 5, "hit": 1, "quote": "A1/A3 should gate every subsequent stop on independently observed replication and application health, never systemd activity alone. ... metadata and every stream/consumer leader present; expected membership, all followers current/online with zero lag; zero pending Raft work and committed/applied convergence; expected clients/subscriptions restored; controlled publish/pull/ack and support processing succeed."},
+  {"item": 6, "hit": 1, "quote": "`install-nats.sh:6–10` selects latest and wildcard extraction ... stage the exact v2.14.5 architecture tarball, verify published checksum ... restore that node's pre-upgrade cold store/config and saved 2.14.2 binary at `/usr/local/bin/nats-server`"},
+  {"item": 7, "hit": 1, "quote": "Client implementation is unavailable: harmlessness is **SPECULATIVE**. Proposed discriminating test: interrupt after ticket creation but before acknowledgment, overlap polling and event delivery, and require exactly one ticket per source ID"},
+  {"item": 8, "hit": 1, "quote": "**CLAIM 6:** Monitoring needs correction before rollout because its missing-field default can report zero usage. ... Lines 6–9 only log warnings/threshold messages. Proposed changes: ... monitor quorum/currentness, leadership, version drift, client absence and lag"}
+ ],
+ "false_objections": [
+  {"quote": "`nats-store-monitor.sh:5` uses `.get(\"store\",0)`; EXTERNAL [JSz schema](https://docs.nats.io/reference/system/monitor/jsz) names `storage`.", "why": "asserts a field-name mismatch bug not supported by the artifact record, which shows only that the monitor checks store bytes alone"},
+  {"quote": "JWT, TLS, MQTT, leafnode and no-auth fixes have no demonstrated configured trigger", "why": "lumps the 2.14.3 pre-auth panic/data-race fixes into the inapplicable bucket, but those apply regardless of the bcrypt-only auth config"},
+  {"quote": "queue-permission fixes are conditional", "why": "understates the 2.14.4 queue-subscription permission-enforcement fix, which is directly applicable given the over-broad `control` user"}
+ ],
+ "notes": "Strong, well-cited memo that lands the correct proceed-with-changes verdict and 7 of 8 must-catch items, but its rollout procedure uses an explicit stop with no lame-duck `SIGUSR2` drain (missing the absent KillSignal/ExecStop in `nats.service:9-12`) and it ranks a procedural gate above the captured-state credential exposure as highest severity."
+}

@@ -1,0 +1,45 @@
+{
+ "judge": "grok",
+ "truth": "<path>",
+ "output": "<path>",
+ "seconds": 139.0,
+ "parsed": true,
+ "scores": {
+  "decision_correct": 1,
+  "decision_correct_quote": "Redesign the storage boundary: retain shared NFS workspace/models, but keep authoritative queue state on trusted local storage behind validated submission, expose results read-only",
+  "must_catch": [
+   {
+    "item": 1,
+    "hit": 1,
+    "quote": "external-party RW access to queue lifecycle directories under the same squashed identity as the arbiter undermines trusted claim/completion state"
+   },
+   {
+    "item": 2,
+    "hit": 1,
+    "quote": "use `hard,vers=3,proto=tcp,_netdev,nofail` for mutable NFS data [...] the precedent is RO (`artifact/gb10-nfs-precedent.txt:1`)"
+   },
+   {
+    "item": 3,
+    "hit": 1,
+    "quote": "Host mounting does not itself create a sandbox network route or make symlinks resolve against the NAS root"
+   },
+   {
+    "item": 4,
+    "hit": 1,
+    "quote": "a dedicated filesystem export with exactly the three verified client addresses and `rw,sync,root_squash,all_squash,anonuid=<dedicated>,anongid=<dedicated>,secure,nocrossmnt,hide`"
+   },
+   {
+    "item": 5,
+    "hit": 1,
+    "quote": "compare NAS persistent rules, `exportfs -v` and active export tables; verify observed client source addresses; test permitted access from each host and denial from an unauthorized client; verify root and ordinary-user writes map to the dedicated identity; inspect sandbox routes, capabilities and mount trees, then test NAS RPC access directly and through helpers plus traversal to harmless tenant canaries"
+   },
+   {
+    "item": 6,
+    "hit": 1,
+    "quote": "host-local watchdogs, deadlines, heartbeat handling, job termination and production restart remain NFS-independent, boot restores production before optional storage"
+   }
+  ],
+  "false_objections": [],
+  "notes": "Memo matches the targeted redesign: identity collision on the squashed RW queue share is the hole, host-mount+bind isolation holds, and NAS-loss recovery stays local."
+ }
+}

@@ -1,0 +1,218 @@
+{
+ "arm": "S_claude.md",
+ "claims": 8,
+ "pointers": [
+  {
+   "claim": "The highest-severity hole is that a hostile guest gets **root with direct ioctl access to GPU char devices shared with production**, on both hosts \u2014 no MIG, no GPU-level isolation \u2014 giving a co-tenant outage path by construction and a host-kernel escape surface that bypasses every network control.",
+   "pointer": "ct205.conf:14-19",
+   "resolves": true,
+   "file": "ct205.conf",
+   "text": "unprivileged: 1\nlxc.cgroup2.devices.allow: c 195:* rwm\nlxc.cgroup2.devices.allow: c 510:* rwm\nlxc.mount.entry: /dev/nvidia0 dev/nvidia0 none bind,optional,create=file\nlxc.mount.entry: /dev/nvidiactl dev/nvidiactl none bind,optional,create=file\nlxc.mount.entry: /dev/nvidia-modeset dev/nvidia-modeset none bind,optional,create=file\nlxc.mount.entry: /dev/nvidia-uvm dev/nvidia-uvm none bind,optional,create=file\nlxc.mount.entry: /dev/nvidia-uvm-tools dev/nvidia-uvm-tools none bind,optional,create=file",
+   "supports": null
+  },
+  {
+   "claim": "The highest-severity hole is that a hostile guest gets **root with direct ioctl access to GPU char devices shared with production**, on both hosts \u2014 no MIG, no GPU-level isolation \u2014 giving a co-tenant outage path by construction and a host-kernel escape surface that bypasses every network control.",
+   "pointer": "ct205-services.conf:5",
+   "resolves": true,
+   "file": "ct205-services.conf",
+   "text": "AllowUsers the external party\nciru ALL=(ALL) NOPASSWD:ALL\nDefaults:the external party env_keep += \"http_proxy https_proxy HTTP_PROXY HTTPS_PROXY no_proxy\"\nexport http_proxy=http://<island-address>:8888\nexport https_proxy=http://<island-address>:8888",
+   "supports": null
+  },
+  {
+   "claim": "The highest-severity hole is that a hostile guest gets **root with direct ioctl access to GPU char devices shared with production**, on both hosts \u2014 no MIG, no GPU-level isolation \u2014 giving a co-tenant outage path by construction and a host-kernel escape surface that bypasses every network control.",
+   "pointer": "gb10_setup.sh:15",
+   "resolves": true,
+   "file": "gb10_setup.sh",
+   "text": "useradd -m -s /bin/bash the external party && \\\n    echo 'the external party ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/the external party && chmod 440 /etc/sudoers.d/the external party && \\\n    printf 'PermitRootLogin no\\nPasswordAuthentication no\\nKbdInteractiveAuthentication no\\nAllowUsers the external party\\n' > /etc/ssh/sshd_config.d/90-bench.conf && \\\n    printf 'http_proxy=http://172.30.99.3:3128\\nhttps_proxy=http://172.30.99.3:3128\\nHTTP_PROXY=http://172.30.99.3:3128\\nHTTPS_PROXY=http://172.30.99.3:3128\\nno_proxy=localhost,127.0.0.1\\n' >> /etc/environment\nEXPOSE 22",
+   "supports": null
+  },
+  {
+   "claim": "The highest-severity hole is that a hostile guest gets **root with direct ioctl access to GPU char devices shared with production**, on both hosts \u2014 no MIG, no GPU-level isolation \u2014 giving a co-tenant outage path by construction and a host-kernel escape surface that bypasses every network control.",
+   "pointer": "gb10_setup.sh:54",
+   "resolves": true,
+   "file": "gb10_setup.sh",
+   "text": "docker run -d --name the external party-bench --restart unless-stopped \\\n  --gpus all --network cirubench --ip 172.30.99.10 \\\n  --memory 20g \\\n  -v /home/<login-user>/the external party-bench/home:/home/the external party \\\n  -v /home/<login-user>/the external party-bench/scratch:/scratch \\",
+   "supports": null
+  },
+  {
+   "claim": "The highest-severity hole is that a hostile guest gets **root with direct ioctl access to GPU char devices shared with production**, on both hosts \u2014 no MIG, no GPU-level isolation \u2014 giving a co-tenant outage path by construction and a host-kernel escape surface that bypasses every network control.",
+   "pointer": "RUNBOOK.md:95-96",
+   "resolves": true,
+   "file": "RUNBOOK.md",
+   "text": "- CT 205 is on a no-uplink L2 island: LAN unreachable by construction, not by rule.\n- CT 205 is unprivileged; GPU shared with CT 201 \u2014 isolation is fs/process-level,\n  not GPU-level (a driver-crashing workload would still hit vLLM).\n- GB10 bench container (once built): internal network, egress only via squid ACL.",
+   "supports": null
+  },
+  {
+   "claim": "The Cloudflare identity gate is load-bearing **only for the WAN path**; both bench SSH endpoints are directly reachable from the flat production LAN, so any co-tenant dev box or compromised prod container bypasses Access entirely and faces only `authorized_keys`.",
+   "pointer": "bastion-nftables.conf:8",
+   "resolves": true,
+   "file": "bastion-nftables.conf",
+   "text": "ct state established,related accept\n    tcp dport 22 accept comment \"sshd (cloudflared localhost + LAN mgmt)\"\n    ip saddr <island-address> tcp dport 8888 accept comment \"bench -> tinyproxy\"\n    ip saddr <island-address> udp dport 53 accept comment \"bench -> dns\"\n    ip saddr <island-address> tcp dport 53 accept",
+   "supports": null
+  },
+  {
+   "claim": "The Cloudflare identity gate is load-bearing **only for the WAN path**; both bench SSH endpoints are directly reachable from the flat production LAN, so any co-tenant dev box or compromised prod container bypasses Access entirely and faces only `authorized_keys`.",
+   "pointer": "<lan-address>",
+   "resolves": false,
+   "text": null
+  },
+  {
+   "claim": "The Cloudflare identity gate is load-bearing **only for the WAN path**; both bench SSH endpoints are directly reachable from the flat production LAN, so any co-tenant dev box or compromised prod container bypasses Access entirely and faces only `authorized_keys`.",
+   "pointer": "gb10-docker-inspect.txt:3",
+   "resolves": true,
+   "file": "gb10-docker-inspect.txt",
+   "text": "/the external party-proxy nets={\"bridge\":{\"IPAMConfig\":null,\"Links\":null,\"Aliases\":null,\"DriverOpts\":null,\"GwPriority\":0,\"NetworkID\":\"d58bfad862ce40cbb9d6950eeb58dbaf6144dbf03d49e8416a31b996db6b4024\",\"EndpointID\":\"efdb9650be3b86a3ead899a73511cac7bc4968ca5c7dbfb5eb364155a0c09d51\",\"Gateway\":\"172.17.0.1\",\"IPAddress\":\"172.17.0.6\",\"MacAddress\":\"d6:af:c8:9a:6a:75\",\"IPPrefixLen\":16,\"IPv6Gateway\":\"\",\"GlobalIPv6Address\":\"\",\"GlobalIPv6PrefixLen\":0,\"DNSNames\":null},\"cirubench\":{\"IPAMConfig\":{\"IPv4Address\":\"172.30.99.3\"},\"Links\":null,\"Aliases\":[],\"DriverOpts\":{},\"GwPriority\":0,\"NetworkID\":\"8c1484b020c6d40bcfb6500b9f14dafc3eb3db58bc8353cf576db62d526ed4bb\",\"EndpointID\":\"cf116760b8078307321df092f27dacc895f7d12303663a5da0955e998ea946be\",\"Gateway\":\"\",\"IPAddress\":\"172.30.99.3\",\"MacAddress\":\"b6:9d:a2:cd:e6:f7\",\"IPPrefixLen\":24,\"IPv6Gateway\":\"\",\"GlobalIPv6Address\":\"\",\"GlobalIPv6PrefixLen\":0,\"DNSNames\":[\"the external party-proxy\",\"ceafb1148a9c\"]}} ports={} mounts=[\"/home/<login-user>/the external party-bench/proxy/squid.conf:/etc/squid/squid.conf:ro\"] mem=0 restart=unless-stopped\n/the external party-ssh-relay nets={\"bridge\":{\"IPAMConfig\":null,\"Links\":null,\"Aliases\":null,\"DriverOpts\":null,\"GwPriority\":0,\"NetworkID\":\"d58bfad862ce40cbb9d6950eeb58dbaf6144dbf03d49e841",
+   "supports": null
+  },
+  {
+   "claim": "The Cloudflare identity gate is load-bearing **only for the WAN path**; both bench SSH endpoints are directly reachable from the flat production LAN, so any co-tenant dev box or compromised prod container bypasses Access entirely and faces only `authorized_keys`.",
+   "pointer": "gb10_setup.sh:5",
+   "resolves": true,
+   "file": "gb10_setup.sh",
+   "text": "# Outbound: squid proxy container with RFC1918 destinations denied.\n# Docker-native isolation only \u2014 no host iptables/systemd changes.\nset -euo pipefail\n\nmkdir -p /home/<login-user>/the external party-bench/{home,scratch,build,proxy}",
+   "supports": null
+  },
+  {
+   "claim": "The Cloudflare identity gate is load-bearing **only for the WAN path**; both bench SSH endpoints are directly reachable from the flat production LAN, so any co-tenant dev box or compromised prod container bypasses Access entirely and faces only `authorized_keys`.",
+   "pointer": "RUNBOOK.md:92",
+   "resolves": true,
+   "file": "RUNBOOK.md",
+   "text": "- No inbound WAN exposure anywhere (tunnel is outbound-only from CT 204).\n- Identity gate at CF edge (email allowlist) BEFORE any packet reaches sshd.\n- Bastion user has no root; egress firewall + proxy policy live where he can't touch them.\n- CT 205 is on a no-uplink L2 island: LAN unreachable by construction, not by rule.\n- CT 205 is unprivileged; GPU shared with CT 201 \u2014 isolation is fs/process-level,",
+   "supports": null
+  },
+  {
+   "claim": "Both egress denylists cover **IPv4 private ranges only** \u2014 no IPv6, no link-local \u2014 so if either segment has IPv6 (SLAAC/RA), the \"no private egress\" and \"denies RFC1918\" guarantees do not hold on that family.",
+   "pointer": "bastion-nftables.conf:24",
+   "resolves": true,
+   "file": "bastion-nftables.conf",
+   "text": "ip daddr 1.1.1.1 tcp dport 53 accept\n    ip daddr { <lan-address>/16, 10.0.0.0/8, 172.16.0.0/12 } drop comment \"no other private egress\"\n  }\n}",
+   "supports": null
+  },
+  {
+   "claim": "Both egress denylists cover **IPv4 private ranges only** \u2014 no IPv6, no link-local \u2014 so if either segment has IPv6 (SLAAC/RA), the \"no private egress\" and \"denies RFC1918\" guarantees do not hold on that family.",
+   "pointer": "gb10-squid-dockerfile.txt:3",
+   "resolves": true,
+   "file": "gb10-squid-dockerfile.txt",
+   "text": "acl benchnet src 172.30.99.0/24\nacl lan dst <lan-address>/16 10.0.0.0/8 172.16.0.0/12\nacl SSL_ports port 443\nacl Safe_ports port 80 443\nhttp_access deny lan",
+   "supports": null
+  },
+  {
+   "claim": "Both egress denylists cover **IPv4 private ranges only** \u2014 no IPv6, no link-local \u2014 so if either segment has IPv6 (SLAAC/RA), the \"no private egress\" and \"denies RFC1918\" guarantees do not hold on that family.",
+   "pointer": "//172.30.99.3:3128",
+   "resolves": false,
+   "text": null
+  },
+  {
+   "claim": "The RTX side's SDN island is genuinely strong and the bastion is a **real chokepoint, not theatre** \u2014 the asymmetry is real, and the GB10 docker model is the weaker of the two.",
+   "pointer": "ct205.conf:8",
+   "resolves": true,
+   "file": "ct205.conf",
+   "text": "nameserver: <island-address>\nnet0: name=eth0,bridge=cirub0,hwaddr=BC:24:11:57:D0:9E,ip=<island-address>/24,type=veth\nonboot: 0\nostype: debian\nrootfs: local-lvm:vm-205-disk-0,size=120G",
+   "supports": null
+  },
+  {
+   "claim": "The RTX side's SDN island is genuinely strong and the bastion is a **real chokepoint, not theatre** \u2014 the asymmetry is real, and the GB10 docker model is the weaker of the two.",
+   "pointer": "bastion-nftables.conf:14",
+   "resolves": true,
+   "file": "bastion-nftables.conf",
+   "text": "}\n  chain forward { type filter hook forward priority 0; policy drop; }\n  chain output {\n    type filter hook output priority 0; policy accept;\n    oif \"lo\" accept",
+   "supports": null
+  },
+  {
+   "claim": "The RTX side's SDN island is genuinely strong and the bastion is a **real chokepoint, not theatre** \u2014 the asymmetry is real, and the GB10 docker model is the weaker of the two.",
+   "pointer": "bastion-services.conf:8-17",
+   "resolves": true,
+   "file": "bastion-services.conf",
+   "text": "AllowTcpForwarding yes\nUser tinyproxy\nGroup tinyproxy\nPort 8888\nListen <island-address>\nTimeout 600\nLogLevel Notice\nMaxClients 20\nAllow <island-address>\nConnectPort 443\nConnectPort 80\nlisten-address=<island-address>\nbind-interfaces\nno-resolv",
+   "supports": null
+  },
+  {
+   "claim": "The RTX side's SDN island is genuinely strong and the bastion is a **real chokepoint, not theatre** \u2014 the asymmetry is real, and the GB10 docker model is the weaker of the two.",
+   "pointer": "bastion-nftables.conf:24",
+   "resolves": true,
+   "file": "bastion-nftables.conf",
+   "text": "ip daddr 1.1.1.1 tcp dport 53 accept\n    ip daddr { <lan-address>/16, 10.0.0.0/8, 172.16.0.0/12 } drop comment \"no other private egress\"\n  }\n}",
+   "supports": null
+  },
+  {
+   "claim": "The RTX side's SDN island is genuinely strong and the bastion is a **real chokepoint, not theatre** \u2014 the asymmetry is real, and the GB10 docker model is the weaker of the two.",
+   "pointer": "gb10-docker-inspect.txt:2",
+   "resolves": true,
+   "file": "gb10-docker-inspect.txt",
+   "text": "/the external party-bench nets={\"cirubench\":{\"IPAMConfig\":{\"IPv4Address\":\"172.30.99.10\"},\"Links\":null,\"Aliases\":null,\"DriverOpts\":null,\"GwPriority\":0,\"NetworkID\":\"8c1484b020c6d40bcfb6500b9f14dafc3eb3db58bc8353cf576db62d526ed4bb\",\"EndpointID\":\"6db1f19a9564a0b47e9f73f6adeee0a5e853e302cee2c90787a8a79bbd307fe9\",\"Gateway\":\"\",\"IPAddress\":\"172.30.99.10\",\"MacAddress\":\"b6:aa:82:d6:d6:55\",\"IPPrefixLen\":24,\"IPv6Gateway\":\"\",\"GlobalIPv6Address\":\"\",\"GlobalIPv6PrefixLen\":0,\"DNSNames\":[\"the external party-bench\",\"2e58d4795efe\"]}} ports={} mounts=[\"/home/<login-user>/the external party-bench/home:/home/the external party\",\"/home/<login-user>/the external party-bench/scratch:/scratch\"] mem=21474836480 restart=unless-stopped\n/the external party-proxy nets={\"bridge\":{\"IPAMConfig\":null,\"Links\":null,\"Aliases\":null,\"DriverOpts\":null,\"GwPriority\":0,\"NetworkID\":\"d58bfad862ce40cbb9d6950eeb58dbaf6144dbf03d49e8416a31b996db6b4024\",\"EndpointID\":\"efdb9650be3b86a3ead899a73511cac7bc4968ca5c7dbfb5eb364155a0c09d51\",\"Gateway\":\"172.17.0.1\",\"IPAddress\":\"172.17.0.6\",\"MacAddress\":\"d6:af:c8:9a:6a:75\",\"IPPrefixLen\":16,\"IPv6Gateway\":\"\",\"GlobalIPv6Address\":\"\",\"GlobalIPv6PrefixLen\":0,\"DNSNames\":null},\"cirubench\":{\"IPAMConfig\":{\"IPv4Address\":\"172.30.99.3\"},\"Links\":null,\"Aliases\":[],\"DriverOpts\":{},\"GwPriority\":0,\"Network",
+   "supports": null
+  },
+  {
+   "claim": "`gb10_setup.sh`'s verification block **cannot fail the build** \u2014 every isolation assertion is echo-only or `|| true`, so a squid misconfiguration that permits LAN egress still exits 0.",
+   "pointer": "gb10_setup.sh:66-71",
+   "resolves": true,
+   "file": "gb10_setup.sh",
+   "text": "echo \"=== verify ===\"\ndocker ps --filter name=the external party --format '{{.Names}}\\t{{.Status}}\\t{{.Ports}}'\ndocker exec the external party-bench nvidia-smi --query-gpu=name,driver_version --format=csv,noheader || true\ndocker exec the external party-bench bash -c 'timeout 3 bash -c \"echo > /dev/tcp/<lan-address>/8080\" 2>/dev/null && echo \"LAN REACHABLE (BAD)\" || echo \"LAN direct: blocked (good)\"'\ndocker exec the external party-bench bash -c 'curl -s -x http://172.30.99.3:3128 -o /dev/null -w \"internet-via-squid: %{http_code}\\n\" --max-time 20 https://huggingface.co/api/models?limit=1'\ndocker exec the external party-bench bash -c 'curl -s -x http://172.30.99.3:3128 -o /dev/null -w \"squid-to-LAN: %{http_code}\\n\" --max-time 10 http://<lan-address> || true'",
+   "supports": null
+  },
+  {
+   "claim": "Teardown touches two shared mutable stores with blind read-modify-write, matching the estate's own lost-update precedent: `pvesh set /cluster/sdn` applies **all** pending cluster-wide SDN state, and the backup-exclude restore hardcodes `114`.",
+   "pointer": "RUNBOOK.md:82",
+   "resolves": true,
+   "file": "RUNBOOK.md",
+   "text": "2. node2: `pct stop 204 205 && pct destroy 204 205`; remove SDN vnet `cirub0` +\n   zone `cirub` (`pvesh delete /cluster/sdn/vnets/cirub0`, `.../zones/cirub`,\n   then `pvesh set /cluster/sdn`).\n3. GB10: `docker rm -f the external party-bench the external party-proxy the external party-ssh-relay`,\n   `docker network rm cirubench`, `rm -rf /home/<login-user>/the external party-bench`, `docker rmi the external party-bench:1`.",
+   "supports": null
+  },
+  {
+   "claim": "Teardown touches two shared mutable stores with blind read-modify-write, matching the estate's own lost-update precedent: `pvesh set /cluster/sdn` applies **all** pending cluster-wide SDN state, and the backup-exclude restore hardcodes `114`.",
+   "pointer": "RUNBOOK.md:86",
+   "resolves": true,
+   "file": "RUNBOOK.md",
+   "text": "`docker network rm cirubench`, `rm -rf /home/<login-user>/the external party-bench`, `docker rmi the external party-bench:1`.\n4. Backup job: restore exclude to `114` only.\n5. If anything of ours was ever typed into his environment (it shouldn't be): rotate.\n\n## Security posture summary",
+   "supports": null
+  },
+  {
+   "claim": "Teardown touches two shared mutable stores with blind read-modify-write, matching the estate's own lost-update precedent: `pvesh set /cluster/sdn` applies **all** pending cluster-wide SDN state, and the backup-exclude restore hardcodes `114`.",
+   "pointer": "backup-job.json:1",
+   "resolves": true,
+   "file": "backup-job.json",
+   "text": "{\"all\":1,\"comment\":\"Hourly backup with deduplication - 24hr granularity\",\"compress\":\"zstd\",\"enabled\":1,\"exclude\":\"114,205\",\"id\":\"cd5e47ba-81f1-4878-ac1d-aa685e22f6b1\",\"mailnotification\":\"failure\",\"mailto\":\"<email>\",\"mode\":\"snapshot\",\"prune-backups\":{\"keep-daily\":\"7\",\"keep-hourly\":\"24\",\"keep-monthly\":\"3\",\"keep-weekly\":\"4\"},\"schedule\":\"hourly\",\"storage\":\"iscsi-fast\",\"type\":\"vzdump\"}",
+   "supports": null
+  },
+  {
+   "claim": "A1 readiness is weak on the LXC side and racy on GB10: CT 205 is `onboot: 0` while the bastion is `onboot: 1`, so a node reboot leaves the guest with a live entry point and a dead target; the GB10 build uses a fixed `sleep 3` as its only readiness predicate.",
+   "pointer": "ct205.conf:10",
+   "resolves": true,
+   "file": "ct205.conf",
+   "text": "onboot: 0\nostype: debian\nrootfs: local-lvm:vm-205-disk-0,size=120G\nswap: 8192\nunprivileged: 1",
+   "supports": null
+  },
+  {
+   "claim": "A1 readiness is weak on the LXC side and racy on GB10: CT 205 is `onboot: 0` while the bastion is `onboot: 1`, so a node reboot leaves the guest with a live entry point and a dead target; the GB10 build uses a fixed `sleep 3` as its only readiness predicate.",
+   "pointer": "ct204.conf:10",
+   "resolves": true,
+   "file": "ct204.conf",
+   "text": "net1: name=eth1,bridge=cirub0,hwaddr=BC:24:11:EC:45:25,ip=<island-address>/24,type=veth\nonboot: 1\nostype: debian\nrootfs: local-lvm:vm-204-disk-0,size=8G\nswap: 512",
+   "supports": null
+  },
+  {
+   "claim": "A1 readiness is weak on the LXC side and racy on GB10: CT 205 is `onboot: 0` while the bastion is `onboot: 1`, so a node reboot leaves the guest with a live entry point and a dead target; the GB10 build uses a fixed `sleep 3` as its only readiness predicate.",
+   "pointer": "gb10_setup.sh:60",
+   "resolves": true,
+   "file": "gb10_setup.sh",
+   "text": "sleep 3\ndocker exec the external party-bench bash -c '\n  cp -rT /etc/skel /home/the external party 2>/dev/null || true\n  mkdir -p /home/the external party/.ssh && touch /home/the external party/.ssh/authorized_keys",
+   "supports": null
+  },
+  {
+   "claim": "CT 204 is **not** excluded from the hourly vzdump job, so the cloudflared tunnel token and the guest's installed pubkey are copied hourly to shared `iscsi-fast` and survive teardown for up to three months.",
+   "pointer": "backup-job.json:1",
+   "resolves": true,
+   "file": "backup-job.json",
+   "text": "{\"all\":1,\"comment\":\"Hourly backup with deduplication - 24hr granularity\",\"compress\":\"zstd\",\"enabled\":1,\"exclude\":\"114,205\",\"id\":\"cd5e47ba-81f1-4878-ac1d-aa685e22f6b1\",\"mailnotification\":\"failure\",\"mailto\":\"<email>\",\"mode\":\"snapshot\",\"prune-backups\":{\"keep-daily\":\"7\",\"keep-hourly\":\"24\",\"keep-monthly\":\"3\",\"keep-weekly\":\"4\"},\"schedule\":\"hourly\",\"storage\":\"iscsi-fast\",\"type\":\"vzdump\"}",
+   "supports": null
+  },
+  {
+   "claim": "CT 204 is **not** excluded from the hourly vzdump job, so the cloudflared tunnel token and the guest's installed pubkey are copied hourly to shared `iscsi-fast` and survive teardown for up to three months.",
+   "pointer": "RUNBOOK.md:78-87",
+   "resolves": true,
+   "file": "RUNBOOK.md",
+   "text": "## Teardown (end of engagement)\n\n1. CF: delete Access app 493b20ef\u2026 (+policy), DNS CNAME `ssh-bench`, tunnel 4b1cfef2\u2026.\n2. node2: `pct stop 204 205 && pct destroy 204 205`; remove SDN vnet `cirub0` +\n   zone `cirub` (`pvesh delete /cluster/sdn/vnets/cirub0`, `.../zones/cirub`,\n   then `pvesh set /cluster/sdn`).\n3. GB10: `docker rm -f the external party-bench the external party-proxy the external party-ssh-relay`,\n   `docker network rm cirubench`, `rm -rf /home/<login-user>/the external party-bench`, `docker rmi the external party-bench:1`.\n4. Backup job: restore exclude to `114` only.\n5. If anything of ours was ever typed into his environment (it shouldn't be): rotate.\n\n## Security posture summary",
+   "supports": null
+  }
+ ]
+}

@@ -1,0 +1,148 @@
+{
+ "arm": "S_codex.md",
+ "claims": 8,
+ "pointers": [
+  {
+   "claim": "** Upgrade to 2.14.5 is justified by applicable clustered-storage fixes, but the owner overstates both blanket authentication exposure and the snapshot-loss trigger.",
+   "pointer": "release-notes-v2.14.3.md:67",
+   "resolves": true,
+   "file": "release-notes-v2.14.3.md",
+   "text": "- A data race on the cluster meta node during JetStream shutdown has been fixed (#8260)\n- Meta proposal inflight tracking is now kept consistent during stream moves and related operations (#8261)\n- Stream catchup is no longer skipped when limits are exceeded, preventing possible stream desync (#8265)\n- Malformed TTL and schedule state is now rejected during decode (#8269)",
+   "supports": null
+  },
+  {
+   "claim": "** Upgrade to 2.14.5 is justified by applicable clustered-storage fixes, but the owner overstates both blanket authentication exposure and the snapshot-loss trigger.",
+   "pointer": "release-notes-v2.14.4.md:59",
+   "resolves": true,
+   "file": "release-notes-v2.14.4.md",
+   "text": "- Fixed string ownership when handling the expected last sequence per subject in a batch (#8377)\n- Fixed a race condition between concurrent message removals via limits that could unexpectedly disable writes into a filestore (#8378)\n- Fixed a bug in the filestore which could prevent some filestore block cache references from being weakened correctly, which could result in unexpected memory usage and GC pressure (#8380)\n- Attempting to update the consumer storage type now correctly returns an error (#8382)\n- Stream publish checks will now correctly reject messages that exceed the maximum store size before proposal (#8389)",
+   "supports": null
+  },
+  {
+   "claim": "** Upgrade to 2.14.5 is justified by applicable clustered-storage fixes, but the owner overstates both blanket authentication exposure and the snapshot-loss trigger.",
+   "pointer": "release-notes-v2.14.5.md:29",
+   "resolves": true,
+   "file": "release-notes-v2.14.5.md",
+   "text": "- Fix a bug that could result in potential data loss when handling idempotent stream creates when an offline node catches up from a metalayer snapshot, caused by an incorrect update to the create time in the stream assignment (#8449)\n\n### Complete Changes",
+   "supports": null
+  },
+  {
+   "claim": "** Upgrade to 2.14.5 is justified by applicable clustered-storage fixes, but the owner overstates both blanket authentication exposure and the snapshot-loss trigger.",
+   "pointer": "live-state.md:14",
+   "resolves": true,
+   "file": "live-state.md",
+   "text": "api level 4 | api calls 1607 errors 46 | ha_assets 10 | msgs 384 bytes 64097 | meta leader nats3 | last meta snapshot 2026-08-15T20:43:08\n- STREAM JOBS: subjects=['jobs.>'] retention=workqueue max_age=7d max_bytes=5368709120 discard=old R3 storage=file | msgs=0 bytes=0 leader=nats3\n    - consumer clickup-ingest: filter=jobs.clickup.events ack_wait=120s max_deliver=5 max_ack_pending=1000 pending=0 redelivered=0 waiting_pulls=1\n    - consumer embed-workers: filter=jobs.embed.batch ack_wait=600s max_deliver=5 max_ack_pending=16 pending=0 redelivered=0 waiting_pulls=0\n    - consumer hale-eval-workers: filter=jobs.hale.eval ack_wait=300s max_deliver=4 max_ack_pending=8 pending=0 redelivered=0 waiting_pulls=0",
+   "supports": null
+  },
+  {
+   "claim": "** Upgrade to 2.14.5 is justified by applicable clustered-storage fixes, but the owner overstates both blanket authentication exposure and the snapshot-loss trigger.",
+   "pointer": "release-notes-v2.14.4.md:37-39",
+   "resolves": true,
+   "file": "release-notes-v2.14.4.md",
+   "text": "- JWT validation no longer crashes the server with whitespace-only permissions\n- Several paths that enforce the permissions of queue subscriptions no longer treat the whole permission as a subject literal\n- Several JetStream and MQTT endpoints now correctly guard against null values in JSON\n- Fixed an authentication bypass with TLS `verify_and_map` authenticating users with blank passwords\n\nMonitoring",
+   "supports": null
+  },
+  {
+   "claim": "** Upgrade to 2.14.5 is justified by applicable clustered-storage fixes, but the owner overstates both blanket authentication exposure and the snapshot-loss trigger.",
+   "pointer": "release-notes-v2.14.3.md:50",
+   "resolves": true,
+   "file": "release-notes-v2.14.3.md",
+   "text": "- Leaf connections no longer bypass `Nats-Trace-Dest` publish permission checks\n- `CONNZ` and `SUBSZ` pagination now guard against `Offset` and `Limit` integer overflow panics\n- Fixed a nil pointer panic when starting up when the resolver parent directory is missing (#8329)\n\nMQTT",
+   "supports": null
+  },
+  {
+   "claim": "** A2 requires proving ticket idempotency and client recovery before disruption, because redelivery cannot be assumed harmless.",
+   "pointer": "live-state.md:22",
+   "resolves": true,
+   "file": "live-state.md",
+   "text": "- STREAM EVENTS: subjects=['events.support.>', 'events.slack.>'] retention=limits max_age=30d max_bytes=-1 discard=old R3 storage=file | msgs=4 bytes=883 leader=nats1\n    - consumer support-intake: filter=events.support.intake ack_wait=30s max_deliver=-1 max_ack_pending=1 pending=0 redelivered=0 waiting_pulls=0\n\n## Live client connections (connz?auth=true on all 3 nodes) \u2014 NOTE the authorized_user column\n- via nats1: client_ip=<lan-address> authorized_user=control name=None lang=python3 lib=2.15.0 subs=2",
+   "supports": null
+  },
+  {
+   "claim": "** The proposed rollout is nats2 \u2192 nats1 \u2192 nats3, re-evaluated against live leadership, with pinned binaries and a cold per-node recovery copy.",
+   "pointer": "live-state.md:13-21",
+   "resolves": true,
+   "file": "live-state.md",
+   "text": "## JetStream (jsz)\napi level 4 | api calls 1607 errors 46 | ha_assets 10 | msgs 384 bytes 64097 | meta leader nats3 | last meta snapshot 2026-08-15T20:43:08\n- STREAM JOBS: subjects=['jobs.>'] retention=workqueue max_age=7d max_bytes=5368709120 discard=old R3 storage=file | msgs=0 bytes=0 leader=nats3\n    - consumer clickup-ingest: filter=jobs.clickup.events ack_wait=120s max_deliver=5 max_ack_pending=1000 pending=0 redelivered=0 waiting_pulls=1\n    - consumer embed-workers: filter=jobs.embed.batch ack_wait=600s max_deliver=5 max_ack_pending=16 pending=0 redelivered=0 waiting_pulls=0\n    - consumer hale-eval-workers: filter=jobs.hale.eval ack_wait=300s max_deliver=4 max_ack_pending=8 pending=0 redelivered=0 waiting_pulls=0\n    - consumer rtx-serve: filter=jobs.serve.> ack_wait=30s max_deliver=-1 max_ack_pending=1000 pending=0 redelivered=0 waiting_pulls=0\n- STREAM RESULTS: subjects=['results.>'] retention=limits max_age=3d max_bytes=2147483648 discard=old R3 storage=file | msgs=380 bytes=63214 leader=nats1\n    - consumer hale-eval-collector: filter=results.hale.eval ack_wait=60s max_deliver=-1 max_ack_pending=1000 pending=0 redelivered=0 waiting_pulls=0\n- STREAM EVENTS: subjects=['e",
+   "supports": null
+  },
+  {
+   "claim": "** The proposed rollout is nats2 \u2192 nats1 \u2192 nats3, re-evaluated against live leadership, with pinned binaries and a cold per-node recovery copy.",
+   "pointer": "install-nats.sh:6-10",
+   "resolves": true,
+   "file": "install-nats.sh",
+   "text": "apt-get install -y -qq curl ca-certificates >/dev/null 2>&1\nNV=$(curl -fsSL https://api.github.com/repos/nats-io/nats-server/releases/latest | grep '\"tag_name\"' | head -1 | sed -E 's/.*\"(v[^\"]+)\".*/\\1/')\ncd /tmp\ncurl -fsSL \"https://github.com/nats-io/nats-server/releases/download/${NV}/nats-server-${NV}-linux-amd64.tar.gz\" -o n.tgz\ntar xzf n.tgz\ninstall -m755 nats-server-*-linux-amd64/nats-server /usr/local/bin/nats-server\nid nats >/dev/null 2>&1 || useradd --system --home-dir /var/lib/nats --shell /usr/sbin/nologin nats\nmkdir -p /var/lib/nats/js /etc/nats && chown -R nats:nats /var/lib/nats\necho \"nats-server $(/usr/local/bin/nats-server --version)\"",
+   "supports": null
+  },
+  {
+   "claim": "** The proposed rollout is nats2 \u2192 nats1 \u2192 nats3, re-evaluated against live leadership, with pinned binaries and a cold per-node recovery copy.",
+   "pointer": "live-state.md:44",
+   "resolves": true,
+   "file": "live-state.md",
+   "text": "## Backup / maintenance windows\n- PVE hourly `vzdump` (all guests, snapshot mode, to iscsi-fast) runs at the top of every hour. Estate rule: check cluster tasks and avoid the :00 windows before any disruptive op (a reboot during vzdump once locked a live-trading CT for 20 h).\n- `nats-store-monitor.timer` on node1 polls `/jsz` on all three nodes every 15 min and alerts at >80% of 15 GB; the last runs show 0%. It only checks store bytes \u2014 not version, quorum, leader, or consumer lag.\n- Cross-node `estate-deadman` watchdog exists (pings node1/2/3), unrelated to NATS health.",
+   "supports": null
+  },
+  {
+   "claim": "** A1/A3 should gate every subsequent stop on independently observed replication and application health, never systemd activity alone.",
+   "pointer": null,
+   "resolves": null,
+   "text": null
+  },
+  {
+   "claim": "** A5\u2019s prolonged mixed-version safety and direct file-store downgrade remain **SPECULATIVE**, so neither should be an unattended assumption.",
+   "pointer": "release-notes-v2.14.3.md:4",
+   "resolves": true,
+   "file": "release-notes-v2.14.3.md",
+   "text": "Refer to the [2.14 Upgrade Guide](https://docs.nats.io/release-notes/whats_new/whats_new_214) for backwards compatibility notes with 2.12.x. Please note that the 2.13.x version was skipped.\n\n### Go Version",
+   "supports": null
+  },
+  {
+   "claim": "** A5\u2019s prolonged mixed-version safety and direct file-store downgrade remain **SPECULATIVE**, so neither should be an unattended assumption.",
+   "pointer": "release-notes-v2.14.4.md:4",
+   "resolves": true,
+   "file": "release-notes-v2.14.4.md",
+   "text": "Refer to the [2.14 Upgrade Guide](https://docs.nats.io/release-notes/whats_new/whats_new_214) for backwards compatibility notes with 2.12.x. Please note that the 2.13.x version was skipped.\n\n### Go Version",
+   "supports": null
+  },
+  {
+   "claim": "** A5\u2019s prolonged mixed-version safety and direct file-store downgrade remain **SPECULATIVE**, so neither should be an unattended assumption.",
+   "pointer": "release-notes-v2.14.5.md:4",
+   "resolves": true,
+   "file": "release-notes-v2.14.5.md",
+   "text": "Refer to the [2.14 Upgrade Guide](https://docs.nats.io/release-notes/whats_new/whats_new_214) for backwards compatibility notes with 2.12.x. Please note that the 2.13.x version was skipped.\n\n### Go Version",
+   "supports": null
+  },
+  {
+   "claim": "** Monitoring needs correction before rollout because its missing-field default can report zero usage.",
+   "pointer": "nats-store-monitor.sh:5",
+   "resolves": true,
+   "file": "nats-store-monitor.sh",
+   "text": "for n in <lan-address> <lan-address> <lan-address>; do\n  used=$(curl -s --max-time 6 \"http://$n:8222/jsz\" | python3 -c 'import sys,json;print(json.load(sys.stdin).get(\"store\",0))' 2>/dev/null)\n  [ -z \"$used\" ] && { echo \"$(date -u +%FT%TZ) WARN $n unreachable\" | tee -a \"$LOG\"; continue; }\n  pct=$(( used*100/LIMIT ))\n  msg=\"$(date -u +%FT%TZ) $n store ${pct}% ($((used/1024/1024))MB/15GB)\"",
+   "supports": null
+  },
+  {
+   "claim": "** After immediate continuity safeguards, shared unrestricted credentials are the highest-priority security correction and should remain a separate change.",
+   "pointer": "live-state.md:25-30",
+   "resolves": true,
+   "file": "live-state.md",
+   "text": "## Live client connections (connz?auth=true on all 3 nodes) \u2014 NOTE the authorized_user column\n- via nats1: client_ip=<lan-address> authorized_user=control name=None lang=python3 lib=2.15.0 subs=2\n- via nats1: client_ip=<lan-address> authorized_user=control name=None lang=python3 lib=2.15.0 subs=2\n- via nats1: client_ip=<lan-address> authorized_user=control name=hale-support lang=nats.js lib=2.29.3 subs=1\n- via nats2: client_ip=<lan-address> authorized_user=control name=hale-support-events lang=nats.js lib=2.29.3 subs=2\n\n(client .13 = CT 201 \"halebrain\" on the RTX inference box, python nats.py 2.15.0; client .16 = CT 116 \"hale-support\" desk, nats.js 2.29.3. BOTH authenticate as the full-privilege `control` user, although least-privilege users `rtx`/`arm` exist in the config and a `support` user was DESIGNED in the HAL repo doc `docs/NATS-SUPPORT-USER.md` but never added to `nats-server.conf`.)\n\nObserved config-vs-doctrine deviations (for seats to weigh, not conclusions):\n- The build doctrine said \"explicit stream limits or silent disk-full\". Stream EVENTS has `max_bytes=-1` (unlimited) with max_age 30d; the 15 GB `max_file_store` is the only backstop.",
+   "supports": null
+  },
+  {
+   "claim": "** After immediate continuity safeguards, shared unrestricted credentials are the highest-priority security correction and should remain a separate change.",
+   "pointer": "live-state.md:38-39",
+   "resolves": true,
+   "file": "live-state.md",
+   "text": "## Recent journal signals (from `journalctl -u nats` on the nodes)\n- 2026-08-15 20:31:54 on nats1 and nats3: `[ERR] <lan-address> \u2026 authentication error - User \"route\"` \u2014 something on the node1 PVE host tried the cluster-route user on the CLIENT port 4222 (the route password lives in plaintext in each node's config file, in the `routes` URLs).\n- 2026-08-15 20:35\u201320:42: stream `ESTATE > FIX2SCRATCH` with consumers `s2` and `scratch-serve` got leaders \u2014 a scratch stream created ad hoc on the production spine during some fix session; it is not in the current stream list (deleted since).\n- 2026-08-15 06:03: nats3 became meta leader (\"Self is new JetStream cluster metadata leader\") after a node event; the last meta snapshot is from 2026-08-15 20:43.\n- No restarts of nats.service on any node since each CT's last boot (NRestarts=0).",
+   "supports": null
+  },
+  {
+   "claim": "** Capacity/retry hygiene ranks below continuity and credential exposure, while the other newsletter products can presently be deferred.",
+   "pointer": "live-state.md:21-22",
+   "resolves": true,
+   "file": "live-state.md",
+   "text": "- consumer hale-eval-collector: filter=results.hale.eval ack_wait=60s max_deliver=-1 max_ack_pending=1000 pending=0 redelivered=0 waiting_pulls=0\n- STREAM EVENTS: subjects=['events.support.>', 'events.slack.>'] retention=limits max_age=30d max_bytes=-1 discard=old R3 storage=file | msgs=4 bytes=883 leader=nats1\n    - consumer support-intake: filter=events.support.intake ack_wait=30s max_deliver=-1 max_ack_pending=1 pending=0 redelivered=0 waiting_pulls=0\n\n## Live client connections (connz?auth=true on all 3 nodes) \u2014 NOTE the authorized_user column\n- via nats1: client_ip=<lan-address> authorized_user=control name=None lang=python3 lib=2.15.0 subs=2",
+   "supports": null
+  }
+ ]
+}

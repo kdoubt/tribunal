@@ -1,0 +1,50 @@
+2026-09-16T17:50:21Z g03 S_grok ok after 1 attempt(s)
+[g06 S_claude] ok attempt=1 8250B 143s
+2026-09-16T17:50:33Z g06 S_claude ok after 1 attempt(s)
+INCOMPLETE decision=g05 arm=S_codex reason="invalid: missing /^[#* ]*CLAIM/" attempt=1 rc=0 seconds=114
+2026-09-16T17:51:54Z g05 S_codex attempt 1 failed
+[g04 S_grok] ok attempt=1 7074B 151s
+2026-09-16T17:52:52Z g04 S_grok ok after 1 attempt(s)
+[g07 S_claude] ok attempt=1 7786B 144s
+2026-09-16T17:52:57Z g07 S_claude ok after 1 attempt(s)
+INCOMPLETE decision=g05 arm=S_codex reason="invalid: missing /^[#* ]*CLAIM/" attempt=2 rc=0 seconds=121
+2026-09-16T17:54:15Z g05 S_codex attempt 2 failed
+[g08 S_claude] ok attempt=1 9299B 153s
+2026-09-16T17:55:30Z g08 S_claude ok after 1 attempt(s)
+INCOMPLETE decision=g05 arm=S_codex reason="invalid: missing /^[#* ]*CLAIM/" attempt=3 rc=0 seconds=130
+2026-09-16T17:57:05Z g05 S_codex attempt 3 failed
+[g05 S_grok] ok attempt=1 7978B 313s
+2026-09-16T17:58:05Z g05 S_grok ok after 1 attempt(s)
+2026-09-16T17:58:05Z g05 S_codex DEAD after 3 attempt(s)
+INCOMPLETE decision=g06 arm=S_codex reason="invalid: missing /^[#* ]*CLAIM/" attempt=1 rc=0 seconds=116
+2026-09-16T18:00:01Z g06 S_codex attempt 1 failed
+[g09 S_claude] ok attempt=1 9277B 287s
+2026-09-16T18:00:17Z g09 S_claude ok after 1 attempt(s)
+[g10 S_claude] ok attempt=1 6484B 87s
+2026-09-16T18:01:44Z g10 S_claude ok after 1 attempt(s)
+INCOMPLETE decision=g06 arm=S_codex reason="invalid: missing /^[#* ]*CLAIM/" attempt=2 rc=0 seconds=117
+2026-09-16T18:02:18Z g06 S_codex attempt 2 failed
+[g06 S_grok] ok attempt=1 8498B 367s
+2026-09-16T18:04:12Z g06 S_grok ok after 1 attempt(s)
+INCOMPLETE decision=g06 arm=S_codex reason="invalid: missing /^[#* ]*CLAIM/" attempt=3 rc=0 seconds=155
+2026-09-16T18:05:33Z g06 S_codex attempt 3 failed
+2026-09-16T18:06:33Z g06 S_codex DEAD after 3 attempt(s)
+[g07 S_grok] ok attempt=1 8053B 212s
+2026-09-16T18:07:44Z g07 S_grok ok after 1 attempt(s)
+2026-09-16T18:07:49Z g05 S_codex accepted attempt 1 retroactively (validator corrected to accept numbered headings; no re-run)
+2026-09-16T18:07:49Z g06 S_codex accepted attempt 1 retroactively (validator corrected to accept numbered headings; no re-run)
+[g07 S_codex] ok attempt=1 8776B 98s
+2026-09-16T18:08:11Z g07 S_codex ok after 1 attempt(s)
+[g08 S_codex] ok attempt=1 8865B 134s
+2026-09-16T18:10:25Z g08 S_codex ok after 1 attempt(s)
+[g08 S_grok] ok attempt=1 9887B 229s
+2026-09-16T18:11:33Z g08 S_grok ok after 1 attempt(s)
+[g09 S_codex] ok attempt=1 9065B 184s
+2026-09-16T18:13:29Z g09 S_codex ok after 1 attempt(s)
+[g10 S_codex] ok attempt=1 5250B 48s
+2026-09-16T18:14:17Z g10 S_codex ok after 1 attempt(s)
+[g09 S_grok] ok attempt=1 9355B 412s
+2026-09-16T18:18:25Z g09 S_grok ok after 1 attempt(s)
+[g10 S_grok] ok attempt=1 6554B 140s
+2026-09-16T18:20:45Z g10 S_grok ok after 1 attempt(s)
+2026-09-16T18:20:45Z done

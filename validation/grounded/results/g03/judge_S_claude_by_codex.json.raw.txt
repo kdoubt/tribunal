@@ -1,0 +1,43 @@
+{
+  "decision_correct": 0,
+  "decision_correct_quote": "**PUBLISH VERDICT: blocker**",
+  "must_catch": [
+    {
+      "item": 1,
+      "hit": 0,
+      "quote": ""
+    },
+    {
+      "item": 2,
+      "hit": 1,
+      "quote": "Mostly faithful, and the three USER-FACT owner-calls are all still marked OWNER-CALL"
+    },
+    {
+      "item": 3,
+      "hit": 1,
+      "quote": "ONBOARDING_SPEC.md:166-170 requires the purpose; auth-verify.ts:39-51 upserts an account by email"
+    },
+    {
+      "item": 4,
+      "hit": 0,
+      "quote": ""
+    },
+    {
+      "item": 5,
+      "hit": 0,
+      "quote": ""
+    },
+    {
+      "item": 6,
+      "hit": 1,
+      "quote": "The `npx whipnode` CLI - sole delivery channel for the rung-0 key"
+    },
+    {
+      "item": 7,
+      "hit": 0,
+      "quote": ""
+    }
+  ],
+  "false_objections": [],
+  "notes": "The memo identifies the SQLite rebuild and missing index recreation but misses the cleanup-query index, gives only citation-level confirmation of the prerequisite bugs, and chooses blocker instead of ship-after-fixes."
+}
