@@ -9,6 +9,8 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+## [1.1.7] - 2026-09-17
+
 - `validation/grounded/RESULTS.md` + `results/`: the grounded ablation is complete under its pre-registration (Amendment 1: three vendors). Headline, by the pre-registered rule: **no lift on grounded review** - paired `A_panel - A_2seat` must_catch −0.18 (n=10), decision_correct −0.06 strict / +0.06 sensitivity (n=9), false objections 1.10 vs 2.60 per memo in the panel's favour. Round 1 ran on all ten decisions and overturned nothing; the must-catch item the original panel missed stayed missed. New grounding metrics: pointers open 0.83-0.97, judged support 0.50-0.81 (a lower bound). Every raw output, attempt, ledger, packet, judge prompt/reply and log is published under `results/` after redaction; the execution deviations are listed in RESULTS in order. `validation/README.md` gains one sentence. PATCH (validation material; `core/` untouched; the README's no-lift position now rests on a grounded study as well).
 
 - `validation/grounded/PROTOCOL.md` Amendment 1: the local Qwen seat is withdrawn (server shared with another workload; owner's decision); the study runs on Claude, Codex and Grok. No Qwen arm ever ran. The judge table is reassigned under one rule - every judgment already scored stays valid and no vendor scores itself - with the resulting pair and judge counts disclosed. The `support_rate` judge's context window was widened before any support number was reported; the narrow-window pass is discarded and kept as superseded. Recorded before any result is read into the repository.
@@ -411,7 +413,8 @@ the methodology itself still has one published run (see README, Status).
   methodology, labeled as a historical bootstrap transcript with its
   known non-compliances enumerated.
 
-[Unreleased]: https://github.com/kdoubt/tribunal/compare/v1.1.6...HEAD
+[Unreleased]: https://github.com/kdoubt/tribunal/compare/v1.1.7...HEAD
+[1.1.7]: https://github.com/kdoubt/tribunal/compare/v1.1.6...v1.1.7
 [1.1.6]: https://github.com/kdoubt/tribunal/compare/v1.1.5...v1.1.6
 [1.1.5]: https://github.com/kdoubt/tribunal/compare/v1.1.4...v1.1.5
 [1.1.4]: https://github.com/kdoubt/tribunal/compare/v1.1.3...v1.1.4
