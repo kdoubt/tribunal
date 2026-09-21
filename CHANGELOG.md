@@ -9,6 +9,8 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+## [1.1.9] - 2026-09-21
+
 **Three PATCH items found by running this repo's own method on it (panel
 2026-09-20, Codex CLI + Grok CLI, R0+R1). The panel's question was whether to
 adopt mechanisms from an external coordination project into `core/`; both seats
@@ -486,6 +488,7 @@ the methodology itself still has one published run (see README, Status).
   known non-compliances enumerated.
 
 [Unreleased]: https://github.com/kdoubt/tribunal/compare/v1.1.8...HEAD
+[1.1.9]: https://github.com/kdoubt/tribunal/compare/v1.1.8...v1.1.9
 [1.1.8]: https://github.com/kdoubt/tribunal/compare/v1.1.7...v1.1.8
 [1.1.7]: https://github.com/kdoubt/tribunal/compare/v1.1.6...v1.1.7
 [1.1.6]: https://github.com/kdoubt/tribunal/compare/v1.1.5...v1.1.6
