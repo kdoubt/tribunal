@@ -46,9 +46,11 @@ were in this repo's tooling and adapters. No method change; `core/` untouched.**
 - `adapters/claude-code/SKILL.md` seat-command example: adds
   `--skip-git-repo-check` to the Codex invocation, which the shell adapter has
   shipped since its examples block (`adapters/shell/README.md:17`, `:124`) but
-  the Claude Code adapter omitted. Without it Codex prints a trust warning and
-  exits **0 having answered nothing**; the smoke test catches this only because
-  the answer is missing, which the bullet now says. Adapter parity, in the shape
+  the Claude Code adapter omitted. Inside a git repo the flag is a no-op, so a
+  panel run from a project root is unaffected; from a directory Codex does not
+  trust (a panel/scratch dir) it prints a trust warning and exits **0 having
+  answered nothing**. Measured both ways 2026-09-20. The smoke test catches this
+  only because the answer is missing, which the bullet now says. Adapter parity, in the shape
   of 1.1.3. PATCH.
 
 ## [1.1.8] - 2026-09-17

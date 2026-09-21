@@ -71,11 +71,12 @@ writes the brief. See the repo README.)
   2026-09: `codex exec -s read-only --skip-git-repo-check`,
   `grok --permission-mode plan`) - never
   a broad shell allow-rule, which is a shell escape (see the shell adapter).
-  Always wrap in `timeout` and check exit codes. Codex needs
-  `--skip-git-repo-check` (or a trusted directory): without it, it prints a
-  trust warning and **exits 0 having answered nothing** - the smoke test
-  below catches it only because the answer is missing, not because the exit
-  code is bad.
+  Always wrap in `timeout` and check exit codes. Keep
+  `--skip-git-repo-check` on the Codex seat: inside a git repo it is a no-op,
+  but from any directory Codex does not trust (a panel/scratch dir is the
+  common case) it otherwise prints a trust warning and **exits 0 having
+  answered nothing** - the smoke test below catches that only because the
+  answer is missing, not because the exit code is bad.
 - **Do not compose this skill with read-size-blocking or I/O-delegation
   plugins on the orchestrator host, and do not rely on routing rules pasted
   into this skill or a CLAUDE.md.** A plugin that blocks or redirects large
