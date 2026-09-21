@@ -32,7 +32,11 @@ no-lift finding - a free, bring-your-own-key recipe is at
 
 ## Issues / PRs
 
-`core/` factual bugs and sanitized-run PRs only. Adapter CLI flag breakage
+`core/` factual bugs, sanitized-run PRs, and **second-judge replication
+reports** (see
+[`validation/confirmatory/REPLICATING-THE-JUDGE.md`](validation/confirmatory/REPLICATING-THE-JUDGE.md)
+- judge model, endpoint type, per-decision scores, blind mapping, totals; no
+sanitized panel run required, because a re-score is not a panel run). Adapter CLI flag breakage
 → that vendor's docs (flags are date-stamped examples, not supported
 surface). Stub directories are invitations, not tickets. No response SLA.
 An adapter without an active contributor is reverted to stub in-tree.

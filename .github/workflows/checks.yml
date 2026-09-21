@@ -54,6 +54,30 @@ jobs:
           done
           echo "scout regression: OK"
 
+      - name: flywheel-export regression (repeated template_delta lines)
+        run: |
+          # `template_delta` is the one repeatable retro field ("one concrete
+          # proposed edit per line"). Before v1.1.9 the exporter read only the
+          # LAST occurrence, so real deltas followed by a "no change" line
+          # exported had_template_delta:false and the rest were discarded.
+          # Fixture 1 (multi) must be true; fixture 2 (nochange) must stay false
+          # - the second catches an over-correction that counts lines instead of
+          # real deltas. This step FAILS on the pre-v1.1.9 exporter.
+          set -eu -o pipefail
+          d=$(mktemp -d); trap 'rm -rf "$d"' EXIT
+          mkdir -p "$d/multi" "$d/nochange"
+          cp test/flywheel/retro-multi-delta.md "$d/multi/retro.md"
+          cp test/flywheel/retro-nochange.md    "$d/nochange/retro.md"
+          out=$(./flywheel-export "$d" 2>/dev/null)
+          got_multi=$(printf '%s' "$out" | grep -c '"had_template_delta":true')
+          got_none=$(printf '%s' "$out" | grep -c '"had_template_delta":false')
+          [ "$got_multi" = 1 ] || { echo "::error::multi-delta fixture must export had_template_delta:true (got $got_multi)"; printf '%s\n' "$out"; exit 1; }
+          [ "$got_none" = 1 ]  || { echo "::error::no-change fixture must export had_template_delta:false (got $got_none)"; printf '%s\n' "$out"; exit 1; }
+          # stdout stays controlled metadata: no delta text may leak
+          printf '%s' "$out" | grep -qi 'proposed edit' \
+            && { echo "::error::delta text leaked into stdout"; exit 1; }
+          echo "flywheel-export regression: OK"
+
       - name: docs-only guard (enforce runtime-none)
         run: |
           # The repo ships documentation + the single `scout` shell helper.

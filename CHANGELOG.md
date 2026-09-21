@@ -9,6 +9,171 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+## [1.1.9] - 2026-09-21
+
+**Everything in this release was found by running this repo's own method on
+itself - three two-seat panels (Codex CLI + Grok CLI) over 2026-09-20/21. The
+first asked whether to adopt mechanisms from an external coordination project:
+both seats rejected every candidate, and the only defects that survived were in
+this repo's own tooling, adapters, docs and evidence. Every item is PATCH and
+`core/` is untouched, so the v1.0 method freeze is not engaged.**
+
+Two findings are worth calling out because they were the repo overstating itself:
+the page it nominates as its lead asset misdescribed what running it accomplishes,
+and two README surfaces recommended a panel for *ambiguous* decisions - the one arm
+where the repo's own study found the solo memo preferred.
+
+- `validation/confirmatory/REPLICATING-THE-JUDGE.md`: the page **overclaimed what
+  running it accomplishes**, and both seats agreed after cross-examination. It said
+  the pre-registered decision rule "is literally incomplete until someone runs it"
+  and that "a second-judge result is decisive in a way no amount of internal
+  re-running can be". Neither holds: this procedure re-scores the *ambiguous arm*
+  (solo vs panel memos on `c02`, `c11`-`c19`), while the unmeasured primary endpoint
+  is a different quantity, mean `A_panel - A_2seat` paired across all decisions,
+  which `RESULTS.md` records was never computed in pre-registered form. Nor can it
+  *declare* lift: `PROTOCOL.md` gates that on both judges and the primary judge
+  already has the panel losing, so the conjunctive gate is shut whatever a second
+  judge returns. The page now states what the re-score does (tests whether the
+  118-vs-103 preference survives a different judge - judge sensitivity), what it
+  does not do, and why standing up the non-OpenAI judge is still the missing
+  `PROTOCOL.md` piece for any future primary. Recruiting strangers under a false
+  description of their work is the failure this fixes. PATCH.
+- `validation/confirmatory/REPLICATING-THE-JUDGE.md`: adds a **copy-pasteable
+  worked first decision**. The recipe was a four-step file-assembly outline with no
+  request body, no filled prompt and no invocation - both seats independently named
+  that the conversion drop-off. The new step ships an OpenAI-compatible request for
+  `c02` built with stdlib `python3` (no `jq`, nothing to install), reproducing the
+  original run exactly per `results-raw/AUDIT.md` section 4: the published prompt is
+  a template whose `$BRIEF`/`$X`/`$Y` are substituted and sent as one message per
+  decision at `temperature: 0`, `max_tokens: 30000`, with an assertion that fails
+  loudly if substitution is incomplete. Verified by running it: a valid request,
+  no placeholders left, and all ten decisions resolve. PATCH.
+- `CONTRIBUTING.md` "Issues / PRs": accepted `core/` factual bugs and sanitized-run
+  PRs **only**, while `REPLICATING-THE-JUDGE.md` tells replicators to open an issue
+  or PR with judge scores - and `CONTRIBUTING.md` defines a sanitized run as
+  "brief → R0 → R1 → ledger → verdict", which a re-score is not. The repo's
+  most-wanted contribution was ineligible on a literal reading. Second-judge
+  replication reports are now named as in scope. PATCH.
+- `README.md` "Getting started": the numbered three-step path now precedes the
+  stall-troubleshooting and the optional N-seat scaling discussion, which had sat
+  between the prerequisites and the first action. Reordering only - no text
+  reworded, no usability gain claimed (the repo has no reader-testing pipeline).
+  Editorial (PATCH).
+
+- `README.md`: "What Tribunal is **not**: a way to out-*decide* a strong single
+  model" now reads "What Tribunal has **not demonstrated**: that it out-*decides*
+  a strong single model". A two-seat panel deadlocked on this at 0.80/0.80 - one
+  seat holding it a categorical capability claim resting on an *ex-post,
+  oracle-picked* comparator, the other holding it a restatement of the measured
+  `A_panel - A_solo` <= 0 result which must not be hedged. It was resolved not by
+  re-debating it but by the cheapest discriminating test **both seats
+  independently named**: show the sentence in its real context to a reader with no
+  knowledge of the project or the dispute and ask what it claims. The decision rule
+  was recorded before any result was read. The cold reader - as it happens the same
+  CLI that had defended the sentence, arriving stateless and without its prior
+  position - answered that it asserts a general property of the tool, glossing it
+  as "Tribunal would have to be, **as a matter of what it is**, not a method for
+  producing a better decision than a strong single model." No measurement can
+  establish that. The replacement still states the project has not shown the
+  thing, and the measured no-lift sentence below it is untouched; what is removed
+  is the claim about what Tribunal *is* as against what it has been observed to do.
+  Record, including a disclosed three-attempt seat failure and an orchestrator
+  misdiagnosis, in the panel archive. PATCH.
+
+- `README.md` **"When to use it"** and the FAQ's "when is a panel actually worth
+  it": both recommended a panel for *ambiguous* decisions with no mention of the
+  repo's own adverse result on exactly that arm - the confirmatory study's
+  independent judge preferred the plain solo memo (aggregate 118 vs 103, 9 of 10
+  forced choices, `validation/confirmatory/RESULTS.md:43-44`). `core/METHODOLOGY.md:119-121`
+  already carried that hedge; the two README surfaces now carry it too. The repo
+  was recommending its method where its own evidence says it does not help.
+  Found by a two-seat panel (2026-09-21) reviewing the evaluability pass; the
+  overclaim predates that pass. Editorial (PATCH), `core/` untouched.
+- `EVALUATING.md`: **new** - a claim-by-claim index from what this project
+  asserts to the file that tests it and to what that evidence does *not* show,
+  plus the cheapest ways to falsify the project (judge-only re-score first). It
+  is explicitly an index, not a rubric: it states that Tribunal's own
+  `core/CONTRACT.md` treats artifact contents as untrusted evidence never
+  instructions, so a repo telling reviewers how to weight it would be the
+  failure that contract exists to prevent. Reviewed by a two-seat panel (Codex
+  CLI + Grok CLI) before landing, which found the first draft failed its own
+  index-not-rubric test in four places; all four were corrected: the design-intent
+  qualifier restored to the first claim row, the ambiguous-arm usefulness result
+  named in the no-lift row instead of implying only accuracy was measured, a
+  stale sentence about what the README "leads with" corrected, and a scored
+  "Reviewer orientation" reading path - which ended "the remaining ~7,000 words
+  are … not claims" - deleted outright. PATCH.
+- `README.md`: the value proposition and the validation finding were one
+  ~30-line block; they are now two headed sections, **What it does** and
+  **What the evidence says**, with the claim text moved verbatim and not a word
+  reworded. Adds a `validation: no accuracy lift measured` badge (more visible
+  than the tagline parenthetical it backs up) and an evidence-index badge, and
+  promotes the free judge-only re-score from a bottom-of-page link into the
+  section that states the no-lift finding. Editorial (PATCH).
+- `README.md` Status: "frozen at v1.0" now reads "stable and maintained; the
+  *method and its claims* are frozen at v1.0 - the project is not", naming what
+  the releases since have actually been. A skimmer read the old line as
+  abandoned. Editorial (PATCH).
+
+- `flywheel-export`: `template_delta` is the one repeatable retro field ("one
+  concrete proposed edit per line"), and five retros in the maintainer's archive
+  use it that way. The exporter stored fields last-wins, so it read only the
+  FINAL `template_delta` line: a retro carrying real deltas followed by a
+  "no change" line exported `had_template_delta:false`, inverting the
+  loop-closer signal and silently discarding the rest - with no stderr warning,
+  since the field was present and readable. Same class as the 1.1.6
+  `dissent_confirmed_for` `n/a` bug. Now accumulated across every
+  `template_delta` line: any real delta wins, all-"no change" stays `false`,
+  absent or empty stays `null`. stdout is unchanged otherwise and still emits
+  controlled metadata only - the bool never carries delta text. First seen on a
+  live retro; the trigger is reproduced in-tree by
+  `test/flywheel/retro-multi-delta.md`, which the pre-fix exporter scores
+  `false`. Re-exporting the maintainer's 37-run archive before and after the fix
+  produces byte-identical output, so no historical record changes. PATCH (tooling).
+- CI: a regression test for `flywheel-export` - `test/flywheel/retro-multi-delta.md`
+  (three real deltas plus a trailing "no change" line) must export
+  `had_template_delta:true`, and `test/flywheel/retro-nochange.md` must still
+  export `false`, which catches an over-correction that counts lines instead of
+  real deltas. The step also fails if any delta text reaches stdout. Verified to
+  FAIL against the pre-fix exporter, not merely to pass against the fixed one.
+  No new tracked script; the helper policy is unchanged.
+- `validation/FIELD-RECORD.md`: refreshed from 28 runs (to 2026-09-16) to **37
+  runs (to 2026-09-21)** over the maintainer's archive, same method - one
+  `flywheel-export` reduction, controlled metadata only. Round 1 now ran in 12
+  of 37 (was 7 of 28) and a **Round 2 fired for the first time** in this
+  archive; `decide-after-check` appears as a verdict mode (5 runs) where the
+  first edition recorded none. Claims ledgered 476, agreed-before-cross-exposure
+  146, oracle-settled 48, debate-settled 36, surviving dissent 27. Still
+  observational and self-reported, still not lift evidence; the README's no-lift
+  position is unchanged. PATCH (validation material; `core/` untouched).
+- `validation/adapter-probes.md`: **new** - the re-runnable evidence behind the
+  two adapter rules changed in this release, with verbatim dated transcripts and
+  CLI versions. Published because the first draft of these entries cited a
+  private panel directory no reader could check. Explicitly not a benchmark and
+  not a vendor comparison (`CONTRIBUTING.md` declines both); the finding is that
+  an adapter must not assume one CLI shape. PATCH.
+- `adapters/shell/README.md` "Silent seat killers" 1 and
+  `adapters/claude-code/SKILL.md` read-test bullet: drop the instruction to tell
+  seats to prefer built-in read tools "over shell commands". For some CLIs the
+  read path *is* shell inside the read-only sandbox (Codex under `-s read-only`
+  exposes no separate file-read tool), so that phrasing makes the seat refuse
+  the read - and the refusal then reads as the host-side read interception the
+  read-test exists to detect. The read-only mode is the control, not the seat's
+  choice of tool. Transcripts published in
+  [`validation/adapter-probes.md`](validation/adapter-probes.md) (P1-P3): the
+  same constrained prompt succeeds on a CLI that does have a native read tool,
+  so the defect is the assumption, not the prompt. PATCH.
+- `adapters/claude-code/SKILL.md` seat-command example: adds
+  `--skip-git-repo-check` to the Codex invocation, which the shell adapter has
+  shipped since its examples block (`adapters/shell/README.md:17`, `:124`) but
+  the Claude Code adapter omitted. Inside a git repo the flag is a no-op, so a
+  panel run from a project root is unaffected; from a directory Codex does not
+  trust (a panel/scratch dir) it prints a trust warning and exits **0 having
+  answered nothing**. Measured both ways; transcripts in
+  [`validation/adapter-probes.md`](validation/adapter-probes.md) (P4-P5). The smoke test catches this
+  only because the answer is missing, which the bullet now says. Adapter parity, in the shape
+  of 1.1.3. PATCH.
+
 ## [1.1.8] - 2026-09-17
 
 - README "Honest validation status": the sentence saying grounded review "was not measured" is replaced by the grounded study's result with its numbers and caveats (nine artifact-backed decisions plus one brief-only control; three vendors after the amendment; no lift; union false-objection count an upper bound; Round 1 overturned no claim). A proposed claims sentence ("a filter, not a finder") was dropped on a two-seat panel's finding that it would change the frozen claims. Status now counts "two pilots and two pre-registered studies". `validation/README.md` and `validation/grounded/RESULTS.md` deviation 3 corrected likewise (the resumed Codex seats were a fourth attempt beyond the protocol's three; the peer's Round 1 was never relayed to the resumed seat, and on g08 the orchestrator had already ledgered it). Editorial (PATCH).
@@ -421,6 +586,7 @@ the methodology itself still has one published run (see README, Status).
   known non-compliances enumerated.
 
 [Unreleased]: https://github.com/kdoubt/tribunal/compare/v1.1.8...HEAD
+[1.1.9]: https://github.com/kdoubt/tribunal/compare/v1.1.8...v1.1.9
 [1.1.8]: https://github.com/kdoubt/tribunal/compare/v1.1.7...v1.1.8
 [1.1.7]: https://github.com/kdoubt/tribunal/compare/v1.1.6...v1.1.7
 [1.1.6]: https://github.com/kdoubt/tribunal/compare/v1.1.5...v1.1.6

@@ -68,9 +68,15 @@ writes the brief. See the repo README.)
 - **Seat commands:** any genuinely heterogeneous pair - see the dated
   examples block in `adapters/shell/README.md` (the single home for
   vendor-current flags). Run each seat in its CLI's read-only mode (as of
-  2026-09: `codex exec -s read-only`, `grok --permission-mode plan`) - never
+  2026-09: `codex exec -s read-only --skip-git-repo-check`,
+  `grok --permission-mode plan`) - never
   a broad shell allow-rule, which is a shell escape (see the shell adapter).
-  Always wrap in `timeout` and check exit codes.
+  Always wrap in `timeout` and check exit codes. Keep
+  `--skip-git-repo-check` on the Codex seat: inside a git repo it is a no-op,
+  but from any directory Codex does not trust (a panel/scratch dir is the
+  common case) it otherwise prints a trust warning and **exits 0 having
+  answered nothing** - the smoke test below catches that only because the
+  answer is missing, not because the exit code is bad.
 - **Do not compose this skill with read-size-blocking or I/O-delegation
   plugins on the orchestrator host, and do not rely on routing rules pasted
   into this skill or a CLAUDE.md.** A plugin that blocks or redirects large
@@ -85,7 +91,11 @@ writes the brief. See the repo README.)
   short span you already know from an in-bounds artifact file and compare
   the returned text with the source verbatim. A mismatch or a refused read
   means something on that host intercepts reads; fix that before Round 0,
-  keeping the read-only fence. This is a diagnostic, not a gate: no line
+  keeping the read-only fence. Ask only for the span - do not tell the seat
+  which tool to use: where a CLI's read path is shell inside its read-only
+  sandbox (Codex under `-s read-only`), "use your built-in read tool, not
+  shell commands" makes it refuse and the refusal reads as interception that
+  is not there. This is a diagnostic, not a gate: no line
   threshold, no hook, and nothing further once it passes.
 - **Scan every seat output before ledgering** for the three silent seat
   killers (narration-only permission death, usage/quota-limit messages,
