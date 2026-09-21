@@ -16,11 +16,11 @@ reconstruct that.
 
 | Claim | Where it is made | Evidence | What the evidence does **not** show |
 |---|---|---|---|
-| A panel produces an adversarial counter-case, a discriminating test, and a hedge on contested calls | `README.md` opening; `core/METHODOLOGY.md` "When to convene" | Design rationale + [`examples/`](examples/) worked runs | That it out-*decides* a strong single model. Two pre-registered studies found **no accuracy lift** |
+| A panel is *designed* to give you an adversarial counter-case, a discriminating test, and a hedge on contested calls | `README.md` opening; `core/METHODOLOGY.md` "When to convene" | Design rationale + [`examples/`](examples/) worked runs | That it out-*decides* a strong single model. Two pre-registered studies found **no accuracy lift** |
 | Only pre-exposure agreement counts as consensus | `core/CONTRACT.md` ob. 7; `core/LEDGER.md` `agreed-r0`; `core/VERDICT.md` bucket 1 | Normative text, enforced by the adapters' Round 0 isolation | That isolation changes outcomes. Untested as an isolated variable |
 | Disputes route to oracles rather than more debate | `core/METHODOLOGY.md` Round 1; `core/CONTRACT.md` ob. 5 | [`validation/FIELD-RECORD.md`](validation/FIELD-RECORD.md): 48 oracle-settled claims vs 36 debate-settled across 37 runs | A ratio - the two sums come from different reporting subsets |
 | Dissent survives into the verdict | `core/VERDICT.md` bucket 3 | FIELD-RECORD: 27 surviving-dissent claims across 15 runs | That preserved dissent was *useful*. Scored outcomes: dissent proved right 2, wrong 4 |
-| **No accuracy lift over a strong single model** | `README.md` Status | [`validation/confirmatory/RESULTS.md`](validation/confirmatory/RESULTS.md) (pre-registered, n=20, independent judge) and [`validation/grounded/RESULTS.md`](validation/grounded/RESULTS.md) (pre-registered, 10 decisions on real artifacts) | That a panel is worthless - the studies measure accuracy, not the counter-case or the hedge. Both disclose execution deviations |
+| **No accuracy lift over a strong single model** | `README.md` Status | [`validation/confirmatory/RESULTS.md`](validation/confirmatory/RESULTS.md) (pre-registered, n=20, independent judge) and [`validation/grounded/RESULTS.md`](validation/grounded/RESULTS.md) (pre-registered, 10 decisions on real artifacts) | That the counter-case or hedge is worthless - those were not scored. But usefulness **was** scored on the ambiguous arm and went **against** the panel: the independent judge preferred the solo memo, aggregate 118 vs 103, 9 of 10 forced choices (`validation/confirmatory/RESULTS.md:43-44`). Both studies disclose execution deviations |
 | Frontier seats mostly agree, so debate rarely runs | `README.md`; `core/METHODOLOGY.md` | Confirmatory study: seats diverged on 1 of 20. FIELD-RECORD: Round 1 ran in 12 of 37 operator runs | That the two rates measure the same thing. They do not, and FIELD-RECORD says so |
 | The adapters' operational rules are earned, not assumed | `adapters/` | [`validation/adapter-probes.md`](validation/adapter-probes.md): dated, re-runnable CLI transcripts | Anything about model quality. These are operational facts about CLI versions, not a benchmark |
 | Docs-only, no runtime to install | `README.md`; `CONTRIBUTING.md` "What will be declined" | CI-enforced: `.github/workflows/checks.yml` fails the build on any tracked application code | That a panel is *cheap*. It still needs two authenticated vendor CLIs and 20-40 minutes |
@@ -31,8 +31,9 @@ reconstruct that.
   `CONTRIBUTING.md` declines these. Seats are meant to be interchangeable.
 - **No runtime, SDK, or plugin.** The portability thesis is that documents
   survive where frameworks rot.
-- **No accuracy claim.** Both studies are published with negative results and the
-  README leads with that finding rather than burying it.
+- **No accuracy claim.** Both studies are published with negative results, carried
+  in the README's `validation: no accuracy lift measured` badge and its
+  `## What the evidence says` section.
 
 ## The fastest ways to falsify this project
 
@@ -69,10 +70,11 @@ stated as a finding, not a law. What would move it:
 - Evidence that the procedural claims (isolation, grounding, preserved dissent)
   change decisions independently of accuracy. No study here isolates them.
 
-## Reviewer orientation
+## Where the material is
 
-If you have ten minutes: read `README.md` Status, then
-[`validation/README.md`](validation/README.md), then this page's falsification
-list. If you have an hour: add `core/CONTRACT.md` (the normative core, 158
-lines) and one worked example under [`examples/`](examples/). The remaining
-~7,000 words are methodology depth and run archives, not claims.
+`README.md` `## What the evidence says` and `## Status` carry the claims.
+[`validation/README.md`](validation/README.md) indexes the studies.
+`core/CONTRACT.md` (158 lines) is the normative core; `core/METHODOLOGY.md`
+(3,848 words) is the reasoning behind it and contains claims of its own -
+including the ambiguous-arm result above, at lines 24-26. Run archives are under
+[`validation/`](validation/) and [`examples/`](examples/).

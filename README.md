@@ -108,7 +108,9 @@ High-stakes, ambiguous, or irreversible decisions: architecture calls,
 security boundaries, migrations, "is this even the right design." A panel
 costs several model invocations and minutes of wall-clock per round -
 spend it only where the expected loss of deciding wrong justifies it (see
-`core/METHODOLOGY.md`, "When to convene").
+`core/METHODOLOGY.md`, "When to convene"). On the *ambiguous* half of that
+list, expect a preserved counter-case rather than a better answer: the
+confirmatory study's judge preferred the solo memo there.
 
 Skip it for anything a test, compiler, or grep can settle. The first rule
 of the methodology: **run the oracle before convening a debate.**
@@ -278,9 +280,12 @@ verbatim, and never adds its own arguments (see
 
 **Multi-agent vs single agent - when is a panel actually worth it?**
 A single strong model is cheaper and usually right; use it, plus a test
-suite. A panel pays off only when the decision is irreversible, ambiguous,
-or hard to observe going wrong - the cases where one model's confident
-blind spot is exactly the risk. Tribunal's first rule cuts the other way
+suite. A panel pays off only when the decision is irreversible or hard to
+observe going wrong - the cases where one model's confident blind spot is
+exactly the risk. On *ambiguous* calls, note the repo's own adverse result:
+an independent judge preferred the plain solo memo (aggregate 118 vs 103, 9
+of 10 forced choices - [`validation/confirmatory/RESULTS.md`](validation/confirmatory/RESULTS.md)),
+so expect a preserved counter-case there, not a better answer. Tribunal's first rule cuts the other way
 too: if a compiler, test, or grep can settle it, never convene a panel.
 
 **Why do multi-agent systems fail?**

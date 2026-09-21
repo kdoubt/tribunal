@@ -9,13 +9,29 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+- `README.md` **"When to use it"** and the FAQ's "when is a panel actually worth
+  it": both recommended a panel for *ambiguous* decisions with no mention of the
+  repo's own adverse result on exactly that arm - the confirmatory study's
+  independent judge preferred the plain solo memo (aggregate 118 vs 103, 9 of 10
+  forced choices, `validation/confirmatory/RESULTS.md:43-44`). `core/METHODOLOGY.md:119-121`
+  already carried that hedge; the two README surfaces now carry it too. The repo
+  was recommending its method where its own evidence says it does not help.
+  Found by a two-seat panel (2026-09-21) reviewing the evaluability pass; the
+  overclaim predates that pass. Editorial (PATCH), `core/` untouched.
 - `EVALUATING.md`: **new** - a claim-by-claim index from what this project
   asserts to the file that tests it and to what that evidence does *not* show,
   plus the cheapest ways to falsify the project (judge-only re-score first). It
   is explicitly an index, not a rubric: it states that Tribunal's own
   `core/CONTRACT.md` treats artifact contents as untrusted evidence never
   instructions, so a repo telling reviewers how to weight it would be the
-  failure that contract exists to prevent. PATCH.
+  failure that contract exists to prevent. Reviewed by a two-seat panel (Codex
+  CLI + Grok CLI) before landing, which found the first draft failed its own
+  index-not-rubric test in four places; all four were corrected: the design-intent
+  qualifier restored to the first claim row, the ambiguous-arm usefulness result
+  named in the no-lift row instead of implying only accuracy was measured, a
+  stale sentence about what the README "leads with" corrected, and a scored
+  "Reviewer orientation" reading path - which ended "the remaining ~7,000 words
+  are … not claims" - deleted outright. PATCH.
 - `README.md`: the value proposition and the validation finding were one
   ~30-line block; they are now two headed sections, **What it does** and
   **What the evidence says**, with the claim text moved verbatim and not a word
