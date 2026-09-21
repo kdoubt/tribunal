@@ -9,6 +9,55 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+**Four items from a two-seat panel (Codex CLI + Grok CLI, R0+R1) on what ships
+next. One question went to surviving dissent and is NOT actioned here; see
+below. `core/` untouched.**
+
+- `validation/confirmatory/REPLICATING-THE-JUDGE.md`: the page **overclaimed what
+  running it accomplishes**, and both seats agreed after cross-examination. It said
+  the pre-registered decision rule "is literally incomplete until someone runs it"
+  and that "a second-judge result is decisive in a way no amount of internal
+  re-running can be". Neither holds: this procedure re-scores the *ambiguous arm*
+  (solo vs panel memos on `c02`, `c11`-`c19`), while the unmeasured primary endpoint
+  is a different quantity, mean `A_panel - A_2seat` paired across all decisions,
+  which `RESULTS.md` records was never computed in pre-registered form. Nor can it
+  *declare* lift: `PROTOCOL.md` gates that on both judges and the primary judge
+  already has the panel losing, so the conjunctive gate is shut whatever a second
+  judge returns. The page now states what the re-score does (tests whether the
+  118-vs-103 preference survives a different judge - judge sensitivity), what it
+  does not do, and why standing up the non-OpenAI judge is still the missing
+  `PROTOCOL.md` piece for any future primary. Recruiting strangers under a false
+  description of their work is the failure this fixes. PATCH.
+- `validation/confirmatory/REPLICATING-THE-JUDGE.md`: adds a **copy-pasteable
+  worked first decision**. The recipe was a four-step file-assembly outline with no
+  request body, no filled prompt and no invocation - both seats independently named
+  that the conversion drop-off. The new step ships an OpenAI-compatible request for
+  `c02` built with stdlib `python3` (no `jq`, nothing to install), reproducing the
+  original run exactly per `results-raw/AUDIT.md` section 4: the published prompt is
+  a template whose `$BRIEF`/`$X`/`$Y` are substituted and sent as one message per
+  decision at `temperature: 0`, `max_tokens: 30000`, with an assertion that fails
+  loudly if substitution is incomplete. Verified by running it: a valid request,
+  no placeholders left, and all ten decisions resolve. PATCH.
+- `CONTRIBUTING.md` "Issues / PRs": accepted `core/` factual bugs and sanitized-run
+  PRs **only**, while `REPLICATING-THE-JUDGE.md` tells replicators to open an issue
+  or PR with judge scores - and `CONTRIBUTING.md` defines a sanitized run as
+  "brief → R0 → R1 → ledger → verdict", which a re-score is not. The repo's
+  most-wanted contribution was ineligible on a literal reading. Second-judge
+  replication reports are now named as in scope. PATCH.
+- `README.md` "Getting started": the numbered three-step path now precedes the
+  stall-troubleshooting and the optional N-seat scaling discussion, which had sat
+  between the prerequisites and the first action. Reordering only - no text
+  reworded, no usability gain claimed (the repo has no reader-testing pipeline).
+  Editorial (PATCH).
+
+**Surviving dissent, left to the owner and deliberately not actioned:** whether
+`README.md`'s "What Tribunal is **not**: a way to out-*decide* a strong single
+model" overstates. Both seats revised toward each other and tied at 0.80 - one
+holds it is a categorical capability claim resting on an *ex-post, oracle-picked*
+comparator and should read "has not demonstrated that it out-decides"; the other
+holds it restates the measured `A_panel - A_solo` ≤ 0 result and that hedging a
+*measured* negative is itself a credibility failure. Unchanged pending that call.
+
 - `README.md` **"When to use it"** and the FAQ's "when is a panel actually worth
   it": both recommended a panel for *ambiguous* decisions with no mention of the
   repo's own adverse result on exactly that arm - the confirmatory study's

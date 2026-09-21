@@ -141,24 +141,6 @@ one prerequisite is two *seat* CLIs from different vendors, already
 authenticated (the orchestrator is a separate role - you, or a driver tool
 like Claude Code, which is then a third binary).
 
-**If a run stalls,** the usual causes are a missing or not-logged-in CLI
-(check `command -v` and re-authenticate), macOS needing GNU `timeout`
-(`brew install coreutils`), or a seat that hit a permission prompt,
-auto-cancelled it, and exited 0 with only its opening narration. Each
-adapter's README documents these silent-seat-killers and a smoke test that
-catches them before a real run.
-
-Two seats is the floor, not the ceiling. The diagram shows three, but a
-panel is any N ≥ 2 - two is the floor and the third seat is optional, added
-for the highest-stakes, most irreversible calls. The *intended* gain is 1 → 2
-(self-review to cross-vendor), with each seat past that adding diminishing
-value at linear cost - but note the [validation](validation/) caveat: in the
-confirmatory study the seats disagreed on only 1 of 20 decisions, so in practice
-the 2nd seat mostly just confirms the 1st. Scale to the stakes, not the ritual. Giving seats distinct review
-*lenses* is a separate, optional layer with its own rules (see
-`core/METHODOLOGY.md`, "Assigning lenses") - by default you name the
-surfaces in the shared brief rather than slicing one per seat.
-
 1. **Find your first panel.** From your project's root, run
    `claude -p "$(~/tribunal/scout)"` (or `codex exec` / `grok -p`, or pipe
    `~/tribunal/scout` into any agent). It reads *your* project and returns
@@ -180,6 +162,25 @@ surfaces in the shared brief rather than slicing one per seat.
    [`core/VERDICT.md`](core/VERDICT.md) open as references; read
    [`core/METHODOLOGY.md`](core/METHODOLOGY.md) in full before your first
    *high-stakes* panel.
+
+**If a run stalls,** the usual causes are a missing or not-logged-in CLI
+(check `command -v` and re-authenticate), macOS needing GNU `timeout`
+(`brew install coreutils`), or a seat that hit a permission prompt,
+auto-cancelled it, and exited 0 with only its opening narration. Each
+adapter's README documents these silent-seat-killers and a smoke test that
+catches them before a real run.
+
+Two seats is the floor, not the ceiling. The diagram shows three, but a
+panel is any N ≥ 2 - two is the floor and the third seat is optional, added
+for the highest-stakes, most irreversible calls. The *intended* gain is 1 → 2
+(self-review to cross-vendor), with each seat past that adding diminishing
+value at linear cost - but note the [validation](validation/) caveat: in the
+confirmatory study the seats disagreed on only 1 of 20 decisions, so in practice
+the 2nd seat mostly just confirms the 1st. Scale to the stakes, not the ritual. Giving seats distinct review
+*lenses* is a separate, optional layer with its own rules (see
+`core/METHODOLOGY.md`, "Assigning lenses") - by default you name the
+surfaces in the shared brief rather than slicing one per seat.
+
 
 ## Staying current
 
