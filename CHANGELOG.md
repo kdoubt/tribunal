@@ -60,13 +60,25 @@ where the repo's own study found the solo memo preferred.
   reworded, no usability gain claimed (the repo has no reader-testing pipeline).
   Editorial (PATCH).
 
-**Surviving dissent, left to the owner and deliberately not actioned:** whether
-`README.md`'s "What Tribunal is **not**: a way to out-*decide* a strong single
-model" overstates. Both seats revised toward each other and tied at 0.80 - one
-holds it is a categorical capability claim resting on an *ex-post, oracle-picked*
-comparator and should read "has not demonstrated that it out-decides"; the other
-holds it restates the measured `A_panel - A_solo` ≤ 0 result and that hedging a
-*measured* negative is itself a credibility failure. Unchanged pending that call.
+- `README.md`: "What Tribunal is **not**: a way to out-*decide* a strong single
+  model" now reads "What Tribunal has **not demonstrated**: that it out-*decides*
+  a strong single model". A two-seat panel deadlocked on this at 0.80/0.80 - one
+  seat holding it a categorical capability claim resting on an *ex-post,
+  oracle-picked* comparator, the other holding it a restatement of the measured
+  `A_panel - A_solo` <= 0 result which must not be hedged. It was resolved not by
+  re-debating it but by the cheapest discriminating test **both seats
+  independently named**: show the sentence in its real context to a reader with no
+  knowledge of the project or the dispute and ask what it claims. The decision rule
+  was recorded before any result was read. The cold reader - as it happens the same
+  CLI that had defended the sentence, arriving stateless and without its prior
+  position - answered that it asserts a general property of the tool, glossing it
+  as "Tribunal would have to be, **as a matter of what it is**, not a method for
+  producing a better decision than a strong single model." No measurement can
+  establish that. The replacement still states the project has not shown the
+  thing, and the measured no-lift sentence below it is untouched; what is removed
+  is the claim about what Tribunal *is* as against what it has been observed to do.
+  Record, including a disclosed three-attempt seat failure and an orchestrator
+  misdiagnosis, in the panel archive. PATCH.
 
 - `README.md` **"When to use it"** and the FAQ's "when is a panel actually worth
   it": both recommended a panel for *ambiguous* decisions with no mention of the

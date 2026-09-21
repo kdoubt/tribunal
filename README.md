@@ -80,7 +80,7 @@ held in this evidence, resting on a single soft data point - a supported design
 rationale, not an established property; on ambiguous ones the panel's extra
 output was judged no better (sometimes worse).
 
-What Tribunal is **not**: a way to out-*decide* a strong single model. Its own
+What Tribunal has **not demonstrated**: that it out-*decides* a strong single model. Its own
 [validation](validation/) - two pilots plus a pre-registered study labeled
 "confirmatory" at n=20 with an independent judge (a fourth model, OpenAI-lineage;
 executed with disclosed deviations) - observed **no accuracy lift.** The frontier
