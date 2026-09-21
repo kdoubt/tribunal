@@ -57,8 +57,12 @@ be caught by *reading* the output, not by exit codes:
    tool-approval prompt, auto-cancels it, and exits 0 with only its
    opening narration ("I'll read the files…" and nothing else).
    Run seats in the CLI's read-only mode (above) so built-in read tools
-   need no approval, and tell seats to prefer those tools over shell
-   commands. Do not fix this with a broad shell allow-rule (see the
+   need no approval. Do **not** instruct a seat to avoid shell: for some
+   CLIs the read path *is* shell inside the read-only sandbox (Codex under
+   `-s read-only` has no separate file-read tool), so "use your built-in
+   read tool, not shell commands" makes that seat refuse the read outright.
+   The read-only mode is the control, not the seat's choice of tool.
+   Do not fix this with a broad shell allow-rule (see the
    `Bash(git *)` warning above). Some CLIs
    also accept the prompt from a file (e.g. Grok's `--prompt-file`),
    which avoids argv size/visibility limits.

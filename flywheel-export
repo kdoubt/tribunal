@@ -49,6 +49,13 @@ emit_one() {
       k=$0; sub(/:.*/,"",k);
       v=$0; sub(/^[a-z0-9_]+:[ \t]*/,"",v); v=decomment(v);
       store[k]=v; seenkeys=seenkeys "|" k "|";
+      # template_delta is the ONE repeatable field: the retro template asks for
+      # "one concrete proposed edit per line", so a run can carry several. Plain
+      # store[] is last-wins, which read only the final line - a retro with real
+      # deltas followed by a "no change" line exported had_template_delta:false
+      # and silently discarded the rest. Accumulate instead: ANY real delta wins.
+      if (k=="template_delta" && v!="") {
+        td_n++; if (tolower(v) !~ /no change|no-change|none/) td_real++ }
     }
     END {
       vm=tolower(store["verdict_mode"]);
@@ -84,8 +91,9 @@ emit_one() {
           if (index(seen,"|"vv"|")==0){ seen=seen "|"vv"|"; vend=vend (vend==""?"":",") "\"" vv "\"" } }
       }
 
-      td=tolower(store["template_delta"]);
-      if (td=="") hd="NULL"; else if (td ~ /no change|no-change|none/) hd="false"; else hd="true";
+      # had_template_delta is a BOOL over every template_delta line in the file
+      # (see the accumulator above); no delta text is ever emitted.
+      if (td_n==0) hd="NULL"; else if (td_real>0) hd="true"; else hd="false";
 
       # one compact line per record (sorted by the wrapper to de-correlate order from time)
       printf "{%s,%s,%s,\"seat_vendors\":[%s],%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s}",

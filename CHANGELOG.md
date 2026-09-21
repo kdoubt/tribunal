@@ -9,6 +9,48 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+**Three PATCH items found by running this repo's own method on it (panel
+2026-09-20, Codex CLI + Grok CLI, R0+R1). The panel's question was whether to
+adopt mechanisms from an external coordination project into `core/`; both seats
+independently answered no on every candidate, and the only defects that survived
+were in this repo's tooling and adapters. No method change; `core/` untouched.**
+
+- `flywheel-export`: `template_delta` is the one repeatable retro field ("one
+  concrete proposed edit per line"), and five retros in the maintainer's archive
+  use it that way. The exporter stored fields last-wins, so it read only the
+  FINAL `template_delta` line: a retro carrying real deltas followed by a
+  "no change" line exported `had_template_delta:false`, inverting the
+  loop-closer signal and silently discarding the rest - with no stderr warning,
+  since the field was present and readable. Same class as the 1.1.6
+  `dissent_confirmed_for` `n/a` bug. Now accumulated across every
+  `template_delta` line: any real delta wins, all-"no change" stays `false`,
+  absent or empty stays `null`. stdout is unchanged otherwise and still emits
+  controlled metadata only - the bool never carries delta text. Reproduced on a
+  real run (this panel's own retro) before the fix. PATCH (tooling).
+- CI: a regression test for `flywheel-export` - `test/flywheel/retro-multi-delta.md`
+  (three real deltas plus a trailing "no change" line) must export
+  `had_template_delta:true`, and `test/flywheel/retro-nochange.md` must still
+  export `false`, which catches an over-correction that counts lines instead of
+  real deltas. The step also fails if any delta text reaches stdout. Verified to
+  FAIL against the pre-fix exporter, not merely to pass against the fixed one.
+  No new tracked script; the helper policy is unchanged.
+- `adapters/shell/README.md` "Silent seat killers" 1 and
+  `adapters/claude-code/SKILL.md` read-test bullet: drop the instruction to tell
+  seats to prefer built-in read tools "over shell commands". For some CLIs the
+  read path *is* shell inside the read-only sandbox (Codex under `-s read-only`
+  exposes no separate file-read tool), so that phrasing makes the seat refuse
+  the read - and the refusal then reads as the host-side read interception the
+  read-test exists to detect. The read-only mode is the control, not the seat's
+  choice of tool. Documented case: a false-positive read-test on this panel's
+  own host, 2026-09-20. PATCH.
+- `adapters/claude-code/SKILL.md` seat-command example: adds
+  `--skip-git-repo-check` to the Codex invocation, which the shell adapter has
+  shipped since its examples block (`adapters/shell/README.md:17`, `:124`) but
+  the Claude Code adapter omitted. Without it Codex prints a trust warning and
+  exits **0 having answered nothing**; the smoke test catches this only because
+  the answer is missing, which the bullet now says. Adapter parity, in the shape
+  of 1.1.3. PATCH.
+
 ## [1.1.8] - 2026-09-17
 
 - README "Honest validation status": the sentence saying grounded review "was not measured" is replaced by the grounded study's result with its numbers and caveats (nine artifact-backed decisions plus one brief-only control; three vendors after the amendment; no lift; union false-objection count an upper bound; Round 1 overturned no claim). A proposed claims sentence ("a filter, not a finder") was dropped on a two-seat panel's finding that it would change the frozen claims. Status now counts "two pilots and two pre-registered studies". `validation/README.md` and `validation/grounded/RESULTS.md` deviation 3 corrected likewise (the resumed Codex seats were a fourth attempt beyond the protocol's three; the peer's Round 1 was never relayed to the resumed seat, and on g08 the orchestrator had already ledgered it). Editorial (PATCH).
