@@ -9,9 +9,19 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
-**Four items from a two-seat panel (Codex CLI + Grok CLI, R0+R1) on what ships
-next. One question went to surviving dissent and is NOT actioned here; see
-below. `core/` untouched.**
+## [1.1.9] - 2026-09-21
+
+**Everything in this release was found by running this repo's own method on
+itself - three two-seat panels (Codex CLI + Grok CLI) over 2026-09-20/21. The
+first asked whether to adopt mechanisms from an external coordination project:
+both seats rejected every candidate, and the only defects that survived were in
+this repo's own tooling, adapters, docs and evidence. Every item is PATCH and
+`core/` is untouched, so the v1.0 method freeze is not engaged.**
+
+Two findings are worth calling out because they were the repo overstating itself:
+the page it nominates as its lead asset misdescribed what running it accomplishes,
+and two README surfaces recommended a panel for *ambiguous* decisions - the one arm
+where the repo's own study found the solo memo preferred.
 
 - `validation/confirmatory/REPLICATING-THE-JUDGE.md`: the page **overclaimed what
   running it accomplishes**, and both seats agreed after cross-examination. It said
@@ -92,14 +102,6 @@ holds it restates the measured `A_panel - A_solo` ≤ 0 result and that hedging 
   *method and its claims* are frozen at v1.0 - the project is not", naming what
   the releases since have actually been. A skimmer read the old line as
   abandoned. Editorial (PATCH).
-
-## [1.1.9] - 2026-09-21
-
-**Three PATCH items found by running this repo's own method on it (panel
-2026-09-20, Codex CLI + Grok CLI, R0+R1). The panel's question was whether to
-adopt mechanisms from an external coordination project into `core/`; both seats
-independently answered no on every candidate, and the only defects that survived
-were in this repo's tooling and adapters. No method change; `core/` untouched.**
 
 - `flywheel-export`: `template_delta` is the one repeatable retro field ("one
   concrete proposed edit per line"), and five retros in the maintainer's archive
