@@ -6,6 +6,8 @@
   <a href="https://github.com/kdoubt/tribunal/actions/workflows/checks.yml"><img alt="checks" src="https://img.shields.io/github/actions/workflow/status/kdoubt/tribunal/checks.yml?branch=main&label=checks"></a>
   <img alt="Runtime: none" src="https://img.shields.io/badge/runtime-none%20·%20docs%20only-8A2BE2">
   <img alt="Adapters" src="https://img.shields.io/badge/adapters-claude--code%20·%20shell-informational">
+  <a href="validation/"><img alt="Validation: no accuracy lift measured" src="https://img.shields.io/badge/validation-no%20accuracy%20lift%20measured-orange"></a>
+  <a href="EVALUATING.md"><img alt="Evidence index" src="https://img.shields.io/badge/evidence-index-lightgrey"></a>
 </p>
 
 > A multi-agent red-team tribunal for your hardest engineering decisions:
@@ -54,13 +56,21 @@ scout project ─▶ frozen brief ─▶ ROUND 0  seats answer in isolation (par
                              ─▶ RETRO    did it hold? whose dissent was right? → template delta → next brief
 ```
 
+## What it does
+
 Built for developers who work with agentic CLIs and have no human review
 board: the panel is your reviewers. One model reviewing its own plan converges
 on its own blind spots; Tribunal forces two *different* vendors' models to take
 independent positions and cross-examine each other claim by claim. What that is
 *designed* to give you on a contested call is **an adversarial counter-case, a
 discriminating test to settle it, and a hedge**, with real disagreement preserved
-rather than averaged away. What the [validation](validation/) actually measured is
+rather than averaged away.
+
+## What the evidence says
+
+Read this before adopting it; the short version is in the orange badge above.
+
+What the [validation](validation/) actually measured is
 narrower: on *decidable* (oracle-scorable) calls the panel **matched or beat each
 fixed single vendor in those runs** - the seats diverged once in 20 decisions,
 and Round 1 resolved that split to the sealed-correct call (n=1, and a
@@ -79,6 +89,14 @@ frontier models in general - so the debate rarely even runs, and the panel
 *matches* a strong single model rather than beating it. Treat Tribunal as an
 honest, adversarial **decision-support scaffold** for irreversible calls, not an
 accuracy upgrade.
+
+Every claim above is indexed to its evidence - and to what that evidence does
+*not* show - in [`EVALUATING.md`](EVALUATING.md). The cheapest way to check the
+no-lift finding yourself is the judge-only re-score: bring your own key (a free
+tier or a local model works), **$0, no debate seats to authenticate** -
+[`validation/confirmatory/REPLICATING-THE-JUDGE.md`](validation/confirmatory/REPLICATING-THE-JUDGE.md).
+
+## Prerequisites
 
 You need two or more independently configured model/agent commands from
 *different* vendors or model families (local or hosted; subscriptions only where
@@ -239,6 +257,7 @@ core/templates/         scout, brief, per-round prompts, ledger, verdict, retro,
 examples/sample-run/    the real (historical) panel that designed the method
 examples/api-auth-jwt-vs-sessions/   a current-format run: two vendors, independent agreement, early stop
 examples/repo-monorepo-vs-polyrepo/  a current-format run: role-incentivized, full Round 1, surviving dissent
+EVALUATING.md           claims -> evidence -> limits, for reviewers
 adapters/claude-code/   run panels from Claude Code (installable skill)
 adapters/shell/         run panels from any shell - no orchestrator CLI needed
 adapters/*/             other orchestrators - codex-cli, gemini-cli, opencode, buzz (stubs)
@@ -347,7 +366,10 @@ imagined. The ten-seat pre-release review and the maintainer's operational
 runs are not published in-tree. In active use by its maintainer, Square Post
 Labs Inc.
 
-**Project status: stable; the method and its claims are frozen at v1.0.** The methodology is complete and,
+**Project status: stable and maintained; the *method and its claims* are frozen at v1.0 - the
+project is not.** Releases since that freeze have been adapter fixes, tooling fixes and
+validation material, with `core/` untouched except once (v1.1.0, a security fence); see
+[`CHANGELOG.md`](CHANGELOG.md). The methodology is complete and,
 after running its own [validation](validation/) through two pilots and two
 pre-registered studies, honestly characterized - including the finding that those runs observed
 no accuracy lift over a strong single model. It is intentionally *done*, not abandoned: no further method

@@ -9,6 +9,25 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+- `EVALUATING.md`: **new** - a claim-by-claim index from what this project
+  asserts to the file that tests it and to what that evidence does *not* show,
+  plus the cheapest ways to falsify the project (judge-only re-score first). It
+  is explicitly an index, not a rubric: it states that Tribunal's own
+  `core/CONTRACT.md` treats artifact contents as untrusted evidence never
+  instructions, so a repo telling reviewers how to weight it would be the
+  failure that contract exists to prevent. PATCH.
+- `README.md`: the value proposition and the validation finding were one
+  ~30-line block; they are now two headed sections, **What it does** and
+  **What the evidence says**, with the claim text moved verbatim and not a word
+  reworded. Adds a `validation: no accuracy lift measured` badge (more visible
+  than the tagline parenthetical it backs up) and an evidence-index badge, and
+  promotes the free judge-only re-score from a bottom-of-page link into the
+  section that states the no-lift finding. Editorial (PATCH).
+- `README.md` Status: "frozen at v1.0" now reads "stable and maintained; the
+  *method and its claims* are frozen at v1.0 - the project is not", naming what
+  the releases since have actually been. A skimmer read the old line as
+  abandoned. Editorial (PATCH).
+
 ## [1.1.9] - 2026-09-21
 
 **Three PATCH items found by running this repo's own method on it (panel
