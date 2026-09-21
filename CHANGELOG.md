@@ -25,8 +25,11 @@ were in this repo's tooling and adapters. No method change; `core/` untouched.**
   `dissent_confirmed_for` `n/a` bug. Now accumulated across every
   `template_delta` line: any real delta wins, all-"no change" stays `false`,
   absent or empty stays `null`. stdout is unchanged otherwise and still emits
-  controlled metadata only - the bool never carries delta text. Reproduced on a
-  real run (this panel's own retro) before the fix. PATCH (tooling).
+  controlled metadata only - the bool never carries delta text. First seen on a
+  live retro; the trigger is reproduced in-tree by
+  `test/flywheel/retro-multi-delta.md`, which the pre-fix exporter scores
+  `false`. Re-exporting the maintainer's 37-run archive before and after the fix
+  produces byte-identical output, so no historical record changes. PATCH (tooling).
 - CI: a regression test for `flywheel-export` - `test/flywheel/retro-multi-delta.md`
   (three real deltas plus a trailing "no change" line) must export
   `had_template_delta:true`, and `test/flywheel/retro-nochange.md` must still
@@ -34,6 +37,21 @@ were in this repo's tooling and adapters. No method change; `core/` untouched.**
   real deltas. The step also fails if any delta text reaches stdout. Verified to
   FAIL against the pre-fix exporter, not merely to pass against the fixed one.
   No new tracked script; the helper policy is unchanged.
+- `validation/FIELD-RECORD.md`: refreshed from 28 runs (to 2026-09-16) to **37
+  runs (to 2026-09-21)** over the maintainer's archive, same method - one
+  `flywheel-export` reduction, controlled metadata only. Round 1 now ran in 12
+  of 37 (was 7 of 28) and a **Round 2 fired for the first time** in this
+  archive; `decide-after-check` appears as a verdict mode (5 runs) where the
+  first edition recorded none. Claims ledgered 476, agreed-before-cross-exposure
+  146, oracle-settled 48, debate-settled 36, surviving dissent 27. Still
+  observational and self-reported, still not lift evidence; the README's no-lift
+  position is unchanged. PATCH (validation material; `core/` untouched).
+- `validation/adapter-probes.md`: **new** - the re-runnable evidence behind the
+  two adapter rules changed in this release, with verbatim dated transcripts and
+  CLI versions. Published because the first draft of these entries cited a
+  private panel directory no reader could check. Explicitly not a benchmark and
+  not a vendor comparison (`CONTRIBUTING.md` declines both); the finding is that
+  an adapter must not assume one CLI shape. PATCH.
 - `adapters/shell/README.md` "Silent seat killers" 1 and
   `adapters/claude-code/SKILL.md` read-test bullet: drop the instruction to tell
   seats to prefer built-in read tools "over shell commands". For some CLIs the
@@ -41,15 +59,18 @@ were in this repo's tooling and adapters. No method change; `core/` untouched.**
   exposes no separate file-read tool), so that phrasing makes the seat refuse
   the read - and the refusal then reads as the host-side read interception the
   read-test exists to detect. The read-only mode is the control, not the seat's
-  choice of tool. Documented case: a false-positive read-test on this panel's
-  own host, 2026-09-20. PATCH.
+  choice of tool. Transcripts published in
+  [`validation/adapter-probes.md`](validation/adapter-probes.md) (P1-P3): the
+  same constrained prompt succeeds on a CLI that does have a native read tool,
+  so the defect is the assumption, not the prompt. PATCH.
 - `adapters/claude-code/SKILL.md` seat-command example: adds
   `--skip-git-repo-check` to the Codex invocation, which the shell adapter has
   shipped since its examples block (`adapters/shell/README.md:17`, `:124`) but
   the Claude Code adapter omitted. Inside a git repo the flag is a no-op, so a
   panel run from a project root is unaffected; from a directory Codex does not
   trust (a panel/scratch dir) it prints a trust warning and exits **0 having
-  answered nothing**. Measured both ways 2026-09-20. The smoke test catches this
+  answered nothing**. Measured both ways; transcripts in
+  [`validation/adapter-probes.md`](validation/adapter-probes.md) (P4-P5). The smoke test catches this
   only because the answer is missing, which the bullet now says. Adapter parity, in the shape
   of 1.1.3. PATCH.
 

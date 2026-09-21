@@ -1,4 +1,4 @@
-# Field record - 28 operator runs, 2026-08-19 to 2026-09-16
+# Field record - 37 operator runs, 2026-08-19 to 2026-09-21
 
 This page reports what the maintainer's own panel archive shows after one
 month of use. It is observational and self-reported: no baseline arm, no
@@ -11,7 +11,8 @@ a real artifact as unmeasured; this record does not fill that gap.
 
 ## Source and method
 
-- 34 panel directories, 28 with a `retro.md`. The 28 were reduced with
+- 37 panel directories with a `retro.md`, refreshed 2026-09-21 (the first
+  edition of this page covered 28 runs to 2026-09-16). The 37 were reduced with
   `flywheel-export` (the schema in [`data/README.md`](../data/README.md)), and
   every number in the table is a count over that export. The export carries
   no dates, claim text, question text, or paths; the date range in the title
@@ -32,46 +33,50 @@ a real artifact as unmeasured; this record does not fill that gap.
 
 | Measure | Value | Runs reporting |
 |---|---|---|
-| Rounds run | R0 only 21, R0+R1 7 | 28 |
-| Seats per run | 2 seats 14, 3 seats 9, 4 to 10 seats 5 | 28 |
-| Vendor mix | Codex and Grok together in 24 of 28; a Claude seat in 9; a local model in 5 | 28 |
-| Verdict mode | ship 24, dont 3, human-call 1 | 28 |
-| Claims ledgered | 256 | 16 |
-| Claims agreed before cross-exposure | 50 | 12 |
-| Claims disputed | 39; 9 runs had at least one, and 2 of those 9 stayed at R0 | 12 |
-| Claims conceded in Round 1 | 29 | 11 |
-| Claims overturned | 11; 7 runs had at least one | 12 |
-| Claims settled by an oracle | 15; 10 runs had at least one | 13 |
-| Claims settled by debate | 27; 6 runs had at least one | 11 |
-| Surviving dissent | 19 claims; 10 runs had at least one | 23 |
-| Citations dropped as out of bounds | 2, in 1 run; unverified citations 0 | 12 |
-| Seat deaths | 14, across 8 runs | 28 |
-| Template delta produced | 18 of 28 runs | 28 |
-| T1 outcome: verdict held | yes 14, no 1, no-signal 5, null 8 | 20 |
-| Surviving dissent proved right | yes 2, no 3 | 5 |
+| Rounds run | R0 only 25, R0+R1 11, R0+R1+R2 1 | 37 |
+| Seats per run | 2 seats 18, 3 seats 13, 4 to 10 seats 6 | 37 |
+| Vendor mix | Codex and Grok together in 33 of 37; a Claude seat in 14; a local model in 5 | 37 |
+| Verdict mode | ship 27, decide-after-check 5, dont 3, human-call 1, other 1 | 37 |
+| Claims ledgered | 476 | 25 |
+| Claims agreed before cross-exposure | 146 | 21 |
+| Claims disputed | 73; 16 runs had at least one, and 6 of those 16 stayed at R0 | 21 |
+| Claims conceded in Round 1 | 53; 10 runs had at least one | 20 |
+| Claims overturned | 21; 12 runs had at least one | 21 |
+| Claims settled by an oracle | 48; 18 runs had at least one | 22 |
+| Claims settled by debate | 36; 8 runs had at least one | 20 |
+| Surviving dissent | 27 claims; 15 runs had at least one | 32 |
+| Citations dropped as out of bounds | 2, in 1 run; unverified citations 9, in 3 runs | 21 |
+| Seat deaths | 16, across 10 runs | 37 |
+| Template delta produced | 27 of 37 runs | 37 |
+| T1 outcome: verdict held | yes 15, no 1, no-signal 5, null 16 | 21 |
+| Surviving dissent proved right | yes 2, no 4 | 6 |
 
 ## Reading it beside the confirmatory study
 
 - **Round 1 use.** In the confirmatory study "seats disagreed on 1 of 20
-  decisions", so Round 1 ran once (RESULTS, Headline). Here Round 1 ran in 7
-  of 28 runs, and 9 of the 12 runs reporting disputed-claim counts recorded at
-  least one disputed claim (2 of those 9 stayed at R0). The study's seats
+  decisions", so Round 1 ran once (RESULTS, Headline). Here Round 1 ran in 12
+  of 37 runs (a Round 2 fired once, the first in this archive), and 16 of the
+  21 runs reporting disputed-claim counts recorded at least one disputed claim
+  (6 of those 16 stayed at R0). The study's seats
   "reasoned from model knowledge" with tools unused (RESULTS, Limitations).
   The two rates are quoted, not equated: they count different things (vendor
   disagreement on a sealed decision set; rounds run on mixed live and
   self-review briefs, with 2 to 10 seats), and this record does not show that
   the extra round produced a better call.
-- **Oracle use.** 15 claims were settled by an oracle (10 of 13 runs
-  reporting) and 27 by cross-examination (6 of 11). The "route disputes to
+- **Oracle use.** 48 claims were settled by an oracle (18 of 22 runs
+  reporting) and 36 by cross-examination (8 of 20). The "route disputes to
   oracles" rule is used, not merely stated; the two sums come from different
   reporting subsets and are not a ratio.
-- **Seat deaths.** 8 of 28 runs lost at least one seat attempt (14 deaths).
+- **Seat deaths.** 10 of 37 runs lost at least one seat attempt (16 deaths).
+  Two further near-misses in the 2026-09-20 run were configuration faults, not
+  vendor failures, and are published with their transcripts in
+  [`adapter-probes.md`](adapter-probes.md).
   RESULTS ("The operational tax") reports one vendor's narration-death "on 10
   of 10 known-answer decisions". Those two figures are not a comparable rate,
   and the export records no cause, adapter version, or consequence, so this
   page does not say why they differ.
-- **Outcomes.** 14 of 15 scored outcomes held (yes 14, no 1), with 5
-  no-signal and 8 null. Fifteen orchestrator-stamped outcomes are a weak
+- **Outcomes.** 15 of 16 scored outcomes held (yes 15, no 1), with 5
+  no-signal and 16 null. Sixteen orchestrator-stamped outcomes are a weak
   signal. [`PROTOCOL.md`](PROTOCOL.md) sets "~20+ with real-world outcomes"
   as the bar for "validated" and has scoring "done by an independent scorer";
   a self-graded n=15 is neither.

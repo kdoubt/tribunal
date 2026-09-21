@@ -31,6 +31,12 @@ that there is no lift and say so.
   ran in 7 of 28 exported runs against 1 of 20 in the study, without treating
   those rates as the same measurement.
 
+- [`adapter-probes.md`](adapter-probes.md) - the **re-runnable probes behind the
+  adapter rules**: dated vendor-CLI transcripts (a seat whose read path is shell
+  refusing a "don't use shell" read-test; a silent exit-0 outside a trusted
+  directory). Operational evidence for `adapters/`, not lift evidence and not a
+  benchmark; carries no panel content, so the transcripts are verbatim.
+
 - [`grounded/`](grounded/) - the **pre-registered grounded ablation**: ten
   decisions from the maintainer's archive with known outcomes (nine on real
   artifacts, one brief-only control), three vendors after Amendment 1
