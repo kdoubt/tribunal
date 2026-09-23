@@ -9,6 +9,51 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+## [1.1.10] - 2026-09-23
+
+**The designated second judge has been run.** `validation/confirmatory/PROTOCOL.md`
+named "a non-OpenAI second judge (Meta Llama or Alibaba Qwen via the gateway)" as the
+designated upgrade, "to be added when a gateway key is available". It never was. It has
+now been executed in the pre-registered form. Every item below is PATCH; `core/` is
+untouched and no tagged table or published tag was modified. Reviewed by a two-seat
+panel (local gpt-oss + Grok CLI) before landing; its wording requirements were applied.
+
+- `validation/confirmatory/SECOND-JUDGE.md`: **new** - the designated non-OpenAI second
+  judge (Alibaba Qwen family via a hosted gateway; temperature 0; the published inputs,
+  blinding record and verbatim rubric; one call per decision) re-scored the same ten
+  ambiguous decisions. **Forced-choice agreement with the primary judge: 9 of 10**, the
+  single divergence being `c11` (primary `tie`, second `solo`); both judges record
+  panel 0. The page states in its first screen that this does **not** compute or
+  complete the pre-registered primary endpoint (`A_panel - A_2seat`, never measured as
+  pre-registered), does **not** declare lift (PROTOCOL's conjunctive gate was already
+  closed by the primary judge), and does **not** refute lift with new force - the last
+  being the v1.1.9 overclaim, deliberately not reintroduced. The README's
+  "has not demonstrated" position is unchanged. Minimal reading: the ambiguous-arm
+  preference for the solo memo is not an artefact of the single judge that produced it.
+- `validation/confirmatory/results-second-judge/scores.json`: **new** - raw
+  per-decision scores, forced choices and the judge's verbatim replies, so the
+  aggregate recomputes without re-running the judge.
+- `validation/confirmatory/RESULTS.md` Limitations: records a property of the scoring
+  instrument that **nobody had noticed and that was not pre-registered** - the 0-12
+  rubric **saturates on the solo arm** (12/12 on 9 of 10 decisions for the primary
+  judge, 10 of 10 for the second). Essentially all of the aggregate difference, in both
+  judges, comes from how harshly each marks the *panel* arm; the comparison arm has
+  almost no room to move. The forced choice is therefore the informative quantity and
+  the score gap a weak magnitude estimate. Reported arithmetic is unchanged. This was
+  only visible once a second judge existed.
+- `validation/confirmatory/PROTOCOL.md`: a **dated post-run instrument note** beside the
+  judge definition, cross-referencing the above. It amends nothing - the registered
+  protocol text is byte-identical to v1.1.9 (additions only), because silently editing a
+  pre-registration to absorb a limitation found afterwards is how pre-registrations stop
+  meaning anything.
+- `validation/README.md` and `EVALUATING.md`: index the addendum, and state in the
+  "does not show" column that the second judge neither completes the primary endpoint
+  nor declares or refutes lift, and that the rubric ceiling weakens the magnitude.
+- An exploratory run by a model outside any designated family is **not** published as a
+  third confirmation. It is named in one paragraph with no scores tabulated beside the
+  two judges, so its existence is not hidden and it cannot be misread as independent
+  corroboration.
+
 ## [1.1.9] - 2026-09-21
 
 **Everything in this release was found by running this repo's own method on
@@ -586,6 +631,7 @@ the methodology itself still has one published run (see README, Status).
   known non-compliances enumerated.
 
 [Unreleased]: https://github.com/kdoubt/tribunal/compare/v1.1.8...HEAD
+[1.1.10]: https://github.com/kdoubt/tribunal/compare/v1.1.9...v1.1.10
 [1.1.9]: https://github.com/kdoubt/tribunal/compare/v1.1.8...v1.1.9
 [1.1.8]: https://github.com/kdoubt/tribunal/compare/v1.1.7...v1.1.8
 [1.1.7]: https://github.com/kdoubt/tribunal/compare/v1.1.6...v1.1.7

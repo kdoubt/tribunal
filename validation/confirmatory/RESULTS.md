@@ -102,6 +102,11 @@ panel memo, blind, by gpt-oss (both metrics):
 - **Aggregate rubric score: solo 118, panel 103 - solo wins.**
 - **Forced choice: solo 9, tie 1, panel 0.**
 
+The designated non-OpenAI second judge was run over this same arm on 2026-09-22 and
+agreed with the forced choice on **9 of 10** decisions (both judges: panel 0). It does
+not complete the primary endpoint and does not declare or refute lift - see
+[`SECOND-JUDGE.md`](SECOND-JUDGE.md).
+
 The blind mapping, verbatim judge prompt, and per-decision reconciliation are
 published in [`results-raw/AUDIT.md`](results-raw/AUDIT.md).
 
@@ -189,6 +194,16 @@ on the word "confirmatory"):
   the best single model" is against an oracle-picked best-of-two, an unfairly
   strong baseline; against a *fixed* single vendor the panel was ≥ that vendor,
   which is the honest, weaker claim.
+- **The rubric ceilings on the solo arm, so the score gap is panel-driven.** Solo
+  scored the 12/12 maximum on **9 of 10** decisions for the primary judge (solo mean
+  11.8), and on **10 of 10** for the designated second judge (solo mean 12.0). The
+  comparison arm therefore has almost no room to move: essentially all of the
+  aggregate difference - both the primary judge's 118-vs-103 and the second judge's
+  wider gap - comes from how harshly each judge marks the *panel* arm, not from any
+  movement in the solo arm. Read the **forced choice** as the informative quantity and
+  treat the score gap as a weak magnitude estimate. This was **not** pre-registered and
+  was only visible once a second judge existed; it is recorded here post hoc and
+  cross-referenced from `PROTOCOL.md`. It does not change the reported arithmetic.
 - **The pre-registered primary endpoint (`A_panel − A_2seat`) rests on n=1.** Round
   1 fired on a single decision, so the pre-registered lift criterion is untestable,
   not cleanly satisfied or refuted.

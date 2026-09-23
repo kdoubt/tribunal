@@ -59,6 +59,18 @@ bias and gives each vendor a fair shot at being the strong solo.
   designated upgrade** and will be added when a gateway key is available.
 - **Blind:** memos are stripped of arm labels, given neutral names, order
   **randomized per decision** and recorded before judging.
+
+> **Post-run instrument note, added 2026-09-22. This amends nothing above; the
+> registered protocol stands as written.** The designated non-OpenAI second judge
+> has now been run (Alibaba Qwen family via a hosted gateway) - see
+> [`SECOND-JUDGE.md`](SECOND-JUDGE.md). Running it surfaced a property of the
+> scoring instrument that was not anticipated when this protocol was registered:
+> the 0-12 rubric **saturates on the solo arm** (12/12 on 9 of 10 decisions for the
+> primary judge, 10 of 10 for the second), so aggregate score differences are driven
+> almost entirely by the panel arm and are a weak magnitude estimate. The forced
+> choice is the better-behaved quantity. Recorded here so a reader of the protocol
+> meets the caveat where the rubric is defined; the full statement is in
+> [`RESULTS.md`](RESULTS.md) Limitations.
 - **Both metrics reported** (the pilot correction): **aggregate rubric score**
   (the primary endpoint) *and* forced choice. The pilots' error was leaning on
   forced choice; here the aggregate score is primary and forced choice is
