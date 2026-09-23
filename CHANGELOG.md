@@ -9,6 +9,8 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+## [1.1.10] - 2026-09-23
+
 **The designated second judge has been run.** `validation/confirmatory/PROTOCOL.md`
 named "a non-OpenAI second judge (Meta Llama or Alibaba Qwen via the gateway)" as the
 designated upgrade, "to be added when a gateway key is available". It never was. It has
@@ -629,6 +631,7 @@ the methodology itself still has one published run (see README, Status).
   known non-compliances enumerated.
 
 [Unreleased]: https://github.com/kdoubt/tribunal/compare/v1.1.8...HEAD
+[1.1.10]: https://github.com/kdoubt/tribunal/compare/v1.1.9...v1.1.10
 [1.1.9]: https://github.com/kdoubt/tribunal/compare/v1.1.8...v1.1.9
 [1.1.8]: https://github.com/kdoubt/tribunal/compare/v1.1.7...v1.1.8
 [1.1.7]: https://github.com/kdoubt/tribunal/compare/v1.1.6...v1.1.7
