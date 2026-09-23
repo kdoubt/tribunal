@@ -2,7 +2,7 @@
 
 **Designated second-judge supplementary result - not completion of the primary
 endpoint.** On 2026-09-22 the designated non-OpenAI second judge
-(Alibaba Qwen family, `qwen/qwen3.8-27b`, via a hosted gateway; temperature 0;
+(Alibaba Qwen family, `qwen/qwen3.8-27b`, served by the Groq gateway; temperature 0;
 the published inputs, the published blinding record and the verbatim published
 rubric prompt; one call per decision) scored the same ten ambiguous decisions
 (`c02`, `c11`-`c19`) as the primary judge.
@@ -52,6 +52,10 @@ never prefers the panel. That is the whole of the claim.
   section 3, with `$BRIEF`, `$X` and `$Y` substituted and sent as one message per
   decision, matching section 4's description of the original run.
 - **Settings:** `temperature: 0`, `max_tokens: 4096`, one call per decision.
+- **Endpoint:** `POST https://api.groq.com/openai/v1/chat/completions`. Named for
+  reproducibility: this page reports what was *run*, so it pins the model and host,
+  unlike [`REPLICATING-THE-JUDGE.md`](REPLICATING-THE-JUDGE.md), which deliberately
+  pins neither because a recipe's aliases rot.
 - **Procedure:** the published recipe in
   [`REPLICATING-THE-JUDGE.md`](REPLICATING-THE-JUDGE.md), followed as written. It
   worked unmodified; the only friction was a gateway that rejects a default
