@@ -9,6 +9,18 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+## [1.1.11] - 2026-09-23
+
+- `validation/confirmatory/SECOND-JUDGE.md`: the exploratory non-designated run is now
+  **named** - TypeSafe's Jev (`jev-1.13.0`, `api.typesafe.ai`) - where v1.1.10 described
+  it only as "a model outside any designated family". The reviewing panel required that
+  it be a footnote, undesignated, not presented as a third confirmation, and (per one
+  seat) carry no numbers. It did not require anonymity; that was an over-correction when
+  v1.1.10 was written, and it left the disclosure unverifiable while the *designated*
+  judge's model and host were pinned two sections earlier on explicit reproducibility
+  grounds. Scores remain untabulated - what is withheld is the weight its numbers would
+  carry, not its identity. Editorial (PATCH); `core/` untouched.
+
 ## [1.1.10] - 2026-09-23
 
 **The designated second judge has been run.** `validation/confirmatory/PROTOCOL.md`
@@ -631,6 +643,7 @@ the methodology itself still has one published run (see README, Status).
   known non-compliances enumerated.
 
 [Unreleased]: https://github.com/kdoubt/tribunal/compare/v1.1.8...HEAD
+[1.1.11]: https://github.com/kdoubt/tribunal/compare/v1.1.10...v1.1.11
 [1.1.10]: https://github.com/kdoubt/tribunal/compare/v1.1.9...v1.1.10
 [1.1.9]: https://github.com/kdoubt/tribunal/compare/v1.1.8...v1.1.9
 [1.1.8]: https://github.com/kdoubt/tribunal/compare/v1.1.7...v1.1.8
