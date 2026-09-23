@@ -31,6 +31,12 @@ that there is no lift and say so.
   ran in 7 of 28 exported runs against 1 of 20 in the study, without treating
   those rates as the same measurement.
 
+- [`confirmatory/SECOND-JUDGE.md`](confirmatory/SECOND-JUDGE.md) - the **designated
+  non-OpenAI second judge**, run 2026-09-22, the one pre-registered step that had never
+  been executed. Forced-choice agreement with the primary judge: 9 of 10, both panel 0.
+  It does **not** complete the primary endpoint and does **not** declare or refute lift.
+  Raw per-decision scores and replies are published beside it.
+
 - [`adapter-probes.md`](adapter-probes.md) - the **re-runnable probes behind the
   adapter rules**: dated vendor-CLI transcripts (a seat whose read path is shell
   refusing a "don't use shell" read-test; a silent exit-0 outside a trusted

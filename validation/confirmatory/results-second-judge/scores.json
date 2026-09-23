@@ -1,0 +1,122 @@
+{
+  "c02": {
+    "solo": 12,
+    "panel": 7,
+    "forced_choice": "solo",
+    "primary_judge": {
+      "solo": 12,
+      "panel": 11,
+      "forced_choice": "solo"
+    },
+    "agrees_with_primary": true,
+    "raw_reply": "Memo X: r1=2 r2=2 r3=2 r4=1 total=7/12 - Structured as a meta-review of two seats rather than a direct decision, leading to repetitive and slightly vague criteria.\nMemo Y: r1=3 r2=3 r3=3 r4=3 total=12/12 - Directly addresses the brief with a clear call, specific operational risks, and a sharp, pre-registerable falsification test.\nCHOICE: Y - Memo Y provides a standalone, decisive engineering argument with a concrete, measurable test, whereas Memo X is a meta-summary that lacks direct commitment and precision."
+  },
+  "c11": {
+    "solo": 12,
+    "panel": 8,
+    "forced_choice": "solo",
+    "primary_judge": {
+      "solo": 12,
+      "panel": 12,
+      "forced_choice": "tie"
+    },
+    "agrees_with_primary": false,
+    "raw_reply": "Memo X: r1=3 r2=3 r3=3 r4=3 total=12/12 - Comprehensive, decisive, and provides a rigorous, pre-registerable benchmarking criterion.\nMemo Y: r1=2 r2=2 r3=2 r4=2 total=8/12 - Repetitive structure, less detailed risk analysis, and slightly weaker test definition compared to X.\nCHOICE: X - Memo X offers a more robust risk assessment and a sharper, more actionable testing protocol."
+  },
+  "c12": {
+    "solo": 12,
+    "panel": 8,
+    "forced_choice": "solo",
+    "primary_judge": {
+      "solo": 12,
+      "panel": 10,
+      "forced_choice": "solo"
+    },
+    "agrees_with_primary": true,
+    "raw_reply": "Memo X: r1=2 r2=2 r3=2 r4=2 total=8/12 - Solid consensus on A, but the \"cheapest test\" is vague (coupling metrics are hard to measure cheaply) and lacks the specific operational failure modes (deploy interference) that define the real cost.\nMemo Y: r1=3 r2=3 r3=3 r4=3 total=12/12 - Excellent articulation of pre-PMF constraints, names specific operational risks (deploy coupling, data consistency), and provides a sharp, pre-registerable criterion based on observable delivery interference rather than abstract coupling.\nCHOICE: Y - Memo Y provides a significantly more actionable and technically precise \"cheapest test\" (deployment interference) compared to Memo X's abstract coupling metrics, while also demonstrating superior honesty by explicitly listing the tradeoffs of the chosen path."
+  },
+  "c13": {
+    "solo": 12,
+    "panel": 7,
+    "forced_choice": "solo",
+    "primary_judge": {
+      "solo": 12,
+      "panel": 10,
+      "forced_choice": "solo"
+    },
+    "agrees_with_primary": true,
+    "raw_reply": "Memo X: r1=3 r2=3 r3=3 r4=3 total=12/12 - Comprehensive, tight, and correctly identifies the operational overhead vs. future-proofing tradeoff with a clear, actionable test.\nMemo Y: r1=2 r2=2 r3=2 r4=1 total=7/12 - Redundant structure, slightly less precise on the \"cheapest test\" (dummy consumer vs. requirements review), and includes unnecessary meta-commentary about the panel.\nCHOICE: X - Memo X is more concise, professionally structured, and provides a sharper, more immediately executable criterion for validation without the padding found in Memo Y."
+  },
+  "c14": {
+    "solo": 12,
+    "panel": 8,
+    "forced_choice": "solo",
+    "primary_judge": {
+      "solo": 10,
+      "panel": 9,
+      "forced_choice": "solo"
+    },
+    "agrees_with_primary": true,
+    "raw_reply": "Memo X: r1=2 r2=2 r3=2 r4=2 total=8/12 - Structured as a meta-review of two sub-memos; risks are present but fragmented, and the \"cheapest test\" is complex (requires a 3-day spike + price comparison) rather than a single sharp criterion.\nMemo Y: r1=3 r2=3 r3=3 r4=3 total=12/12 - Clearly identifies the load-bearing risk (pricing power/lock-in), provides a specific, pre-registerable financial threshold (1 FTE cost or 2% margin) as the test, and commits decisively with tight, non-padded reasoning.\nCHOICE: Y - Memo Y provides a sharper, more actionable decision framework with a concrete financial criterion, whereas Memo X is structurally confusing and offers a more burdensome verification test."
+  },
+  "c15": {
+    "solo": 12,
+    "panel": 8,
+    "forced_choice": "solo",
+    "primary_judge": {
+      "solo": 12,
+      "panel": 9,
+      "forced_choice": "solo"
+    },
+    "agrees_with_primary": true,
+    "raw_reply": "Memo X: r1=3 r2=3 r3=3 r4=3 total=12/12 - Excellent, specific, and decisive with a rigorous, pre-registerable falsification test.\nMemo Y: r1=2 r2=2 r3=2 r4=2 total=8/12 - Competent but redundant (two similar seats), less precise thresholds, and weaker operational risk analysis.\nCHOICE: X - Memo X provides a more robust operational risk assessment and a sharper, more actionable decision criterion than Memo Y's redundant dual-seat format."
+  },
+  "c16": {
+    "solo": 12,
+    "panel": 7,
+    "forced_choice": "solo",
+    "primary_judge": {
+      "solo": 12,
+      "panel": 11,
+      "forced_choice": "solo"
+    },
+    "agrees_with_primary": true,
+    "raw_reply": "Memo X: r1=2 r2=2 r3=2 r4=1 total=7/12 - Relies on a fictional \"panel\" structure and offers a vague load test rather than a sharp isolation criterion.\nMemo Y: r1=3 r2=3 r3=3 r4=3 total=12/12 - Precisely identifies the load-bearing risk (RLS bypass) and provides a rigorous, pre-registerable falsification test.\nCHOICE: Y - Memo Y provides a technically superior, concrete, and honest analysis without the padding or meta-narrative of Memo X."
+  },
+  "c17": {
+    "solo": 12,
+    "panel": 8,
+    "forced_choice": "solo",
+    "primary_judge": {
+      "solo": 12,
+      "panel": 11,
+      "forced_choice": "solo"
+    },
+    "agrees_with_primary": true,
+    "raw_reply": "Memo X: r1=3 r2=3 r3=3 r4=3 total=12/12 - Excellent, specific, and actionable with a clear, measurable falsification criterion.\nMemo Y: r1=2 r2=2 r3=2 r4=2 total=8/12 - Good but less precise; \"TTI is no better\" is vague, and the \"panel\" framing adds unnecessary meta-context.\nCHOICE: X - Memo X provides a sharper, more pre-registerable test (p75 latency < 200ms) and tighter reasoning without meta-commentary."
+  },
+  "c18": {
+    "solo": 12,
+    "panel": 8,
+    "forced_choice": "solo",
+    "primary_judge": {
+      "solo": 12,
+      "panel": 11,
+      "forced_choice": "solo"
+    },
+    "agrees_with_primary": true,
+    "raw_reply": "Memo X: r1=2 r2=2 r3=2 r4=2 total=8/12 - Solid recommendation but relies on a hypothetical \"panel\" structure and offers a somewhat vague cost-comparison test rather than a sharp operational criterion.\nMemo Y: r1=3 r2=3 r3=3 r4=3 total=12/12 - Excellent technical depth, identifies the true operational risk (adoption/lock-in), and provides a specific, pre-registerable 60-day pilot with clear failure metrics.\nCHOICE: Y - Memo Y provides a sharper, more operationally realistic risk assessment and a concrete, actionable test that directly addresses the \"build vs buy\" tradeoff for a small team."
+  },
+  "c19": {
+    "solo": 12,
+    "panel": 8,
+    "forced_choice": "solo",
+    "primary_judge": {
+      "solo": 12,
+      "panel": 9,
+      "forced_choice": "solo"
+    },
+    "agrees_with_primary": true,
+    "raw_reply": "Memo X: r1=3 r2=3 r3=3 r4=3 total=12/12 - Excellent, specific, and actionable; clearly defines the failure mode and a rigorous, pre-registerable test.\nMemo Y: r1=2 r2=2 r3=2 r4=2 total=8/12 - Decent but vague; the \"panel\" framing adds noise, and the tests are less precise than X's quantitative criteria.\nCHOICE: X - Memo X provides a sharper, more quantifiable decision criterion and a more robust analysis of the specific organizational tradeoffs."
+  }
+}
