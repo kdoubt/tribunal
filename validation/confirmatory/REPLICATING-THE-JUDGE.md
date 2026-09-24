@@ -17,10 +17,12 @@ second judge returns. A reversal here would establish **judge sensitivity** of
 the 118-vs-103 result - which is worth knowing and worth filing - not registered
 lift.
 
-The designated non-OpenAI second judge nevertheless remains the missing
-`PROTOCOL.md` piece for any *future* primary run, so standing this judge up is
-groundwork the repo genuinely needs. It costs $0 beyond an API key you already
-own or a local model runner.
+The designated non-OpenAI second judge **has since been run once** by the maintainer
+(2026-09-22, Alibaba Qwen family - see [`SECOND-JUDGE.md`](SECOND-JUDGE.md)). That does
+not close this page: a single maintainer-run scoring is not independent replication, and
+a judge's own run-to-run variance is unmeasured. What this recipe asks for is a re-score
+by someone who is not the maintainer. It costs $0 beyond an API key you already own or a
+local model runner.
 
 > **This page is about the judge only. Free-tier models are NOT Tribunal
 > debate seats.** A debate seat must be frontier-class and genuinely

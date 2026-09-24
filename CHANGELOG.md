@@ -9,6 +9,34 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+## [1.1.13] - 2026-09-23
+
+**Two defects shipped in v1.1.10, found by a panel reviewing a draft write-up of that
+release rather than by this repo's own checks.** Both are corrections to published
+validation text; `core/` untouched.
+
+- `validation/confirmatory/RESULTS.md`: the rubric-ceiling limitation claimed the
+  saturation "was only visible once a second judge existed". **That is false.** The
+  primary judge's own decoded scores in `results-raw/AUDIT.md` have published
+  `12,12,12,12,10,12,12,12,12,12` since the study ran - nine at the 12/12 maximum. The
+  ceiling was sitting in already-published data and nobody, the author included, looked
+  at the distribution until the second judge's run prompted it. The second judge widened
+  the pattern (10 of 10); it did not reveal it. The limitation now says so plainly, with
+  the AUDIT table cited, and carries a dated note that v1.1.10 got this wrong. The
+  original overclaim credited a method for catching something plain attention would have
+  caught - which is precisely the failure this repo exists to catch.
+- **Three statements that the designated second judge had never been run** survived
+  v1.1.10, which published that it *had*: `RESULTS.md` ("was not run - left to
+  replicators"), `confirmatory/README.md` ("the gateway key was not available"), and
+  `REPLICATING-THE-JUDGE.md` ("remains the missing `PROTOCOL.md` piece"). A reader
+  landing on any of those first learned the opposite of `SECOND-JUDGE.md`. All three are
+  now scoped to the time of writing and point at the run. `REPLICATING-THE-JUDGE.md`
+  additionally states what one maintainer-run scoring does **not** settle: it is not
+  independent replication, and the judge's own run-to-run variance is unmeasured - so
+  the recipe still asks for a re-score by someone who is not the maintainer.
+  Publishing a new file without sweeping for the statements it falsifies is the
+  process failure here, and it is recorded as such.
+
 ## [1.1.12] - 2026-09-23
 
 - `validation/LEDGER-CORPUS.md`: **new** - what the published ledgers can and cannot be
@@ -664,6 +692,7 @@ the methodology itself still has one published run (see README, Status).
   known non-compliances enumerated.
 
 [Unreleased]: https://github.com/kdoubt/tribunal/compare/v1.1.8...HEAD
+[1.1.13]: https://github.com/kdoubt/tribunal/compare/v1.1.12...v1.1.13
 [1.1.12]: https://github.com/kdoubt/tribunal/compare/v1.1.11...v1.1.12
 [1.1.11]: https://github.com/kdoubt/tribunal/compare/v1.1.10...v1.1.11
 [1.1.10]: https://github.com/kdoubt/tribunal/compare/v1.1.9...v1.1.10
