@@ -80,7 +80,17 @@ so the aggregate can be recomputed without re-running the judge.
 
 ## Exploratory, non-designated
 
-A model outside any `PROTOCOL.md`-designated family was also run over the same ten
-decisions on 2026-09-22. It satisfies no pre-registered condition, it is **not** a
-third independent confirmation, and its scores are deliberately not tabulated beside
-the two judges. It is recorded here only so the existence of that run is not hidden.
+A model outside any `PROTOCOL.md`-designated family - TypeSafe's **Jev**
+(`jev-1.13.0`, `POST https://api.typesafe.ai/v1/systemone`) - was also run over the
+same ten decisions on 2026-09-22, using the same published inputs, blinding record
+and rubric criteria.
+
+It satisfies **no pre-registered condition**: `PROTOCOL.md` designates the Meta Llama
+and Alibaba Qwen families for the second judge, and Jev is neither. It is therefore
+**not a third independent confirmation**, and its scores are deliberately **not
+tabulated** beside the two judges - three agreeing judges would otherwise read as
+three independent confirmations when only one was designated.
+
+It is named rather than described anonymously for the same reason the second judge's
+model and host are pinned above: a disclosure a reader cannot verify is not much of a
+disclosure. What is withheld is the weight its numbers would carry, not its identity.
