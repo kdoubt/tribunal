@@ -9,6 +9,25 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+- `validation/LEDGER-CORPUS.md`: **new** - what the published ledgers can and cannot be
+  used to measure. They are the only labelled claim-level data in the repo and they look
+  more like a dataset than they are. Records the correct counts (**170 claim rows**
+  across 12 contributing files; `agreed-r0` 76, `disputed` 29, `open` 24, multi-status
+  20, `conceded` 8, no-enum 8, `surviving-dissent` 4, `overturned` 1) and the six shapes
+  that defeat a naive parse: several tables per file keyed by the same claim IDs; the
+  status column at index 7, 6 or 3; one ledger whose column is `post-R1 status` and
+  contributes zero Round 0 labels; Round 1 outcomes inside `g03`'s status column;
+  escaped pipes (`\|\|`) that shatter a row so a header-bound parser silently drops it;
+  and status cells written as prose or bare `agreed` rather than the enum.
+  Also records the consequence: **29** unambiguous `disputed` rows against the **~35** a
+  95% Wilson lower bound needs to clear 0.90 even at perfect recall, so a study
+  thresholding recall there cannot distinguish viable from not-viable on this snapshot.
+  That is a property of the corpus, not of any method or model tested against it.
+  Reviewed by a seat (Grok CLI) instructed to re-derive every figure rather than trust
+  the page; it disagreed twice and was right twice. Both corrections, and the fact that
+  this page was wrong about counting three times from traps it documents, are left
+  visible in the file. PATCH (validation material; `core/` untouched).
+
 ## [1.1.11] - 2026-09-23
 
 - `validation/confirmatory/SECOND-JUDGE.md`: the exploratory non-designated run is now
