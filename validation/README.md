@@ -37,6 +37,13 @@ that there is no lift and say so.
   It does **not** complete the primary endpoint and does **not** declare or refute lift.
   Raw per-decision scores and replies are published beside it.
 
+- [`LEDGER-CORPUS.md`](LEDGER-CORPUS.md) - **what the published ledgers can and cannot
+  be used to measure**: 170 claim rows across 12 ledgers, the status distribution, and
+  the parsing shapes that make a naive count wrong (several tables per file keyed by the
+  same claim IDs; a status column at three different indices; one ledger whose column is
+  `post-R1 status`). Records that a recall estimate at a 0.90 bar is not achievable on
+  this snapshot - 29 available positives against the ~35 a 95% bound needs.
+
 - [`adapter-probes.md`](adapter-probes.md) - the **re-runnable probes behind the
   adapter rules**: dated vendor-CLI transcripts (a seat whose read path is shell
   refusing a "don't use shell" read-test; a silent exit-0 outside a trusted
