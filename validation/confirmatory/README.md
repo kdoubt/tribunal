@@ -45,8 +45,10 @@ known-answer decisions and arms designed to isolate components (executed with
 deviations disclosed in RESULTS).
 
 **Deliberately out of scope for this run** (left to replicators, not gaps to close
-before shipping): a **non-OpenAI second judge** (the gateway key was not
-available), a polished rather than mechanical ambiguous-panel rendering, and
+before shipping): a **non-OpenAI second judge** (the gateway key was not available
+*at the time of this run* - it was run on 2026-09-22 and is reported in
+[`SECOND-JUDGE.md`](SECOND-JUDGE.md)), a polished rather than mechanical
+ambiguous-panel rendering, and
 powering the Round-1 sub-endpoint beyond its single data point. A larger,
 two-judge, real-outcome study is the natural *replication*, not something this
 frozen repo will do itself.

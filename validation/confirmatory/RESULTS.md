@@ -201,9 +201,17 @@ on the word "confirmatory"):
   aggregate difference - both the primary judge's 118-vs-103 and the second judge's
   wider gap - comes from how harshly each judge marks the *panel* arm, not from any
   movement in the solo arm. Read the **forced choice** as the informative quantity and
-  treat the score gap as a weak magnitude estimate. This was **not** pre-registered and
-  was only visible once a second judge existed; it is recorded here post hoc and
-  cross-referenced from `PROTOCOL.md`. It does not change the reported arithmetic.
+  treat the score gap as a weak magnitude estimate. This was **not** pre-registered, and
+  - stated plainly - **it was not hidden either**: the primary judge's own decoded
+  scores in [`results-raw/AUDIT.md`](results-raw/AUDIT.md) have published
+  `12,12,12,12,10,12,12,12,12,12` since this study ran. The ceiling was visible in
+  already-published data and nobody, the author included, looked at the distribution
+  until the second judge's run prompted it. The second judge widened the pattern
+  (10 of 10) but did not reveal it. Recorded here post hoc and cross-referenced from
+  `PROTOCOL.md`. It does not change the reported arithmetic.
+  *(Corrected in v1.1.13: v1.1.10 asserted this "was only visible once a second judge
+  existed", which the AUDIT table contradicts. The error was caught by a seat reviewing
+  a draft write-up of this finding.)*
 - **The pre-registered primary endpoint (`A_panel − A_2seat`) rests on n=1.** Round
   1 fired on a single decision, so the pre-registered lift criterion is untestable,
   not cleanly satisfied or refuted.
@@ -215,8 +223,11 @@ on the word "confirmatory"):
   Grok) and the orchestrator (Claude), but is gpt-oss (OpenAI lineage), so not a
   fourth *vendor*, only a fourth *model* not fully vendor-disjoint from the Codex
   seat (Codex is in both arms, so any GPT-style affinity largely cancels). The
-  protocol's **non-OpenAI second judge (Meta/Alibaba) was not run** - left to
-  replicators (the repo is frozen). So the two-judge confirmation is a replication
+  protocol's **non-OpenAI second judge (Meta/Alibaba) was not run in this study** - it
+  was run later, on 2026-09-22, and is reported separately in
+  [`SECOND-JUDGE.md`](SECOND-JUDGE.md); it agreed with this judge's forced choice on
+  9 of 10 and did not complete the primary endpoint. At the time of this write-up the
+  two-judge confirmation was a replication
   target, and this result stands under a single independent judge.
 - **The ambiguous arm deviated from its pre-registered execution in three ways**
   (panel memo cruder than the specified verdict-template fill; fixed Codex-solo
