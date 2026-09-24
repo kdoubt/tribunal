@@ -9,6 +9,8 @@ a release is cut; published tags are immutable.
 
 ## [Unreleased]
 
+## [1.1.12] - 2026-09-23
+
 - `validation/LEDGER-CORPUS.md`: **new** - what the published ledgers can and cannot be
   used to measure. They are the only labelled claim-level data in the repo and they look
   more like a dataset than they are. Records the correct counts (**170 claim rows**
@@ -662,6 +664,7 @@ the methodology itself still has one published run (see README, Status).
   known non-compliances enumerated.
 
 [Unreleased]: https://github.com/kdoubt/tribunal/compare/v1.1.8...HEAD
+[1.1.12]: https://github.com/kdoubt/tribunal/compare/v1.1.11...v1.1.12
 [1.1.11]: https://github.com/kdoubt/tribunal/compare/v1.1.10...v1.1.11
 [1.1.10]: https://github.com/kdoubt/tribunal/compare/v1.1.9...v1.1.10
 [1.1.9]: https://github.com/kdoubt/tribunal/compare/v1.1.8...v1.1.9
