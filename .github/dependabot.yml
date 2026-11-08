@@ -1,0 +1,13 @@
+# Automatic dependency updates (Dependabot). Updates arrive as pull requests only: nothing here
+# merges or deploys by itself. Added 2026-11-08.
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    # Wait 14 days before proposing a newly published version: a fresh release is when a compromised
+    # package is most dangerous. Security updates are exempt from the cooldown, so urgent fixes still arrive.
+    cooldown:
+      default-days: 14
+    schedule:
+      interval: "monthly"
+    open-pull-requests-limit: 5
